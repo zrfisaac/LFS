@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Device Control Commands (The GNU Troff Manual)</title>
+
+<meta name="description" content="Device Control Commands (The GNU Troff Manual)">
+<meta name="keywords" content="Device Control Commands (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Command-Reference.html" rel="up" title="Command Reference">
+<link href="Obsolete-Command.html" rel="next" title="Obsolete Command">
+<link href="Graphics-Commands.html" rel="prev" title="Graphics Commands">
+<style type="text/css">
+<!--
+div.display {margin-left: 3.2em}
+pre.display-preformatted {font-family: inherit}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="Device-Control-Commands">
+<div class="nav-panel">
+<p>
+Next: <a href="Obsolete-Command.html" accesskey="n" rel="next">Obsolete Command</a>, Previous: <a href="Graphics-Commands.html" accesskey="p" rel="prev">Graphics Commands</a>, Up: <a href="Command-Reference.html" accesskey="u" rel="up">Command Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Device-Control-Commands-1">6.1.2.4 Device Control Commands</h4>
+
+<p>Each device control command starts with the letter &lsquo;<samp class="samp">x</samp>&rsquo;, followed by
+a space character (optional or arbitrary space or tab in <code class="code">gtroff</code>)
+and a subcommand letter or word; each argument (if any) must be preceded
+by a syntactical space.  All &lsquo;<samp class="samp">x</samp>&rsquo; commands are terminated by a
+syntactical line break; no device control command can be followed by
+another command on the same line (except a comment).
+</p>
+<p>The subcommand is basically a single letter, but to increase
+readability, it can be written as a word, i.e., an arbitrary sequence of
+characters terminated by the next tab, space, or newline character.  All
+characters of the subcommand word but the first are simply ignored.  For
+example, <code class="code">gtroff</code> outputs the initialization command &lsquo;<samp class="samp">x&nbsp;i</samp>&rsquo;<!-- /@w -->
+as &lsquo;<samp class="samp">x&nbsp;init</samp>&rsquo;<!-- /@w --> and the resolution command &lsquo;<samp class="samp">x&nbsp;r</samp>&rsquo;<!-- /@w --> as
+&lsquo;<samp class="samp">x&nbsp;res</samp>&rsquo;<!-- /@w -->.
+</p>
+<p>In the following, the syntax element &lsaquo;<span class="r">line break</span>&rsaquo; means a
+syntactical line break (see <a class="pxref" href="Separation.html">Separation</a>).
+</p>
+<dl class="table">
+<dt><code class="code">xF <var class="var">name</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">F</samp>&rsquo; stands for <var class="var">Filename</var>.
+</p>
+<p>Use <var class="var">name</var> as the intended name for the current file in error
+reports.  This is useful for remembering the original file name when
+<code class="code">gtroff</code> uses an internal piping mechanism.  The input file is not
+changed by this command.  This command is a <code class="code">gtroff</code> extension.
+</p>
+</dd>
+<dt><code class="code">xf <var class="var">n</var> <var class="var">s</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">f</samp>&rsquo; stands for <var class="var">font</var>.
+</p>
+<p>Mount font position&nbsp;<var class="var">n</var> (a non-negative integer) with font
+named&nbsp;<var class="var">s</var> (a text word).  See <a class="xref" href="Font-Positions.html">Font Positions</a>.
+</p>
+</dd>
+<dt><code class="code">xH <var class="var">n</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">H</samp>&rsquo; stands for <var class="var">Height</var>.
+</p>
+<p>Set glyph height to&nbsp;<var class="var">n</var> (a positive integer in scaled points
+&lsquo;<samp class="samp">z</samp>&rsquo;).  <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> uses the unit points (&lsquo;<samp class="samp">p</samp>&rsquo;)
+instead.  See <a class="xref" href="Output-Language-Compatibility.html">Output Language Compatibility</a>.
+</p>
+</dd>
+<dt><code class="code">xi&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">i</samp>&rsquo; stands for <var class="var">init</var>.
+</p>
+<p>Initialize device.  This is the third command of the prologue.
+</p>
+</dd>
+<dt><code class="code">xp&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">p</samp>&rsquo; stands for <var class="var">pause</var>.
+</p>
+<p>Parsed but ignored.  The <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> manual documents
+this command as
+</p>
+<div class="display">
+<pre class="display-preformatted">pause device, can be restarted
+</pre></div>
+
+<p>but GNU <code class="code">troff</code> output drivers do nothing with this command.
+</p>
+</dd>
+<dt><code class="code">xr <var class="var">n</var> <var class="var">h</var> <var class="var">v</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">r</samp>&rsquo; stands for <var class="var">resolution</var>.
+</p>
+<p>Resolution is&nbsp;<var class="var">n</var>, while <var class="var">h</var> is the minimal horizontal
+motion, and <var class="var">v</var> the minimal vertical motion possible with this
+device; all arguments are positive integers in basic units &lsquo;<samp class="samp">u</samp>&rsquo; per
+inch.  This is the second command of the prologue.
+</p>
+</dd>
+<dt><code class="code">xS <var class="var">n</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">S</samp>&rsquo; stands for <var class="var">Slant</var>.
+</p>
+<p>Set slant to&nbsp;<var class="var">n</var> (an integer in basic units &lsquo;<samp class="samp">u</samp>&rsquo;).
+</p>
+</dd>
+<dt><code class="code">xs&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">s</samp>&rsquo; stands for <var class="var">stop</var>.
+</p>
+<p>Terminates the processing of the current file; issued as the last
+command of any intermediate <code class="code">troff</code> output.
+</p>
+</dd>
+<dt><code class="code">xt&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">t</samp>&rsquo; stands for <var class="var">trailer</var>.
+</p>
+<p>Generate trailer information, if any.  In GNU <code class="code">troff</code>, this is
+ignored.
+</p>
+</dd>
+<dt><code class="code">xT <var class="var">xxx</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">T</samp>&rsquo; stands for <var class="var">Typesetter</var>.
+</p>
+<p>Set the name of the output driver to <var class="var">xxx</var>, a sequence of
+non-whitespace characters terminated by whitespace.  The possible names
+correspond to those of <code class="code">groff</code>&rsquo;s <samp class="option">-T</samp> option.  This is the
+first command of the prologue.
+</p>
+</dd>
+<dt><code class="code">xu <var class="var">n</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">u</samp>&rsquo; stands for <var class="var">underline</var>.
+</p>
+<p>Configure underlining of spaces.  If <var class="var">n</var> is&nbsp;1, start
+underlining of spaces; if <var class="var">n</var> is&nbsp;0, stop underlining of spaces.
+This is needed for the <code class="code">cu</code> request in <code class="code">nroff</code> mode and is
+ignored otherwise.  This command is a <code class="code">gtroff</code> extension.
+</p>
+</dd>
+<dt><code class="code">xX <var class="var">anything</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The &lsquo;<samp class="samp">x</samp>&rsquo; stands for <var class="var">X-escape</var>.
+</p>
+<p>Send string <var class="var">anything</var> uninterpreted to the device.  If the line
+following this command starts with a &lsquo;<samp class="samp">+</samp>&rsquo; character this line is
+interpreted as a continuation line in the following sense.  The &lsquo;<samp class="samp">+</samp>&rsquo;
+is ignored, but a newline character is sent instead to the device, the
+rest of the line is sent uninterpreted.  The same applies to all
+following lines until the first character of a line is not a &lsquo;<samp class="samp">+</samp>&rsquo;
+character.  This command is generated by the <code class="code">gtroff</code> escape
+sequence <code class="code">\X</code>.  The line-continuing feature is a <code class="code">gtroff</code>
+extension.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Obsolete-Command.html">Obsolete Command</a>, Previous: <a href="Graphics-Commands.html">Graphics Commands</a>, Up: <a href="Command-Reference.html">Command Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

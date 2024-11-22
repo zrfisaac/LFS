@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>ms Legacy Features (The GNU Troff Manual)</title>
+
+<meta name="description" content="ms Legacy Features (The GNU Troff Manual)">
+<meta name="keywords" content="ms Legacy Features (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms.html" rel="up" title="ms">
+<link href="ms-Naming-Conventions.html" rel="next" title="ms Naming Conventions">
+<link href="Differences-from-AT_0026T-ms.html" rel="prev" title="Differences from AT&amp;T ms">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="ms-Legacy-Features">
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Naming-Conventions.html" accesskey="n" rel="next">Naming Conventions</a>, Previous: <a href="Differences-from-AT_0026T-ms.html" accesskey="p" rel="prev">Differences from <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp></a>, Up: <a href="ms.html" accesskey="u" rel="up"><samp class="file">ms</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Legacy-Features">4.6.8 Legacy Features</h4>
+<a class="index-entry-id" id="index-ms-macros_002c-strings"></a>
+<a class="index-entry-id" id="index-ms-macros_002c-special-characters"></a>
+<a class="index-entry-id" id="index-ms-macros_002c-accent-marks"></a>
+<a class="index-entry-id" id="index-accent-marks-_005bms_005d"></a>
+<a class="index-entry-id" id="index-special-characters-_005bms_005d"></a>
+<a class="index-entry-id" id="index-strings-_005bms_005d"></a>
+
+<p><code class="code">groff</code> <samp class="file">ms</samp> retains some legacy features solely to support
+formatting of historical documents; contemporary ones should not use
+them because they can render poorly.  See the <cite class="cite">groff_char<span class="r">(7)</span></cite>
+man page.
+</p>
+<ul class="mini-toc">
+<li><a href="#AT_0026T-accent-mark-strings" accesskey="1">AT&amp;T accent mark strings</a></li>
+<li><a href="#Berkeley-accent-mark-and-glyph-strings" accesskey="2">Berkeley accent mark and glyph strings</a></li>
+</ul>
+<div class="unnumberedsubsubsec-level-extent" id="AT_0026T-accent-mark-strings">
+<h4 class="unnumberedsubsubsec">AT&amp;T accent mark strings</h4>
+
+<p>AT&amp;T <samp class="file">ms</samp> defined accent mark strings as follows.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_0027_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[<code class="code">'</code>]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_0027_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_0027-_005bms_005d"></a>
+<p>Apply acute accent to subsequent glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_0060_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[<code class="code">`</code>]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_0060_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_0060-_005bms_005d"></a>
+<p>Apply grave accent to subsequent glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_003a_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[:]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_003a_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_003a-_005bms_005d"></a>
+<p>Apply dieresis (umlaut) to subsequent glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_005e_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[^]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_005e_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005e-_005bms_005d"></a>
+<p>Apply circumflex accent to subsequent glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_007e_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[~]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_007e_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_007e-_005bms_005d"></a>
+<p>Apply tilde accent to subsequent glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bC_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[C]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bC_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-C-_005bms_005d"></a>
+<p>Apply caron to subsequent glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_002c_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[,]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_002c_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002c-_005bms_005d"></a>
+<p>Apply cedilla to subsequent glyph.
+</p></dd></dl>
+
+</div>
+<div class="unnumberedsubsubsec-level-extent" id="Berkeley-accent-mark-and-glyph-strings">
+<h4 class="unnumberedsubsubsec">Berkeley accent mark and glyph strings</h4>
+
+<p>Berkeley <samp class="file">ms</samp> offered an <code class="code">AM</code> macro; calling it redefined the
+AT&amp;T accent mark strings (except for &lsquo;<samp class="samp">\*C</samp>&rsquo;), applied them to the
+<em class="emph">preceding</em> glyph, and defined additional strings, some for spacing
+glyphs.
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eAM"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.AM</code></strong><a class="copiable-link" href='#index-_002eAM'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-AM-_005bms_005d"></a>
+<p>Enable alternative accent mark and glyph-producing strings.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_0027_005d-1"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[<code class="code">'</code>]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_0027_005d-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_0027-_005bms_005d-1"></a>
+<p>Apply acute accent to preceding glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_0060_005d-1"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[<code class="code">`</code>]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_0060_005d-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_0060-_005bms_005d-1"></a>
+<p>Apply grave accent to preceding glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_003a_005d-1"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[:]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_003a_005d-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_003a-_005bms_005d-1"></a>
+<p>Apply dieresis (umlaut) to preceding glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_005e_005d-1"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[^]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_005e_005d-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005e-_005bms_005d-1"></a>
+<p>Apply circumflex accent to preceding glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_007e_005d-1"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[~]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_007e_005d-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_007e-_005bms_005d-1"></a>
+<p>Apply tilde accent to preceding glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_002c_005d-1"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[,]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_002c_005d-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002c-_005bms_005d-1"></a>
+<p>Apply cedilla to preceding glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_002f_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[/]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_002f_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002f-_005bms_005d"></a>
+<p>Apply stroke (slash) to preceding glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bv_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[v]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bv_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-v-_005bms_005d"></a>
+<p>Apply caron to preceding glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_005f_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[_]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_005f_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005f-_005bms_005d"></a>
+<p>Apply macron to preceding glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_002e_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[.]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_002e_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002e-_005bms_005d"></a>
+<p>Apply underdot to preceding glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bo_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[o]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bo_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-o-_005bms_005d"></a>
+<p>Apply ring accent to preceding glyph.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_003f_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[?]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_003f_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_003f-_005bms_005d"></a>
+<p>Interpolate inverted question mark.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_0021_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[!]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_0021_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_0021-_005bms_005d"></a>
+<p>Interpolate inverted exclamation mark.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b8_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[8]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b8_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-8-_005bms_005d"></a>
+<p>Interpolate small letter sharp s.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bq_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[q]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bq_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-q-_005bms_005d"></a>
+<p>Interpolate small letter o with hook accent (ogonek).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b3_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[3]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b3_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-3-_005bms_005d"></a>
+<p>Interpolate small letter yogh.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bd_002d_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[d-]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bd_002d_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-d_002d-_005bms_005d"></a>
+<p>Interpolate small letter eth.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bD_002d_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[D-]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bD_002d_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-D_002d-_005bms_005d"></a>
+<p>Interpolate capital letter eth.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bth_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[th]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bth_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-th-_005bms_005d"></a>
+<p>Interpolate small letter thorn.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bTh_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[Th]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bTh_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-Th-_005bms_005d"></a>
+<p>Interpolate capital letter thorn.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bae_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[ae]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bae_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ae-_005bms_005d"></a>
+<p>Interpolate small æ ligature.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bAe_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[Ae]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bAe_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-Ae-_005bms_005d"></a>
+<p>Interpolate capital Æ ligature.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005boe_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[oe]</code></strong><a class="copiable-link" href='#index-_005c_002a_005boe_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-oe-_005bms_005d"></a>
+<p>Interpolate small oe ligature.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bOE_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[OE]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bOE_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-OE-_005bms_005d"></a>
+<p>Interpolate capital OE ligature.
+</p></dd></dl>
+
+
+</div>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Naming-Conventions.html">Naming Conventions</a>, Previous: <a href="Differences-from-AT_0026T-ms.html">Differences from <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp></a>, Up: <a href="ms.html"><samp class="file">ms</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

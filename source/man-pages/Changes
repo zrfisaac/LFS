@@ -1,0 +1,67 @@
+==================== Changes in man-pages-6.9.1 ===================
+
+Released: 2024-06-17, Aldaya
+
+
+New and rewritten pages
+-----------------------
+
+None.
+
+
+Newly documented interfaces in existing pages
+---------------------------------------------
+
+man2/
+	getrlimit.2
+		rlim_t
+
+
+New and changed links
+---------------------
+
+man2const/
+	FICLONERANGE.2const		(FICLONE(2const); was broken in 6.9)
+
+man3type/
+	rlimit.3type			(getrlimit(2))
+	rlim_t.3type			(getrlimit(2))
+
+
+Removed pages
+-------------
+
+None.
+
+
+Removed links
+-------------
+
+None.
+
+
+Global changes
+--------------
+
+-  Build system
+   -  Add checks in the build system, to prevent creating link pages
+      that link to a page that doesn't exist.
+   -  Merge handling of man(7) and mdoc(7) manual pages into a single
+      implementation.
+
+-  man
+   -  Fix old references to NOTES sections, whose contents have been
+      moved to other sections such as VERSIONS, CAVEATS, or HISTORY.
+   -  Fix incorrect nesting of EX/EE inside nf/fi.
+
+-  CONTRIBUTING.d
+   -  Fix some contributing documentation, after I noticed some
+      contributor had been confused by some old instructions.
+
+
+Changes to individual files
+---------------------------
+
+The manual pages and other files in the repository have been improved
+beyond what this changelog covers.  To learn more about changes applied
+to individual pages, or the authors of changes, use git(1).

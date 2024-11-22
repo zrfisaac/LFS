@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Motion Quanta (The GNU Troff Manual)</title>
+
+<meta name="description" content="Motion Quanta (The GNU Troff Manual)">
+<meta name="keywords" content="Motion Quanta (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Measurements.html" rel="up" title="Measurements">
+<link href="Default-Units.html" rel="next" title="Default Units">
+<link href="Measurements.html" rel="prev" title="Measurements">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Motion-Quanta">
+<div class="nav-panel">
+<p>
+Next: <a href="Default-Units.html" accesskey="n" rel="next">Default Units</a>, Previous: <a href="Measurements.html" accesskey="p" rel="prev">Measurements</a>, Up: <a href="Measurements.html" accesskey="u" rel="up">Measurements</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Motion-Quanta-1">5.3.1 Motion Quanta</h4>
+<a class="index-entry-id" id="index-motion-quanta"></a>
+<a class="index-entry-id" id="index-quanta_002c-motion"></a>
+
+<p>An output device&rsquo;s basic unit <code class="code">u</code> is not necessarily its smallest
+addressable length; <code class="code">u</code> can be smaller to avoid problems with
+integer roundoff.  The minimum distances that a device can work with in
+the horizontal and vertical directions are termed its <em class="dfn">motion
+quanta</em>.  Measurements are rounded to applicable motion quanta.
+Half-quantum fractions round toward zero.
+</p>
+<a class="index-entry-id" id="index-horizontal-motion-quantum-register-_0028_002eH_0029"></a>
+<a class="index-entry-id" id="index-motion-quantum_002c-horizontal_002c-register-_0028_002eH_0029"></a>
+<a class="index-entry-id" id="index-horizontal-resolution-register-_0028_002eH_0029"></a>
+<a class="index-entry-id" id="index-resolution_002c-horizontal_002c-register-_0028_002eH_0029"></a>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005b_002eH_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.H]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002eH_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002eH"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002eV_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.V]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002eV_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002eV"></a>
+<p>These read-only registers interpolate the horizontal and vertical motion
+quanta, respectively, of the output device in basic units.
+</p></dd></dl>
+
+<p>For example, we might draw short baseline rules on a terminal device as
+follows.  See <a class="xref" href="Drawing-Geometric-Objects.html">Drawing Geometric Objects</a>.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.tm \n[.H]
+    error&rarr; 24
+.nf
+\l'36u' 36u
+\l'37u' 37u
+    &rArr; _ 36u
+    &rArr; __ 37u
+</pre></div></div>
+
+
+</div>
+
+
+
+</body>
+</html>

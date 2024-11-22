@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Output Language Compatibility (The GNU Troff Manual)</title>
+
+<meta name="description" content="Output Language Compatibility (The GNU Troff Manual)">
+<meta name="keywords" content="Output Language Compatibility (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="gtroff-Output.html" rel="up" title="gtroff Output">
+<link href="Intermediate-Output-Examples.html" rel="prev" title="Intermediate Output Examples">
+<style type="text/css">
+<!--
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Output-Language-Compatibility">
+<div class="nav-panel">
+<p>
+Previous: <a href="Intermediate-Output-Examples.html" accesskey="p" rel="prev">Intermediate Output Examples</a>, Up: <a href="gtroff-Output.html" accesskey="u" rel="up"><code class="code">gtroff</code> Output</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Output-Language-Compatibility-1">6.1.4 Output Language Compatibility</h4>
+
+<p>The intermediate output language of <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> was
+first documented in <cite class="cite">A Typesetter-independent TROFF</cite>, by Brian
+Kernighan, and by 1992 the <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> manual was
+updated to incorprate a description of it.
+</p>
+<p>The GNU <code class="code">troff</code> intermediate output format is compatible with this
+specification except for the following features.
+</p>
+<ul class="itemize mark-bullet">
+<li>The classical quasi-device independence is not yet implemented.
+
+</li><li>The old hardware was very different from what we use today.  So the
+<code class="code">groff</code> devices are also fundamentally different from the ones
+in <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code>.  For example, the <abbr class="acronym">AT&amp;T</abbr>
+PostScript device is called <code class="code">post</code> and has a resolution of only 720
+units per inch, suitable for printers 20 years ago, while <code class="code">groff</code>&rsquo;s
+<code class="code">ps</code> device has a resolution of 72000 units per inch.  Maybe, by
+implementing some rescaling mechanism similar to the classical
+quasi-device independence, <code class="code">groff</code> could emulate <abbr class="acronym">AT&amp;T</abbr>&rsquo;s
+<code class="code">post</code> device.
+
+</li><li>The B-spline command &lsquo;<samp class="samp">D~</samp>&rsquo; is correctly handled by the intermediate
+output parser, but the drawing routines aren&rsquo;t implemented in some of
+the postprocessor programs.
+
+</li><li>The argument of the commands &lsquo;<samp class="samp">s</samp>&rsquo; and &lsquo;<samp class="samp">x&nbsp;H</samp>&rsquo;<!-- /@w --> has the
+implicit unit scaled point &lsquo;<samp class="samp">z</samp>&rsquo; in <code class="code">gtroff</code>, while
+<abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> has point (&lsquo;<samp class="samp">p</samp>&rsquo;).  This isn&rsquo;t an
+incompatibility but a compatible extension, for both units coincide for
+all devices without a <code class="code">sizescale</code> parameter in the <samp class="file">DESC</samp>
+file, including all postprocessors from <abbr class="acronym">AT&amp;T</abbr> and
+<code class="code">groff</code>&rsquo;s text devices.  The few <code class="code">groff</code> devices with a
+<code class="code">sizescale</code> parameter either do not exist for <abbr class="acronym">AT&amp;T</abbr>
+<code class="code">troff</code>, have a different name, or seem to have a different
+resolution.  So conflicts are very unlikely.
+
+</li><li>The position changing after the commands &lsquo;<samp class="samp">Dp</samp>&rsquo;, &lsquo;<samp class="samp">DP</samp>&rsquo;, and
+&lsquo;<samp class="samp">Dt</samp>&rsquo; is illogical, but as old versions of <code class="code">gtroff</code> used this
+feature it is kept for compatibility reasons.
+
+
+</li></ul>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Previous: <a href="Intermediate-Output-Examples.html">Intermediate Output Examples</a>, Up: <a href="gtroff-Output.html"><code class="code">gtroff</code> Output</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

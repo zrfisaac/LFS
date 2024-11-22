@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Differences from AT&amp;T ms (The GNU Troff Manual)</title>
+
+<meta name="description" content="Differences from AT&amp;T ms (The GNU Troff Manual)">
+<meta name="keywords" content="Differences from AT&amp;T ms (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms.html" rel="up" title="ms">
+<link href="ms-Naming-Conventions.html" rel="next" title="ms Naming Conventions">
+<link href="ms-Page-Layout.html" rel="prev" title="ms Page Layout">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Differences-from-AT_0026T-ms">
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Naming-Conventions.html" accesskey="n" rel="next">Naming Conventions</a>, Previous: <a href="ms-Page-Layout.html" accesskey="p" rel="prev">Page layout</a>, Up: <a href="ms.html" accesskey="u" rel="up"><samp class="file">ms</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Differences-from-AT_0026T-ms-1">4.6.7 Differences from <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp></h4>
+<a class="index-entry-id" id="index-ms-macros_002c-groff-differences-from-AT_0026T"></a>
+<a class="index-entry-id" id="index-AT_0026T-ms_002c-macro-package-differences"></a>
+
+<p>The <code class="code">groff</code> <samp class="file">ms</samp> macros are an independent reimplementation,
+using no <abbr class="acronym">AT&amp;T</abbr> code.  Since they take advantage of the extended
+features of <code class="code">groff</code>, they cannot be used with <abbr class="acronym">AT&amp;T</abbr>
+<code class="code">troff</code>.  <code class="code">groff</code> <samp class="file">ms</samp> supports features described above
+as Berkeley and Tenth Edition Research Unix extensions, and adds several
+of its own.
+</p>
+<ul class="itemize mark-bullet">
+<li>The internals of <code class="code">groff</code> <samp class="file">ms</samp> differ from the internals of
+<abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp>.  Documents that depend upon implementation
+details of <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp> may not format properly with
+<code class="code">groff</code> <samp class="file">ms</samp>.  Such details include macros whose function was
+not documented in the <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp>
+manual.<a class="footnote" id="DOCF14" href="groff.html_fot.html#FOOT14"><sup>14</sup></a>
+
+</li><li>The error-handling policy of <code class="code">groff</code> <samp class="file">ms</samp> is to detect and
+report errors, rather than to ignore them silently.
+
+</li><li>Tenth Edition Research Unix supported <code class="code">P1</code>/<code class="code">P2</code> macros to bracket code
+examples; <code class="code">groff</code> <samp class="file">ms</samp> does not.
+
+</li><li><code class="code">groff</code> <samp class="file">ms</samp> does not work in GNU <code class="code">troff</code>&rsquo;s
+<abbr class="acronym">AT&amp;T</abbr> compatibility mode.  If loaded when that mode is enabled,
+it aborts processing with a diagnostic message.
+
+</li><li>Multiple line spacing is not supported.  Use a larger vertical spacing
+instead.
+
+</li><li><code class="code">groff</code> <samp class="file">ms</samp> uses the same header and footer defaults in both
+<code class="code">nroff</code> and <code class="code">troff</code> modes as <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp> does in
+<code class="code">troff</code> mode; <abbr class="acronym">AT&amp;T</abbr>&rsquo;s default in <code class="code">nroff</code> mode is to
+put the date, in U.S. traditional format (e.g., &ldquo;January 1, 2021&rdquo;),
+in the center footer (the <code class="code">CF</code> string).
+
+</li><li>Many <code class="code">groff</code> <samp class="file">ms</samp> macros, including those for paragraphs,
+headings, and displays, cause a reset of paragraph rendering parameters,
+and may change the indentation; they do so not by incrementing or
+decrementing it, but by setting it absolutely.  This can cause problems
+for documents that define additional macros of their own that try to
+manipulate indentation.  Use the <samp class="file">ms</samp> <code class="code">RS</code> and <code class="code">RE</code>
+macros instead of the <code class="code">in</code> request.
+
+</li><li><a class="index-entry-id" id="index-fractional-type-sizes-in-ms-macros"></a>
+<a class="index-entry-id" id="index-ms-macros_002c-fractional-type-sizes-in"></a>
+<abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp> interpreted the values of the registers
+<code class="code">PS</code> and <code class="code">VS</code> in points, and did not support the use of
+scaling units with them.  <code class="code">groff</code> <samp class="file">ms</samp> interprets values of
+the registers <code class="code">PS</code>, <code class="code">VS</code>, <code class="code">FPS</code>, and <code class="code">FVS</code> equal to
+or larger than&nbsp;1,000 (one thousand) as decimal fractions multiplied
+by&nbsp;1,000.<a class="footnote" id="DOCF15" href="groff.html_fot.html#FOOT15"><sup>15</sup></a>  This threshold makes use of a
+scaling unit with these parameters practical for high-resolution
+devices while preserving backward compatibility.  It also permits
+expression of non-integral type sizes.  For example, &lsquo;<samp class="samp">groff
+-rPS=10.5p</samp>&rsquo; at the shell prompt is equivalent to placing &lsquo;<samp class="samp">.nr PS
+10.5p</samp>&rsquo; at the beginning of the document.
+
+</li><li><abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp>&rsquo;s <code class="code">AU</code> macro supported arguments used with
+some document types; <code class="code">groff</code> <samp class="file">ms</samp> does not.
+
+</li><li>Right-aligned displays are available.  The <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp>
+manual observes that &ldquo;it is tempting to assume that &lsquo;<samp class="samp">.DS R</samp>&rsquo; will
+right adjust lines, but it doesn&rsquo;t work&rdquo;.  In <code class="code">groff</code> <samp class="file">ms</samp>,
+it does.
+
+</li><li>To make <code class="code">groff</code> <samp class="file">ms</samp> use the default page offset (which also
+specifies the left margin), the <code class="code">PO</code> register must stay undefined
+until the first <samp class="file">ms</samp> macro is called.
+
+<p>This implies that &lsquo;<samp class="samp">\n[PO]</samp>&rsquo; should not be used early in the
+document, unless it is changed also: accessing an undefined register
+automatically defines it.
+</p>
+</li><li><code class="code">groff</code> <samp class="file">ms</samp> supports the <code class="code">PN</code> register, but it is not
+necessary; you can access the page number via the usual <code class="code">%</code>
+register and invoke the <code class="code">af</code> request to assign a different format
+to it if desired.<a class="footnote" id="DOCF16" href="groff.html_fot.html#FOOT16"><sup>16</sup></a>
+
+</li><li>The <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp> manual documents registers <code class="code">CW</code> and
+<code class="code">GW</code> as setting the default column width and &ldquo;intercolumn gap&rdquo;,
+respectively, and which applied when <code class="code">MC</code> was called with fewer
+than two arguments.  <code class="code">groff</code> <samp class="file">ms</samp> instead treats <code class="code">MC</code>
+without arguments as synonymous with <code class="code">2C</code>; there is thus no
+occasion for a default column width register.  Further, the <code class="code">MINGW</code>
+register and the second argument to <code class="code">MC</code> specify a <em class="emph">minimum</em>
+space between columns, not the fixed gutter width of <abbr class="acronym">AT&amp;T</abbr>
+<samp class="file">ms</samp>.
+
+</li><li>The <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp> manual did not document the <code class="code">QI</code>
+register; Berkeley and <code class="code">groff</code> <samp class="file">ms</samp> do.
+</li></ul>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bGS_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[GS]</code></strong><a class="copiable-link" href='#index-_005cn_005bGS_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-GS-_005bms_005d"></a>
+<p>The register <code class="code">GS</code> is set to&nbsp;1 by the <code class="code">groff</code> <samp class="file">ms</samp>
+macros, but is not used by the <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp> package.
+Documents that need to determine whether they are being formatted with
+<code class="code">groff</code> <samp class="file">ms</samp> or another implementation should test this
+register.
+</p></dd></dl>
+
+
+
+<ul class="mini-toc">
+<li><a href="Missing-Unix-Version-7-ms-Macros.html" accesskey="1">Unix Version 7 <samp class="file">ms</samp> macros not implemented by <code class="code">groff</code> <samp class="file">ms</samp></a></li>
+</ul>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Naming-Conventions.html">Naming Conventions</a>, Previous: <a href="ms-Page-Layout.html">Page layout</a>, Up: <a href="ms.html"><samp class="file">ms</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

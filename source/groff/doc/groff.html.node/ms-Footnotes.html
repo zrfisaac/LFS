@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>ms Footnotes (The GNU Troff Manual)</title>
+
+<meta name="description" content="ms Footnotes (The GNU Troff Manual)">
+<meta name="keywords" content="ms Footnotes (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms-Body-Text.html" rel="up" title="ms Body Text">
+<link href="ms-Insertions.html" rel="prev" title="ms Insertions">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="ms-Footnotes">
+<div class="nav-panel">
+<p>
+Previous: <a href="ms-Insertions.html" accesskey="p" rel="prev">Tables, figures, equations, and references</a>, Up: <a href="ms-Body-Text.html" accesskey="u" rel="up">Body Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Footnotes">4.6.5.10 Footnotes</h4>
+<a class="index-entry-id" id="index-ms-macros_002c-footnotes"></a>
+<a class="index-entry-id" id="index-footnotes-_005bms_005d"></a>
+
+<a class="index-entry-id" id="index-footnote-marker-_005bms_005d"></a>
+<a class="index-entry-id" id="index-marker_002c-footnote-_005bms_005d"></a>
+<p>A footnote is typically anchored to a place in the text with a
+<em class="dfn">marker</em>, which is a small integer, a symbol such as a dagger, or
+arbitrary user-specified text.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_002a_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[*]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_002a_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002a-_005bms_005d"></a>
+<p>Place an <em class="dfn">automatic number</em>, an automatically generated numeric
+footnote marker, in the text.  Each time this string is interpolated,
+the number it produces increments by one.  Automatic numbers start at 1.
+This is a Berkeley extension.
+</p></dd></dl>
+
+<p>Enclose the footnote text in <code class="code">FS</code> and <code class="code">FE</code> macro calls to set
+it at the nearest available &ldquo;foot&rdquo;, or bottom, of a text column or
+page.
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eFS"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.FS</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">marker</i></span>]</var><a class="copiable-link" href='#index-_002eFS'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-FS-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002eFE"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.FE</code></strong><a class="copiable-link" href='#index-_002eFE'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-FE-_005bms_005d"></a>
+<p>Begin (<code class="code">FS</code>) and end (<code class="code">FE</code>) a footnote.  <code class="code">FS</code> calls
+<code class="code">FS-MARK</code> with any supplied <var class="var">marker</var> argument, which is then
+also placed at the beginning of the footnote text.  If <var class="var">marker</var> is
+omitted, the next pending automatic footnote number enqueued by
+interpolation of the <code class="code">*</code> string is used, and if none exists,
+nothing is prefixed.
+</p></dd></dl>
+
+<p>You may not desire automatically numbered footnotes in spite of their
+convenience.  You can indicate a footnote with a symbol or other text by
+specifying its marker at the appropriate place (for example, by using
+<code class="code">\[dg]</code> for the dagger glyph) <em class="emph">and</em> as an argument to the
+<code class="code">FS</code> macro.  Such manual marks should be repeated as arguments to
+<code class="code">FS</code> or as part of the footnote text to disambiguate their
+correspondence.  You may wish to use <code class="code">\*{</code> and <code class="code">\*}</code> to
+superscript the marker at the anchor point, in the footnote text, or
+both.
+</p>
+<p><code class="code">groff</code> <samp class="file">ms</samp> provides a hook macro, <code class="code">FS-MARK</code>, for
+user-determined operations to be performed when the <code class="code">FS</code> macro is
+called.  It is passed the same arguments as <code class="code">FS</code> itself.  An
+application of <code class="code">FS-MARK</code> is anchor placement for a hyperlink
+reference, so that a footnote can link back to its referential
+context.<a class="footnote" id="DOCF11" href="groff.html_fot.html#FOOT11"><sup>11</sup></a>  By default, this macro has an empty definition.
+<code class="code">FS-MARK</code> is a GNU extension.
+</p>
+<a class="index-entry-id" id="index-footnotes_002c-and-keeps-_005bms_005d"></a>
+<a class="index-entry-id" id="index-keeps_002c-and-footnotes-_005bms_005d"></a>
+<a class="index-entry-id" id="index-footnotes_002c-and-displays-_005bms_005d"></a>
+<a class="index-entry-id" id="index-displays_002c-and-footnotes-_005bms_005d"></a>
+<p>Footnotes can be safely used within keeps and displays, but you should
+avoid using automatically numbered footnotes within floating keeps.  You
+can place a second <code class="code">\**</code> interpolation between a <code class="code">\**</code> and its
+corresponding <code class="code">FS</code> call as long as each <code class="code">FS</code> call occurs
+<em class="emph">after</em> the corresponding <code class="code">\**</code> and occurrences of <code class="code">FS</code>
+are in the same order as corresponding occurrences of <code class="code">\**</code>.
+</p>
+<p>Footnote text is formatted as paragraphs are, using analogous
+parameters.  The registers <code class="code">FI</code>, <code class="code">FPD</code>, <code class="code">FPS</code>, and
+<code class="code">FVS</code> correspond to <code class="code">PI</code>, <code class="code">PD</code>, <code class="code">PS</code>, and <code class="code">CS</code>,
+respectively; <code class="code">FPD</code>, <code class="code">FPS</code>, and <code class="code">FVS</code> are GNU extensions.
+</p>
+<p>The <code class="code">FF</code> register controls the formatting of automatically numbered
+footnote paragraphs and those for which <code class="code">FS</code> is given a marker
+argument.  See <a class="xref" href="ms-Document-Control-Settings.html">Document Control Settings</a>.
+</p>
+<p>The default footnote line length is 11/12ths of the normal line length
+for compatibility with the expectations of historical <samp class="file">ms</samp>
+documents; you may wish to set the <code class="code">FR</code> string to &lsquo;<samp class="samp">1</samp>&rsquo; to align
+with contemporary typesetting practices.  In the
+past,<a class="footnote" id="DOCF12" href="groff.html_fot.html#FOOT12"><sup>12</sup></a> an <code class="code">FL</code> register
+was used for the line length in footnotes; however, setting this
+register at document initialization time had no effect on the footnote
+line length in multi-column arrangements.<a class="footnote" id="DOCF13" href="groff.html_fot.html#FOOT13"><sup>13</sup></a>
+</p>
+<p><code class="code">FR</code> should be used in preference to the old <code class="code">FL</code> register in
+contemporary documents.  The footnote line length is effectively
+computed as &lsquo;<samp class="samp"><i class="slanted">column-width</i> * \*[FR]</samp>&rsquo;.  If an absolute
+footnote line length is required, recall that arithmetic expressions in
+<code class="code">roff</code> input are evaluated strictly from left to right, with no
+operator precedence (parentheses are honored).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ds FR 0+3i \&quot; Set footnote line length to 3 inches.
+</pre></div></div>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Previous: <a href="ms-Insertions.html">Tables, figures, equations, and references</a>, Up: <a href="ms-Body-Text.html">Body Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

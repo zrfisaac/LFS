@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Leaders (The GNU Troff Manual)</title>
+
+<meta name="description" content="Leaders (The GNU Troff Manual)">
+<meta name="keywords" content="Leaders (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Tabs-and-Fields.html" rel="up" title="Tabs and Fields">
+<link href="Fields.html" rel="next" title="Fields">
+<link href="Tabs-and-Fields.html" rel="prev" title="Tabs and Fields">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Leaders">
+<div class="nav-panel">
+<p>
+Next: <a href="Fields.html" accesskey="n" rel="next">Fields</a>, Previous: <a href="Tabs-and-Fields.html" accesskey="p" rel="prev">Tabs and Fields</a>, Up: <a href="Tabs-and-Fields.html" accesskey="u" rel="up">Tabs and Fields</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Leaders-1">5.12.1 Leaders</h4>
+<a class="index-entry-id" id="index-leaders"></a>
+
+<p>Sometimes it is desirable to fill a tab stop with a given glyph,
+but also use tab stops normally on the same output line.  An example is
+a table of contents entry that uses dots to bridge the entry name with
+its page number, which is itself aligned between tab stops.  The
+<code class="code">roff</code> language provides <em class="dfn">leaders</em> for this
+purpose.<a class="footnote" id="DOCF67" href="groff.html_fot.html#FOOT67"><sup>67</sup></a>
+</p>
+<a class="index-entry-id" id="index-leader-character-1"></a>
+<p>A leader character (<abbr class="acronym">ISO</abbr> and <abbr class="acronym">EBCDIC</abbr> code
+point&nbsp;1, also known as <abbr class="acronym">SOH</abbr> or &ldquo;start of heading&rdquo;),
+behaves similarly to a tab character: it moves to the next tab stop.
+The difference is that for this movement, the default fill character is
+a period &lsquo;<samp class="samp">.</samp>&rsquo;.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005ca-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\a</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005ca-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005ca"></a>
+<a class="index-entry-id" id="index-leader-character_002c-non_002dinterpreted-_0028_005ca_0029"></a>
+<a class="index-entry-id" id="index-character_002c-leader_002c-non_002dinterpreted-_0028_005ca_0029"></a>
+<a class="index-entry-id" id="index-_005ca_002c-and-copy-mode"></a>
+<a class="index-entry-id" id="index-copy-mode_002c-and-_005ca"></a>
+<a class="index-entry-id" id="index-mode_002c-copy_002c-and-_005ca"></a>
+<p>Interpolate a leader in copy mode; see <a class="ref" href="Copy-Mode.html">Copy Mode</a>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002elc"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.lc</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">c</i></span>]</var><a class="copiable-link" href='#index-_002elc'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-lc"></a>
+<a class="index-entry-id" id="index-leader-repetition-character-_0028lc_0029"></a>
+<a class="index-entry-id" id="index-character_002c-leader-repetition-_0028lc_0029"></a>
+<a class="index-entry-id" id="index-glyph_002c-leader-repetition-_0028lc_0029"></a>
+<p>Set the leader repetition character to the ordinary or special character
+<var class="var">c</var>.  Recall <a class="ref" href="Tabs-and-Leaders.html">Tabs and Leaders</a>: when encountering a leader
+character in the input, the formatter writes as many dots &lsquo;<samp class="samp">.</samp>&rsquo; as
+are necessary until
+reaching the next tab stop; this is the <em class="dfn">leader definition
+character</em>.  Omitting <var class="var">c</var> unsets the leader
+character.  With no argument, GNU <code class="code">troff</code> treats leaders the same
+as tabs.  The leader repetition character is associated with the
+environment (see <a class="pxref" href="Environments.html">Environments</a>).  Only a single <var class="var">c</var> is
+recognized; any excess is ignored.
+</p></dd></dl>
+
+<a class="index-entry-id" id="index-table-of-contents-1"></a>
+<a class="index-entry-id" id="index-contents_002c-table-of-1"></a>
+<p>A table of contents, for example, may define tab stops after a section
+number, a title, and a gap to be filled with leader dots.  The page
+number follows the leader, after a right-aligned final tab stop wide
+enough to house the largest page number occurring in the document.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ds entry1 19.\tThe Prophet\a\t98
+.ds entry2 20.\tAll Astir\a\t101
+.ta .5i 4.5i +.5iR
+.nf
+\*[entry1]
+\*[entry2]
+    &rArr; 19.  The Prophet.............................   98
+    &rArr; 20.  All Astir...............................  101
+</pre></div></div>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Fields.html">Fields</a>, Previous: <a href="Tabs-and-Fields.html">Tabs and Fields</a>, Up: <a href="Tabs-and-Fields.html">Tabs and Fields</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

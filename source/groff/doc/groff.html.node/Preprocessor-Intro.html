@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Preprocessor Intro (The GNU Troff Manual)</title>
+
+<meta name="description" content="Preprocessor Intro (The GNU Troff Manual)">
+<meta name="keywords" content="Preprocessor Intro (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Introduction.html" rel="up" title="Introduction">
+<link href="Output-Device-Intro.html" rel="next" title="Output Device Intro">
+<link href="Macro-Package-Intro.html" rel="prev" title="Macro Package Intro">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Preprocessor-Intro">
+<div class="nav-panel">
+<p>
+Next: <a href="Output-Device-Intro.html" accesskey="n" rel="next">Output Devices</a>, Previous: <a href="Macro-Package-Intro.html" accesskey="p" rel="prev">Macro Packages</a>, Up: <a href="Introduction.html" accesskey="u" rel="up">Introduction</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Preprocessors">1.5 Preprocessors</h3>
+<a class="index-entry-id" id="index-preprocessors"></a>
+
+<p>An alternative approach to complexity management, particularly when
+constructing tables, setting mathematics, or drawing diagrams, lies in
+preprocessing.  A <em class="dfn">preprocessor</em> employs a domian-specific language
+to ease the generation of tables, equations, and so forth in terms that
+are convenient for human entry.  Each preprocessor reads a document and
+translates the parts of it that apply to it into GNU <code class="code">troff</code> input.
+Command-line options to <code class="command">groff</code> tell it which preprocessors to
+use.
+</p>
+<p><code class="code">groff</code> provides preprocessors for laying out tables
+(<code class="command">gtbl</code>), typesetting equations (<code class="command">geqn</code>), drawing
+diagrams (<code class="command">gpic</code> and <code class="command">ggrn</code>), inserting bibliographic
+references (<code class="command">grefer</code>), and drawing chemical structures
+(<code class="command">gchem</code>).  An associated program that is useful when dealing
+with preprocessors is <code class="command">gsoelim</code>.<a class="footnote" id="DOCF1" href="groff.html_fot.html#FOOT1"><sup>1</sup></a>
+</p>
+<p><code class="code">groff</code> also supports <code class="code">grap</code>, a preprocessor for drawing
+graphs.  A free implementation of it can be obtained separately.
+</p>
+<p>Unique to <code class="code">groff</code> is the <code class="code">preconv</code> preprocessor that enables
+<code class="code">groff</code> to handle documents in a variety of input encodings.
+</p>
+<p>Other preprocessors exist, but no free implementations
+are known.  An example is <code class="command">ideal</code>, which draws diagrams using a
+mathematical constraint language.
+</p>
+
+
+</div>
+
+
+
+</body>
+</html>

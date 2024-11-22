@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Page Control (The GNU Troff Manual)</title>
+
+<meta name="description" content="Page Control (The GNU Troff Manual)">
+<meta name="keywords" content="Page Control (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Using-Fonts.html" rel="next" title="Using Fonts">
+<link href="Page-Layout.html" rel="prev" title="Page Layout">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Page-Control">
+<div class="nav-panel">
+<p>
+Next: <a href="Using-Fonts.html" accesskey="n" rel="next">Using Fonts</a>, Previous: <a href="Page-Layout.html" accesskey="p" rel="prev">Page Layout</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Page-Control-1">5.18 Page Control</h3>
+<a class="index-entry-id" id="index-page-control"></a>
+<a class="index-entry-id" id="index-control_002c-page"></a>
+
+<a class="index-entry-id" id="index-page-break-1"></a>
+<a class="index-entry-id" id="index-break_002c-page-1"></a>
+<a class="index-entry-id" id="index-page-ejection-1"></a>
+<a class="index-entry-id" id="index-ejection_002c-page-1"></a>
+<p>Discretionary page breaks can prevent the unwanted separation of
+content.  A new page number takes effect during page ejection; see
+<a class="ref" href="The-Implicit-Page-Trap.html">The Implicit Page Trap</a>.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ebp"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.bp</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">page-number</i></span>]</var><a class="copiable-link" href='#index-_002ebp'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-bp"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002ebp-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.bp</code></strong> <var class="def-var-arguments"><code class="t">+</code><span class="r"><i class="slanted">page-number</i></span></var><a class="copiable-link" href='#index-_002ebp-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_002ebp-2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.bp</code></strong> <var class="def-var-arguments"><code class="t">-</code><span class="r"><i class="slanted">page-number</i></span></var><a class="copiable-link" href='#index-_002ebp-2'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_0025_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[%]</code></strong><a class="copiable-link" href='#index-_005cn_005b_0025_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_0025-2"></a>
+<a class="index-entry-id" id="index-new-page-_0028bp_0029"></a>
+<a class="index-entry-id" id="index-page_002c-new-_0028bp_0029"></a>
+<p>Break the page and change (increase or decrease) the next page number
+per the numeric expression <var class="var">page-number</var>.  If <var class="var">page-number</var> is
+invalid, GNU <code class="code">troff</code> emits a warning in category &lsquo;<samp class="samp">number</samp>&rsquo; and
+ignores the argument.  This request causes a break.  A page break
+advances the vertical drawing position to the bottom of the page,
+springing traps.  See <a class="xref" href="Page-Location-Traps.html">Page Location Traps</a>.
+<a class="index-entry-id" id="index-bp-request_002c-and-top_002dlevel-diversion"></a>
+<a class="index-entry-id" id="index-top_002dlevel-diversion_002c-and-bp"></a>
+<a class="index-entry-id" id="index-diversion_002c-top_002dlevel_002c-and-bp"></a>
+<code class="code">bp</code> has effect only if invoked within the top-level
+diversion.<a class="footnote" id="DOCF71" href="groff.html_fot.html#FOOT71"><sup>71</sup></a>
+<a class="index-entry-id" id="index-CSTR-_002354-errata-2"></a>
+<a class="index-entry-id" id="index-CSTR-_002354-erratum_002c-bp-request"></a>
+This request is incorrectly documented in the <abbr class="acronym">AT&amp;T</abbr>
+<code class="code">troff</code> manual as having a default scaling unit of &lsquo;<samp class="samp">v</samp>&rsquo;.
+</p>
+<a class="index-entry-id" id="index-page-number-register-_0028_0025_0029"></a>
+<a class="index-entry-id" id="index-current-page-number-_0028_0025_0029"></a>
+<p>The register <code class="code">%</code> interpolates the current page number.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de BP
+'  bp \&quot; schedule page break once current line is output
+..
+</pre></div></div>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ene"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ne</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">space</i></span>]</var><a class="copiable-link" href='#index-_002ene'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ne"></a>
+<a class="index-entry-id" id="index-orphan-lines_002c-preventing-with-ne"></a>
+<a class="index-entry-id" id="index-conditional-page-break-_0028ne_0029"></a>
+<a class="index-entry-id" id="index-page-break_002c-conditional-_0028ne_0029"></a>
+<p>Force a page break if insufficient vertical space is available (assert
+&ldquo;needed&rdquo; space).  <code class="code">ne</code> tests the distance to the next page
+location trap; see <a class="ref" href="Page-Location-Traps.html">Page Location Traps</a>, and breaks the page if
+that amount is less than <var class="var">space</var>.  The default scaling unit is
+&lsquo;<samp class="samp">v</samp>&rsquo;.  If <var class="var">space</var> is invalid, GNU <code class="code">troff</code> emits a warning
+in category &lsquo;<samp class="samp">number</samp>&rsquo; and ignores the argument.  If <var class="var">space</var> is
+not specified, &lsquo;<samp class="samp">1v</samp>&rsquo; is assumed.
+</p>
+<a class="index-entry-id" id="index-widow"></a>
+<p>We can require space for at least the first two output lines of a
+paragraph, preventing its first line from being <i class="slanted">widowed</i> at the
+page bottom.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ne 2v
+Considering how common illness is,
+how tremendous the spiritual change that it brings,
+how astonishing,
+when the lights of health go down,
+the undiscovered countries that are then disclosed,
+what wastes and deserts of the soul a slight attack
+of influenza brings to view,
+</pre></div></div>
+
+<p>This method is reliable only if no output line is pending when <code class="code">ne</code>
+is invoked.  When macro packages are used, this is often not the case:
+their paragraphing macros perform the break.  You may need to experiment
+with placing the <code class="code">ne</code> after the paragraphing macro, or <code class="code">br</code>
+and <code class="code">ne</code> before it.
+</p>
+<a class="index-entry-id" id="index-orphan"></a>
+<a class="index-entry-id" id="index-widow-1"></a>
+<p><code class="code">ne</code> is also useful to force grouping of section headings with
+their subsequent paragraphs, or tables with their captions and/or
+explanations.  Macro packages often use <code class="code">ne</code> with diversions to
+implement keeps and displays; see <a class="ref" href="Diversions.html">Diversions</a>.  They may also offer
+parameters for widow and orphan management.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002esv"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.sv</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">space</i></span>]</var><a class="copiable-link" href='#index-_002esv'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-sv"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002eos"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.os</code></strong><a class="copiable-link" href='#index-_002eos'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-os"></a>
+<a class="index-entry-id" id="index-ne-request_002c-comparison-with-sv"></a>
+<p>Require vertical space as <code class="code">ne</code> does, but also <i class="slanted">save</i> it for
+later output by the <code class="code">os</code> request.  If <var class="var">space</var> is available
+before the next page location trap, it is output immediately.  Both
+requests ignore a partially collected line, taking effect at the next
+break.
+<a class="index-entry-id" id="index-sv-request_002c-and-no_002dspace-mode"></a>
+<a class="index-entry-id" id="index-os-request_002c-and-no_002dspace-mode"></a>
+<code class="code">sv</code> and <code class="code">os</code> ignore no-space mode (recall <a class="ref" href="Manipulating-Spacing.html">Manipulating Spacing</a>).  While the <code class="code">sv</code> request allows negative values for
+<var class="var">space</var>, <code class="code">os</code> ignores them.  The default scaling unit is
+&lsquo;<samp class="samp">v</samp>&rsquo;.  If <var class="var">space</var> is not specified, &lsquo;<samp class="samp">1v</samp>&rsquo; is assumed.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bnl_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[nl]</code></strong><a class="copiable-link" href='#index-_005cn_005bnl_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-nl"></a>
+<a class="index-entry-id" id="index-vertical-drawing-position-_0028nl_0029"></a>
+<a class="index-entry-id" id="index-vertical-position_002c-drawing-_0028nl_0029"></a>
+<a class="index-entry-id" id="index-drawing-position_002c-vertical-_0028nl_0029"></a>
+<p><code class="code">nl</code> interpolates or sets the vertical drawing position.  When the
+formatter starts, the first page transition hasn&rsquo;t happened yet, and
+<code class="code">nl</code> is negative.  If a header trap has been planted on the page
+(typically at vertical position <code class="code">0</code>), you can assign a negative
+value to <code class="code">nl</code> to spring it if that page has already started
+(see <a class="pxref" href="Page-Location-Traps.html">Page Location Traps</a>).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de HD
+.  sp
+.  tl ''Goldbach Solution''
+.  sp
+..
+.
+First page.
+.bp
+.wh 0 HD \&quot; plant header trap at top of page
+.nr nl (-1)
+Second page.
+    &rArr; First page.
+    &rArr;
+    &rArr; <span class="r"><i class="i">(blank lines elided)</i></span>
+    &rArr;
+    &rArr;                         Goldbach Solution
+    &rArr;
+    &rArr; <span class="r"><i class="i">(blank lines elided)</i></span>
+    &rArr;
+    &rArr; Second page.
+</pre></div></div>
+
+<p>Without resetting <code class="code">nl</code> to a negative value, the trap just planted
+would be active beginning with the <em class="emph">next</em> page, not the current
+one.
+</p>
+<p>See <a class="xref" href="Diversions.html">Diversions</a>, for a comparison of <code class="code">nl</code> with the <code class="code">.h</code> and
+<code class="code">.d</code> registers.
+</p></dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Using-Fonts.html">Using Fonts</a>, Previous: <a href="Page-Layout.html">Page Layout</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

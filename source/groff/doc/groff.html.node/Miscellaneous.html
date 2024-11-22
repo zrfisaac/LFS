@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Miscellaneous (The GNU Troff Manual)</title>
+
+<meta name="description" content="Miscellaneous (The GNU Troff Manual)">
+<meta name="keywords" content="Miscellaneous (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Gtroff-Internals.html" rel="next" title="Gtroff Internals">
+<link href="Postprocessor-Access.html" rel="prev" title="Postprocessor Access">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span.w-nolinebreak-text {white-space: nowrap}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Miscellaneous">
+<div class="nav-panel">
+<p>
+Next: <a href="Gtroff-Internals.html" accesskey="n" rel="next"><code class="code">gtroff</code> Internals</a>, Previous: <a href="Postprocessor-Access.html" accesskey="p" rel="prev">Postprocessor Access</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Miscellaneous-1">5.35 Miscellaneous</h3>
+
+<p>We document here GNU <code class="code">troff</code> features that fit poorly elsewhere.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002enm"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.nm</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">start</i></span> [<span class="r"><i class="slanted">increment</i></span> [<span class="r"><i class="slanted">space</i></span> [<span class="r"><i class="slanted">indentation</i></span>]]]]</var><a class="copiable-link" href='#index-_002enm'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-nm"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005bln_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[ln]</code></strong><a class="copiable-link" href='#index-_005cn_005bln_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ln"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002enm_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.nm]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002enm_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002enm-1"></a>
+<a class="index-entry-id" id="index-printing-line-numbers-_0028nm_0029"></a>
+<a class="index-entry-id" id="index-line-numbers_002c-printing-_0028nm_0029"></a>
+<a class="index-entry-id" id="index-numbers_002c-line_002c-printing-_0028nm_0029"></a>
+<p>Begin (or, with no arguments, cease) numbering output lines.
+<var class="var">start</var> assigns the number of the <em class="emph">next</em> output line.  Only
+line numbers divisible by <var class="var">increment</var> are marked (default:
+&lsquo;<samp class="samp">1</samp>&rsquo;).  <var class="var">space</var> configures the horizontal spacing between the
+number and the text (default: &lsquo;<samp class="samp">1</samp>&rsquo;).  Any given <var class="var">indentation</var> is
+applied to the numbers (default: &lsquo;<samp class="samp">0</samp>&rsquo;).  The third and fourth
+arguments are reckoned in numeral widths (<code class="code">\0</code>).  <var class="var">start</var> must
+be non-negative and <var class="var">increment</var> positive.
+</p>
+<p>The formatter aligns the number to the right in a width of three numeral
+spaces plus <var class="var">indentation</var>, then catenates <var class="var">space</var> and the output
+line.  The line length is <em class="emph">not</em> reduced.  Depending on the value of
+the page offset,<a class="footnote" id="DOCF117" href="groff.html_fot.html#FOOT117"><sup>117</sup></a> numbers wider than
+the allocated space protrude into the left margin, or shift the output
+line to the right.
+</p>
+<p>Line numbering parameters corresponding to missing arguments are not
+altered.  After numbering is disabled, &lsquo;<samp class="samp">.nm +0</samp>&rsquo; resumes it using
+the previously active parameters.
+</p>
+<p>The parameters of <code class="code">nm</code> are associated with the environment
+(see <a class="pxref" href="Environments.html">Environments</a>).
+</p>
+<a class="index-entry-id" id="index-output-line-number-register-_0028ln_0029"></a>
+<a class="index-entry-id" id="index-line-number_002c-output_002c-register-_0028ln_0029"></a>
+<p>While numbering is enabled, the output line number register <code class="code">ln</code> is
+updated as each line is output, even if no line number is formatted with
+it because it is being skipped (it is not a multiple of <var class="var">increment</var>)
+or because numbering is suppressed (see the <code class="code">nn</code> request below).
+</p>
+<p>The <code class="code">.nm</code> register tracks the enablement status of numbering.
+Temporary suspension of numbering with the <code class="code">nn</code> request does
+<em class="emph">not</em> alter its value.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.po 5n
+.ll 44n
+Programming,
+when stripped of all its circumstantial irrelevancies,
+.nm 999 1 1 -4
+boils down to no more and no less than
+.nm +0 3
+very effective thinking so as to avoid unmastered
+.nn 2
+complexity,
+to very vigorous separation of your many
+different concerns.
+.br
+\(em Edsger Dijkstra
+.sp
+.nm 1 1 1
+This guy's arrogance takes your breath away.
+.br
+\(em John Backus
+    &rArr;      Programming,  when  stripped of all its cir-
+    &rArr;  999 cumstantial irrelevancies, boils down to  no
+    &rArr;      more  and no less than very effective think-
+    &rArr;      ing so as to avoid unmastered complexity, to
+    &rArr;      very vigorous separation of your  many  dif-
+    &rArr;      ferent concerns.
+    &rArr; 1002 -- Edsger Dijkstra
+    &rArr;
+    &rArr;    1 This guy&rsquo;s arrogance takes your breath away.
+    &rArr;    2 -- John Backus
+</pre></div></div>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002enn"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.nn</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">skip</i></span>]</var><a class="copiable-link" href='#index-_002enn'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-nn"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002enn_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.nn]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002enn_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002enn-1"></a>
+<p>Suppress numbering of the next <var class="var">skip</var> output lines that would
+otherwise be numbered.  The default is&nbsp;1.  <code class="code">nn</code> can be invoked
+when line numbering is not active; suppression of numbering will take
+effect for <var class="var">skip</var> lines once <code class="code">nm</code> enables it.
+</p>
+<p>The <code class="code">.nn</code> register stores the count of output lines still to have
+their numbering suppressed.
+</p>
+<p>This count is associated with the environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p></dd></dl>
+
+<p>To test whether the current output line will be numbered, you must check
+both the <code class="code">.nm</code> and <code class="code">.nn</code> registers.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">  .de is-numbered
+  .  nop This line
+  .  ie (\\n[.nm] &amp; (1-\\n[.nn])) IS
+  .  el                           ISN'T
+  .  nop numbered.
+  .  br
+  ..
+  Test line numbering.
+  .is-numbered
+  .nm 1
+  .nn 1
+  .is-numbered
+  .is-numbered
+  .nm
+  .is-numbered
+    &rArr; Test line numbering.  This line ISN&rsquo;T numbered.
+    &rArr; This line ISN&rsquo;T numbered.
+    &rArr;   1 This line IS numbered.
+    &rArr; This line ISN&rsquo;T numbered.
+</pre></div></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002emc"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.mc</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">margin-character</i></span> [<span class="r"><i class="slanted">distance</i></span>]</var><a class="copiable-link" href='#index-_002emc'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-mc"></a>
+<a class="index-entry-id" id="index-margin-glyph-_0028mc_0029"></a>
+<a class="index-entry-id" id="index-glyph_002c-for-margins-_0028mc_0029"></a>
+<p>Begin (or, with no arguments, cease) writing a <em class="dfn">margin-character</em> to
+the right of each output line.  The <var class="var">distance</var> argument separates
+<var class="var">margin-character</var> from the right margin.  If absent, the most
+recent value is used; the default is 10&nbsp;points.  If an output line
+exceeds the line length, the margin character is appended to it.
+<a class="index-entry-id" id="index-tl-request_002c-and-mc"></a>
+No margin character is written on lines produced by the <code class="code">tl</code>
+request.
+</p>
+<p>The margin character is a property of the output line; the margin
+character last configured when the line is output controls.  If the
+margin character is disabled before an output line breaks, none is
+output (but see below).
+</p>
+<p>The margin character is associated with the environment
+(see <a class="pxref" href="Environments.html">Environments</a>).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ll 5i
+.nf
+.mc \[br]
+This paragraph is marked with a margin character.
+.sp
+As seen above, vertical space isn't thus marked.
+\&amp;
+An output line that is present, but empty, is.
+    &rArr; This paragraph is marked with a margin character.  |
+    &rArr;
+    &rArr; As seen above, vertical space isn&rsquo;t thus marked.   |
+    &rArr;                                                    |
+    &rArr; An output line that is present, but empty, is.     |
+</pre></div></div>
+</dd></dl>
+
+<p>For compatibility with <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code>, a call to <code class="code">mc</code>
+to set the margin character can&rsquo;t be undone immediately; at least one
+line gets a margin character.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ll 10n
+.nf
+.mc |
+.mc *
+.mc
+foo
+bar
+    &rArr; foo        *
+    &rArr; bar
+</pre></div></div>
+
+<a class="index-entry-id" id="index-gdiffmk"></a>
+<a class="index-entry-id" id="index-nrchbar"></a>
+<a class="index-entry-id" id="index-changebar"></a>
+<a class="index-entry-id" id="index-diffmk"></a>
+<p>The margin character mechanism is commonly used to annotate changes in
+documents.  The <code class="code">groff</code> distribution ships a program,
+<code class="command">gdiffmk</code>, to assist with this task.<a class="footnote" id="DOCF118" href="groff.html_fot.html#FOOT118"><sup>118</sup></a>
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002epsbb"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.psbb</code></strong> <var class="def-var-arguments">file</var><a class="copiable-link" href='#index-_002epsbb'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-psbb"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005bllx_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[llx]</code></strong><a class="copiable-link" href='#index-_005cn_005bllx_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-llx"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005blly_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[lly]</code></strong><a class="copiable-link" href='#index-_005cn_005blly_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-lly"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005burx_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[urx]</code></strong><a class="copiable-link" href='#index-_005cn_005burx_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-urx"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005bury_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[ury]</code></strong><a class="copiable-link" href='#index-_005cn_005bury_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ury"></a>
+<a class="index-entry-id" id="index-PostScript_002c-bounding-box"></a>
+<a class="index-entry-id" id="index-bounding-box"></a>
+<p>Retrieve the bounding box of the PostScript image found in <var class="var">file</var>,
+which must conform to Adobe&rsquo;s <em class="dfn">Document Structuring Conventions</em>
+(DSC), locate a <code class="code">%%BoundingBox</code> comment, and store the (upper-,
+lower-, <span class="w-nolinebreak-text">-left</span><!-- /@w -->, <span class="w-nolinebreak-text">-right</span><!-- /@w -->) values into the registers <code class="code">llx</code>,
+<code class="code">lly</code>, <code class="code">urx</code>, and <code class="code">ury</code>.  If an error occurs (for
+example, if no <code class="code">%%BoundingBox</code> comment is present), the formatter
+sets these registers to&nbsp;0.
+</p>
+<p>The search path for <var class="var">file</var> can be controlled with the <samp class="option">-I</samp>
+command-line option.
+</p></dd></dl>
+
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Gtroff-Internals.html"><code class="code">gtroff</code> Internals</a>, Previous: <a href="Postprocessor-Access.html">Postprocessor Access</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

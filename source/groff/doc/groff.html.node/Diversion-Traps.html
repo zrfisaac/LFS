@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Diversion Traps (The GNU Troff Manual)</title>
+
+<meta name="description" content="Diversion Traps (The GNU Troff Manual)">
+<meta name="keywords" content="Diversion Traps (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Vertical-Position-Traps.html" rel="up" title="Vertical Position Traps">
+<link href="Input-Line-Traps.html" rel="next" title="Input Line Traps">
+<link href="The-Implicit-Page-Trap.html" rel="prev" title="The Implicit Page Trap">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="Diversion-Traps">
+<div class="nav-panel">
+<p>
+Next: <a href="Input-Line-Traps.html" accesskey="n" rel="next">Input Line Traps</a>, Previous: <a href="The-Implicit-Page-Trap.html" accesskey="p" rel="prev">The Implicit Page Trap</a>, Up: <a href="Vertical-Position-Traps.html" accesskey="u" rel="up">Vertical Position Traps</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Diversion-Traps-1">5.28.1.3 Diversion Traps</h4>
+<a class="index-entry-id" id="index-diversion-traps"></a>
+<a class="index-entry-id" id="index-traps_002c-diversion"></a>
+
+<p>A diversion is not formatted in the context of a page, so it lacks page
+location traps; instead it can have a <em class="dfn">diversion trap</em>.  There can
+exist at most one such vertical position trap per diversion.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002edt"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.dt</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">dist</i></span> <span class="r"><i class="slanted">name</i></span>]</var><a class="copiable-link" href='#index-_002edt'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-dt"></a>
+<a class="index-entry-id" id="index-_002et-register_002c-and-diversions"></a>
+<a class="index-entry-id" id="index-setting-diversion-trap-_0028dt_0029"></a>
+<a class="index-entry-id" id="index-diversion-trap_002c-setting-_0028dt_0029"></a>
+<a class="index-entry-id" id="index-trap_002c-diversion_002c-setting-_0028dt_0029"></a>
+<p>Set a trap <em class="emph">within</em> a diversion at location <var class="var">dist</var>, which is
+interpreted relative to diversion rather than page boundaries.  If invoked with
+fewer than two arguments, any diversion trap in the current diversion is
+removed.  The register <code class="code">.t</code> works within diversions.  It is an
+error to invoke <code class="code">dt</code> in the top-level diversion.
+See <a class="xref" href="Diversions.html">Diversions</a>.
+</p></dd></dl>
+
+
+</div>
+
+
+
+</body>
+</html>

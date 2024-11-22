@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Control Characters (The GNU Troff Manual)</title>
+
+<meta name="description" content="Control Characters (The GNU Troff Manual)">
+<meta name="keywords" content="Control Characters (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Formatter-Instructions.html" rel="up" title="Formatter Instructions">
+<link href="Invoking-Requests.html" rel="next" title="Invoking Requests">
+<link href="Formatter-Instructions.html" rel="prev" title="Formatter Instructions">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Control-Characters">
+<div class="nav-panel">
+<p>
+Next: <a href="Invoking-Requests.html" accesskey="n" rel="next">Invoking Requests</a>, Previous: <a href="Formatter-Instructions.html" accesskey="p" rel="prev">Formatter Instructions</a>, Up: <a href="Formatter-Instructions.html" accesskey="u" rel="up">Formatter Instructions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Control-Characters-1">5.6.1 Control Characters</h4>
+<a class="index-entry-id" id="index-control-characters"></a>
+<a class="index-entry-id" id="index-configuring-control-characters"></a>
+<a class="index-entry-id" id="index-changing-control-characters"></a>
+
+<p>The mechanism of using <code class="code">roff</code>&rsquo;s control characters to invoke
+requests and call macros was introduced in <a class="ref" href="Requests-and-Macros.html">Requests and Macros</a>.
+Control characters are recognized only at the beginning of an input
+line, or at the beginning of the branch of a control structure request;
+see <a class="ref" href="Conditionals-and-Loops.html">Conditionals and Loops</a>.
+</p>
+<p>A few requests cause a break implicitly; use the no-break control
+character to prevent the break.  Break suppression is its sole
+behavioral distinction.  Employing the no-break control character to
+invoke requests that don&rsquo;t cause breaks is harmless but poor style.
+See <a class="xref" href="Manipulating-Filling-and-Adjustment.html">Manipulating Filling and Adjustment</a>.
+</p>
+<a class="index-entry-id" id="index-control-character_002c-changing-_0028cc_0029"></a>
+<a class="index-entry-id" id="index-character_002c-control_002c-changing-_0028cc_0029"></a>
+<a class="index-entry-id" id="index-no_002dbreak-control-character_002c-changing-_0028c2_0029"></a>
+<a class="index-entry-id" id="index-character_002c-no_002dbreak-control_002c-changing-_0028c2_0029"></a>
+<a class="index-entry-id" id="index-control-character_002c-no_002dbreak_002c-changing-_0028c2_0029"></a>
+<p>The control &lsquo;<samp class="samp">.</samp>&rsquo; and no-break control &lsquo;<samp class="samp">'</samp>&rsquo; characters can each
+be changed to any ordinary character<a class="footnote" id="DOCF42" href="groff.html_fot.html#FOOT42"><sup>42</sup></a>
+with the <code class="code">cc</code> and <code class="code">c2</code> requests, respectively.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ecc"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.cc</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">o</i></span>]</var><a class="copiable-link" href='#index-_002ecc'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-cc"></a>
+<p>Recognize the ordinary character&nbsp;<var class="var">o</var> as the control character.
+If&nbsp;<var class="var">o</var> is absent or invalid, the default control character
+&lsquo;<samp class="samp">.</samp>&rsquo; is selected.  The identity of the control character is
+associated with the environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ec2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.c2</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">o</i></span>]</var><a class="copiable-link" href='#index-_002ec2'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-c2"></a>
+<p>Recognize the ordinary character&nbsp;<var class="var">o</var> as the no-break control
+character.  If&nbsp;<var class="var">o</var> is absent or invalid, the default no-break
+control character &lsquo;<samp class="samp">'</samp>&rsquo; is selected.  The identity of the no-break
+control character is associated with the environment
+(see <a class="pxref" href="Environments.html">Environments</a>).
+</p></dd></dl>
+
+<p>When writing a macro, you might wish to know which control character was
+used to call it.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005b_002ebr_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.br]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ebr_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ebr-1"></a>
+<p>This read-only register interpolates&nbsp;1 if the currently executing
+macro was called using the normal control character and&nbsp;0
+otherwise.  If a macro is interpolated as a string, the <code class="code">.br</code>
+register&rsquo;s value is inherited from the context of the string
+interpolation.  See <a class="xref" href="Strings.html">Strings</a>.
+</p>
+<a class="index-entry-id" id="index-intercepting-requests"></a>
+<a class="index-entry-id" id="index-requests_002c-intercepting"></a>
+<a class="index-entry-id" id="index-modifying-requests"></a>
+<a class="index-entry-id" id="index-requests_002c-modifying"></a>
+<p>Use this register to reliably intercept requests that imply breaks.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.als bp*orig bp
+.de bp
+.  ie \\n[.br] .bp*orig
+.  el          'bp*orig
+..
+</pre></div></div>
+
+<p>Testing the <code class="code">.br</code> register outside of a macro definition makes no
+sense.
+</p></dd></dl>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Invoking-Requests.html">Invoking Requests</a>, Previous: <a href="Formatter-Instructions.html">Formatter Instructions</a>, Up: <a href="Formatter-Instructions.html">Formatter Instructions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

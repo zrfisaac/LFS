@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Changing the Vertical Spacing (The GNU Troff Manual)</title>
+
+<meta name="description" content="Changing the Vertical Spacing (The GNU Troff Manual)">
+<meta name="keywords" content="Changing the Vertical Spacing (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Manipulating-Type-Size-and-Vertical-Spacing.html" rel="up" title="Manipulating Type Size and Vertical Spacing">
+<link href="Using-Fractional-Type-Sizes.html" rel="next" title="Using Fractional Type Sizes">
+<link href="Changing-the-Type-Size.html" rel="prev" title="Changing the Type Size">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Changing-the-Vertical-Spacing">
+<div class="nav-panel">
+<p>
+Next: <a href="Using-Fractional-Type-Sizes.html" accesskey="n" rel="next">Using Fractional Type Sizes</a>, Previous: <a href="Changing-the-Type-Size.html" accesskey="p" rel="prev">Changing the Type Size</a>, Up: <a href="Manipulating-Type-Size-and-Vertical-Spacing.html" accesskey="u" rel="up">Manipulating Type Size and Vertical Spacing</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Changing-the-Vertical-Spacing-1">5.20.2 Changing the Vertical Spacing</h4>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002evs"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.vs</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">space</i></span>]</var><a class="copiable-link" href='#index-_002evs'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-vs"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002evs-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.vs</code></strong> <var class="def-var-arguments"><code class="t">+</code><span class="r"><i class="slanted">space</i></span></var><a class="copiable-link" href='#index-_002evs-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_002evs-2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.vs</code></strong> <var class="def-var-arguments"><code class="t">-</code><span class="r"><i class="slanted">space</i></span></var><a class="copiable-link" href='#index-_002evs-2'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ev_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.v]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ev_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ev"></a>
+<a class="index-entry-id" id="index-changing-vertical-line-spacing-_0028vs_0029"></a>
+<a class="index-entry-id" id="index-vertical-line-spacing_002c-changing-_0028vs_0029"></a>
+<a class="index-entry-id" id="index-vertical-line-spacing-register-_0028_002ev_0029"></a>
+<p>Set the vertical spacing to, or alter it by, <var class="var">space</var>.  The default
+scaling unit is &lsquo;<samp class="samp">p</samp>&rsquo;.  If <code class="code">vs</code> is called without an argument,
+the vertical spacing is reset to the previous value before the last call
+to <code class="code">vs</code>.
+<a class="index-entry-id" id="index-_002eV-register_002c-and-vs"></a>
+GNU <code class="code">troff</code> emits a warning in category &lsquo;<samp class="samp">range</samp>&rsquo; if <var class="var">space</var>
+is negative; the vertical spacing is then set to the smallest possible
+positive value, the vertical motion quantum (as found in the <code class="code">.V</code>
+register).
+</p>
+<p>&lsquo;<samp class="samp">.vs&nbsp;0</samp>&rsquo;<!-- /@w --> isn&rsquo;t saved in a diversion since it doesn&rsquo;t result in
+a vertical motion.  You must explicitly issue this request before
+interpolating the diversion.
+</p>
+<p>The read-only register <code class="code">.v</code> contains the vertical spacing; it is
+associated with the environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p></dd></dl>
+
+<a class="index-entry-id" id="index-vertical-line-spacing_002c-effective-value"></a>
+<p>When a break occurs, GNU <code class="code">troff</code> performs the following procedure.
+</p>
+<ul class="itemize mark-bullet">
+<li><a class="index-entry-id" id="index-extra-pre_002dvertical-line-space-_0028_005cx_0029"></a>
+<a class="index-entry-id" id="index-line-space_002c-extra-pre_002dvertical-_0028_005cx_0029"></a>
+Move the drawing position vertically by the <em class="dfn">extra pre-vertical line
+space</em>, the minimum of all negative <code class="code">\x</code> escape sequence arguments
+in the pending output line.
+
+</li><li>Move the drawing position vertically by the vertical line spacing.
+
+</li><li>Write out the pending output line.
+
+</li><li><a class="index-entry-id" id="index-extra-post_002dvertical-line-space-_0028_005cx_0029"></a>
+<a class="index-entry-id" id="index-line-space_002c-extra-post_002dvertical-_0028_005cx_0029"></a>
+Move the drawing position vertically by the <em class="dfn">extra post-vertical line
+space</em>, the maximum of all positive <code class="code">\x</code> escape sequence arguments
+in the line that has just been output.
+
+</li><li><a class="index-entry-id" id="index-post_002dvertical-line-spacing"></a>
+<a class="index-entry-id" id="index-line-spacing_002c-post_002dvertical-_0028pvs_0029"></a>
+Move the drawing position vertically by the <em class="dfn">post-vertical line
+spacing</em> (see below).
+</li></ul>
+
+<a class="index-entry-id" id="index-double_002dspacing-_0028vs_002c-pvs_0029"></a>
+<p>Prefer <code class="code">vs</code> or <code class="code">pvs</code> over <code class="code">ls</code> to produce double-spaced
+documents.  <code class="code">vs</code> and <code class="code">pvs</code> have finer granularity than
+<code class="code">ls</code>; moreover, some preprocessors assume single spacing.
+See <a class="xref" href="Manipulating-Spacing.html">Manipulating Spacing</a>, regarding the <code class="code">\x</code> escape sequence and
+the <code class="code">ls</code> request.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002epvs"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pvs</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">space</i></span>]</var><a class="copiable-link" href='#index-_002epvs'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-pvs"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002epvs-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pvs</code></strong> <var class="def-var-arguments"><code class="t">+</code><span class="r"><i class="slanted">space</i></span></var><a class="copiable-link" href='#index-_002epvs-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_002epvs-2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pvs</code></strong> <var class="def-var-arguments"><code class="t">-</code><span class="r"><i class="slanted">space</i></span></var><a class="copiable-link" href='#index-_002epvs-2'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002epvs_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.pvs]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002epvs_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002epvs-3"></a>
+<a class="index-entry-id" id="index-ls-request_002c-alternative-to-_0028pvs_0029"></a>
+<a class="index-entry-id" id="index-post_002dvertical-line-spacing_002c-changing-_0028pvs_0029"></a>
+<a class="index-entry-id" id="index-post_002dvertical-line-spacing-register-_0028_002epvs_0029"></a>
+<p>Set the post-vertical spacing to, or alter it by, <var class="var">space</var>.  The
+default scaling unit is &lsquo;<samp class="samp">p</samp>&rsquo;.  If <code class="code">pvs</code> is called without an
+argument, the post-vertical spacing is reset to the previous value
+before the last call to <code class="code">pvs</code>.  GNU <code class="code">troff</code> emits a warning in
+category &lsquo;<samp class="samp">range</samp>&rsquo; if <var class="var">space</var> is negative; the post-vertical
+spacing is then set to zero.
+</p>
+<p>The read-only register <code class="code">.pvs</code> contains the post-vertical spacing;
+it is associated with the environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p></dd></dl>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Using-Fractional-Type-Sizes.html">Using Fractional Type Sizes</a>, Previous: <a href="Changing-the-Type-Size.html">Changing the Type Size</a>, Up: <a href="Manipulating-Type-Size-and-Vertical-Spacing.html">Manipulating Type Size and Vertical Spacing</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

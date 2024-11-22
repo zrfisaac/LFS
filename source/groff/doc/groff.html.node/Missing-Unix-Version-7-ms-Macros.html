@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Missing Unix Version 7 ms Macros (The GNU Troff Manual)</title>
+
+<meta name="description" content="Missing Unix Version 7 ms Macros (The GNU Troff Manual)">
+<meta name="keywords" content="Missing Unix Version 7 ms Macros (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Differences-from-AT_0026T-ms.html" rel="up" title="Differences from AT&amp;T ms">
+<link href="Differences-from-AT_0026T-ms.html" rel="prev" title="Differences from AT&amp;T ms">
+<style type="text/css">
+<!--
+div.example {margin-left: 3.2em}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="Missing-Unix-Version-7-ms-Macros">
+<div class="nav-panel">
+<p>
+Previous: <a href="Differences-from-AT_0026T-ms.html" accesskey="p" rel="prev">Differences from <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp></a>, Up: <a href="Differences-from-AT_0026T-ms.html" accesskey="u" rel="up">Differences from <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Unix-Version-7-ms-macros-not-implemented-by-groff-ms">4.6.7.1 Unix Version 7 <samp class="file">ms</samp> macros not implemented by <code class="code">groff</code> <samp class="file">ms</samp></h4>
+
+<p>Several macros described in the Unix Version&nbsp;7 <samp class="file">ms</samp>
+documentation are unimplemented by <code class="code">groff</code> <samp class="file">ms</samp> because they
+are specific to the requirements of documents produced internally by
+Bell Laboratories, some of which also require a glyph for the Bell
+System logo that <code class="code">groff</code> does not support.  These macros
+implemented several document type formats
+(<code class="code">EG</code>, <code class="code">IM</code>, <code class="code">MF</code>, <code class="code">MR</code>, <code class="code">TM</code>, <code class="code">TR</code>), were meaningful only in conjunction with the use of certain document
+types
+(<code class="code">AT</code>, <code class="code">CS</code>, <code class="code">CT</code>, <code class="code">OK</code>, <code class="code">SG</code>), stored the postal addresses of Bell Labs sites
+(<code class="code">HO</code>, <code class="code">IH</code>, <code class="code">MH</code>, <code class="code">PY</code>, <code class="code">WH</code>), or lacked a stable definition over time
+(<code class="code">UX</code>). To compatibly render historical <samp class="file">ms</samp> documents using these macros,
+we advise your documents to invoke the <code class="code">rm</code> request to remove any
+such macros it uses and then define replacements with an authentically
+typeset original at hand.<a class="footnote" id="DOCF17" href="groff.html_fot.html#FOOT17"><sup>17</sup></a>  For
+informal purposes, a simple definition of <code class="code">UX</code> should maintain the
+readability of the document&rsquo;s substance.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">.rm UX
+.ds UX Unix\&quot;
+</pre></div>
+</td></tr></table>
+
+
+</div>
+
+
+
+</body>
+</html>

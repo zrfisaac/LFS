@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Optional man extensions (The GNU Troff Manual)</title>
+
+<meta name="description" content="Optional man extensions (The GNU Troff Manual)">
+<meta name="keywords" content="Optional man extensions (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="man.html" rel="up" title="man">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Optional-man-extensions">
+<div class="nav-panel">
+<p>
+Up: <a href="man.html" accesskey="u" rel="up"><samp class="file">man</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Optional-man-extensions-1">4.1.1 Optional <samp class="file">man</samp> extensions</h4>
+
+<a class="index-entry-id" id="index-man_002elocal"></a>
+<p>Use the file <samp class="file">man.local</samp> for local extensions to the <code class="code">man</code>
+macros or for style changes.
+</p>
+<ul class="mini-toc">
+<li><a href="#Custom-headers-and-footers" accesskey="1">Custom headers and footers</a></li>
+<li><a href="#Ultrix_002dspecific-man-macros" accesskey="2">Ultrix-specific man macros</a></li>
+<li><a href="#Simple-example" accesskey="3">Simple example</a></li>
+</ul>
+<div class="unnumberedsubsubsec-level-extent" id="Custom-headers-and-footers">
+<h4 class="unnumberedsubsubsec">Custom headers and footers</h4>
+<a class="index-entry-id" id="index-man-macros_002c-custom-headers-and-footers"></a>
+
+<p>In <code class="code">groff</code> versions 1.18.2 and later, you can specify custom
+headers and footers by redefining the following macros in
+<samp class="file">man.local</samp>.
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002ePT"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.PT</code></strong><a class="copiable-link" href='#index-_002ePT'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PT-_005bman_005d"></a>
+<p>Control the content of the headers.  Normally, the header prints the
+command name and section number on either side, and the optional fifth
+argument to <code class="code">TH</code> in the center.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eBT"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.BT</code></strong><a class="copiable-link" href='#index-_002eBT'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-BT-_005bman_005d"></a>
+<p>Control the content of the footers.  Normally, the footer prints the
+page number and the third and fourth arguments to <code class="code">TH</code>.
+</p>
+<p>Use the <code class="code">FT</code> register to specify the footer position.  The default
+is &minus;0.5<span class="dmn">i</span>.
+</p></dd></dl>
+
+</div>
+<div class="unnumberedsubsubsec-level-extent" id="Ultrix_002dspecific-man-macros">
+<h4 class="unnumberedsubsubsec">Ultrix-specific man macros</h4>
+<a class="index-entry-id" id="index-Ultrix_002dspecific-man-macros"></a>
+<a class="index-entry-id" id="index-man-macros_002c-Ultrix_002dspecific"></a>
+
+<a class="index-entry-id" id="index-man_002eultrix"></a>
+<p>The <code class="code">groff</code> source distribution includes a file named
+<samp class="file">man.ultrix</samp>, containing macros compatible with the Ultrix variant
+of <code class="code">man</code>.  Copy this file into <samp class="file">man.local</samp> (or use the
+<code class="code">mso</code> request to load it) to enable the following macros.
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eCT"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.CT</code></strong> <var class="def-var-arguments"><span class="r"><i class="slanted">key</i></span></var><a class="copiable-link" href='#index-_002eCT'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-CT-_005bman_005d"></a>
+<p>Print &lsquo;<samp class="samp">&lt;CTRL/<var class="var">key</var>&gt;</samp>&rsquo;.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eCW"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.CW</code></strong><a class="copiable-link" href='#index-_002eCW'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-CW-_005bman_005d"></a>
+<p>Print subsequent text using a &ldquo;constant-width&rdquo; (monospaced) typeface
+(Courier roman).
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eDs"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.Ds</code></strong><a class="copiable-link" href='#index-_002eDs'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-Ds-_005bman_005d"></a>
+<p>Begin a non-filled display.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eDe"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.De</code></strong><a class="copiable-link" href='#index-_002eDe'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-De-_005bman_005d"></a>
+<p>End a non-filled display started with <code class="code">Ds</code>.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eEX"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.EX</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">indent</i></span>]</var><a class="copiable-link" href='#index-_002eEX'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-EX-_005bman_005d"></a>
+<p>Begin a non-filled display using a monospaced typeface (Courier roman).
+Use the optional <var class="var">indent</var> argument to indent the display.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eEE"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.EE</code></strong><a class="copiable-link" href='#index-_002eEE'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-EE-_005bman_005d"></a>
+<p>End a non-filled display started with <code class="code">EX</code>.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eG"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.G</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">text</i></span>]</var><a class="copiable-link" href='#index-_002eG'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-G-_005bman_005d"></a>
+<p>Set <var class="var">text</var> in Helvetica.  If no text is present on the line where
+the macro is called, then the text of the next line appears in
+Helvetica.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eGL"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.GL</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">text</i></span>]</var><a class="copiable-link" href='#index-_002eGL'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-GL-_005bman_005d"></a>
+<p>Set <var class="var">text</var> in Helvetica oblique.  If no text is present on the line
+where the macro is called, then the text of the next line appears in
+Helvetica Oblique.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eHB"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.HB</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">text</i></span>]</var><a class="copiable-link" href='#index-_002eHB'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-HB-_005bman_005d"></a>
+<p>Set <var class="var">text</var> in Helvetica bold.  If no text is present on the line
+where the macro is called, then all text up to the next <code class="code">HB</code>
+appears in Helvetica bold.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eTB"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.TB</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">text</i></span>]</var><a class="copiable-link" href='#index-_002eTB'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-TB-_005bman_005d"></a>
+<p>Identical to <code class="code">HB</code>.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eMS"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.MS</code></strong> <var class="def-var-arguments"><span class="r"><i class="slanted">title</i></span> <span class="r"><i class="slanted">sect</i></span> [<span class="r"><i class="slanted">punct</i></span>]</var><a class="copiable-link" href='#index-_002eMS'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MS-_005bman_005d"></a>
+<p>Set a man page reference in Ultrix format.  The <var class="var">title</var> is in
+Courier instead of italic.  Optional punctuation follows the section
+number without an intervening space.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eNT"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.NT</code></strong> <var class="def-var-arguments">[<code class="code">C</code>] [<span class="r"><i class="slanted">title</i></span>]</var><a class="copiable-link" href='#index-_002eNT'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-NT-_005bman_005d"></a>
+<p>Begin a note.  Print the optional <span class="r"><i class="slanted">title</i></span>, or the word &ldquo;Note&rdquo;,
+centered on the page.  Text following the macro makes up the body of the
+note, and is indented on both sides.  If the first argument is <code class="code">C</code>,
+the body of the note is printed centered (the second argument replaces
+the word &ldquo;Note&rdquo; if specified).
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eNE"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.NE</code></strong><a class="copiable-link" href='#index-_002eNE'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-NE-_005bman_005d"></a>
+<p>End a note begun with <code class="code">NT</code>.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002ePN"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.PN</code></strong> <var class="def-var-arguments"><span class="r"><i class="slanted">path</i></span> [<span class="r"><i class="slanted">punct</i></span>]</var><a class="copiable-link" href='#index-_002ePN'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PN-_005bman_005d"></a>
+<p>Set the path name in a monospaced typeface (Courier roman), followed by
+optional punctuation.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002ePn"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.Pn</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">punct</i></span>] <span class="r"><i class="slanted">path</i></span> [<span class="r"><i class="slanted">punct</i></span>]</var><a class="copiable-link" href='#index-_002ePn'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-Pn-_005bman_005d"></a>
+<p>If called with two arguments, identical to <code class="code">PN</code>.  If called with
+three arguments, set the second argument in a monospaced typeface
+(Courier roman), bracketed by the first and third arguments in the
+current font.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eR"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.R</code></strong><a class="copiable-link" href='#index-_002eR'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-R-_005bman_005d"></a>
+<p>Switch to roman font and turn off any underlining in effect.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eRN"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.RN</code></strong><a class="copiable-link" href='#index-_002eRN'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-RN-_005bman_005d"></a>
+<p>Print the string &lsquo;<samp class="samp">&lt;RETURN&gt;</samp>&rsquo;.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eVS"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.VS</code></strong> <var class="def-var-arguments">[<code class="code">4</code>]</var><a class="copiable-link" href='#index-_002eVS'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-VS-_005bman_005d"></a>
+<p>Start printing a change bar in the margin if the number&nbsp;<code class="code">4</code> is
+specified.  Otherwise, this macro does nothing.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eVE"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.VE</code></strong><a class="copiable-link" href='#index-_002eVE'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-VE-_005bman_005d"></a>
+<p>End printing the change bar begun by <code class="code">VS</code>.
+</p></dd></dl>
+
+</div>
+<div class="unnumberedsubsubsec-level-extent" id="Simple-example">
+<h4 class="unnumberedsubsubsec">Simple example</h4>
+
+<p>The following example <samp class="file">man.local</samp> file alters the <code class="code">SH</code> macro
+to add some extra vertical space before printing the heading.  Headings
+are printed in Helvetica bold.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.\&quot; Make the heading fonts Helvetica
+.ds HF HB
+.
+.\&quot; Put more space in front of headings.
+.rn SH SH-orig
+.de SH
+.  if t .sp (u;\\n[PD]*2)
+.  SH-orig \\$*
+..
+</pre></div></div>
+
+
+
+</div>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Up: <a href="man.html"><samp class="file">man</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

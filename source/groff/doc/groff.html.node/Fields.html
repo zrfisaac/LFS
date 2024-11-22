@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Fields (The GNU Troff Manual)</title>
+
+<meta name="description" content="Fields (The GNU Troff Manual)">
+<meta name="keywords" content="Fields (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Tabs-and-Fields.html" rel="up" title="Tabs and Fields">
+<link href="Leaders.html" rel="prev" title="Leaders">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Fields">
+<div class="nav-panel">
+<p>
+Previous: <a href="Leaders.html" accesskey="p" rel="prev">Leaders</a>, Up: <a href="Tabs-and-Fields.html" accesskey="u" rel="up">Tabs and Fields</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Fields-1">5.12.2 Fields</h4>
+<a class="index-entry-id" id="index-fields"></a>
+
+<a class="index-entry-id" id="index-field-delimiting-character-_0028fc_0029"></a>
+<a class="index-entry-id" id="index-delimiting-character_002c-for-fields-_0028fc_0029"></a>
+<a class="index-entry-id" id="index-character_002c-field-delimiting-_0028fc_0029"></a>
+<a class="index-entry-id" id="index-field-padding-character-_0028fc_0029"></a>
+<a class="index-entry-id" id="index-padding-character_002c-for-fields-_0028fc_0029"></a>
+<a class="index-entry-id" id="index-character_002c-field-padding-_0028fc_0029"></a>
+<p><em class="dfn">Fields</em> are a more general way of laying out tabular data.  A field
+is defined as the data between a pair of <em class="dfn">delimiting characters</em>.
+It contains substrings that are separated by <em class="dfn">padding characters</em>.
+The width of a field is the distance on the <em class="emph">input</em> line from the
+position where the field starts to the next tab stop.  A padding
+character inserts an adjustable space similar to TeX&rsquo;s <code class="code">\hss</code>
+command (thus it can even be negative) to make the sum of all substring
+lengths plus the adjustable space equal to the field width.  If more
+than one padding character is inserted, the available space is evenly
+distributed among them.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002efc"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.fc</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">delim-char</i></span> [<span class="r"><i class="slanted">padding-char</i></span>]]</var><a class="copiable-link" href='#index-_002efc'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-fc"></a>
+<p>Define a delimiting and a padding character for fields.  If the latter
+is missing, the padding character defaults to a space character.  If
+there is no argument at all, the field mechanism is disabled (which is
+the default).  In contrast to, e.g., the tab repetition character,
+delimiting and padding characters are <em class="emph">not</em> associated with the
+environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.fc # ^
+.ta T 3i
+#foo^bar^smurf#
+.br
+#foo^^bar^smurf#
+    &rArr; foo         bar          smurf
+    &rArr; foo            bar       smurf
+</pre></div></div>
+</dd></dl>
+
+
+
+</div>
+
+
+
+</body>
+</html>

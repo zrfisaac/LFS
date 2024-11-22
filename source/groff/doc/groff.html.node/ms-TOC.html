@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>ms TOC (The GNU Troff Manual)</title>
+
+<meta name="description" content="ms TOC (The GNU Troff Manual)">
+<meta name="keywords" content="ms TOC (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms-Page-Layout.html" rel="up" title="ms Page Layout">
+<link href="Differences-from-AT_0026T-ms.html" rel="next" title="Differences from AT&amp;T ms">
+<link href="ms-Multiple-Columns.html" rel="prev" title="ms Multiple Columns">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="ms-TOC">
+<div class="nav-panel">
+<p>
+Next: <a href="Differences-from-AT_0026T-ms.html" accesskey="n" rel="next">Differences from <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp></a>, Previous: <a href="ms-Multiple-Columns.html" accesskey="p" rel="prev">Multiple columns</a>, Up: <a href="ms-Page-Layout.html" accesskey="u" rel="up">Page layout</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Creating-a-table-of-contents">4.6.6.5 Creating a table of contents</h4>
+<a class="index-entry-id" id="index-ms-macros_002c-creating-table-of-contents"></a>
+<a class="index-entry-id" id="index-table-of-contents_002c-creating-_005bms_005d"></a>
+
+<p>Because <code class="code">roff</code> formatters process their input in a single pass,
+material on page 50, for example, cannot influence what appears on
+page&nbsp;1&mdash;this poses a challenge for a table of contents at its
+traditional location in front matter, if you wish to avoid manually
+maintaining it.  <samp class="file">ms</samp> enables the collection of material to be
+presented in the table of contents as it appears, saving its page number
+along with it, and then emitting the collected contents on demand toward
+the end of the document.  The table of contents can then be resequenced
+to its desired location by physically rearranging the pages of a printed
+document, or as part of post-processing&mdash;with a <cite class="cite">sed<span class="r">(1)</span></cite>
+script to reorder the pages in <code class="command">troff</code>&rsquo;s output, with
+<cite class="cite">pdfjam<span class="r">(1)</span></cite>, or with <cite class="cite">gropdf<span class="r">(1)</span></cite>&rsquo;s
+&lsquo;<samp class="samp">.pdfswitchtopage</samp>&rsquo; feature, for example.
+</p>
+<p>Define an entry to appear in the table of contents by bracketing its
+text between calls to the <code class="code">XS</code> and <code class="code">XE</code> macros.  A typical
+application is to call them immediately after <code class="code">NH</code> or <code class="code">SH</code> and
+repeat the heading text within them.  The <code class="code">XA</code> macro, used within
+&lsquo;<samp class="samp">.XS</samp>&rsquo;/&lsquo;<samp class="samp">.XE</samp>&rsquo; pairs, supplements an entry&mdash;for instance, when
+it requires multiple output lines, whether because a heading is too long
+to fit or because style dictates that page numbers not be repeated.  You
+may wish to indent the text thus wrapped to correspond to its heading
+depth; this can be done in the entry text by prefixing it with tabs or
+horizontal motion escape sequences, or by providing a second argument to
+the <code class="code">XA</code> macro.  <code class="code">XS</code> and <code class="code">XA</code> automatically associate
+the page number where they are called with the text following them, but
+they accept arguments to override this behavior.  At the end of the
+document, call <code class="code">TC</code> or <code class="code">PX</code> to emit the table of contents;
+<code class="code">TC</code> resets the page number to &lsquo;<samp class="samp">i</samp>&rsquo; (Roman numeral one), and
+then calls <code class="code">PX</code>.  All of these macros are Berkeley extensions.
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eXS"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.XS</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">page-number</i></span>]</var><a class="copiable-link" href='#index-_002eXS'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-XS-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002eXA"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.XA</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">page-number</i></span> [<span class="r"><i class="slanted">indentation</i></span>]]</var><a class="copiable-link" href='#index-_002eXA'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-XA-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002eXE"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.XE</code></strong><a class="copiable-link" href='#index-_002eXE'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-XE-_005bms_005d"></a>
+<p>Begin, supplement, and end a table of contents entry.  Each entry is
+associated with <var class="var">page-number</var> (otherwise the current page number); a
+<var class="var">page-number</var> of &lsquo;<samp class="samp">no</samp>&rsquo; prevents a leader and page number from
+being emitted for that entry.  Use of <code class="code">XA</code> within
+<code class="code">XS</code>/<code class="code">XE</code> is optional; it can be repeated.  If
+<var class="var">indentation</var> is present, a supplemental entry is indented by that
+amount; ens are assumed if no unit is indicated.  Text on input lines
+between <code class="code">XS</code> and <code class="code">XE</code> is stored for later recall by <code class="code">PX</code>.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002ePX"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.PX</code></strong> <var class="def-var-arguments">[<code class="code">no</code>]</var><a class="copiable-link" href='#index-_002ePX'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PX-_005bms_005d"></a>
+<p>Switch to single-column layout.  Unless <code class="code">no</code> is specified, center
+and interpolate the <code class="code">TOC</code> string in bold and two points larger than
+the body text.  Emit the table of contents entries.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eTC"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.TC</code></strong> <var class="def-var-arguments">[<code class="code">no</code>]</var><a class="copiable-link" href='#index-_002eTC'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-TC-_005bms_005d"></a>
+<p>Set the page number to&nbsp;1, the page number format to lowercase Roman
+numerals, and call <code class="code">PX</code> (with a <code class="code">no</code> argument, if present).
+</p></dd></dl>
+
+<p>Here&rsquo;s an example of typical <samp class="file">ms</samp> table of contents preparation.
+We employ horizontal escape sequences <code class="code">\h</code> to indent the entries by
+sectioning depth.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">.NH 1
+Introduction
+.XS
+Introduction
+.XE
+<span class="r">&hellip;</span>
+.NH 2
+Methodology
+.XS
+\h'2n'Methodology
+.XA
+\h'4n'Fassbinder's Approach
+\h'4n'Kahiu's Approach
+.XE
+<span class="r">&hellip;</span>
+.NH 1
+Findings
+.XS
+Findings
+.XE
+<span class="r">&hellip;</span>
+.TC
+</pre></div>
+</td></tr></table>
+
+<p>The remaining features in this subsubsection are GNU extensions.
+<code class="code">groff</code> <samp class="file">ms</samp> obviates the need to repeat heading text after
+<code class="code">XS</code> calls.  Call <code class="code">XN</code> and <code class="code">XH</code> after <code class="code">NH</code> and
+<code class="code">SH</code>, respectively.
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eXN"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.XN</code></strong> <var class="def-var-arguments"><span class="r"><i class="slanted">heading-text</i></span></var><a class="copiable-link" href='#index-_002eXN'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-XN-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002eXH"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.XH</code></strong> <var class="def-var-arguments"><span class="r"><i class="slanted">depth</i></span> <span class="r"><i class="slanted">heading-text</i></span></var><a class="copiable-link" href='#index-_002eXH'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-XH-_005bms_005d"></a>
+<p>Format <var class="var">heading-text</var> and create a corresponding table of contents
+entry.  <code class="code">XN</code> computes the indentation from the depth of the
+preceding <code class="code">NH</code> call; <code class="code">XH</code> requires a <var class="var">depth</var> argument to
+do so.
+</p></dd></dl>
+
+<p><code class="code">groff</code> <samp class="file">ms</samp> encourages customization of table of contents
+entry production.
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eXN_002dREPLACEMENT"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.XN-REPLACEMENT</code></strong> <var class="def-var-arguments"><span class="r"><i class="slanted">heading-text</i></span></var><a class="copiable-link" href='#index-_002eXN_002dREPLACEMENT'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-XN_002dREPLACEMENT-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002eXH_002dREPLACEMENT"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.XH-REPLACEMENT</code></strong> <var class="def-var-arguments"><span class="r"><i class="slanted">depth</i></span> <span class="r"><i class="slanted">heading-text</i></span></var><a class="copiable-link" href='#index-_002eXH_002dREPLACEMENT'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-XH_002dREPLACEMENT-_005bms_005d"></a>
+<p>These hook macros implement <code class="code">XN</code> and <code class="code">XH</code>, respectively.
+They call <code class="code">XN-INIT</code> and pass their <var class="var">heading-text</var> arguments to
+<code class="code">XH-UPDATE-TOC</code>.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eXN_002dINIT"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.XN-INIT</code></strong><a class="copiable-link" href='#index-_002eXN_002dINIT'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-XN_002dINIT-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002eXH_002dUPDATE_002dTOC"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.XH-UPDATE-TOC</code></strong> <var class="def-var-arguments"><span class="r"><i class="slanted">depth</i></span> <span class="r"><i class="slanted">heading-text</i></span></var><a class="copiable-link" href='#index-_002eXH_002dUPDATE_002dTOC'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-XH_002dUPDATE_002dTOC-_005bms_005d"></a>
+<p>The <code class="code">XN-INIT</code> hook macro does nothing by default.
+<code class="code">XH-UPDATE-TOC</code> brackets <var class="var">heading-text</var> with <code class="code">XS</code> and
+<code class="code">XE</code> calls, indenting it by 2 ens per level of <var class="var">depth</var> beyond
+the first.
+</p></dd></dl>
+
+<p>We could therefore produce a table of contents similar to that in the
+previous example with fewer macro calls.  (The difference is that this
+input follows the &ldquo;Approach&rdquo; entries with leaders and page numbers.)
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">.NH 1
+.XN Introduction
+<span class="r">&hellip;</span>
+.NH 2
+.XN Methodology
+.XH 3 &quot;Fassbinder's Approach&quot;
+.XH 3 &quot;Kahiu's Approach&quot;
+<span class="r">&hellip;</span>
+.NH 1
+.XN Findings
+<span class="r">&hellip;</span>
+</pre></div>
+</td></tr></table>
+
+<p>To get the section number of the numbered headings into the table of
+contents entries, we might define <code class="code">XN-REPLACEMENT</code> as follows.
+(We obtain the heading depth from <code class="code">groff</code> <samp class="file">ms</samp>&rsquo;s internal
+register <code class="code">nh*hl</code>.)
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">.de XN-REPLACEMENT
+.XN-INIT
+.XH-UPDATE-TOC \\n[nh*hl] \\$@
+\&amp;\\*[SN] \\$*
+..
+</pre></div>
+</td></tr></table>
+
+<p>You can change the style of the leader that bridges each table of
+contents entry with its page number; define the <code class="code">TC-LEADER</code> special
+character by using the <code class="code">char</code> request.  A typical leader combines
+the dot glyph &lsquo;<samp class="samp">.</samp>&rsquo; with a horizontal motion escape sequence to
+spread the dots.  The width of the page number field is stored in the
+<code class="code">TC-MARGIN</code> register.
+</p>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Differences-from-AT_0026T-ms.html">Differences from <abbr class="acronym">AT&amp;T</abbr> <samp class="file">ms</samp></a>, Previous: <a href="ms-Multiple-Columns.html">Multiple columns</a>, Up: <a href="ms-Page-Layout.html">Page layout</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

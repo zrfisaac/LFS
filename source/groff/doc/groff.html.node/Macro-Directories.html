@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Macro Directories (The GNU Troff Manual)</title>
+
+<meta name="description" content="Macro Directories (The GNU Troff Manual)">
+<meta name="keywords" content="Macro Directories (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Invoking-groff.html" rel="up" title="Invoking groff">
+<link href="Font-Directories.html" rel="next" title="Font Directories">
+<link href="Environment.html" rel="prev" title="Environment">
+<style type="text/css">
+<!--
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Macro-Directories">
+<div class="nav-panel">
+<p>
+Next: <a href="Font-Directories.html" accesskey="n" rel="next">Font Directories</a>, Previous: <a href="Environment.html" accesskey="p" rel="prev">Environment</a>, Up: <a href="Invoking-groff.html" accesskey="u" rel="up">Invoking <code class="code">groff</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Macro-Directories-1">2.3 Macro Directories</h3>
+<a class="index-entry-id" id="index-macro-directories"></a>
+<a class="index-entry-id" id="index-directories-for-macros"></a>
+<a class="index-entry-id" id="index-searching-macros"></a>
+<a class="index-entry-id" id="index-macros_002c-searching"></a>
+
+<p>A macro file must have a name in the form <code class="code"><var class="var">name</var>.tmac</code> or
+<code class="code">tmac.<var class="var">name</var></code> and be placed in a <em class="dfn">tmac directory</em> to be
+found by the <samp class="option">-m<var class="var">name</var></samp> command-line option.<a class="footnote" id="DOCF5" href="groff.html_fot.html#FOOT5"><sup>5</sup></a>
+<a class="index-entry-id" id="index-tmac_002c-directory"></a>
+<a class="index-entry-id" id="index-directory_002c-for-tmac-files"></a>
+<a class="index-entry-id" id="index-tmac_002c-path"></a>
+<a class="index-entry-id" id="index-path_002c-for-tmac-files"></a>
+<a class="index-entry-id" id="index-locating-macro-files"></a>
+<a class="index-entry-id" id="index-macro-file-search-path"></a>
+<a class="index-entry-id" id="index-file_002c-macro_002c-search-path"></a>
+<a class="index-entry-id" id="index-locating-macro-packages"></a>
+<a class="index-entry-id" id="index-macro-package-search-path"></a>
+<a class="index-entry-id" id="index-package_002c-macro_002c-search-path"></a>
+Together, these directories constitute the <em class="dfn">tmac path</em>.  Each
+directory is searched in the following order until the desired macro
+file is found or the list is exhausted.
+</p>
+<ul class="itemize mark-bullet">
+<li>Directories specified with GNU <code class="code">troff</code>&rsquo;s or <code class="code">groff</code>&rsquo;s
+<samp class="option">-M</samp> command-line option.
+
+</li><li><a class="index-entry-id" id="index-GROFF_005fTMAC_005fPATH_002c-environment-variable-1"></a>
+Directories listed in the <code class="env">GROFF_TMAC_PATH</code> environment variable.
+
+</li><li><a class="index-entry-id" id="index-safer-mode-1"></a>
+<a class="index-entry-id" id="index-mode_002c-safer-1"></a>
+<a class="index-entry-id" id="index-unsafe-mode-1"></a>
+<a class="index-entry-id" id="index-mode_002c-unsafe-1"></a>
+<a class="index-entry-id" id="index-current-directory"></a>
+<a class="index-entry-id" id="index-directory_002c-current"></a>
+The current working directory (only if in unsafe mode using the
+<samp class="option">-U</samp> command-line option).
+
+</li><li><a class="index-entry-id" id="index-home-directory"></a>
+<a class="index-entry-id" id="index-directory_002c-home"></a>
+The user&rsquo;s home directory, <code class="env">HOME</code>.
+
+</li><li><a class="index-entry-id" id="index-site_002dlocal-directory"></a>
+<a class="index-entry-id" id="index-directory_002c-site_002dlocal"></a>
+<a class="index-entry-id" id="index-platform_002dspecific-directory"></a>
+<a class="index-entry-id" id="index-directory_002c-platform_002dspecific"></a>
+A platform-dependent directory, a site-local (platform-independent)
+directory, and the main <i class="slanted">tmac</i> directory.  The locations
+corresponding to your installation are listed in section &ldquo;Environment&rdquo;
+of <cite class="cite">gtroff<span class="r">(1)</span></cite>.  If not otherwise configured, they are as
+follows.
+
+<div class="example">
+<div class="group"><pre class="example-preformatted">/usr/local/lib/groff/site-tmac
+/usr/local/share/groff/site-tmac
+/usr/local/share/groff/1.23.0/tmac
+</pre></div></div>
+
+<p>The foregoing assumes that the version of <code class="code">groff</code> is 1.23.0, and
+that the installation prefix was <samp class="file">/usr/local</samp>.  It is possible to
+fine-tune these locations during the source configuration process.
+</p></li></ul>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Font-Directories.html">Font Directories</a>, Previous: <a href="Environment.html">Environment</a>, Up: <a href="Invoking-groff.html">Invoking <code class="code">groff</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

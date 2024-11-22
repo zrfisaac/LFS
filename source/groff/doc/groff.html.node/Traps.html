@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Traps (The GNU Troff Manual)</title>
+
+<meta name="description" content="Traps (The GNU Troff Manual)">
+<meta name="keywords" content="Traps (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Diversions.html" rel="next" title="Diversions">
+<link href="Deferring-Output.html" rel="prev" title="Deferring Output">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Traps">
+<div class="nav-panel">
+<p>
+Next: <a href="Diversions.html" accesskey="n" rel="next">Diversions</a>, Previous: <a href="Deferring-Output.html" accesskey="p" rel="prev">Deferring Output</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Traps-1">5.28 Traps</h3>
+<a class="index-entry-id" id="index-traps"></a>
+
+<p><em class="dfn">Traps</em> are locations in the output or conditions on the input that,
+when reached or fulfilled, call a specified macro.  These traps can
+occur at a given location on the page, at a given location in the
+current diversion (together, these are known as <i class="slanted">vertical
+position traps</i>), at a blank line, at a line with leading space
+characters, after a quantity of input lines, or at the end of input.
+Macros called by traps are passed no arguments.
+<a class="index-entry-id" id="index-planting-a-trap"></a>
+<a class="index-entry-id" id="index-trap_002c-planting"></a>
+Setting a trap is also called <em class="dfn">planting</em> one.
+<a class="index-entry-id" id="index-trap_002c-springing"></a>
+<a class="index-entry-id" id="index-springing-a-trap"></a>
+It is said that a trap is <em class="dfn">sprung</em> if its condition is fulfilled.
+</p>
+
+
+<ul class="mini-toc">
+<li><a href="Vertical-Position-Traps.html" accesskey="1">Vertical Position Traps</a></li>
+<li><a href="Input-Line-Traps.html" accesskey="2">Input Line Traps</a></li>
+<li><a href="Blank-Line-Traps.html" accesskey="3">Blank Line Traps</a></li>
+<li><a href="Leading-Space-Traps.html" accesskey="4">Leading Space Traps</a></li>
+<li><a href="End_002dof_002dinput-Traps.html" accesskey="5">End-of-input Traps</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

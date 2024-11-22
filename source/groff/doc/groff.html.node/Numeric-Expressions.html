@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Numeric Expressions (The GNU Troff Manual)</title>
+
+<meta name="description" content="Numeric Expressions (The GNU Troff Manual)">
+<meta name="keywords" content="Numeric Expressions (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Identifiers.html" rel="next" title="Identifiers">
+<link href="Measurements.html" rel="prev" title="Measurements">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Numeric-Expressions">
+<div class="nav-panel">
+<p>
+Next: <a href="Identifiers.html" accesskey="n" rel="next">Identifiers</a>, Previous: <a href="Measurements.html" accesskey="p" rel="prev">Measurements</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Numeric-Expressions-1">5.4 Numeric Expressions</h3>
+<a class="index-entry-id" id="index-numeric-expressions"></a>
+<a class="index-entry-id" id="index-expressions_002c-numeric"></a>
+
+<p>A <em class="dfn">numeric expression</em> evaluates to an integer: it can be as
+simple as a literal &lsquo;<samp class="samp">0</samp>&rsquo; or it can be a complex sequence of register
+and string interpolations interleaved with measurements and operators.
+</p>
+<p>GNU <code class="code">troff</code> provides a set of mathematical and logical operators
+familiar to programmers&mdash;as well as some unusual ones&mdash;but supports
+only integer arithmetic.<a class="footnote" id="DOCF35" href="groff.html_fot.html#FOOT35"><sup>35</sup></a>  The internal data type
+used for computing results is usually a 32-bit signed integer, which
+suffices to represent magnitudes within a range of ±2
+billion.<a class="footnote" id="DOCF36" href="groff.html_fot.html#FOOT36"><sup>36</sup></a>
+</p>
+<a class="index-entry-id" id="index-arithmetic-operators"></a>
+<a class="index-entry-id" id="index-operators_002c-arithmetic"></a>
+<a class="index-entry-id" id="index-truncating-division"></a>
+<a class="index-entry-id" id="index-addition"></a>
+<a class="index-entry-id" id="index-subtraction"></a>
+<a class="index-entry-id" id="index-multiplication"></a>
+<a class="index-entry-id" id="index-division_002c-truncating"></a>
+<a class="index-entry-id" id="index-modulus"></a>
+<a class="index-entry-id" id="index-_002b"></a>
+<a class="index-entry-id" id="index-_002d"></a>
+<a class="index-entry-id" id="index-_002a"></a>
+<a class="index-entry-id" id="index-_002f"></a>
+<a class="index-entry-id" id="index-_0025"></a>
+<p>Arithmetic infix operators perform a function on the numeric expressions
+to their left and right; they are <code class="code">+</code> (addition), <code class="code">-</code>
+(subtraction), <code class="code">*</code> (multiplication), <code class="code">/</code> (truncating
+division), and <code class="code">%</code> (modulus).  <em class="dfn">Truncating division</em> rounds to
+the integer nearer to zero, no matter how large the fractional portion.
+Overflow and division (or modulus) by zero are errors and abort
+evaluation of a numeric expression.
+<a class="index-entry-id" id="index-unary-arithmetic-operators"></a>
+<a class="index-entry-id" id="index-operators_002c-unary-arithmetic"></a>
+<a class="index-entry-id" id="index-negation"></a>
+<a class="index-entry-id" id="index-assertion-_0028arithmetic-operator_0029"></a>
+<a class="index-entry-id" id="index-_002d-1"></a>
+<a class="index-entry-id" id="index-_002b-1"></a>
+<a class="index-entry-id" id="index-if-request_002c-and-the-_0021-operator"></a>
+<a class="index-entry-id" id="index-while-request_002c-and-the-_0021-operator"></a>
+</p>
+<p>Arithmetic unary operators operate on the numeric expression to their
+right; they are <code class="code">-</code> (negation) and <code class="code">+</code> (assertion&mdash;for
+completeness; it does nothing).  The unary minus must often be used
+with parentheses to avoid confusion with the decrementation operator,
+discussed below.
+</p>
+<p>Observe the rounding behavior and effect of negative operands on the
+modulus and truncating division operators.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr T 199/100
+.nr U 5/2
+.nr V (-5)/2
+.nr W 5/-2
+.nr X 5%2
+.nr Y (-5)%2
+.nr Z 5%-2
+T=\n[T] U=\n[U] V=\n[V] W=\n[W] X=\n[X] Y=\n[Y] Z=\n[Z]
+    &rArr; T=1 U=2 V=-2 W=-2 X=1 Y=-1 Z=1
+</pre></div></div>
+
+<p>The sign of the modulus of operands of mixed signs is determined by the
+sign of the first.  Division and modulus operators satisfy the following
+property: given a dividend&nbsp;<var class="var">a</var> and a divisor&nbsp;<var class="var">b</var>, a
+quotient&nbsp;<var class="var">q</var> formed by &lsquo;<samp class="samp">(a / b)</samp>&rsquo; and a
+remainder&nbsp;<var class="var">r</var> by &lsquo;<samp class="samp">(a % b)</samp>&rsquo;, then <em class="math">qb + r = a</em>.
+</p>
+<a class="index-entry-id" id="index-scaling-operator"></a>
+<a class="index-entry-id" id="index-operator_002c-scaling"></a>
+<a class="index-entry-id" id="index-_003b"></a>
+<p>GNU <code class="code">troff</code>&rsquo;s scaling operator, used with parentheses as
+<code class="code">(<var class="var">c</var>;<var class="var">e</var>)</code>, evaluates a numeric expression&nbsp;<var class="var">e</var>
+using&nbsp;<var class="var">c</var> as the default scaling unit.  If <var class="var">c</var> is omitted,
+scaling units are ignored in the evaluation of&nbsp;<var class="var">e</var>.  This
+operator can save typing by avoiding the attachment of scaling units to
+every operand out of caution.  Your macros can select a sensible default
+unit in case the user neglects to supply one.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.\&quot; Indent by amount given in first argument; assume ens.
+.de Indent
+.  in (n;\\$1)
+..
+</pre></div></div>
+
+<p>Without the scaling operator, the foregoing macro would, if called with
+a unitless argument, cause indentation by the <code class="code">in</code> request&rsquo;s
+default scaling unit (ems).  The result would be twice as much
+indentation as expected.
+</p>
+<a class="index-entry-id" id="index-extremum-operators-_0028_003e_003f_002c-_003c_003f_0029"></a>
+<a class="index-entry-id" id="index-operators_002c-extremum-_0028_003e_003f_002c-_003c_003f_0029"></a>
+<a class="index-entry-id" id="index-maximum-operator"></a>
+<a class="index-entry-id" id="index-minimum-operator"></a>
+<a class="index-entry-id" id="index-_003e_003f"></a>
+<a class="index-entry-id" id="index-_003c_003f"></a>
+<p>GNU <code class="code">troff</code> also provides a pair of operators to compute the
+extrema of two operands: <code class="code">&gt;?</code> (maximum) and <code class="code">&lt;?</code> (minimum).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr slots 5
+.nr candidates 3
+.nr salaries (\n[slots] &lt;? \n[candidates])
+Looks like we'll end up paying \n[salaries] salaries.
+    &rArr; Looks like we'll end up paying 3 salaries.
+</pre></div></div>
+
+<a class="index-entry-id" id="index-comparison-operators"></a>
+<a class="index-entry-id" id="index-operators_002c-comparison"></a>
+<a class="index-entry-id" id="index-greater-than-_0028or-equal-to_0029-operator"></a>
+<a class="index-entry-id" id="index-less-than-_0028or-equal-to_0029-operator"></a>
+<a class="index-entry-id" id="index-equality-operator"></a>
+<a class="index-entry-id" id="index-_003c"></a>
+<a class="index-entry-id" id="index-_003e"></a>
+<a class="index-entry-id" id="index-_003e_003d"></a>
+<a class="index-entry-id" id="index-_003c_003d"></a>
+<a class="index-entry-id" id="index-_003d"></a>
+<a class="index-entry-id" id="index-_003d_003d"></a>
+<p>Comparison operators comprise <code class="code">&lt;</code> (less than), <code class="code">&gt;</code> (greater
+than), <code class="code">&lt;=</code> (less than or equal), <code class="code">&gt;=</code> (greater than or
+equal), and <code class="code">=</code> (equal).  <code class="code">==</code> is a synonym for <code class="code">=</code>.
+When evaluated, a comparison is replaced with &lsquo;<samp class="samp">0</samp>&rsquo; if it is false
+and &lsquo;<samp class="samp">1</samp>&rsquo; if true.  In the <code class="code">roff</code> language, positive values are
+true, others false.
+</p>
+<a class="index-entry-id" id="index-logical-operators"></a>
+<a class="index-entry-id" id="index-operators_002c-logical"></a>
+<a class="index-entry-id" id="index-logical-_0060_0060and_0027_0027-operator"></a>
+<a class="index-entry-id" id="index-logical-conjunction-operator"></a>
+<a class="index-entry-id" id="index-logical-_0060_0060or_0027_0027-operator"></a>
+<a class="index-entry-id" id="index-logical-disjunction-operator"></a>
+<a class="index-entry-id" id="index-_0026"></a>
+<a class="index-entry-id" id="index-_003a"></a>
+<p>We can operate on truth values with the logical operators <code class="code">&amp;</code>
+(logical conjunction or &ldquo;and&rdquo;) and <code class="code">:</code> (logical disjunction or
+&ldquo;or&rdquo;).  They evaluate as comparison operators do.
+</p>
+<a class="index-entry-id" id="index-_0021"></a>
+<a class="index-entry-id" id="index-complementation_002c-logical"></a>
+<a class="index-entry-id" id="index-logical-complementation-operator"></a>
+<a class="index-entry-id" id="index-logical-not_002c-limitation-in-expression"></a>
+<a class="index-entry-id" id="index-expression_002c-limitation-of-logical-not-in"></a>
+<p>A logical complementation (&ldquo;not&rdquo;) operator, <code class="code">!</code>, works only
+within <code class="code">if</code>, <code class="code">ie</code>, and <code class="code">while</code> requests.
+Furthermore, <code class="code">!</code> is recognized only at the beginning of a numeric
+expression not contained by another numeric expression.  In other words,
+it must be the &ldquo;outermost&rdquo; operator.  Including it elsewhere in the
+expression produces a warning in the &lsquo;<samp class="samp">number</samp>&rsquo; category
+(see <a class="pxref" href="Warnings.html">Warnings</a>), and its expression evaluates false.  This
+unfortunate limitation maintains compatibility with <abbr class="acronym">AT&amp;T</abbr>
+<code class="code">troff</code>.  Test a numeric expression for falsity by
+comparing it to a false value.<a class="footnote" id="DOCF37" href="groff.html_fot.html#FOOT37"><sup>37</sup></a>
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr X 1
+.nr Y 0
+.\&quot; This does not work as expected.
+.if (\n[X])&amp;(!\n[Y]) .nop A: X is true, Y is false
+.
+.\&quot; Use this construct instead.
+.if (\n[X])&amp;(\n[Y]&lt;=0) .nop B: X is true, Y is false
+    error&rarr; warning: expected numeric expression, got '!'
+    &rArr; B: X is true, Y is false
+</pre></div></div>
+
+<a class="index-entry-id" id="index-parentheses"></a>
+<a class="index-entry-id" id="index-order-of-evaluation-in-expressions"></a>
+<a class="index-entry-id" id="index-expression_002c-order-of-evaluation"></a>
+<a class="index-entry-id" id="index-_0028"></a>
+<a class="index-entry-id" id="index-_0029"></a>
+<p>The <code class="code">roff</code> language has no operator precedence: expressions are
+evaluated strictly from left to right, in contrast to schoolhouse
+arithmetic.  Use parentheses <code class="code">(</code> <code class="code">)</code> to impose a desired
+precedence upon subexpressions.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr X 3+5*4
+.nr Y (3+5)*4
+.nr Z 3+(5*4)
+X=\n[X] Y=\n[Y] Z=\n[Z]
+    &rArr; X=32 Y=32 Z=23
+</pre></div></div>
+
+<a class="index-entry-id" id="index-_002b_002c-and-page-motion"></a>
+<a class="index-entry-id" id="index-_002d_002c-and-page-motion"></a>
+<a class="index-entry-id" id="index-motion-operators"></a>
+<a class="index-entry-id" id="index-operators_002c-motion"></a>
+<a class="index-entry-id" id="index-_002b-_0028unary_0029"></a>
+<a class="index-entry-id" id="index-_002d-_0028unary_0029"></a>
+<p>For many requests and escape sequences that cause motion on the page,
+the unary operators <code class="code">+</code> and <code class="code">-</code> work differently when leading
+a numeric expression.  They then indicate a motion relative to the
+drawing position: positive is down in vertical contexts, right in
+horizontal ones.
+</p>
+<a class="index-entry-id" id="index-bp-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-in-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-ll-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-lt-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-nm-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-nr-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-pl-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-pn-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-po-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-ps-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-pvs-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-rt-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-ti-request_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-_005cH_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-_005cR_002c-using-_002b-and-_002d-with"></a>
+<a class="index-entry-id" id="index-_005cs_002c-using-_002b-and-_002d-with"></a>
+<p><code class="code">+</code> and <code class="code">-</code> are also treated differently by the following
+requests and escape sequences: <code class="code">bp</code>, <code class="code">in</code>, <code class="code">ll</code>,
+<code class="code">lt</code>, <code class="code">nm</code>, <code class="code">nr</code>, <code class="code">pl</code>, <code class="code">pn</code>, <code class="code">po</code>,
+<code class="code">ps</code>, <code class="code">pvs</code>, <code class="code">rt</code>, <code class="code">ti</code>, <code class="code">\H</code>, <code class="code">\R</code>, and
+<code class="code">\s</code>.  Here, leading plus and minus signs serve as incrementation
+and decrementation operators, respectively.  To negate an expression,
+subtract it from zero or include the unary minus in parentheses with its
+argument.  See <a class="xref" href="Setting-Registers.html">Setting Registers</a>, for examples.
+</p>
+<a class="index-entry-id" id="index-_007c"></a>
+<a class="index-entry-id" id="index-_007c_002c-and-page-motion"></a>
+<a class="index-entry-id" id="index-absolute-_0028sic_0029-position-operator-_0028_007c_0029"></a>
+<a class="index-entry-id" id="index-position_002c-absolute-_0028sic_0029-operator-_0028_007c_0029"></a>
+<a class="index-entry-id" id="index-boundary_002drelative-motion-operator-_0028_007c_0029"></a>
+<p>A leading <code class="code">|</code> operator indicates a motion relative not to the
+drawing position but to a boundary.  For horizontal motions, the
+measurement specifies a distance relative to a drawing position
+corresponding to the beginning of the <em class="emph">input</em> line.  By default,
+tab stops reckon movements in this way.  Most escape sequences do not;
+<code class="code">|</code> tells them to do so.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">Mind the \h'1.2i'gap.
+.br
+Mind the \h'|1.2i'gap.
+.br
+Mind the
+\h'|1.2i'gap.
+    &rArr; Mind the             gap.
+    &rArr; Mind the    gap.
+    &rArr; Mind the             gap.
+</pre></div></div>
+
+<p>One use of this feature is to define macros whose scope is limited to
+the output they format.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.\&quot; underline word $1 with trailing punctuation $2
+.de Underline
+.  nop \\$1\l'|0\[ul]'\\$2
+..
+Typographical emphasis is best used
+.Underline sparingly .
+</pre></div></div>
+
+<p>In the above example, &lsquo;<samp class="samp">|0</samp>&rsquo; specifies a negative motion from the
+current position (at the end of the argument just emitted, <code class="code">\$1</code>)
+to the beginning of the input line.  Thus, the <code class="code">\l</code> escape sequence
+in this case draws a line from right to left.  A macro call occurs at
+the beginning of an input line;<a class="footnote" id="DOCF38" href="groff.html_fot.html#FOOT38"><sup>38</sup></a> if the <code class="code">|</code>
+operator were omitted, then the underline would be drawn at zero
+distance from the current position, producing device-dependent, and
+likely undesirable, results.  On the &lsquo;<samp class="samp">ps</samp>&rsquo; output device, it
+underlines the period.
+</p>
+<p>For vertical motions, the <code class="code">|</code> operator specifies a distance from
+the first text baseline on the page or in the current
+diversion,<a class="footnote" id="DOCF39" href="groff.html_fot.html#FOOT39"><sup>39</sup></a>  using the current vertical
+spacing.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">A
+.br
+B \Z'C'\v'|0'D
+    &rArr; A D
+    &rArr; B C
+</pre></div></div>
+
+<p>In the foregoing example, we&rsquo;ve used the <code class="code">\Z</code> escape sequence
+(see <a class="pxref" href="Page-Motions.html">Page Motions</a>) to restore the drawing position after formatting
+&lsquo;<samp class="samp">C</samp>&rsquo;, then moved vertically to the first text baseline on the page.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cB_0027anything_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\B<code class="code">'</code></code><span class="r"><i class="slanted">anything</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cB_0027anything_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cB"></a>
+<a class="index-entry-id" id="index-numeric-expression_002c-valid"></a>
+<a class="index-entry-id" id="index-valid-numeric-expression"></a>
+<p>Interpolate&nbsp;1 if <var class="var">anything</var> is a valid numeric expression,
+and&nbsp;0 otherwise.  The delimiter need not be a neutral apostrophe;
+see <a class="ref" href="Delimiters.html">Delimiters</a>.
+</p></dd></dl>
+
+<p>You might use <code class="code">\B</code> along with the <code class="code">if</code> request to filter out
+invalid macro or string arguments.  See <a class="xref" href="Conditionals-and-Loops.html">Conditionals and Loops</a>.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.\&quot; Indent by amount given in first argument; assume ens.
+.de Indent
+.  if \B'\\$1' .in (n;\\$1)
+..
+</pre></div></div>
+
+<p>A register interpolated as an operand in a numeric expression must have
+an Arabic format; luckily, this is the default.  See <a class="xref" href="Assigning-Register-Formats.html">Assigning Register Formats</a>.
+</p>
+<a class="index-entry-id" id="index-space-characters_002c-in-expressions"></a>
+<a class="index-entry-id" id="index-expressions_002c-and-space-characters"></a>
+<p>Because spaces separate arguments to requests, spaces are not allowed in
+numeric expressions unless the (sub)expression containing them is
+surrounded by parentheses.  See <a class="xref" href="Invoking-Requests.html">Invoking Requests</a>, and
+<a class="ref" href="Conditionals-and-Loops.html">Conditionals and Loops</a>.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nf
+.nr a 1+2 + 2+1
+\na
+    error&rarr; expected numeric expression, got a space
+    &rArr; 3
+.nr a 1+(2 + 2)+1
+\na
+    &rArr; 6
+</pre></div></div>
+
+<p>The <code class="code">nr</code> request (see <a class="pxref" href="Setting-Registers.html">Setting Registers</a>) expects its second and
+optional third arguments to be numeric expressions; a bare <code class="code">+</code> does
+not qualify, so our first attempt got a warning.
+</p>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Identifiers.html">Identifiers</a>, Previous: <a href="Measurements.html">Measurements</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

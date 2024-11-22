@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Conditional Blocks (The GNU Troff Manual)</title>
+
+<meta name="description" content="Conditional Blocks (The GNU Troff Manual)">
+<meta name="keywords" content="Conditional Blocks (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Conditionals-and-Loops.html" rel="up" title="Conditionals and Loops">
+<link href="while.html" rel="next" title="while">
+<link href="Operators-in-Conditionals.html" rel="prev" title="Operators in Conditionals">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+kbd.key {font-style: normal}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Conditional-Blocks">
+<div class="nav-panel">
+<p>
+Next: <a href="while.html" accesskey="n" rel="next">while</a>, Previous: <a href="Operators-in-Conditionals.html" accesskey="p" rel="prev">Operators in Conditionals</a>, Up: <a href="Conditionals-and-Loops.html" accesskey="u" rel="up">Conditionals and Loops</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Conditional-Blocks-1">5.23.4 Conditional Blocks</h4>
+<a class="index-entry-id" id="index-conditional-blocks"></a>
+<a class="index-entry-id" id="index-blocks_002c-conditional"></a>
+
+<p>It is frequently desirable for a control structure to govern more than
+one request, macro call, text line, or a combination of the foregoing.
+The opening and closing brace escape sequences <code class="code">\{</code> and <code class="code">\}</code>
+define such groups.  These <em class="dfn">conditional blocks</em> can furthermore be
+nested.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_007b-2"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\{</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_007b-2'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_007b"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_007d-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\}</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_007d-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_007b-1"></a>
+<a class="index-entry-id" id="index-_005c_007d"></a>
+<a class="index-entry-id" id="index-beginning-of-conditional-block-_0028_005c_007b_0029"></a>
+<a class="index-entry-id" id="index-end-of-conditional-block-_0028_005c_007d_0029"></a>
+<a class="index-entry-id" id="index-conditional-block_002c-beginning-_0028_005c_007b_0029"></a>
+<a class="index-entry-id" id="index-conditional-block_002c-end-_0028_005c_007d_0029"></a>
+<a class="index-entry-id" id="index-block_002c-conditional_002c-beginning-_0028_005c_007b_0029"></a>
+<a class="index-entry-id" id="index-block_002c-conditional_002c-end-_0028_005c_007d_0029"></a>
+<a class="index-entry-id" id="index-brace-escape-sequences-_0028_005c_007b_002c-_005c_007d_0029"></a>
+<a class="index-entry-id" id="index-escape-sequences_002c-brace-_0028_005c_007b_002c-_005c_007d_0029"></a>
+<a class="index-entry-id" id="index-opening-brace-escape-sequence-_0028_005c_007d_0029"></a>
+<a class="index-entry-id" id="index-closing-brace-escape-sequence-_0028_005c_007d_0029"></a>
+<a class="index-entry-id" id="index-brace-escape-sequence_002c-opening-_0028_005c_007d_0029"></a>
+<a class="index-entry-id" id="index-brace-escape-sequence_002c-closing-_0028_005c_007d_0029"></a>
+<p><code class="code">\{</code> begins a conditional block; it must appear (after optional
+spaces and tabs) immediately subsequent to the conditional expression of
+an <code class="code">if</code>, <code class="code">ie</code>, or <code class="code">while</code>
+request,<a class="footnote" id="DOCF93" href="groff.html_fot.html#FOOT93"><sup>93</sup></a> or as the argument to an <code class="code">el</code>
+request.
+</p>
+<p><code class="code">\}</code> ends a condition block and should appear on a line with other
+occurrences of itself as necessary to match <code class="code">\{</code> sequences.  It
+can be preceded by a control character, spaces, and tabs.  Input after
+any quantity of <code class="code">\}</code> sequences on the same line is processed only
+if all of the preceding conditions to which they correspond are true.
+Furthermore, a <code class="code">\}</code> closing the body of a <code class="code">while</code> request
+must be the last such escape sequence on an input line.
+</p>
+<p>Brace escape sequences outside of control structures have no meaning and
+produce no output.
+</p>
+<p><strong class="strong">Caution:</strong> Input lines using <code class="code">\{</code> often end with
+<code class="code">\RET</code>, especially in macros that consist primarily of control
+lines.  Forgetting to use <code class="code">\RET</code> on an input line after <code class="code">\{</code>
+is a common source of error.
+</p></dd></dl>
+
+<p>We might write the following in a page header macro.  If we delete
+<code class="code">\RET</code>, the header will carry an unwanted extra empty line (except
+on page&nbsp;1).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.if (\\n[%] != 1) \{\
+.  ie ((\\n[%] % 2) = 0) .tl \\*[even-numbered-page-title]
+.  el                    .tl \\*[odd-numbered-page-title]
+.\}
+</pre></div></div>
+
+<p>Let us take a closer look at how conditional blocks nest.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">A
+.if 0 \{ B
+C
+D
+\}E
+F
+    &rArr; A F
+</pre></div></div>
+
+<div class="example">
+<div class="group"><pre class="example-preformatted">N
+.if 1 \{ O
+.  if 0 \{ P
+Q
+R\} S\} T
+U
+    &rArr; N O U
+</pre></div></div>
+
+<p>The above behavior may challenge the intuition; it was implemented to
+retain compatibility with <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code>.  For clarity, it
+is idiomatic to end input lines with <code class="code">\{</code> (followed by
+<code class="code">\<kbd class="key">RET</kbd></code> if appropriate), and to precede <code class="code">\}</code> on an input
+line with nothing more than a control character, spaces, tabs, and other
+instances of itself.
+</p>
+<p>We can use <code class="code">ie</code>, <code class="code">el</code>, and conditional blocks to simulate the
+multi-way &ldquo;switch&rdquo; or &ldquo;case&rdquo; control structures of other languages.
+The following example is adapted from the <code class="code">groff</code> <samp class="file">man</samp>
+package.  Indentation is used to clarify the logic.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.\&quot; Simulate switch/case in roff.
+.      ie '\\$2'1' .ds title General Commands\&quot;
+.el \{.ie '\\$2'2' .ds title System Calls\&quot;
+.el \{.ie '\\$2'3' .ds title Library Functions\&quot;
+.el \{.ie '\\$2'4' .ds title Kernel Interfaces\&quot;
+.el \{.ie '\\$2'5' .ds title File Formats\&quot;
+.el \{.ie '\\$2'6' .ds title Games\&quot;
+.el \{.ie '\\$2'7' .ds title Miscellaneous Information\&quot;
+.el \{.ie '\\$2'8' .ds title System Management\&quot;
+.el \{.ie '\\$2'9' .ds title Kernel Development\&quot;
+.el                .ds title \&quot; empty
+.\}\}\}\}\}\}\}\}
+</pre></div></div>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="while.html">while</a>, Previous: <a href="Operators-in-Conditionals.html">Operators in Conditionals</a>, Up: <a href="Conditionals-and-Loops.html">Conditionals and Loops</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

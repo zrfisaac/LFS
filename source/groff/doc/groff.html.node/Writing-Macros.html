@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Writing Macros (The GNU Troff Manual)</title>
+
+<meta name="description" content="Writing Macros (The GNU Troff Manual)">
+<meta name="keywords" content="Writing Macros (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Page-Motions.html" rel="next" title="Page Motions">
+<link href="Conditionals-and-Loops.html" rel="prev" title="Conditionals and Loops">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Writing-Macros">
+<div class="nav-panel">
+<p>
+Next: <a href="Page-Motions.html" accesskey="n" rel="next">Page Motions</a>, Previous: <a href="Conditionals-and-Loops.html" accesskey="p" rel="prev">Conditionals and Loops</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Writing-Macros-1">5.24 Writing Macros</h3>
+<a class="index-entry-id" id="index-writing-macros"></a>
+<a class="index-entry-id" id="index-macros_002c-writing"></a>
+
+<p>A <em class="dfn">macro</em> is a stored collection of text and control lines that can
+be interpolated multiple times.  Use macros to define common operations.
+Macros are called in the same way that requests are invoked.  While
+requests exist for the purpose of creating macros, simply calling an
+undefined macro, or interpolating it as a string, will cause it to be
+defined as empty.  See <a class="xref" href="Identifiers.html">Identifiers</a>.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ede"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.de</code></strong> <var class="def-var-arguments">name [<span class="r"><i class="slanted">end</i></span>]</var><a class="copiable-link" href='#index-_002ede'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-de"></a>
+<p>Define a macro <var class="var">name</var>, replacing the definition of any existing
+request, macro, string, or diversion called <var class="var">name</var>.  If
+<var class="var">name</var> already exists as an alias, the target of the alias is
+redefined; recall <a class="ref" href="Strings.html">Strings</a>.  GNU <code class="code">troff</code> enters copy
+mode,<a class="footnote" id="DOCF97" href="groff.html_fot.html#FOOT97"><sup>97</sup></a> storing subsequent input lines as the
+macro definition.  If the optional second argument is not specified, the
+definition ends with the control line &lsquo;<samp class="samp">..</samp>&rsquo; (two dots).
+Alternatively, <var class="var">end</var> identifies a macro whose call syntax at the
+start of a control line ends the definition of <var class="var">name</var>; <var class="var">end</var> is
+then called normally.  A macro definition must end in the same
+conditional block (if any) in which it began (see <a class="pxref" href="Conditional-Blocks.html">Conditional Blocks</a>).  Spaces or tabs are permitted after the control character in
+the line containing this ending token (either &lsquo;<samp class="samp">.</samp>&rsquo; or
+&lsquo;<samp class="samp"><var class="var">end</var></samp>&rsquo;), but a tab immediately after the token prevents its
+recognition as the end of a macro definition.  The macro <var class="var">end</var> can
+be called with arguments.<a class="footnote" id="DOCF98" href="groff.html_fot.html#FOOT98"><sup>98</sup></a>
+</p>
+<p>Here is a small example macro called &lsquo;<samp class="samp">P</samp>&rsquo; that causes a break and
+inserts some vertical space.  It could be used to separate paragraphs.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de P
+.  br
+.  sp .8v
+..
+</pre></div></div>
+
+<p>We can define one macro within another.  Attempting to nest &lsquo;<samp class="samp">..</samp>&rsquo;
+naïvely will end the outer definition because the inner definition
+isn&rsquo;t interpreted as such until the outer macro is later interpolated.
+We can use an end macro instead.  Each level of nesting should use a
+unique end macro.
+</p>
+<p>An end macro need not be defined until it is called.  This fact enables
+a nested macro definition to begin inside one macro and end inside
+another.  Consider the following example.<a class="footnote" id="DOCF99" href="groff.html_fot.html#FOOT99"><sup>99</sup></a>
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de m1
+.  de m2 m3
+you
+..
+.de m3
+Hello,
+Joe.
+..
+.de m4
+do
+..
+.m1
+know?
+.  m3
+What
+.m4
+.m2
+    &rArr; Hello, Joe.  What do you know?
+</pre></div></div>
+
+<p>A nested macro definition <em class="emph">can</em> be terminated with &lsquo;<samp class="samp">..</samp>&rsquo; and
+nested macros <em class="emph">can</em> reuse end macros, but these control lines must
+be escaped multiple times for each level of nesting.  The necessity of
+this escaping and the utility of nested macro definitions will become
+clearer when we employ macro parameters and consider the behavior of
+copy mode in detail.
+</p></dd></dl>
+
+<p><code class="code">de</code> defines a macro that inherits the compatibility mode
+enablement status of its context (see <a class="pxref" href="Implementation-Differences.html">Implementation Differences</a>).
+Often it is desirable to make a macro that uses <code class="code">groff</code> features
+callable from contexts where compatibility mode is on; for instance,
+when writing extensions to a historical macro package.  To achieve this,
+compatibility mode needs to be switched off while such a macro is
+interpreted&mdash;without disturbing that state when it is finished.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ede1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.de1</code></strong> <var class="def-var-arguments">name [<span class="r"><i class="slanted">end</i></span>]</var><a class="copiable-link" href='#index-_002ede1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-de1"></a>
+<p>The <code class="code">de1</code> request defines a macro to be interpreted with
+compatibility mode disabled.  When <var class="var">name</var> is called, compatibility
+mode enablement status is saved; it is restored when the call completes.
+Observe the extra backlash before the interpolation of register
+&lsquo;<samp class="samp">xxx</samp>&rsquo;; we&rsquo;ll explore this subject in <a class="ref" href="Copy-Mode.html">Copy Mode</a>.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr xxx 12345
+.de aa
+The value of xxx is \\n[xxx].
+.  br
+..
+.de1 bb
+The value of xxx is \\n[xxx].
+..
+.cp 1
+.aa
+    error&rarr; warning: register '[' not defined
+    &rArr; The value of xxx is 0xxx].
+.bb
+    &rArr; The value of xxx is 12345.
+</pre></div></div>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002edei"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.dei</code></strong> <var class="def-var-arguments">name [<span class="r"><i class="slanted">end</i></span>]</var><a class="copiable-link" href='#index-_002edei'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-dei"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002edei1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.dei1</code></strong> <var class="def-var-arguments">name [<span class="r"><i class="slanted">end</i></span>]</var><a class="copiable-link" href='#index-_002edei1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-dei1"></a>
+<p>The <code class="code">dei</code> request defines a macro with its name and end
+macro indirected through strings.  That is, it interpolates strings
+named <var class="var">name</var> and <var class="var">end</var> before performing the definition.
+</p>
+<p>The following examples are equivalent.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ds xx aa
+.ds yy bb
+.dei xx yy
+</pre></div></div>
+
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de aa bb
+</pre></div></div>
+
+<p>The <code class="code">dei1</code> request bears the same relationship to <code class="code">dei</code> as
+<code class="code">de1</code> does to <code class="code">de</code>; it temporarily turns compatibility mode
+off when <var class="var">name</var> is called.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eam"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.am</code></strong> <var class="def-var-arguments">name [<span class="r"><i class="slanted">end</i></span>]</var><a class="copiable-link" href='#index-_002eam'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-am"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002eam1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.am1</code></strong> <var class="def-var-arguments">name [<span class="r"><i class="slanted">end</i></span>]</var><a class="copiable-link" href='#index-_002eam1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-am1"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002eami"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ami</code></strong> <var class="def-var-arguments">name [<span class="r"><i class="slanted">end</i></span>]</var><a class="copiable-link" href='#index-_002eami'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ami"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002eami1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ami1</code></strong> <var class="def-var-arguments">name [<span class="r"><i class="slanted">end</i></span>]</var><a class="copiable-link" href='#index-_002eami1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ami1"></a>
+<a class="index-entry-id" id="index-appending-to-a-macro-_0028am_0029"></a>
+<a class="index-entry-id" id="index-macro_002c-appending-to-_0028am_0029"></a>
+<p><code class="code">am</code> appends subsequent input lines to macro <var class="var">name</var>, extending
+its definition, and otherwise working as <code class="code">de</code> does.
+</p>
+<p>To make the previously defined &lsquo;<samp class="samp">P</samp>&rsquo; macro set indented instead of
+block paragraphs, add the necessary code to the existing macro.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.am P
+.ti +5n
+..
+</pre></div></div>
+
+<p>The other requests are analogous to their &lsquo;<samp class="samp">de</samp>&rsquo; counterparts.  The
+<code class="code">am1</code> request turns off compatibility mode during interpretation of
+the appendment.  The <code class="code">ami</code> request appends indirectly, meaning that
+strings <var class="var">name</var> and <var class="var">end</var> are interpolated with the resulting
+names used before appending.  The <code class="code">ami1</code> request is similar to
+<code class="code">ami</code>, disabling compatibility mode during interpretation of the
+appended lines.
+</p></dd></dl>
+
+<a class="index-entry-id" id="index-trace_002etmac"></a>
+<p>Using <samp class="file">trace.tmac</samp>, you can trace calls to <code class="code">de</code>,
+<code class="code">de1</code>, <code class="code">am</code>, and <code class="code">am1</code>.  You can also use the
+<code class="code">backtrace</code> request at any point desired to troubleshoot tricky
+spots (see <a class="pxref" href="Debugging.html">Debugging</a>).
+</p>
+<p>See <a class="xref" href="Strings.html">Strings</a>, for the <code class="code">als</code>, <code class="code">rm</code>, and <code class="code">rn</code> requests to
+create an alias of, remove, and rename a macro, respectively.
+</p>
+<a class="index-entry-id" id="index-object-creation"></a>
+<p>Macro identifiers share their name space with requests, strings, and
+diversions; see <a class="ref" href="Identifiers.html">Identifiers</a>.  The <code class="code">am</code>, <code class="code">as</code>, <code class="code">da</code>,
+<code class="code">de</code>, <code class="code">di</code>, and <code class="code">ds</code> requests (together with their
+variants) create a new object only if the name of the macro, diversion,
+or string is currently undefined or if it is defined as a request;
+normally, they modify the value of an existing object.  See <a class="xref" href="Strings.html#als">the
+description of the <code class="code">als</code> request</a>, for pitfalls when redefining a
+macro that is aliased.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ereturn"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.return</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">anything</i></span>]</var><a class="copiable-link" href='#index-_002ereturn'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-return"></a>
+<p>Exit a macro, immediately returning to the caller.  If called with an
+argument <var class="var">anything</var>, exit twice&mdash;the current macro and the macro
+one level higher.  This is used to define a wrapper macro for
+<code class="code">return</code> in <samp class="file">trace.tmac</samp>.
+</p></dd></dl>
+
+
+
+<ul class="mini-toc">
+<li><a href="Parameters.html" accesskey="1">Parameters</a></li>
+<li><a href="Copy-Mode.html" accesskey="2">Copy Mode</a></li>
+</ul>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Page-Motions.html">Page Motions</a>, Previous: <a href="Conditionals-and-Loops.html">Conditionals and Loops</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

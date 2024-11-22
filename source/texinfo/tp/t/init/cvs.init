@@ -1,0 +1,2 @@
+
+texinfo_register_type_format_info('menu_comment', 1, 'menu-comment');

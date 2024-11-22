@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Invocation Examples (The GNU Troff Manual)</title>
+
+<meta name="description" content="Invocation Examples (The GNU Troff Manual)">
+<meta name="keywords" content="Invocation Examples (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Invoking-groff.html" rel="up" title="Invoking groff">
+<link href="Paper-Format.html" rel="prev" title="Paper Format">
+<style type="text/css">
+<!--
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Invocation-Examples">
+<div class="nav-panel">
+<p>
+Previous: <a href="Paper-Format.html" accesskey="p" rel="prev">Paper Format</a>, Up: <a href="Invoking-groff.html" accesskey="u" rel="up">Invoking <code class="code">groff</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Invocation-Examples-1">2.6 Invocation Examples</h3>
+<a class="index-entry-id" id="index-invocation-examples"></a>
+<a class="index-entry-id" id="index-examples-of-invocation"></a>
+
+<p><code class="code">roff</code> systems are best known for formatting man pages.  Once a
+<code class="command">man</code> librarian program has located a man page, it may execute
+a <code class="code">groff</code> command much like the following.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">groff -t -man -Tutf8 /usr/share/man/man1/groff.1
+</pre></div></div>
+
+<p>The librarian will also pipe the output through a pager, which might not
+interpret the SGR terminal escape sequences <code class="command">groff</code> emits for
+boldface, underlining, or italics; see the <cite class="cite">grotty<span class="r">(1)</span></cite> man page
+for a discussion.
+</p>
+<p>To process a <code class="code">roff</code> input file using the preprocessors
+<code class="command">gtbl</code> and <code class="command">gpic</code> and the <samp class="file">me</samp> macro package in the
+way to which AT&amp;T <code class="code">troff</code> users were accustomed, one would type (or
+script) a pipeline.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">gpic foo.me | gtbl | gtroff -me -Tutf8 | grotty
+</pre></div></div>
+
+<p>Using <code class="command">groff</code>, this pipe can be shortened to an equivalent
+command.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">groff -p -t -me -T utf8 foo.me
+</pre></div></div>
+
+<p>An even easier way to do this is to use <code class="command">grog</code> to guess the
+preprocessor and macro options and execute the result by using the
+command substitution feature of the shell.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">$(grog -Tutf8 foo.me)
+</pre></div></div>
+
+<p>Each command-line option to a postprocessor must be specified with any
+required leading dashes &lsquo;<samp class="samp">-</samp>&rsquo;
+because <code class="command">groff</code> passes the arguments as-is to the postprocessor;
+this permits arbitrary arguments to be transmitted.  For example, to
+pass a title to the <code class="command">gxditview</code> postprocessor,
+the shell commands
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">groff -X -P -title -P 'trial run' mydoc.t
+</pre></div></div>
+
+<p>and
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">groff -X -Z mydoc.t | gxditview -title 'trial run' -
+</pre></div></div>
+
+<p>are equivalent.
+</p>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Previous: <a href="Paper-Format.html">Paper Format</a>, Up: <a href="Invoking-groff.html">Invoking <code class="code">groff</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

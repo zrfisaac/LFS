@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>ms language and localization (The GNU Troff Manual)</title>
+
+<meta name="description" content="ms language and localization (The GNU Troff Manual)">
+<meta name="keywords" content="ms language and localization (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms-Body-Text.html" rel="up" title="ms Body Text">
+<link href="ms-Page-Layout.html" rel="next" title="ms Page Layout">
+<link href="ms-Footnotes.html" rel="prev" title="ms Footnotes">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="ms-language-and-localization">
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Page-Layout.html" accesskey="n" rel="next">Page layout</a>, Previous: <a href="ms-Footnotes.html" accesskey="p" rel="prev">Footnotes</a>, Up: <a href="ms-Body-Text.html" accesskey="u" rel="up">Body Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Language-and-localization">4.6.5.11 Language and localization</h4>
+<a class="index-entry-id" id="index-ms-macros_002c-language"></a>
+<a class="index-entry-id" id="index-ms-macros_002c-localization"></a>
+<a class="index-entry-id" id="index-language-_005bms_005d"></a>
+<a class="index-entry-id" id="index-localization-_005bms_005d"></a>
+
+<p><code class="code">groff</code> <samp class="file">ms</samp> provides several strings that you can customize
+for your own purposes, or redefine to adapt the macro package to
+languages other than English.  It is already localized for
+Czech, German, French, Italian, and Swedish.  Load the desired
+localization macro package after <samp class="file">ms</samp>; see the
+<cite class="cite">groff_tmac<span class="r">(5)</span></cite> man page.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">$ groff -ms -mfr bienvenue.ms
+</pre></div>
+</td></tr></table>
+
+<p>The following strings are available.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bREFERENCES_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[REFERENCES]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bREFERENCES_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-REFERENCES-_005bms_005d"></a>
+<p>Contains the string printed at the beginning of a references
+(bibliography) page produced with GNU <cite class="cite">refer<span class="r">(1)</span></cite>.  The default
+is &lsquo;<samp class="samp">References</samp>&rsquo;.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bABSTRACT_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[ABSTRACT]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bABSTRACT_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ABSTRACT-_005bms_005d"></a>
+<p>Contains the string printed at the beginning of the abstract.  The
+default is &lsquo;<samp class="samp">\f[I]ABSTRACT\f[]</samp>&rsquo;; it includes font selection escape
+sequences to set the word in italics.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bTOC_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[TOC]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bTOC_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-TOC-_005bms_005d"></a>
+<p>Contains the string printed at the beginning of the table of contents.
+The default is &lsquo;<samp class="samp">Table of Contents</samp>&rsquo;.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bMONTH1_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH1]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH1_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH1-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005bMONTH2_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH2]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH2_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH2-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005bMONTH3_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH3]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH3_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH3-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005bMONTH4_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH4]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH4_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH4-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005bMONTH5_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH5]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH5_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH5-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005bMONTH6_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH6]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH6_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH6-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005bMONTH7_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH7]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH7_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH7-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005bMONTH8_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH8]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH8_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH8-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005bMONTH9_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH9]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH9_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH9-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005bMONTH10_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH10]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH10_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH10-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005bMONTH11_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH11]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH11_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH11-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005bMONTH12_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[MONTH12]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bMONTH12_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MONTH12-_005bms_005d"></a>
+<p>Contain the full names of the calendar months.  The defaults are in
+English: &lsquo;<samp class="samp">January</samp>&rsquo;, &lsquo;<samp class="samp">February</samp>&rsquo;, and so on.
+</p></dd></dl>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Page-Layout.html">Page layout</a>, Previous: <a href="ms-Footnotes.html">Footnotes</a>, Up: <a href="ms-Body-Text.html">Body Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

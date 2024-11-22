@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Artificial Fonts (The GNU Troff Manual)</title>
+
+<meta name="description" content="Artificial Fonts (The GNU Troff Manual)">
+<meta name="keywords" content="Artificial Fonts (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Using-Fonts.html" rel="up" title="Using Fonts">
+<link href="Ligatures-and-Kerning.html" rel="next" title="Ligatures and Kerning">
+<link href="Special-Fonts.html" rel="prev" title="Special Fonts">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Artificial-Fonts">
+<div class="nav-panel">
+<p>
+Next: <a href="Ligatures-and-Kerning.html" accesskey="n" rel="next">Ligatures and Kerning</a>, Previous: <a href="Special-Fonts.html" accesskey="p" rel="prev">Special Fonts</a>, Up: <a href="Using-Fonts.html" accesskey="u" rel="up">Using Fonts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Artificial-Fonts-1">5.19.7 Artificial Fonts</h4>
+<a class="index-entry-id" id="index-artificial-fonts"></a>
+<a class="index-entry-id" id="index-fonts_002c-artificial"></a>
+
+<p>There are a number of requests and escape sequences for artificially
+creating fonts.  These are largely vestiges of the days when output
+devices did not have a wide variety of fonts, and when <code class="code">nroff</code> and
+<code class="code">troff</code> were separate programs.  Most of them are no longer
+necessary in GNU <code class="code">troff</code>.  Nevertheless, they are supported.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cH_0027height_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\H<code class="code">'</code></code><span class="r"><i class="slanted">height</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cH_0027height_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cH"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cH_0027_002bheight_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\H<code class="code">'</code></code><span class="r"><i class="slanted"><code class="t">+</code>height</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cH_0027_002bheight_0027'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cH_0027_002dheight_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\H<code class="code">'</code></code><span class="r"><i class="slanted"><code class="t">-</code>height</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cH_0027_002dheight_0027'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002eheight_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.height]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002eheight_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002eheight"></a>
+<a class="index-entry-id" id="index-changing-the-font-height-_0028_005cH_0029"></a>
+<a class="index-entry-id" id="index-font-height_002c-changing-_0028_005cH_0029"></a>
+<a class="index-entry-id" id="index-height_002c-font_002c-changing-_0028_005cH_0029"></a>
+<p>Change (increment, decrement) the height of the current font, but not
+the width.  If <var class="var">height</var> is zero, restore the original height.
+Default scaling unit is &lsquo;<samp class="samp">z</samp>&rsquo;.
+</p>
+<p>The read-only register <code class="code">.height</code> contains the font height as set by
+<code class="code">\H</code>.
+</p>
+<p>Currently, only the <samp class="option">-Tps</samp> and <samp class="option">-Tpdf</samp> devices support
+this feature.
+</p>
+<p><code class="code">\H</code> doesn&rsquo;t produce an input token in GNU <code class="code">troff</code>.  As a
+consequence, it can be used in requests like <code class="code">mc</code> (which expects
+a single character as an argument) to change the font on the fly:
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.mc \H'+5z'x\H'0'
+</pre></div></div>
+
+<p>In compatibility mode, <code class="code">gtroff</code> behaves differently: If an
+increment or decrement is used, it is always taken relative to the
+current type size and not relative to the previously selected font
+height.  Thus,
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.cp 1
+\H'+5'test \H'+5'test
+</pre></div></div>
+
+<p>prints the word &lsquo;<samp class="samp">test</samp>&rsquo; twice with the same font height (five points
+larger than the current font size).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cS_0027slant_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\S<code class="code">'</code></code><span class="r"><i class="slanted">slant</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cS_0027slant_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cS"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002eslant_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.slant]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002eslant_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002eslant"></a>
+<a class="index-entry-id" id="index-changing-the-font-slant-_0028_005cS_0029"></a>
+<a class="index-entry-id" id="index-font-slant_002c-changing-_0028_005cS_0029"></a>
+<a class="index-entry-id" id="index-slant_002c-font_002c-changing-_0028_005cS_0029"></a>
+<p>Slant the current font by <var class="var">slant</var> degrees.  Positive values slant to
+the right.  Only integer values are possible.
+</p>
+<p>The read-only register <code class="code">.slant</code> contains the font slant as set by
+<code class="code">\S</code>.
+</p>
+<p>Currently, only the <samp class="option">-Tps</samp> and <samp class="option">-Tpdf</samp> devices support
+this feature.
+</p>
+<p><code class="code">\S</code> doesn&rsquo;t produce an input token in GNU <code class="code">troff</code>.  As a
+consequence, it can be used in requests like <code class="code">mc</code> (which expects
+a single character as an argument) to change the font on the fly:
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.mc \S'20'x\S'0'
+</pre></div></div>
+
+<a class="index-entry-id" id="index-CSTR-_002354-errata-3"></a>
+<a class="index-entry-id" id="index-CSTR-_002354-erratum_002c-_005cS-escape"></a>
+<p>This escape is incorrectly documented in the <abbr class="acronym">AT&amp;T</abbr>
+<code class="code">troff</code> manual; the slant is always set to an absolute value.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eul"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ul</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">lines</i></span>]</var><a class="copiable-link" href='#index-_002eul'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ul"></a>
+<a class="index-entry-id" id="index-underlining-_0028ul_0029"></a>
+<p>The <code class="code">ul</code> request normally underlines subsequent lines if a TTY
+output device is used.  Otherwise, the lines are printed in italics
+(only the term &lsquo;underlined&rsquo; is used in the following).  The single
+argument is the quantity of input lines to be underlined; with no
+argument, the next line is underlined.  If <var class="var">lines</var> is zero or
+negative, stop the effects of <code class="code">ul</code> (if it was active).  Requests
+and empty lines do not count for computing the number of underlined
+input lines, even if they produce some output like <code class="code">tl</code>.  Lines
+inserted by macros (e.g., invoked by a trap) do count.
+</p>
+<p>At the beginning of <code class="code">ul</code>, the current font is stored and the
+underline font is activated.  Within the span of a <code class="code">ul</code> request, it
+is possible to change fonts, but after the last line affected by
+<code class="code">ul</code> the saved font is restored.
+</p>
+<p>This number of lines still to be underlined is associated with the
+environment (see <a class="pxref" href="Environments.html">Environments</a>).  The underline font can be changed
+with the <code class="code">uf</code> request.
+</p>
+
+
+<p>The <code class="code">ul</code> request does not underline spaces.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ecu"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.cu</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">lines</i></span>]</var><a class="copiable-link" href='#index-_002ecu'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-cu"></a>
+<a class="index-entry-id" id="index-continuous-underlining-_0028cu_0029"></a>
+<a class="index-entry-id" id="index-underlining_002c-continuous-_0028cu_0029"></a>
+<p>The <code class="code">cu</code> request is similar to <code class="code">ul</code> but underlines spaces as
+well (if a TTY output device is used).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002euf"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.uf</code></strong> <var class="def-var-arguments">font</var><a class="copiable-link" href='#index-_002euf'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-uf"></a>
+<a class="index-entry-id" id="index-underline-font-_0028uf_0029"></a>
+<a class="index-entry-id" id="index-font-for-underlining-_0028uf_0029"></a>
+<p>Set the underline font (globally) used by <code class="code">ul</code> and <code class="code">cu</code>.  By
+default, this is the font at position&nbsp;2.  <var class="var">font</var> can be either
+a non-negative font position or the name of a font.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ebd"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.bd</code></strong> <var class="def-var-arguments">font [<span class="r"><i class="slanted">offset</i></span>]</var><a class="copiable-link" href='#index-_002ebd'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-bd"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002ebd-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.bd</code></strong> <var class="def-var-arguments">font1 font2 [<span class="r"><i class="slanted">offset</i></span>]</var><a class="copiable-link" href='#index-_002ebd-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002eb_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.b]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002eb_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002eb"></a>
+<a class="index-entry-id" id="index-imitating-boldface-_0028bd_0029"></a>
+<a class="index-entry-id" id="index-boldface_002c-imitating-_0028bd_0029"></a>
+<p>Embolden <var class="var">font</var> by overstriking its glyphs offset by <var class="var">offset</var>
+units minus one.
+</p>
+<p>Two syntax forms are available.
+</p>
+<ul class="itemize mark-bullet">
+<li>Imitate a bold font unconditionally.  The first argument specifies the
+font to embolden, and the second is the number of basic units, minus
+one, by which the two glyphs are offset.  If the second argument is
+missing, emboldening is turned off.
+
+<p><var class="var">font</var> can be either a non-negative font position or the name of a
+font.
+</p>
+<p><var class="var">offset</var> is available in the <code class="code">.b</code> read-only register if a
+special font is active; in the <code class="code">bd</code> request, its default unit is
+&lsquo;<samp class="samp">u</samp>&rsquo;.
+</p>
+</li><li><a class="index-entry-id" id="index-fspecial-request_002c-and-imitating-bold"></a>
+<a class="index-entry-id" id="index-special"></a>
+<a class="index-entry-id" id="index-embolding-of-special-fonts"></a>
+<a class="index-entry-id" id="index-special-fonts_002c-emboldening"></a>
+Imitate a bold form conditionally.  Embolden <var class="var">font1</var> by <var class="var">offset</var>
+only if font <var class="var">font2</var> is the current font.  This request can be
+issued repeatedly to set up different emboldening values for different
+current fonts.  If the second argument is missing, emboldening is turned
+off for this particular current font.
+
+<p>This affects special fonts only (either set up with the <code class="code">special</code>
+command in font files or with the <code class="code">fspecial</code> request).
+</p></li></ul>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ecs"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.cs</code></strong> <var class="def-var-arguments">font [<span class="r"><i class="slanted">width</i></span> [<span class="r"><i class="slanted">em-size</i></span>]]</var><a class="copiable-link" href='#index-_002ecs'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-cs"></a>
+<a class="index-entry-id" id="index-constant-glyph-space-mode-_0028cs_0029"></a>
+<a class="index-entry-id" id="index-mode-for-constant-glyph-space-_0028cs_0029"></a>
+<a class="index-entry-id" id="index-glyph_002c-constant-space"></a>
+<a class="index-entry-id" id="index-ps-request_002c-and-constant-glyph-space-mode"></a>
+<p>Switch to and from <em class="dfn">constant glyph space mode</em>.  If activated, the
+width of every glyph is <em class="math"><var class="var">width</var>/36</em> ems.  The em size is given
+absolutely by <var class="var">em-size</var>; if this argument is missing, the em value
+is taken from the current font size (as set with the <code class="code">ps</code> request)
+when the font is effectively in use.  Without second and third argument,
+constant glyph space mode is deactivated.
+</p>
+<p>Default scaling unit for <var class="var">em-size</var> is &lsquo;<samp class="samp">z</samp>&rsquo;; <var class="var">width</var> is an
+integer.
+</p></dd></dl>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Ligatures-and-Kerning.html">Ligatures and Kerning</a>, Previous: <a href="Special-Fonts.html">Special Fonts</a>, Up: <a href="Using-Fonts.html">Using Fonts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

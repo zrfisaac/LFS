@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>ms Document Structure (The GNU Troff Manual)</title>
+
+<meta name="description" content="ms Document Structure (The GNU Troff Manual)">
+<meta name="keywords" content="ms Document Structure (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms.html" rel="up" title="ms">
+<link href="ms-Document-Control-Settings.html" rel="next" title="ms Document Control Settings">
+<link href="ms-Introduction.html" rel="prev" title="ms Introduction">
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="ms-Document-Structure">
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Document-Control-Settings.html" accesskey="n" rel="next">Document Control Settings</a>, Previous: <a href="ms-Introduction.html" accesskey="p" rel="prev">Introduction</a>, Up: <a href="ms.html" accesskey="u" rel="up"><samp class="file">ms</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Document-Structure">4.6.2 Document Structure</h4>
+<a class="index-entry-id" id="index-ms-macros_002c-general-structure"></a>
+
+<p>The <samp class="file">ms</samp> macro package expects a certain amount of structure:
+a well-formed document contains at least one paragraphing or heading
+macro call.  Longer documents have a structure as follows.
+</p>
+<dl class="table">
+<dt><strong class="strong">Document type</strong></dt>
+<dd><p>Calling the <code class="code">RP</code> macro at the beginning of your document puts the
+document description (see below) on a cover page.  Otherwise, <samp class="file">ms</samp>
+places the information (if any) on the first page, followed immediately
+by the body text.  Some document types found in other <samp class="file">ms</samp>
+implementations are specific to <abbr class="acronym">AT&amp;T</abbr> or Berkeley, and are not
+supported by <code class="code">groff</code> <samp class="file">ms</samp>.
+</p>
+</dd>
+<dt><strong class="strong">Format and layout</strong></dt>
+<dd><p>By setting registers and strings, you can configure your document&rsquo;s
+typeface, margins, spacing, headers and footers, and footnote
+arrangement.  See <a class="xref" href="ms-Document-Control-Settings.html">Document Control Settings</a>.
+</p>
+</dd>
+<dt><strong class="strong">Document description</strong></dt>
+<dd><p>A document description consists of any of: a title, one or more authors&rsquo;
+names and affiliated institutions, an abstract, and a date or other
+identifier.  See <a class="xref" href="ms-Document-Description-Macros.html">Document Description Macros</a>.
+</p>
+</dd>
+<dt><strong class="strong">Body text</strong></dt>
+<dd><p>The main matter of your document follows its description (if any).
+<samp class="file">ms</samp> supports highly structured text consisting of paragraphs
+interspersed with multi-level headings (chapters, sections, subsections,
+and so forth) and augmented by lists, footnotes, tables, diagrams, and
+similar material.  See <a class="xref" href="ms-Body-Text.html">Body Text</a>.
+</p>
+</dd>
+<dt><strong class="strong">Tables of contents</strong></dt>
+<dd><p>Macros enable the collection of entries for a table of contents (or
+index) as the material they discuss appears in the document.  You then
+call a macro to emit the table of contents at the end of your document.
+The table of contents must necessarily follow the rest of the text since
+GNU <code class="code">troff</code> is a single-pass formatter; it thus cannot determine
+the page number of a division of the text until it has been set and
+output.  Since <samp class="file">ms</samp> was designed for the production of hard copy,
+the traditional procedure was to manually relocate the pages containing
+the table of contents between the cover page and the body text.  Today,
+page resequencing is more often done in the digital domain.  An index
+works similarly, but because it typically needs to be sorted after
+collection, its preparation requires separate processing.
+</p></dd>
+</dl>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Document-Control-Settings.html">Document Control Settings</a>, Previous: <a href="ms-Introduction.html">Introduction</a>, Up: <a href="ms.html"><samp class="file">ms</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

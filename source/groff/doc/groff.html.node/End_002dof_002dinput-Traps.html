@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>End-of-input Traps (The GNU Troff Manual)</title>
+
+<meta name="description" content="End-of-input Traps (The GNU Troff Manual)">
+<meta name="keywords" content="End-of-input Traps (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Traps.html" rel="up" title="Traps">
+<link href="Leading-Space-Traps.html" rel="prev" title="Leading Space Traps">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="End_002dof_002dinput-Traps">
+<div class="nav-panel">
+<p>
+Previous: <a href="Leading-Space-Traps.html" accesskey="p" rel="prev">Leading Space Traps</a>, Up: <a href="Traps.html" accesskey="u" rel="up">Traps</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="End_002dof_002dinput-Traps-1">5.28.5 End-of-input Traps</h4>
+<a class="index-entry-id" id="index-end_002dof_002dinput-traps"></a>
+<a class="index-entry-id" id="index-traps_002c-end_002dof_002dinput"></a>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eem"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.em</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">name</i></span>]</var><a class="copiable-link" href='#index-_002eem'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-em"></a>
+<a class="index-entry-id" id="index-setting-end_002dof_002dinput-trap-_0028em_0029"></a>
+<a class="index-entry-id" id="index-end_002dof_002dinput-trap_002c-setting-_0028em_0029"></a>
+<a class="index-entry-id" id="index-trap_002c-end_002dof_002dinput_002c-setting-_0028em_0029"></a>
+<a class="index-entry-id" id="index-end_002dof_002dinput-macro-_0028em_0029"></a>
+<a class="index-entry-id" id="index-macro_002c-end_002dof_002dinput-_0028em_0029"></a>
+<p>Set a trap at the end of input, calling macro <var class="var">name</var> after the last
+line of the last input file has been processed.  If no argument is
+given, any existing end-of-input trap is removed.
+</p>
+<p>For example, if the document had to have a section at the bottom of the
+last page for someone to approve it, the <code class="code">em</code> request could be
+used.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de approval
+\c
+.  ne 3v
+.  sp (\\n[.t]u - 3v)
+.  in +4i
+.  lc _
+.  br
+Approved:\t\a
+.  sp
+Date:\t\t\a
+..
+.
+.em approval
+</pre></div></div>
+
+<p>The <code class="code">\c</code> in the above example needs explanation.  For historical
+reasons (compatibility with <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code>), the
+end-of-input macro exits as soon as it causes a page break if no
+partially collected line remains.<a class="footnote" id="DOCF111" href="groff.html_fot.html#FOOT111"><sup>111</sup></a>
+</p>
+<a class="index-entry-id" id="index-page-break_002c-final"></a>
+<a class="index-entry-id" id="index-break_002c-page_002c-final"></a>
+<a class="index-entry-id" id="index-page-ejection_002c-of-final-page"></a>
+<a class="index-entry-id" id="index-ejection_002c-page_002c-of-final-page"></a>
+<p>Let us assume that there is no <code class="code">\c</code> in the above <code class="code">approval</code>
+macro, that the page is full, and last output line has been broken with,
+say, a <code class="code">br</code> request.  Because there is no more room, a <code class="code">ne</code>
+request at this point causes a page ejection, which in turn makes
+<code class="code">troff</code> exit immediately as just described.  In most situations,
+this is not desired; people generally want to format the input after
+<code class="code">ne</code>.
+</p>
+<p>To force processing of the whole end-of-input macro independently of
+this behavior, it is thus advisable to (invisibly) ensure the existence
+of a partially collected line (<code class="code">\c</code>) whenever there is a chance
+that a page break can happen.  In the above example, invoking the
+<code class="code">ne</code> request ensures that there is room for the subsequent
+formatted output on the same page, so we need insert <code class="code">\c</code> only
+once.
+</p>
+<p>The next example shows how to append three lines, then start a new page
+unconditionally.  Since &lsquo;<samp class="samp">.ne&nbsp;1</samp>&rsquo;<!-- /@w --> doesn&rsquo;t give the desired
+effect&mdash;there is always one line available or we are already at the
+beginning of the next page&mdash;we temporarily increase the page length by
+one line so that we can use &lsquo;<samp class="samp">.ne&nbsp;2</samp>&rsquo;<!-- /@w -->.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de EM
+.pl +1v
+\c
+.ne 2
+line one
+.br
+\c
+.ne 2
+line two
+.br
+\c
+.ne 2
+line three
+.br
+.pl -1v
+\c
+'bp
+..
+.em EM
+</pre></div></div>
+
+<p>This specific feature affects only the first potential page break caused
+by the end-of-input macro; further page breaks emitted by the macro are
+handled normally.
+</p>
+<p>Another possible use of the <code class="code">em</code> request is to make GNU
+<code class="code">troff</code> emit a single large page instead of multiple pages.  For
+example, one may want to produce a long plain text file for reading
+in a terminal or emulator without page footers and headers interrupting
+the body of the document.  One approach is to set the page length at the
+beginning of the document to a very large value to hold all the
+text,<a class="footnote" id="DOCF112" href="groff.html_fot.html#FOOT112"><sup>112</sup></a> and
+automatically adjust it to the exact height of the document after the
+text has been output.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de adjust-page-length
+.  br
+.  pl \\n[nl]u \&quot; \n[nl]: current vertical position
+..
+.
+.de single-page-mode
+.  pl 99999
+.  em adjust-page-length
+..
+.
+.\&quot; Activate the above code if configured.
+.if \n[do-continuous-rendering] \
+.  single-page-mode
+</pre></div></div>
+
+<p>Since only one end-of-input trap exists and another macro package may
+already use it, care must be taken not to break the mechanism.  A simple
+solution would be to append the above macro to the macro package&rsquo;s
+end-of-input macro using the <code class="code">am</code> request.
+</p></dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Previous: <a href="Leading-Space-Traps.html">Leading Space Traps</a>, Up: <a href="Traps.html">Traps</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

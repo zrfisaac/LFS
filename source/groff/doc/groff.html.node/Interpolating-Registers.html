@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Interpolating Registers (The GNU Troff Manual)</title>
+
+<meta name="description" content="Interpolating Registers (The GNU Troff Manual)">
+<meta name="keywords" content="Interpolating Registers (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Registers.html" rel="up" title="Registers">
+<link href="Auto_002dincrement.html" rel="next" title="Auto-increment">
+<link href="Setting-Registers.html" rel="prev" title="Setting Registers">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Interpolating-Registers">
+<div class="nav-panel">
+<p>
+Next: <a href="Auto_002dincrement.html" accesskey="n" rel="next">Auto-increment</a>, Previous: <a href="Setting-Registers.html" accesskey="p" rel="prev">Setting Registers</a>, Up: <a href="Registers.html" accesskey="u" rel="up">Registers</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Interpolating-Registers-1">5.8.2 Interpolating Registers</h4>
+<a class="index-entry-id" id="index-interpolating-registers-_0028_005cn_0029"></a>
+<a class="index-entry-id" id="index-registers_002c-interpolating-_0028_005cn_0029"></a>
+
+<p>Register contents are interpolated with the <code class="code">\n</code> escape sequence.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cni"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\n</code><span class="r"><i class="slanted">i</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cni'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cn"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_0028id"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\n(</code><span class="r"><i class="slanted">id</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cn_0028id'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005bident_005d"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\n[</code><span class="r"><i class="slanted">ident</i></span><code class="t">]</code></strong><a class="copiable-link" href='#index-_005cn_005bident_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-nested-assignments"></a>
+<a class="index-entry-id" id="index-assignments_002c-nested"></a>
+<a class="index-entry-id" id="index-indirect-assignments"></a>
+<a class="index-entry-id" id="index-assignments_002c-indirect"></a>
+<p>Interpolate register with name <var class="var">ident</var> (one-character
+name&nbsp;<var class="var">i</var>, two-character name <var class="var">id</var>).  <code class="code">\n</code> is
+interpreted even in copy mode (see <a class="pxref" href="Copy-Mode.html">Copy Mode</a>).  If the register is
+undefined, it is created and assigned a value of&nbsp;&lsquo;<samp class="samp">0</samp>&rsquo;, that
+value is interpolated, and a warning in category &lsquo;<samp class="samp">reg</samp>&rsquo; is emitted.
+See <a class="xref" href="Warnings.html">Warnings</a>, for information about the enablement and suppression of
+warnings.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr a 5
+.nr as \na+\na
+\n(as
+    &rArr; 10
+</pre></div></div>
+
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr a1 5
+.nr ab 6
+.ds str b
+.ds num 1
+\n[a\n[num]]
+    &rArr; 5
+\n[a\*[str]]
+    &rArr; 6
+</pre></div></div>
+</dd></dl>
+
+
+</div>
+
+
+
+</body>
+</html>

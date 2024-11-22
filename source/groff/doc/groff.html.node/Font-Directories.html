@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Font Directories (The GNU Troff Manual)</title>
+
+<meta name="description" content="Font Directories (The GNU Troff Manual)">
+<meta name="keywords" content="Font Directories (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Invoking-groff.html" rel="up" title="Invoking groff">
+<link href="Paper-Format.html" rel="next" title="Paper Format">
+<link href="Macro-Directories.html" rel="prev" title="Macro Directories">
+<style type="text/css">
+<!--
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Font-Directories">
+<div class="nav-panel">
+<p>
+Next: <a href="Paper-Format.html" accesskey="n" rel="next">Paper Format</a>, Previous: <a href="Macro-Directories.html" accesskey="p" rel="prev">Macro Directories</a>, Up: <a href="Invoking-groff.html" accesskey="u" rel="up">Invoking <code class="code">groff</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Font-Directories-1">2.4 Font Directories</h3>
+<a class="index-entry-id" id="index-font-directories"></a>
+<a class="index-entry-id" id="index-directories-for-fonts"></a>
+<a class="index-entry-id" id="index-searching-fonts"></a>
+<a class="index-entry-id" id="index-fonts_002c-searching"></a>
+
+<p><code class="code">groff</code> enforces few restrictions on how font description files are
+named.  For its family/style mechanism to work (see <a class="pxref" href="Font-Families.html">Font Families</a>),
+the names of fonts within a family should start with the family name,
+followed by the style.  For example, the Times family uses &lsquo;<samp class="samp">T</samp>&rsquo; for
+the family name and &lsquo;<samp class="samp">R</samp>&rsquo;, &lsquo;<samp class="samp">B</samp>&rsquo;, &lsquo;<samp class="samp">I</samp>&rsquo;, and &lsquo;<samp class="samp">BI</samp>&rsquo; to
+indicate the styles &lsquo;roman&rsquo;, &lsquo;bold&rsquo;, &lsquo;italic&rsquo;, and &lsquo;bold italic&rsquo;,
+respectively.  Thus the final font names are &lsquo;<samp class="samp">TR</samp>&rsquo;, &lsquo;<samp class="samp">TB</samp>&rsquo;,
+&lsquo;<samp class="samp">TI</samp>&rsquo;, and &lsquo;<samp class="samp">TBI</samp>&rsquo;.
+</p>
+<a class="index-entry-id" id="index-font-path"></a>
+<a class="index-entry-id" id="index-path_002c-for-font-files"></a>
+<p>Font description files are kept in <em class="dfn">font directories</em>, which
+together constitute the <em class="dfn">font path</em>.  The search procedure
+always appends the directory <code class="code">dev</code><var class="var">name</var>, where <var class="var">name</var> is
+the name of the output device.  Assuming TeX DVI output, and
+<samp class="file">/foo/bar</samp> as a font directory, the font description files for
+<code class="command">grodvi</code> must be in <samp class="file">/foo/bar/devdvi</samp>.
+Each directory in the font path is searched in the following order until
+the desired font description file is found or the list is exhausted.
+</p>
+<ul class="itemize mark-bullet">
+<li>Directories specified with GNU <code class="code">troff</code>&rsquo;s or <code class="code">groff</code>&rsquo;s
+<samp class="option">-f</samp> command-line option.  All output drivers (and some
+preprocessors) support this option as well, because they require
+information about the glyphs to be rendered in the document.
+
+</li><li><a class="index-entry-id" id="index-GROFF_005fFONT_005fPATH_002c-environment-variable-1"></a>
+Directories listed in the <code class="env">GROFF_FONT_PATH</code> environment variable.
+
+</li><li><a class="index-entry-id" id="index-site_002dlocal-directory-1"></a>
+<a class="index-entry-id" id="index-directory_002c-site_002dlocal-1"></a>
+A site-local directory and the main font description directory.
+The locations corresponding to your installation are listed in section
+&ldquo;Environment&rdquo; of <cite class="cite">gtroff<span class="r">(1)</span></cite>.  If not otherwise configured,
+they are as follows.
+
+<div class="example">
+<div class="group"><pre class="example-preformatted">/usr/local/share/groff/site-font
+/usr/local/share/groff/1.23.0/font
+</pre></div></div>
+
+<p>The foregoing assumes that the version of <code class="code">groff</code> is 1.23.0, and
+that the installation prefix was <samp class="file">/usr/local</samp>.  It is possible to
+fine-tune these locations during the source configuration process.
+</p></li></ul>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Paper-Format.html">Paper Format</a>, Previous: <a href="Macro-Directories.html">Macro Directories</a>, Up: <a href="Invoking-groff.html">Invoking <code class="code">groff</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

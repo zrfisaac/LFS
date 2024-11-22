@@ -1,0 +1,20 @@
+# Copyright 2013-2023 Free Software Foundation, Inc.
+# 
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided the copyright
+# notice and this notice are preserved.
+#  
+# List of source files containing translatable strings that end up in
+# the output from processing Texinfo documents.
+
+tp/ext/epub3.pm
+tp/init/html32.pm
+tp/Texinfo/Common.pm
+tp/Texinfo/Structuring.pm
+tp/Texinfo/Translations.pm
+tp/Texinfo/Convert/Converter.pm
+tp/Texinfo/Convert/DocBook.pm
+tp/Texinfo/Convert/LaTeX.pm
+tp/Texinfo/Convert/Plaintext.pm
+tp/Texinfo/Convert/HTML.pm
+tp/Texinfo/Convert/Utils.pm

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Compatibility Mode (The GNU Troff Manual)</title>
+
+<meta name="description" content="Compatibility Mode (The GNU Troff Manual)">
+<meta name="keywords" content="Compatibility Mode (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Implementation-Differences.html" rel="up" title="Implementation Differences">
+<link href="Safer-Mode.html" rel="next" title="Safer Mode">
+<link href="Other-Differences.html" rel="prev" title="Other Differences">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Compatibility-Mode">
+<div class="nav-panel">
+<p>
+Next: <a href="Safer-Mode.html" accesskey="n" rel="next">Safer Mode</a>, Previous: <a href="Other-Differences.html" accesskey="p" rel="prev">Other Differences</a>, Up: <a href="Implementation-Differences.html" accesskey="u" rel="up">Implementation Differences</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Compatibility-Mode-1">5.38.2 Compatibility Mode</h4>
+<a class="index-entry-id" id="index-compatibility-mode-1"></a>
+<a class="index-entry-id" id="index-mode_002c-compatibility"></a>
+
+<a class="index-entry-id" id="index-long-names"></a>
+<a class="index-entry-id" id="index-names_002c-long"></a>
+<a class="index-entry-id" id="index-_005c_002a_002c-incompatibilities-with-AT_0026T-troff"></a>
+<a class="index-entry-id" id="index-_005cn_002c-incompatibilities-with-AT_0026T-troff"></a>
+<p>Long identifier names may be GNU <code class="code">troff</code>&rsquo;s most obvious innovation.
+<abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> interprets &lsquo;<samp class="samp">.dsabcd</samp>&rsquo; as defining a
+string &lsquo;<samp class="samp">ab</samp>&rsquo; with contents &lsquo;<samp class="samp">cd</samp>&rsquo;.  Normally, GNU <code class="code">troff</code>
+interprets this as a call of a macro named <code class="code">dsabcd</code>.
+<abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> also interprets &lsquo;<samp class="samp">\*[</samp>&rsquo; and &lsquo;<samp class="samp">\n[</samp>&rsquo; as
+an interpolation of a string or register, respectively, named &lsquo;<samp class="samp">[</samp>&rsquo;.
+In GNU <code class="code">troff</code>, however, the &lsquo;<samp class="samp">[</samp>&rsquo; is normally interpreted as
+delimiting a long name.  In compatibility mode, GNU <code class="code">troff</code>
+interprets names in the traditional way; they thus can be two characters
+long at most.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ecp"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.cp</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">n</i></span>]</var><a class="copiable-link" href='#index-_002ecp'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-cp"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002eC_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.C]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002eC_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002eC"></a>
+<p>If <var class="var">n</var> is missing or non-zero, turn on compatibility mode;
+otherwise, turn it off.
+</p>
+<p>The read-only register <code class="code">.C</code> is&nbsp;1 if compatibility mode is on,
+0&nbsp;otherwise.
+</p>
+<p>Compatibility mode can be also turned on with the <samp class="option">-C</samp>
+command-line option.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002edo"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.do</code></strong> <var class="def-var-arguments">name</var><a class="copiable-link" href='#index-_002edo'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-do"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ecp_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.cp]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ecp_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ecp-1"></a>
+<p>The <code class="code">do</code> request interprets the string, request, diversion, or
+macro <var class="var">name</var> (along with any further arguments) with compatibility
+mode disabled.  Compatibility mode is restored (only if it was active)
+when the <em class="emph">expansion</em> of <var class="var">name</var> is interpreted; that is, the
+restored compatibility state applies to the contents of the macro,
+string, or diversion <var class="var">name</var> as well as data read from files or pipes
+if <var class="var">name</var> is any of the <code class="code">so</code>, <code class="code">soquiet</code>, <code class="code">mso</code>,
+<code class="code">msoquiet</code>, or <code class="code">pso</code> requests.
+</p>
+<p>The following example illustrates several aspects of <code class="code">do</code> behavior.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de mac1
+FOO
+..
+.de1 mac2
+groff
+.mac1
+..
+.de mac3
+compatibility
+.mac1
+..
+.de ma
+\\$1
+..
+.cp 1
+.do mac1
+.do mac2 \&quot; mac2, defined with .de1, calls &quot;mac1&quot;
+.do mac3 \&quot; mac3 calls &quot;ma&quot; with argument &quot;c1&quot;
+.do mac3 \[ti] \&quot; groff syntax accepted in .do arguments
+    &rArr; FOO groff FOO compatibility c1 ~
+</pre></div></div>
+
+<p>The read-only register <code class="code">.cp</code>, meaningful only when dereferenced
+from a <code class="code">do</code> request, is&nbsp;1 if compatibility mode was on when
+the <code class="code">do</code> request was encountered, and 0&nbsp;if it was not.  This
+register is specialized and may require a statement of rationale.
+</p>
+<p>When writing macro packages or documents that use GNU <code class="code">troff</code>
+features and which may be mixed with other packages or documents that do
+not&mdash;common scenarios include serial processing of man pages or use of
+the <code class="code">so</code> or <code class="code">mso</code> requests&mdash;you may desire correct operation
+regardless of compatibility mode enablement in the surrounding context.
+It may occur to you to save the existing value of &lsquo;<samp class="samp">\n(.C</samp>&rsquo; into a
+register, say, &lsquo;<samp class="samp">_C</samp>&rsquo;, at the beginning of your file, turn
+compatibility mode off with &lsquo;<samp class="samp">.cp 0</samp>&rsquo;, then restore it from that
+register at the end with &lsquo;<samp class="samp">.cp \n(_C</samp>&rsquo;.  At the same time, a modular
+design of a document or macro package may lead you to multiple layers of
+inclusion.  You cannot use the same register name everywhere lest you
+&ldquo;clobber&rdquo; the value from a preceding or enclosing context.  The
+two-character register name space of <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> is
+confining and mnemonically challenging; you may wish to use the more
+capacious name space of GNU <code class="code">troff</code>.  However, attempting &lsquo;<samp class="samp">.nr
+_my_saved_C \n(.C</samp>&rsquo; will not work in compatibility mode; the register
+name is too long.  &ldquo;This is exactly what <code class="code">do</code> is for,&rdquo; you think,
+&lsquo;<samp class="samp">.do nr _my_saved_C \n(.C</samp>&rsquo;.  The foregoing will always save zero to
+your register, because <code class="code">do</code> turns compatibility mode <em class="emph">off</em>
+while it interprets its argument list.
+</p>
+<p>To robustly save compatibility mode before switching it off, use
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.do nr _my_saved_C \n[.cp]
+.cp 0
+</pre></div></div>
+
+<p>at the beginning of your file, followed by
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.cp \n[_my_saved_C]
+.do rr _my_saved_C
+</pre></div></div>
+
+<p>at the end.  As in the C language, we all have to share one big
+name space, so choose a register name that is unlikely to collide with
+other uses.
+</p></dd></dl>
+
+<a class="index-entry-id" id="index-input-level-in-delimited-arguments"></a>
+<a class="index-entry-id" id="index-interpolation-depth-in-delimited-arguments"></a>
+<a class="index-entry-id" id="index-delimited-arguments_002c-incompatibilities-with-AT_0026T-troff"></a>
+<p>Normally, GNU <code class="code">troff</code> preserves the interpolation depth in
+delimited arguments, but not in compatibility mode.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ds xx '
+\w'abc\*(xxdef'
+    &rArr; 168 <span class="r">(normal mode on a terminal device)</span>
+    &rArr; 72def' <span class="r">(compatibility mode on a terminal device)</span>
+</pre></div></div>
+
+<a class="index-entry-id" id="index-_005cf_002c-incompatibilities-with-AT_0026T-troff"></a>
+<a class="index-entry-id" id="index-_005cH_002c-incompatibilities-with-AT_0026T-troff"></a>
+<a class="index-entry-id" id="index-_005cs_002c-incompatibilities-with-AT_0026T-troff"></a>
+<a class="index-entry-id" id="index-_005cS_002c-incompatibilities-with-AT_0026T-troff"></a>
+<p>Furthermore, the escape sequences <code class="code">\f</code>, <code class="code">\H</code>, <code class="code">\m</code>,
+<code class="code">\M</code>, <code class="code">\R</code>, <code class="code">\s</code>, and <code class="code">\S</code> are transparent for the
+purpose of recognizing a control character at the beginning of a line
+only in compatibility mode.  For example, this code produces bold output
+in both cases, but the text differs.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de xx
+Hello!
+..
+\fB.xx\fP
+    &rArr; .xx <span class="r">(normal mode)</span>
+    &rArr; Hello! <span class="r">(compatibility mode)</span>
+</pre></div></div>
+
+<a class="index-entry-id" id="index-_005cs_002c-incompatibilities-with-AT_0026T-troff-1"></a>
+<p>Normally, the syntax form <code class="code">\s</code><var class="var">n</var> accepts only a single
+character (a digit) for <var class="var">n</var>, consistently with other forms that
+originated in <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code>, like <code class="code">\*</code>, <code class="code">\$</code>,
+<code class="code">\f</code>, <code class="code">\g</code>, <code class="code">\k</code>, <code class="code">\n</code>, and <code class="code">\z</code>.  In
+compatibility mode only, a non-zero&nbsp;<var class="var">n</var> must be in the range
+4&ndash;39.  Legacy documents relying upon this quirk of parsing<a class="footnote" id="DOCF120" href="groff.html_fot.html#FOOT120"><sup>120</sup></a> should be migrated to another
+<code class="code">\s</code> form.
+</p>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Safer-Mode.html">Safer Mode</a>, Previous: <a href="Other-Differences.html">Other Differences</a>, Up: <a href="Implementation-Differences.html">Implementation Differences</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

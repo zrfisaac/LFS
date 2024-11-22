@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Safer Mode (The GNU Troff Manual)</title>
+
+<meta name="description" content="Safer Mode (The GNU Troff Manual)">
+<meta name="keywords" content="Safer Mode (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Implementation-Differences.html" rel="up" title="Implementation Differences">
+<link href="Compatibility-Mode.html" rel="next" title="Compatibility Mode">
+<link href="Implementation-Differences.html" rel="prev" title="Implementation Differences">
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Safer-Mode">
+<div class="nav-panel">
+<p>
+Next: <a href="Compatibility-Mode.html" accesskey="n" rel="next">Compatibility Mode</a>, Previous: <a href="Implementation-Differences.html" accesskey="p" rel="prev">Implementation Differences</a>, Up: <a href="Implementation-Differences.html" accesskey="u" rel="up">Implementation Differences</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Safer-Mode-1">5.38.1 Safer Mode</h4>
+<a class="index-entry-id" id="index-safer-mode-7"></a>
+<a class="index-entry-id" id="index-mode_002c-safer-7"></a>
+
+<a class="index-entry-id" id="index-pi-request_002c-disabled-by-default"></a>
+<a class="index-entry-id" id="index-sy-request_002c-disabled-by-default"></a>
+<p>The formatter operates in &ldquo;safer&rdquo; mode by default; to mitigate risks
+from untrusted input documents, the <code class="code">pi</code> and <code class="code">sy</code> requests are
+disabled.  GNU <code class="code">troff</code>&rsquo;s <samp class="option">-U</samp> option enables &ldquo;unsafe
+mode&rdquo;, restoring their function and enabling additional <code class="code">groff</code>
+extension requests, <code class="code">open</code>, <code class="code">opena</code>, and <code class="code">pso</code>.
+See <a class="xref" href="I_002fO.html">I/O</a>.
+</p>
+
+</div>
+
+
+
+</body>
+</html>

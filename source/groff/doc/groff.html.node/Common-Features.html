@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Common Features (The GNU Troff Manual)</title>
+
+<meta name="description" content="Common Features (The GNU Troff Manual)">
+<meta name="keywords" content="Common Features (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Tutorial-for-Macro-Users.html" rel="up" title="Tutorial for Macro Users">
+<link href="Basics.html" rel="prev" title="Basics">
+<style type="text/css">
+<!--
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Common-Features">
+<div class="nav-panel">
+<p>
+Previous: <a href="Basics.html" accesskey="p" rel="prev">Basics</a>, Up: <a href="Tutorial-for-Macro-Users.html" accesskey="u" rel="up">Tutorial for Macro Users</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Common-Features-1">3.2 Common Features</h3>
+<a class="index-entry-id" id="index-common-features"></a>
+<a class="index-entry-id" id="index-features_002c-common"></a>
+
+<p>GNU <code class="code">troff</code> provides low-level operations for formatting a
+document.  Many routine operations are undertaken in nearly all
+documents that require a series of such primitive operations to be
+performed.  These common tasks are grouped into <i class="slanted">macros</i>, which
+are then collected into a <i class="slanted">macro package</i>.
+</p>
+<p>Macro packages come in two varieties: &ldquo;major&rdquo; or &ldquo;full-service&rdquo;
+ones that manage page layout, and &ldquo;minor&rdquo; or &ldquo;auxiliary&rdquo; ones that
+do not, instead fulfilling narrow, specific tasks.  Find a list in the
+<cite class="cite">groff_tmac<span class="r">(5)</span></cite> man page.  Type &lsquo;<samp class="samp">man groff_tmac</samp>&rsquo; at the
+command line to view it.
+</p>
+<p>We survey several capabilities of full-service macro package below.
+Each package employs its own macros to exercise them.  For details,
+consult its man page or, for <samp class="file">ms</samp>, see <a class="ref" href="ms.html"><samp class="file">ms</samp></a>.
+</p>
+
+
+<ul class="mini-toc">
+<li><a href="Paragraphs.html" accesskey="1">Paragraphs</a></li>
+<li><a href="Sections-and-Chapters.html" accesskey="2">Sections and Chapters</a></li>
+<li><a href="Headers-and-Footers.html" accesskey="3">Headers and Footers</a></li>
+<li><a href="Page-Layout-Adjustment.html" accesskey="4">Page Layout</a></li>
+<li><a href="Displays-and-Keeps.html" accesskey="5">Displays and Keeps</a></li>
+<li><a href="Footnotes-and-Endnotes.html" accesskey="6">Footnotes and Endnotes</a></li>
+<li><a href="Table-of-Contents.html" accesskey="7">Table of Contents</a></li>
+<li><a href="Indexing.html" accesskey="8">Indexing</a></li>
+<li><a href="Document-Formats.html" accesskey="9">Document Formats</a></li>
+<li><a href="Columnation.html">Columnation</a></li>
+<li><a href="Font-and-Size-Changes.html">Font and Size Changes</a></li>
+<li><a href="Predefined-Text.html">Predefined Text</a></li>
+<li><a href="Preprocessor-Support.html">Preprocessor Support</a></li>
+<li><a href="Configuration-and-Customization.html">Configuration and Customization</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

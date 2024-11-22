@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Vertical Position Traps (The GNU Troff Manual)</title>
+
+<meta name="description" content="Vertical Position Traps (The GNU Troff Manual)">
+<meta name="keywords" content="Vertical Position Traps (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Traps.html" rel="up" title="Traps">
+<link href="Page-Location-Traps.html" rel="next" title="Page Location Traps">
+<link href="Traps.html" rel="prev" title="Traps">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Vertical-Position-Traps">
+<div class="nav-panel">
+<p>
+Next: <a href="Page-Location-Traps.html" accesskey="n" rel="next">Page Location Traps</a>, Previous: <a href="Traps.html" accesskey="p" rel="prev">Traps</a>, Up: <a href="Traps.html" accesskey="u" rel="up">Traps</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Vertical-Position-Traps-1">5.28.1 Vertical Position Traps</h4>
+<a class="index-entry-id" id="index-vertical-position-traps"></a>
+<a class="index-entry-id" id="index-traps_002c-vertical-position"></a>
+
+<p>A <em class="dfn">vertical position trap</em> calls a macro when the formatter&rsquo;s
+vertical drawing position reaches or passes, in the downward direction,
+a certain location on the output page or in a diversion.  Its
+applications include setting page headers and footers, body text in
+multiple columns, and footnotes.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002evpt"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.vpt</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">flag</i></span>]</var><a class="copiable-link" href='#index-_002evpt'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-vpt"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002evpt_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.vpt]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002evpt_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002evpt-1"></a>
+<a class="index-entry-id" id="index-enabling-vertical-position-traps-_0028vpt_0029"></a>
+<a class="index-entry-id" id="index-vertical-position-traps_002c-enabling-_0028vpt_0029"></a>
+<a class="index-entry-id" id="index-vertical-position-trap-enable-register-_0028_002evpt_0029"></a>
+<p>Enable vertical position traps if <var class="var">flag</var> is non-zero or absent;
+disable them otherwise.  Vertical position traps are those set by the
+<code class="code">wh</code> request or by <code class="code">dt</code> within a diversion.  The parameter
+that controls whether vertical position traps are enabled is global.
+Initially, vertical position traps are enabled.  The current value is
+stored in the <code class="code">.vpt</code> read-only register.
+</p>
+<a class="index-entry-id" id="index-page-break_002c-prevented-by-vpt"></a>
+<a class="index-entry-id" id="index-break_002c-page_002c-prevented-by-vpt"></a>
+<a class="index-entry-id" id="index-page-ejection_002c-prevented-by-vpt"></a>
+<a class="index-entry-id" id="index-ejection_002c-page_002c-prevented-by-vpt"></a>
+<p>A page can&rsquo;t be ejected if <code class="code">vpt</code> is set to zero; see <a class="ref" href="The-Implicit-Page-Trap.html">The Implicit Page Trap</a>.
+</p></dd></dl>
+
+
+
+<ul class="mini-toc">
+<li><a href="Page-Location-Traps.html" accesskey="1">Page Location Traps</a></li>
+<li><a href="The-Implicit-Page-Trap.html" accesskey="2">The Implicit Page Trap</a></li>
+<li><a href="Diversion-Traps.html" accesskey="3">Diversion Traps</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

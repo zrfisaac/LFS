@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Built-in Registers (The GNU Troff Manual)</title>
+
+<meta name="description" content="Built-in Registers (The GNU Troff Manual)">
+<meta name="keywords" content="Built-in Registers (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Registers.html" rel="up" title="Registers">
+<link href="Assigning-Register-Formats.html" rel="prev" title="Assigning Register Formats">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Built_002din-Registers">
+<div class="nav-panel">
+<p>
+Previous: <a href="Assigning-Register-Formats.html" accesskey="p" rel="prev">Assigning Register Formats</a>, Up: <a href="Registers.html" accesskey="u" rel="up">Registers</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Built_002din-Registers-1">5.8.5 Built-in Registers</h4>
+<a class="index-entry-id" id="index-built_002din-registers"></a>
+<a class="index-entry-id" id="index-registers_002c-built_002din"></a>
+
+<p>Predefined registers whose identifiers start with a dot are read-only.
+Many are Boolean-valued, interpolating a true or false value testable
+with the <code class="code">if</code>, <code class="code">ie</code>, or <code class="code">while</code> requests.  Some read-only
+registers are string-valued, meaning that they interpolate text.
+</p>
+<a class="index-entry-id" id="index-removing-a-built_002din-register"></a>
+<a class="index-entry-id" id="index-register_002c-built_002din_002c-removing"></a>
+<a class="index-entry-id" id="index-built_002din-register_002c-removing"></a>
+<p><strong class="strong">Caution:</strong> Built-in registers are subject to removal like
+others; once removed, they can be recreated only as normal writable
+registers and will not reflect formatter state.
+</p>
+<p>A register name (without the dot) is often associated with a request of
+the same name.  A complete listing of all built-in registers can be
+found in <a class="ref" href="Register-Index.html">Register Index</a>.
+</p>
+<p>We present here a few built-in registers that are not described
+elsewhere in this manual; they have to do with invariant properties of
+GNU <code class="code">troff</code>, or obtain information about the formatter&rsquo;s
+command-line options, processing progress, or the operating environment.
+</p>
+<dl class="table">
+<dt id='index-_002eA'><span><code class="code">\n[.A]</code><a class="copiable-link" href='#index-_002eA'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-approximation-output-register-_0028_002eA_0029"></a>
+<a class="index-entry-id" id="index-plain-text-approximation-output-register-_0028_002eA_0029-1"></a>
+<p>Approximate output is being formatted (Boolean-valued); see
+<code class="command">groff</code> <samp class="option">-a</samp> option (<a class="ref" href="Groff-Options.html">Options</a>).
+</p>
+</dd>
+<dt id='index-c_002e'><span><code class="code">\n[.c]</code><a class="copiable-link" href='#index-c_002e'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ec"></a>
+</dd>
+<dt><code class="code">\n[c.]</code></dt>
+<dd><a class="index-entry-id" id="index-input-line-number-register-_0028_002ec_002c-c_002e_0029"></a>
+<a class="index-entry-id" id="index-line-number_002c-input_002c-register-_0028_002ec_002c-c_002e_0029"></a>
+<p>Input line number.  &lsquo;<samp class="samp">c.</samp>&rsquo; is a writable synonym,
+affecting subsequent interpolations of both &lsquo;<samp class="samp">.c</samp>&rsquo; and &lsquo;<samp class="samp">c.</samp>&rsquo;.
+</p>
+</dd>
+<dt id='index-current-input-file-name-register-_0028_002eF_0029'><span><code class="code">\n[.F]</code><a class="copiable-link" href='#index-current-input-file-name-register-_0028_002eF_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-input-file-name_002c-current_002c-register-_0028_002eF_0029"></a>
+<a class="index-entry-id" id="index-_002eF"></a>
+<p>Name of input file (string-valued).
+</p>
+</dd>
+<dt id='index-_002eg'><span><code class="code">\n[.g]</code><a class="copiable-link" href='#index-_002eg'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-GNU-troff_002c-identification-register-_0028_002eg_0029"></a>
+<a class="index-entry-id" id="index-GNU_002dspecific-register-_0028_002eg_0029"></a>
+<p>Always true in GNU <code class="code">troff</code> (Boolean-valued).  Documents can use
+this to ask the formatter if it claims <code class="code">groff</code> compatibility.
+</p>
+</dd>
+<dt id='index-_002eP'><span><code class="code">\n[.P]</code><a class="copiable-link" href='#index-_002eP'> &para;</a></span></dt>
+<dd><p>Output page selection status (Boolean-valued); see <code class="command">groff</code>
+<samp class="option">-o</samp> option (<a class="ref" href="Groff-Options.html">Options</a>).
+</p>
+</dd>
+<dt id='index-number-of-registers-register-_0028_002eR_0029'><span><code class="code">\n[.R]</code><a class="copiable-link" href='#index-number-of-registers-register-_0028_002eR_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-registers_002c-number-of_002c-register-_0028_002eR_0029"></a>
+<a class="index-entry-id" id="index-_002eR-2"></a>
+<p>Count of available unused registers; always 10,000 in GNU
+<code class="code">troff</code>.<a class="footnote" id="DOCF52" href="groff.html_fot.html#FOOT52"><sup>52</sup></a>
+</p>
+</dd>
+<dt id='index-_002eT-2'><span><code class="code">\n[.T]</code><a class="copiable-link" href='#index-_002eT-2'> &para;</a></span></dt>
+<dd><p>Indicator of output device selection (Boolean-valued); see
+<code class="command">groff</code> <samp class="option">-T</samp> option (<a class="ref" href="Groff-Options.html">Options</a>).
+</p>
+</dd>
+<dt id='index-safer-mode-2'><span><code class="code">\n[.U]</code><a class="copiable-link" href='#index-safer-mode-2'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-mode_002c-safer-2"></a>
+<a class="index-entry-id" id="index-unsafe-mode-2"></a>
+<a class="index-entry-id" id="index-mode_002c-unsafe-2"></a>
+<a class="index-entry-id" id="index-_002eU"></a>
+<p>Unsafe mode enablement status (Boolean-valued); see <code class="command">groff</code>
+<samp class="option">-U</samp> option (<a class="ref" href="Groff-Options.html">Options</a>).
+</p>
+</dd>
+<dt id='index-_002ex'><span><code class="code">\n[.x]</code><a class="copiable-link" href='#index-_002ex'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-major-version-number-register-_0028_002ex_0029"></a>
+<a class="index-entry-id" id="index-version-number_002c-major_002c-register-_0028_002ex_0029"></a>
+<p>Major version number of the running GNU <code class="code">troff</code> formatter.  For
+example, if the version number is 1.23.0, then <code class="code">.x</code>
+contains&nbsp;&lsquo;<samp class="samp">1</samp>&rsquo;.
+</p>
+</dd>
+<dt id='index-_002ey'><span><code class="code">\n[.y]</code><a class="copiable-link" href='#index-_002ey'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-minor-version-number-register-_0028_002ey_0029"></a>
+<a class="index-entry-id" id="index-version-number_002c-minor_002c-register-_0028_002ey_0029"></a>
+<p>Minor version number of the running GNU <code class="code">troff</code> formatter.  For
+example, if the version number is 1.23.0, then <code class="code">.y</code>
+contains&nbsp;&lsquo;<samp class="samp">23</samp>&rsquo;.
+</p>
+</dd>
+<dt id='index-_002eY'><span><code class="code">\n[.Y]</code><a class="copiable-link" href='#index-_002eY'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-revision-number-register-_0028_002eY_0029"></a>
+<p>Revision number of the running GNU <code class="code">troff</code> formatter.  For example,
+if the version number is 1.23.0, then <code class="code">.Y</code> contains&nbsp;&lsquo;<samp class="samp">0</samp>&rsquo;.
+</p>
+</dd>
+<dt id='index-_0024_0024'><span><code class="code">\n[$$]</code><a class="copiable-link" href='#index-_0024_0024'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-process-ID-of-GNU-troff-register-_0028_0024_0024_0029"></a>
+<a class="index-entry-id" id="index-PID-of-GNU-troff-register-_0028_0024_0024_0029"></a>
+<a class="index-entry-id" id="index-GNU-troff_002c-process-ID-register-_0028_0024_0024_0029"></a>
+<a class="index-entry-id" id="index-GNU-troff_002c-PID-register-_0028_0024_0024_0029"></a>
+<p>Process identifier (PID) of the GNU <code class="code">troff</code> program in its
+operating environment.
+</p></dd>
+</dl>
+
+<p>Date- and time-related registers are set per the local time as
+determined by <cite class="cite">localtime<span class="r">(3)</span></cite> when the formatter launches.  This
+initialization can be overridden by <code class="env">SOURCE_DATE_EPOCH</code> and
+<code class="env">TZ</code>; see <a class="ref" href="Environment.html">Environment</a>.
+</p>
+<dl class="table">
+<dt id='index-seconds_002c-current-time-_0028seconds_0029'><span><code class="code">\n[seconds]</code><a class="copiable-link" href='#index-seconds_002c-current-time-_0028seconds_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-time_002c-current_002c-seconds-_0028seconds_0029"></a>
+<a class="index-entry-id" id="index-current-time_002c-seconds-_0028seconds_0029"></a>
+<a class="index-entry-id" id="index-seconds"></a>
+<p>Count of seconds elapsed in the minute (0&ndash;60). </p>
+</dd>
+<dt id='index-minutes_002c-current-time-_0028minutes_0029'><span><code class="code">\n[minutes]</code><a class="copiable-link" href='#index-minutes_002c-current-time-_0028minutes_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-time_002c-current_002c-minutes-_0028minutes_0029"></a>
+<a class="index-entry-id" id="index-current-time_002c-minutes-_0028minutes_0029"></a>
+<a class="index-entry-id" id="index-minutes"></a>
+<p>Count of minutes elapsed in the hour (0&ndash;59).
+</p>
+</dd>
+<dt id='index-hours_002c-current-time-_0028hours_0029'><span><code class="code">\n[hours]</code><a class="copiable-link" href='#index-hours_002c-current-time-_0028hours_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-time_002c-current_002c-hours-_0028hours_0029"></a>
+<a class="index-entry-id" id="index-current-time_002c-hours-_0028hours_0029"></a>
+<a class="index-entry-id" id="index-hours"></a>
+<p>Count of hours elapsed since midnight (0&ndash;23).
+</p>
+</dd>
+<dt id='index-day-of-the-week-register-_0028dw_0029'><span><code class="code">\n[dw]</code><a class="copiable-link" href='#index-day-of-the-week-register-_0028dw_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-date_002c-day-of-the-week-register-_0028dw_0029"></a>
+<a class="index-entry-id" id="index-dw"></a>
+<p>Day of the week (1&ndash;7; 1 is Sunday).
+</p>
+</dd>
+<dt id='index-day-of-the-month-register-_0028dy_0029'><span><code class="code">\n[dy]</code><a class="copiable-link" href='#index-day-of-the-month-register-_0028dy_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-date_002c-day-of-the-month-register-_0028dy_0029"></a>
+<a class="index-entry-id" id="index-dy"></a>
+<p>Day of the month (1&ndash;31).
+</p>
+</dd>
+<dt id='index-month-of-the-year-register-_0028mo_0029'><span><code class="code">\n[mo]</code><a class="copiable-link" href='#index-month-of-the-year-register-_0028mo_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-date_002c-month-of-the-year-register-_0028mo_0029"></a>
+<a class="index-entry-id" id="index-mo"></a>
+<p>Month of the year (1&ndash;12).
+</p>
+</dd>
+<dt id='index-date_002c-year-register-_0028year_002c-yr_0029'><span><code class="code">\n[year]</code><a class="copiable-link" href='#index-date_002c-year-register-_0028year_002c-yr_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-year_002c-current_002c-register-_0028year_002c-yr_0029"></a>
+<a class="index-entry-id" id="index-year"></a>
+<p>Gregorian year.
+</p>
+<a class="index-entry-id" id="index-CSTR-_002354-errata"></a>
+<a class="index-entry-id" id="index-CSTR-_002354-erratum_002c-yr-register"></a>
+</dd>
+<dt id='index-yr'><span><code class="code">\n[yr]</code><a class="copiable-link" href='#index-yr'> &para;</a></span></dt>
+<dd><p>Gregorian year minus&nbsp;1900.  This register is incorrectly documented
+in the <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> manual as storing the last two digits
+of the current year.  That claim stopped being true in 2000.  Old
+<code class="code">troff</code> input that looks like:
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">'\&quot; The year number is a surprise after 1999.
+This document was formatted in 19\n(yr.
+</pre></div></div>
+
+<p>can be corrected to:
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">This document was formatted in \n[year].
+</pre></div></div>
+
+<p>or, for portability across many <code class="code">roff</code> programs, to the following.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr y4 1900+\n(yr
+This document was formatted in \n(y4.
+</pre></div></div>
+</dd>
+</dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Previous: <a href="Assigning-Register-Formats.html">Assigning Register Formats</a>, Up: <a href="Registers.html">Registers</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

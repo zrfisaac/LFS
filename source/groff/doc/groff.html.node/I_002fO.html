@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>I/O (The GNU Troff Manual)</title>
+
+<meta name="description" content="I/O (The GNU Troff Manual)">
+<meta name="keywords" content="I/O (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Postprocessor-Access.html" rel="next" title="Postprocessor Access">
+<link href="Suppressing-Output.html" rel="prev" title="Suppressing Output">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="I_002fO">
+<div class="nav-panel">
+<p>
+Next: <a href="Postprocessor-Access.html" accesskey="n" rel="next">Postprocessor Access</a>, Previous: <a href="Suppressing-Output.html" accesskey="p" rel="prev">Suppressing Output</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="I_002fO-1">5.33 I/O</h3>
+<a class="index-entry-id" id="index-i_002fo"></a>
+<a class="index-entry-id" id="index-input-and-output-requests"></a>
+<a class="index-entry-id" id="index-requests-for-input-and-output"></a>
+<a class="index-entry-id" id="index-output-and-input-requests"></a>
+
+<p><code class="code">gtroff</code> has several requests for including files:
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eso"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.so</code></strong> <var class="def-var-arguments">file</var><a class="copiable-link" href='#index-_002eso'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-so"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002esoquiet"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.soquiet</code></strong> <var class="def-var-arguments">file</var><a class="copiable-link" href='#index-_002esoquiet'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-soquiet"></a>
+<a class="index-entry-id" id="index-including-a-file-_0028so_0029"></a>
+<a class="index-entry-id" id="index-file_002c-inclusion-_0028so_0029"></a>
+<p>Replace the <code class="code">so</code> request&rsquo;s control line with the contents of the
+file named by the argument, &ldquo;sourcing&rdquo; it.  <var class="var">file</var> is sought in
+the directories specified by <samp class="option">-I</samp> command-line option.  If
+<var class="var">file</var> does not exist, a warning in category &lsquo;<samp class="samp">file</samp>&rsquo; is produced
+and the request has no further effect.  See <a class="xref" href="Warnings.html">Warnings</a>, for
+information about the enablement and suppression of warnings.
+</p>
+<p><code class="code">so</code> can be useful for large documents; e.g., allowing each chapter
+of a book to be kept in a separate file.  However, files interpolated
+with <code class="code">so</code> are not preprocessed; to overcome this limitation, see
+the <cite class="cite">gsoelim<span class="r">(1)</span></cite> man page.
+</p>
+<p>Since GNU <code class="code">troff</code> replaces the entire control line with the
+contents of a file, it matters whether <code class="code">file</code> is terminated with a
+newline or not.  Assume that file <samp class="file">xxx</samp> contains only the word
+&lsquo;<samp class="samp">foo</samp>&rsquo; without a trailing newline.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">$ printf 'foo' &gt; xxx
+
+The situation is
+.so xxx
+bar.
+    &rArr; The situation is foobar.
+</pre></div></div>
+
+<p><code class="code">soquiet</code> works the same way, except that no warning diagnostic is
+issued if <var class="var">file</var> does not exist.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002epso"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pso</code></strong> <var class="def-var-arguments">command</var><a class="copiable-link" href='#index-_002epso'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-pso"></a>
+<p>Read the standard output from the specified <var class="var">command</var> and include
+it in place of the <code class="code">pso</code> request.
+</p>
+<a class="index-entry-id" id="index-safer-mode-3"></a>
+<a class="index-entry-id" id="index-mode_002c-safer-3"></a>
+<a class="index-entry-id" id="index-unsafe-mode-3"></a>
+<a class="index-entry-id" id="index-mode_002c-unsafe-3"></a>
+<p>It is an error to use this request in safer mode, which is the
+default.  Invoke GNU <code class="code">troff</code> or a front end with the <samp class="option">-U</samp>
+option to enable unsafe mode.
+</p>
+<p>The comment regarding a final newline for the <code class="code">so</code> request is valid
+for <code class="code">pso</code> also.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002emso"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.mso</code></strong> <var class="def-var-arguments">file</var><a class="copiable-link" href='#index-_002emso'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-mso"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002emsoquiet"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.msoquiet</code></strong> <var class="def-var-arguments">file</var><a class="copiable-link" href='#index-_002emsoquiet'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-msoquiet"></a>
+<p>Identical to the <code class="code">so</code> and <code class="code">soquiet</code> requests, respectively,
+except that <code class="code">gtroff</code> searches for the specified <var class="var">file</var> in the
+same directories as macro files for the <samp class="option">-m</samp> command-line option.
+If the file name to be included has the form <samp class="file"><var class="var">name</var>.tmac</samp> and
+it isn&rsquo;t found, these requests try to include <samp class="file">tmac.<var class="var">name</var></samp> and
+vice versa.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002etrf"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.trf</code></strong> <var class="def-var-arguments">file</var><a class="copiable-link" href='#index-_002etrf'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-trf"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002ecf"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.cf</code></strong> <var class="def-var-arguments">file</var><a class="copiable-link" href='#index-_002ecf'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-cf"></a>
+<a class="index-entry-id" id="index-transparent-output-_0028cf_002c-trf_0029"></a>
+<a class="index-entry-id" id="index-output_002c-transparent-_0028cf_002c-trf_0029"></a>
+<a class="index-entry-id" id="index-cf-request_002c-and-copy-mode"></a>
+<a class="index-entry-id" id="index-copy-mode_002c-and-cf-request"></a>
+<a class="index-entry-id" id="index-mode_002c-copy_002c-and-cf-request"></a>
+<a class="index-entry-id" id="index-trf-request_002c-and-copy-mode"></a>
+<a class="index-entry-id" id="index-copy-mode_002c-and-trf-request"></a>
+<a class="index-entry-id" id="index-mode_002c-copy_002c-and-trf-request"></a>
+<p>Transparently output the contents of <var class="var">file</var>.  Each line is output as
+if it were preceded by <code class="code">\!</code>; however, the lines are <em class="emph">not</em>
+subject to copy mode interpretation.  If the file does not end with a
+newline, <code class="code">trf</code> adds one.  Both requests cause a break.
+</p>
+<p>When used in a diversion, these requests embed a node (see <a class="pxref" href="Gtroff-Internals.html"><code class="code">gtroff</code> Internals</a>) in it that, when reread, causes the contents of <var class="var">file</var>
+to be transparently copied to the output.  In <abbr class="acronym">AT&amp;T</abbr>
+<code class="code">troff</code>, the contents of <var class="var">file</var> are immediately copied to the
+output regardless of whether there is a current diversion; this
+behaviour is so anomalous that it must be considered a bug.
+</p>
+<a class="index-entry-id" id="index-trf-request_002c-and-invalid-characters"></a>
+<a class="index-entry-id" id="index-characters_002c-invalid-for-trf-request"></a>
+<a class="index-entry-id" id="index-invalid-characters-for-trf-request"></a>
+<p>While <code class="code">cf</code> copies the contents of <var class="var">file</var> completely
+unprocessed, <code class="code">trf</code> disallows characters such as NUL that are not
+valid <code class="code">gtroff</code> input characters (see <a class="pxref" href="Identifiers.html">Identifiers</a>).
+</p>
+<p>For <code class="code">cf</code>, within a diversion, &ldquo;completely unprocessed&rdquo; means that
+each line of a file to be inserted is handled as if it were preceded by
+<code class="code">\!\\!</code>.
+</p>
+<p>To define a macro&nbsp;<code class="code">x</code> containing the contents of
+file&nbsp;<samp class="file">f</samp>, use
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ev 1
+.di x
+.trf f
+.di
+.ev
+</pre></div></div>
+
+<p>The calls to <code class="code">ev</code> prevent the partially collected output line
+from becoming part of the diversion (see <a class="pxref" href="Diversions.html">Diversions</a>).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002enx"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.nx</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">file</i></span>]</var><a class="copiable-link" href='#index-_002enx'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-nx"></a>
+<a class="index-entry-id" id="index-processing-next-file-_0028nx_0029"></a>
+<a class="index-entry-id" id="index-file_002c-processing-next-_0028nx_0029"></a>
+<a class="index-entry-id" id="index-next-file_002c-processing-_0028nx_0029"></a>
+<p>Force <code class="code">gtroff</code> to continue processing of the file specified as an
+argument.  If no argument is given, immediately jump to the end of file.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002erd"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.rd</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">prompt</i></span> [<span class="r"><i class="slanted">arg1</i></span> <span class="r"><i class="slanted">arg2</i></span> &hellip;]]</var><a class="copiable-link" href='#index-_002erd'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-rd"></a>
+<a class="index-entry-id" id="index-reading-from-standard-input-_0028rd_0029"></a>
+<a class="index-entry-id" id="index-standard-input_002c-reading-from-_0028rd_0029"></a>
+<a class="index-entry-id" id="index-input_002c-standard_002c-reading-from-_0028rd_0029"></a>
+<p>Read from standard input, and include what is read as though it were
+part of the input file.  Text is read until a blank line is encountered.
+</p>
+<p>If standard input is a TTY input device (keyboard), write <var class="var">prompt</var>
+to standard error, followed by a colon (or send BEL for a beep if no
+argument is given).
+</p>
+<p>Arguments after <var class="var">prompt</var> are available for the input.  For example,
+the line
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.rd data foo bar
+</pre></div></div>
+
+<p>with the input &lsquo;<samp class="samp">This&nbsp;is&nbsp;\$2.</samp>&rsquo;<!-- /@w --> prints
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">This is bar.
+</pre></div></div>
+</dd></dl>
+
+<a class="index-entry-id" id="index-form-letters"></a>
+<a class="index-entry-id" id="index-letters_002c-form"></a>
+<p>Using the <code class="code">nx</code> and <code class="code">rd</code> requests, it is easy to set up form
+letters.  The form letter template is constructed like this, putting the
+following lines into a file called <samp class="file">repeat.let</samp>:
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ce
+\*(td
+.sp 2
+.nf
+.rd
+.sp
+.rd
+.fi
+Body of letter.
+.bp
+.nx repeat.let
+</pre></div></div>
+
+<a class="index-entry-id" id="index-ex-request_002c-used-with-nx-and-rd"></a>
+<p>When this is run, a file containing the following lines should be
+redirected in.  Requests included in this file are executed as though
+they were part of the form letter.  The last block of input is the
+<code class="code">ex</code> request, which tells GNU <code class="code">troff</code> to stop processing.  If
+this were not there, <code class="code">troff</code> would not know when to stop.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">Trent A. Fisher
+708 NW 19th Av., #202
+Portland, OR  97209
+
+Dear Trent,
+
+Len Adollar
+4315 Sierra Vista
+San Diego, CA  92103
+
+Dear Mr. Adollar,
+
+.ex
+</pre></div></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002epi"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pi</code></strong> <var class="def-var-arguments">pipe</var><a class="copiable-link" href='#index-_002epi'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-pi"></a>
+<p>Pipe the output of <code class="code">gtroff</code> to the shell command(s) specified by
+<var class="var">pipe</var>.  This request must occur before <code class="code">gtroff</code> has a chance
+to print anything.
+</p>
+<a class="index-entry-id" id="index-safer-mode-4"></a>
+<a class="index-entry-id" id="index-mode_002c-safer-4"></a>
+<a class="index-entry-id" id="index-unsafe-mode-4"></a>
+<a class="index-entry-id" id="index-mode_002c-unsafe-4"></a>
+<p>It is an error to use this request in safer mode, which is the
+default.  Invoke GNU <code class="code">troff</code> or a front end with the <samp class="option">-U</samp>
+option to enable unsafe mode.
+</p>
+<p>Multiple calls to <code class="code">pi</code> are allowed, acting as a chain.  For
+example,
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.pi foo
+.pi bar
+...
+</pre></div></div>
+
+<p>is the same as &lsquo;<samp class="samp">.pi&nbsp;foo&nbsp;|&nbsp;bar</samp>&rsquo;<!-- /@w -->.
+</p>
+<a class="index-entry-id" id="index-groff_002c-and-pi-request"></a>
+<a class="index-entry-id" id="index-pi-request_002c-and-groff"></a>
+<p>The intermediate output format of GNU <code class="code">troff</code> is piped to the
+specified commands.  Consequently, calling <code class="code">groff</code> without the
+<samp class="option">-Z</samp> option normally causes a fatal error.
+</p></dd></dl>
+
+<a class="index-entry-id" id="index-system-commands_002c-running"></a>
+<a class="index-entry-id" id="index-running-system-commands"></a>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002esy"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.sy</code></strong> <var class="def-var-arguments">cmds</var><a class="copiable-link" href='#index-_002esy'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-sy"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005bsystat_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[systat]</code></strong><a class="copiable-link" href='#index-_005cn_005bsystat_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-systat"></a>
+<p>Execute the shell command(s) specified by <var class="var">cmds</var>.  The output is not
+saved anywhere, so it is up to the user to do so.
+</p>
+<a class="index-entry-id" id="index-safer-mode-5"></a>
+<a class="index-entry-id" id="index-mode_002c-safer-5"></a>
+<a class="index-entry-id" id="index-unsafe-mode-5"></a>
+<a class="index-entry-id" id="index-mode_002c-unsafe-5"></a>
+<p>It is an error to use this request in safer mode; this is the default.
+Give GNU <code class="code">troff</code> or a front end program the <samp class="option">-U</samp> option to
+enable unsafe mode.
+</p>
+<p>The following code fragment introduces the current time into a document.
+</p>
+<a class="index-entry-id" id="index-perl"></a>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.sy perl -e 'printf &quot;.nr H %d\\n.nr M %d\\n.nr S %d\\n&quot;,\
+             (localtime(time))[2,1,0]' &gt; /tmp/x\n[$$]
+.so /tmp/x\n[$$]
+.sy rm /tmp/x\n[$$]
+\nH:\nM:\nS
+</pre></div></div>
+
+<p>This works by having the Perl script (run by <code class="code">sy</code>) write
+<code class="code">nr</code> requests that set the registers <code class="code">H</code>, <code class="code">M</code>, and
+<code class="code">S</code> to a temporary file.  The <code class="code">roff</code> document then reads the
+temporary file using the <code class="code">so</code> request.
+</p>
+<a class="index-entry-id" id="index-time_002c-formatting"></a>
+<a class="index-entry-id" id="index-formatting-the-time"></a>
+<p>The registers <code class="code">seconds</code>, <code class="code">minutes</code>, and <code class="code">hours</code>,
+initialized at startup of GNU <code class="code">troff</code>, should satisfy most
+requirements.  Use the <code class="code">af</code> request to format their values for
+output.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.af hours 00
+.af minutes 00
+.af seconds 00
+\n[hours]:\n[minutes]:\n[seconds]
+    &rArr; 02:17:54
+</pre></div></div>
+
+<a class="index-entry-id" id="index-system_0028_0029-return-value-register-_0028systat_0029"></a>
+<p>The writable register <code class="code">systat</code> contains the return value of the
+<code class="code">system()</code> function executed by the last <code class="code">sy</code> request.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eopen"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.open</code></strong> <var class="def-var-arguments">stream file</var><a class="copiable-link" href='#index-_002eopen'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-open"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002eopena"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.opena</code></strong> <var class="def-var-arguments">stream file</var><a class="copiable-link" href='#index-_002eopena'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-opena"></a>
+<a class="index-entry-id" id="index-opening-file-_0028open_0029"></a>
+<a class="index-entry-id" id="index-file_002c-opening-_0028open_0029"></a>
+<a class="index-entry-id" id="index-appending-to-a-file-_0028opena_0029"></a>
+<a class="index-entry-id" id="index-file_002c-appending-to-_0028opena_0029"></a>
+<p>Open the specified <var class="var">file</var> for writing and associates the specified
+<var class="var">stream</var> with it.
+</p>
+<p>The <code class="code">opena</code> request is like <code class="code">open</code>, but if the file exists,
+append to it instead of truncating it.
+</p>
+<a class="index-entry-id" id="index-safer-mode-6"></a>
+<a class="index-entry-id" id="index-mode_002c-safer-6"></a>
+<a class="index-entry-id" id="index-unsafe-mode-6"></a>
+<a class="index-entry-id" id="index-mode_002c-unsafe-6"></a>
+<p>It is an error to use these requests in safer mode; this is the default.
+Give GNU <code class="code">troff</code> or a front end program the <samp class="option">-U</samp> option to
+enable unsafe mode.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ewrite"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.write</code></strong> <var class="def-var-arguments">stream data</var><a class="copiable-link" href='#index-_002ewrite'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-write"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002ewritec"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.writec</code></strong> <var class="def-var-arguments">stream data</var><a class="copiable-link" href='#index-_002ewritec'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-writec"></a>
+<a class="index-entry-id" id="index-copy-mode_002c-and-write-request"></a>
+<a class="index-entry-id" id="index-write-request_002c-and-copy-mode"></a>
+<a class="index-entry-id" id="index-mode_002c-copy_002c-and-write-request"></a>
+<a class="index-entry-id" id="index-copy-mode_002c-and-writec-request"></a>
+<a class="index-entry-id" id="index-writec-request_002c-and-copy-mode"></a>
+<a class="index-entry-id" id="index-mode_002c-copy_002c-and-writec-request"></a>
+<a class="index-entry-id" id="index-writing-to-file-_0028write_002c-writec_0029"></a>
+<a class="index-entry-id" id="index-file_002c-writing-to-_0028write_002c-writec_0029"></a>
+<p>Write to the file associated with the specified <var class="var">stream</var>.  The
+stream must previously have been the subject of an open request.  The
+remainder of the line is interpreted as the <code class="code">ds</code> request reads its
+second argument: an initial neutral double quote in <var class="var">contents</var> is
+stripped to allow embedding of leading spaces, and it is read in copy
+mode.
+</p>
+<p>The <code class="code">writec</code> request is like <code class="code">write</code>, but only <code class="code">write</code>
+appends a newline to the data.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ewritem"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.writem</code></strong> <var class="def-var-arguments">stream xx</var><a class="copiable-link" href='#index-_002ewritem'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-writem"></a>
+<a class="index-entry-id" id="index-asciify-request_002c-and-writem"></a>
+<p>Write the contents of the macro or string <var class="var">xx</var> to the file
+associated with the specified <var class="var">stream</var>.
+</p>
+<a class="index-entry-id" id="index-writem-request_002c-and-copy-mode"></a>
+<a class="index-entry-id" id="index-copy-mode_002c-and-writem-request"></a>
+<a class="index-entry-id" id="index-mode_002c-copy_002c-and-writem-request"></a>
+<p><var class="var">xx</var> is read in copy mode, i.e., already formatted elements are
+ignored.  Consequently, diversions must be unformatted with the
+<code class="code">asciify</code> request before calling <code class="code">writem</code>.  Usually, this
+means a loss of information.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eclose"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.close</code></strong> <var class="def-var-arguments">stream</var><a class="copiable-link" href='#index-_002eclose'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-close"></a>
+<a class="index-entry-id" id="index-closing-file-_0028close_0029"></a>
+<a class="index-entry-id" id="index-file_002c-closing-_0028close_0029"></a>
+<p>Close the specified <var class="var">stream</var>; the stream is no longer an acceptable
+argument to the <code class="code">write</code> request.
+</p>
+<p>Here a simple macro to write an index entry.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.open idx test.idx
+.
+.de IX
+.  write idx \\n[%] \\$*
+..
+.
+.IX test entry
+.
+.close idx
+</pre></div></div>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cVe"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\V</code><span class="r"><i class="slanted">e</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cVe'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cV"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cV_0028ev"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\V(</code><span class="r"><i class="slanted">ev</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cV_0028ev'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cV_005benv_005d"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\V[</code><span class="r"><i class="slanted">env</i></span><code class="t">]</code></strong><a class="copiable-link" href='#index-_005cV_005benv_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cV_002c-and-copy-mode"></a>
+<a class="index-entry-id" id="index-copy-mode_002c-and-_005cV"></a>
+<a class="index-entry-id" id="index-mode_002c-copy_002c-and-_005cV"></a>
+<p>Interpolate the contents of the specified environment variable <var class="var">env</var>
+(one-character name&nbsp;<var class="var">e</var>, two-character name <var class="var">ev</var>) as
+returned by the function <cite class="cite">getenv<span class="r">(3)</span></cite>.  <code class="code">\V</code> is interpreted
+even in copy mode (see <a class="pxref" href="Copy-Mode.html">Copy Mode</a>).
+</p></dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Postprocessor-Access.html">Postprocessor Access</a>, Previous: <a href="Suppressing-Output.html">Suppressing Output</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

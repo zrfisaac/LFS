@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Changing the Type Size (The GNU Troff Manual)</title>
+
+<meta name="description" content="Changing the Type Size (The GNU Troff Manual)">
+<meta name="keywords" content="Changing the Type Size (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Manipulating-Type-Size-and-Vertical-Spacing.html" rel="up" title="Manipulating Type Size and Vertical Spacing">
+<link href="Changing-the-Vertical-Spacing.html" rel="next" title="Changing the Vertical Spacing">
+<link href="Manipulating-Type-Size-and-Vertical-Spacing.html" rel="prev" title="Manipulating Type Size and Vertical Spacing">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Changing-the-Type-Size">
+<div class="nav-panel">
+<p>
+Next: <a href="Changing-the-Vertical-Spacing.html" accesskey="n" rel="next">Changing the Vertical Spacing</a>, Previous: <a href="Manipulating-Type-Size-and-Vertical-Spacing.html" accesskey="p" rel="prev">Manipulating Type Size and Vertical Spacing</a>, Up: <a href="Manipulating-Type-Size-and-Vertical-Spacing.html" accesskey="u" rel="up">Manipulating Type Size and Vertical Spacing</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Changing-the-Type-Size-1">5.20.1 Changing the Type Size</h4>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eps"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ps</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">size</i></span>]</var><a class="copiable-link" href='#index-_002eps'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ps"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002eps-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ps</code></strong> <var class="def-var-arguments"><code class="t">+</code><span class="r"><i class="slanted">size</i></span></var><a class="copiable-link" href='#index-_002eps-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_002eps-2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ps</code></strong> <var class="def-var-arguments"><code class="t">-</code><span class="r"><i class="slanted">size</i></span></var><a class="copiable-link" href='#index-_002eps-2'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cssize"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\s</code><span class="r"><i class="slanted">size</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cssize'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cs"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002es_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.s]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002es_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002es"></a>
+<a class="index-entry-id" id="index-changing-type-sizes-_0028ps_002c-_005cs_0029"></a>
+<a class="index-entry-id" id="index-type-sizes_002c-changing-_0028ps_002c-_005cs_0029"></a>
+<a class="index-entry-id" id="index-point-sizes_002c-changing-_0028ps_002c-_005cs_0029"></a>
+<p>Use the <code class="code">ps</code> request or the <code class="code">\s</code> escape sequence to change
+(increase, decrease) the type size (in scaled points).  Specify
+<var class="var">size</var> as either an absolute type size, or as a relative change from
+the current size.  <code class="code">ps</code> with no argument restores the previous
+size.  The <code class="code">ps</code> request&rsquo;s default scaling unit is &lsquo;<samp class="samp">z</samp>&rsquo;.  The
+requested size is rounded to the nearest valid size (with ties rounding
+down) within the limits supported by the device.  If the requested size
+is non-positive, it is treated as 1<span class="dmn">u</span>.
+</p>
+<a class="index-entry-id" id="index-CSTR-_002354-errata-4"></a>
+<a class="index-entry-id" id="index-CSTR-_002354-erratum_002c-ps-request"></a>
+<a class="index-entry-id" id="index-CSTR-_002354-erratum_002c-_005cs-escape-sequence"></a>
+<p>Type size alteration is incorrectly documented in the <abbr class="acronym">AT&amp;T</abbr>
+<code class="code">troff</code> manual, which claims &ldquo;if [the requested size] is invalid,
+the next larger valid size will result, with a maximum of
+36&rdquo;.<a class="footnote" id="DOCF84" href="groff.html_fot.html#FOOT84"><sup>84</sup></a>
+</p>
+<a class="index-entry-id" id="index-type-size-registers-_0028_002es_002c-_002eps_0029"></a>
+<a class="index-entry-id" id="index-point-size-registers-_0028_002es_002c-_002eps_0029"></a>
+<p>The read-only string-valued register <code class="code">.s</code> interpolates the type
+size in points as a decimal fraction; it is associated with the
+environment (see <a class="pxref" href="Environments.html">Environments</a>).  To obtain the type size in scaled
+points, interpolate the <code class="code">.ps</code> register instead (see <a class="pxref" href="Using-Fractional-Type-Sizes.html">Using Fractional Type Sizes</a>).
+</p>
+<p>The <code class="code">\s</code> escape sequence supports a variety of syntax forms.
+</p>
+<dl class="table">
+<dt><code class="code">\s<var class="var">n</var></code></dt>
+<dd><p>Set the type size to <var class="var">n</var>&nbsp;points.  <var class="var">n</var>&nbsp;must be a single
+digit.  If <var class="var">n</var>&nbsp;is 0, restore the previous size.
+</p>
+</dd>
+<dt><code class="code">\s+<var class="var">n</var></code></dt>
+<dt><code class="code">\s-<var class="var">n</var></code></dt>
+<dd><p>Increase or decrease the type size by <var class="var">n</var>&nbsp;points.
+<var class="var">n</var>&nbsp;must be exactly one digit.
+</p>
+</dd>
+<dt><code class="code">\s(<var class="var">nn</var></code></dt>
+<dd><p>Set the type size to <var class="var">nn</var>&nbsp;points.  <var class="var">nn</var> must be exactly two
+digits.
+</p>
+</dd>
+<dt><code class="code">\s+(<var class="var">nn</var></code></dt>
+<dt><code class="code">\s-(<var class="var">nn</var></code></dt>
+<dt><code class="code">\s(+<var class="var">nn</var></code></dt>
+<dt><code class="code">\s(-<var class="var">nn</var></code></dt>
+<dd><p>Alter the type size in points by the two-digit value <var class="var">nn</var>.
+</p></dd>
+</dl>
+
+<p>See <a class="xref" href="Using-Fractional-Type-Sizes.html">Using Fractional Type Sizes</a>, for further syntactical forms of the
+<code class="code">\s</code> escape sequence that additionally accept decimal fractions.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">snap, snap,
+.ps +2
+grin, grin,
+.ps +2
+wink, wink, \s+2nudge, nudge,\s+8 say no more!
+.ps 10
+</pre></div></div>
+</dd></dl>
+
+<p>The <code class="code">\s</code> escape sequence affects the environment immediately and
+doesn&rsquo;t produce an input token.  Consequently, it can be used in
+requests like <code class="code">mc</code>, which expects a single character as an
+argument, to change the type size on the fly.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.mc \s[20]x\s[0]
+</pre></div></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002esizes"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.sizes</code></strong> <var class="def-var-arguments">s1 s2 &hellip; sn [<code class="t">0</code>]</var><a class="copiable-link" href='#index-_002esizes'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-sizes-1"></a>
+<p>The <samp class="file">DESC</samp> file specifies which type sizes are allowed by the
+output device; see <a class="ref" href="DESC-File-Format.html"><samp class="file">DESC</samp> File Format</a>.  Use the <code class="code">sizes</code> request
+to change this set of permissible sizes.  Arguments are in scaled
+points; see <a class="ref" href="Using-Fractional-Type-Sizes.html">Using Fractional Type Sizes</a>.  Each can be a single
+type size (such as &lsquo;<samp class="samp">12000</samp>&rsquo;), or a range of sizes (such as
+&lsquo;<samp class="samp">4000-72000</samp>&rsquo;).  You can optionally end the list with a &lsquo;<samp class="samp">0</samp>&rsquo;.
+</p></dd></dl>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Changing-the-Vertical-Spacing.html">Changing the Vertical Spacing</a>, Previous: <a href="Manipulating-Type-Size-and-Vertical-Spacing.html">Manipulating Type Size and Vertical Spacing</a>, Up: <a href="Manipulating-Type-Size-and-Vertical-Spacing.html">Manipulating Type Size and Vertical Spacing</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

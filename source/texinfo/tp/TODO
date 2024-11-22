@@ -1,0 +1,680 @@
+This is the todo list for texi2any
+
+  Copyright 2012-2023 Free Software Foundation.
+
+  Copying and distribution of this file, with or without modification,
+  are permitted in any medium without royalty provided the copyright
+  notice and this notice are preserved.
+
+
+Before next release
+===================
+
+Bugs
+====
+
+HTML API
+========
+
+Issues
+------
+
+Some private function used in conversion
+ _convert_printindex_command
+  _new_document_context
+
+
+Missing documentation
+=====================
+
+HTML API ignore_notice _noticed_line_warn.  Add to API before?
+
+Tree documentation in ParserNonXS.pm
+------------------------------------
+
+elided_rawpreformatted, elided_brace_command_arg types.
+
+'comment_at_end' in info hash
+
+source marks.
+
+Other
+-----
+
+For converter writers,
+'output_init_conf' and 'converter_init_conf'.
+
+
+Delayed bugs
+============
+
+From https://www.gnu.org/software/libc/manual/html_node/Using-gettextized-software.html
+For locales, the encoding part is normalized in a specific way.  It
+seems that iconv in the C library follows the same convention at least to
+some extent, though it is not visibly documented.
+Should we use fully the normalization of documentencoding following in some
+context (gdt?):
+  The normalized codeset value is generated from the user-provided character set name by applying the following rules:
+
+    Remove all characters besides numbers and letters.
+    Fold letters to lowercase.
+    If the same only contains digits prepend the string "iso".
+
+  So all of the above names will be normalized to iso88591. This allows the program user much more freedom in choosing the locale name.
+
+
+hyphenation: should only appear in toplevel.
+
+
+Some dubious nesting could be warned against.  The parsers context
+command stacks could be used for that.
+
+Some erroneous constructs not already warned against:
+
+ @table in @menu
+
+ @example
+ @heading A heading
+ @end example
+ Example in heading/heading_in_example.
+
+ @group outside of @example  (maybe there is no need for command stack for
+                              this one if @group can only appear directly
+                              in @example).
+
+There is no warning with a block command between @def* and @def*x,
+only for paragraph.  Not sure that this can be detected with
+the context command stack.
+
+ @defun a b c d e f
+
+ @itemize @minus
+ truc
+ @item t
+ @end itemize
+
+ @defunx g h j k l m
+
+ @end defun
+
+
+Modules included in tp/maintain/lib/ need to be updated from time to
+time.
+
+
+HTML5 validation tidy errors that do not need fixing
+----------------------------------------------------
+
+# to get only errors:
+tidy -qe *.html
+
+Some can also be validation errors in other HTML versions.
+
+missing </a> before <a>
+discarding unexpected </a>
+nested <a> which happens for @url in @xref, which is valid Texinfo.
+
+Warning: <a> anchor "..." already defined
+Should only happen with multiple insertcopying.
+
+Warning: trimming empty <code>
+Normally happens only for invalid Texinfo, missing @def* name, empty
+@def* line...
+
+<td> attribute "width" not allowed for HTML5
+<th> attribute "width" not allowed for HTML5
+These attributes are obsolete (though the elements are 
+still part of the language), and must not be used by authors.
+The CSS replacement would be style="width: 40%".
+However, width is kept as an attribute in texi2nay output and not
+as CSS because it is not style, but table or even line specific formatting.
+
+
+Missing tests
+=============
+
+Unit test of end_line_count for Texinfo/Convert/Paragraph.pm .... containers.
+
+anchor in flushright, on an empty line, with a current byte offset.
+
+
+Future features
+===============
+
+For converters in C, agreed with Gavin that it is better not to
+translate a perl tree in input, but access directly the C tree that
+was setup by the XS parser.
+
+
+It would probably be good and maybe ease C converters to have a
+Texinfo::Document package which encapsulates the information associated
+to a document, the tree, and all the other information given by
+the parser, indices_information, floats_information,
+internal_references_information, global_commands_information,
+global_information and labels_information as they are a property of a Texinfo
+Document, in addition to being, in general, states of a parser.  The
+information set by some calls to Structuring would also probably fit there
+naturally.  A member of the package/class would be initialized after the
+parsing, but not necessarily for all the function, maybe only parse_texi_text
+and parse_texi_file.
+
+
+For Paragraph, improvements and synchronizations of
+the two implementations.  It would be nice to change the XS code
+to operate on multiple spans of characters at once when relevant,
+we'd have an extra step of keeping track of how long each span of
+text is, and then processing that span of text together (in the loop
+in xspara_add_text).  It could potentiall have performance benefits
+(e.g. reducing the number of function calls) and be easier to debug,
+with fewer steps in the processing to trace.  The XS code is easier
+to read for the ens of sentence handling part, so for that part, it
+could be relevant to use the XS code as reference and change the perl
+Paragraph.
+
+
+From Gavin on the preamble_before_beginning implementation:
+Another way might be to add special input code to trim off and return
+a file prelude.  This would moves the handling of this from the "parser" code
+to the "input" code.  This would avoid the problematic "pushing back" of input
+and would be a clean way of doing this.  It would isolate the handling of
+the "\input" line from the other parsing code.
+
+I understand that the main purpose of the preamble_before_beginning element
+is not to lose information so that the original Texinfo file could be
+regenerated.  If that's the case, maybe the input code could return
+all the text in this preamble as one long string - it wouldn't have to be
+line by line.
+
+
+See message/thread from Reißner Ernst: Feature request: api docs
+
+Add in_math (for \) as flag in command_data.txt?
+
+Right now VERBOSE is almost not used.
+
+Should we warn if output is on STDOUT and OUTPUT_ENCODING_NAME != MESSAGE_OUTPUT_ENCODING_NAME?
+
+Handle better @exdent in html? (there is a FIXME in the code)
+
+Implement what is proposed in HTML Cross Reference Mismatch.
+
+For plaintext, implement an effect of NO_TOP_NODE_OUTPUT
+* if true, output some title, possibly based on titlepage
+  and do not output the Top node.
+* if false, current output is ok
+Default is false.
+
+In Plaintext, @quotation text could have the right margin narrowed to be more
+in line with other output formats.
+
+Punctuation and spaces before @image do not lead to a doubling of space.
+In fact @image is completly formatted outside of usual formatting containers.
+Not sure what should be the right way?
+test in info_test/image_and_punctuation
+
+in info_tests/error_in_footnote there is an error message for each
+listoffloats;  Line numbers are right, though, so maybe this is not
+an issue.
+
+converters_tests/things_before_setfilename there is no error
+for anchor and footnote before setfilename.  It is not completly
+clear that there should be, though.
+
+In Info, image special directive on sectioning command line length
+is taken into account for the underlying characters line count inserted
+below the section title.  There is no reason to underline the image
+special directive.  Since the image rendering and length of replacement
+text depends on the Info viewer, howere, there is no way to know in
+advance the lenght of text to underline (if any).  It is therefore unclear
+what would be the correct underlying characters count.
+An example in formats_encodings/at_commands_in_refs.
+
+Many strings in debugging output are not encoded.  Not clear that it is
+an issue.  For example with
+/usr/bin/perl -w ./..//texi2any.pl  --force --conf-dir ./../t/init/ --conf-dir ./../init --conf-dir ./../ext -I ./coverage/ -I coverage// -I ./ -I . -I built_input --error-limit=1000 -c TEST=1  --output coverage//out_parser/formatting_macro_expand/ --macro-expand=coverage//out_parser/formatting_macro_expand/formatting.texi -c TEXINFO_OUTPUT_FORMAT=structure ./coverage//formatting.texi --debug=1 2>t.err
+
+
+DocBook
+-------
+
+  deftypevr, deftypecv: use type and not returnvalue for the type
+
+  also informalfigure in @float
+
+  also use informaltable or table, for multitable?
+
+  Add an @abstract command or similar to Texinfo?
+  And put in DocBook <abstract>?  Beware that DocBook abstract is quite
+  limited in term of content, only a title and paragraphs.  Although block
+  commands can be in paragraphs in DocBook, it is not the case for Texinfo,
+  so it would be very limited.
+
+  what about @titlefont in docbook?
+
+  maybe use simpara instead of para. Indeed, simpara is for paragraph without
+  block element within, and it should be that way in generated output.
+
+* in docbook, when there is only one section <article> should be better
+  than book. Maybe the best way to do that would be passing the
+  information that there is only one section to the functions formatting
+  the page header and page footer.
+
+  there is a mark= attribute for itemizedlist element for the initial mark
+  of each item but the standard "does not specify a set of appropriate keywords"
+  so it cannot be used.
+
+
+Manual tests
+============
+
+Some tests are interesting but are not in the test suite for various
+reasons.  It is not really expected to have much regressions with these
+tests.  They are shown here for information.  It was up to date in
+March 2022, it may drift away as tests files names or content change.
+
+
+Tests in non utf8 locale
+------------------------
+
+In practice these tests were tested in latin1.  They are not
+in the may test suite because a latin1 locale cannot be expected
+to be present reliably.
+
+Tests with correct or acceptable results
+****************************************
+
+t/formats_encodings.t manual_simple_utf8_with_error
+utf8 manual with errors involving non ascii strings
+./texi2any.pl ./t/input_files/manual_simple_utf8_with_error.texi
+
+t/formats_encodings.t manual_simple_latin1_with_error
+latin1 manual with errors involving non ascii strings
+./texi2any.pl ./t/input_files/manual_simple_latin1_with_error.texi
+
+tests/formatting cpp_lines
+CPP directive with non ascii characters, utf8 manual
+./texi2any.pl -I ./t/include/ ./t/input_files/cpp_lines.texi
+accentÃªd:7: warning: làng is not a valid language code
+The file is UTF-8 encoded, the @documentencoding is obeyed which leads
+in the Parser, to an UTF-8 encoding of include file name, and not to the latin1
+encoding which should be used for the output messages encoding.
+This output is by (Gavin) design.
+
+many_input_files/output_dir_file_non_ascii.sh
+non ascii output directory, utf8 manual
+./texi2any.pl -o encodé/ ./t/input_files/simplest.texi
+
+test of non ascii included file name in utf8 locale is already in formatting:
+formatting/osé_utf8.texi:@include included_akçentêd.texi
+./texi2any.pl --force -I tests/ tests/formatting/os*_utf8.texi
+The file name is utf-8 encoded in messages, which is expected as we do not
+decode/encode file names from the command line for messages
+osÃ©_utf8.texi:15: warning: undefined flag: vùr
+
+t/80include.t cpp_line_latin1
+CPP directive with non ascii characters, latin1 manual
+./texi2any.pl --force ./t/input_files/cpp_line_latin1.texi
+
+Issue to add 'tests/included_lat'$'\356''n1.texi' in make dist
+tests/formatting manual_include_accented_file_name_latin1
+./texi2any.pl --force -I tests/ tests/formatting/manual_include_accented_file_name_latin1.texi
+
+latin1 encoded and latex2html in latin1 locale
+./texi2any.pl --html --init ext/latex2html.pm tests/tex_html/tex_encode_latin1.texi
+
+latin1 encoded and tex4ht in latin1 locale
+./texi2any.pl --html --init ext/tex4ht.pm tests/tex_html/tex_encode_latin1.texi
+
+cp -p tests/tex_html/tex_encode_latin1.texi tex_encodé_latin1.texi
+./texi2any.pl --html --init ext/tex4ht.pm tex_encodé_latin1.texi
+Firefox can't find tex_encod%uFFFD_latin1_html/Chapter.html (?)
+Opened from within the directory, still can't find the image file:
+tex_encod%E9_latin1_html/tex_encod%C3%A9_latin1_tex4ht_tex0x.png
+The file names and file contents looks right, though, with latin1 only
+encoded characters.
+
+epub for utf8 encoded manual in latin1 locale
+./texi2any.pl --force -I tests/ --init ext/epub3.pm tests/formatting/os*_utf8.texi
+
+epub for latin1 encoded manual in latin1 locale
+cp tests/tex_html/tex_encode_latin1.texi tex_encodé_latin1.texi
+./texi2any.pl --init ext/epub3.pm tex_encodé_latin1.texi
+
+./texi2any.pl --force -I tests/ -c TEXINFO_OUTPUT_FORMAT=rawtext tests/formatting/os*_utf8.texi
+output file name is in latin1, but the encoding inside is utf8 consistent
+with the document encoding.
+
+./texi2any.pl --force -I tests/ -c TEXINFO_OUTPUT_FORMAT=rawtext tests/formatting/os*_utf8_no_setfilename.texi
+output file name is utf8 because the utf8 encoded input file name
+is decoded using the locale latin1 encoding keeping the 8bit characters
+from the utf8 encoding, and the encoding inside is utf8
+consistent with the document encoding.
+
+./texi2any.pl --force -I tests/ -o encodé/raw.txt -c TEXINFO_OUTPUT_FORMAT=rawtext tests/formatting/os*_utf8.texi
+encodé/raw.txt file name encoded in latin1, and the encoding inside is utf8
+consistent with the document encoding.
+
+./texi2any.pl --force -I tests/ -c TEXINFO_OUTPUT_FORMAT=rawtext -c 'SUBDIR=subdîr' tests/formatting/os*_utf8.texi
+subdîr/osé_utf8.txt file name encoded in latin1, and the encoding inside is utf8
+consistent with the document encoding.
+
+./texi2any.pl --set TEXINFO_OUTPUT_FORMAT=debugtree --set USE_NODES=0 -o résultat/encodé.txt ./t/input_files/simplest_no_node_section.texi
+résultat/encodé.txt file name encoded in latin1.
+
+./texi2any.pl --set TEXINFO_OUTPUT_FORMAT=debugtree --set USE_NODES=0 -o char_latin1_latin1_in_refs_tree.txt ./t/input_files/char_latin1_latin1_in_refs.texi
+char_latin1_latin1_in_refs_tree.txt content encoded in latin1
+
+utf8 encoded manual name and latex2html in latin1 locale
+./texi2any.pl --verbose -c 'COMMAND_LINE_ENCODING=utf-8' --html --init ext/latex2html.pm -c 'L2H_CLEAN 0' tests/tex_html/tex_encod*_utf8.texi
+COMMAND_LINE_ENCODING=utf-8 is required in order to have the
+input file name correctly decoded as document_name which is used
+in init file to set the file names.
+
+latin1 encoded manual name and latex2html in latin1 locale
+cp tests/tex_html/tex_encode_latin1.texi tex_encodé_latin1.texi
+./texi2any.pl -c 'L2H_CLEAN 0' --html --init ext/latex2html.pm tex_encodé_latin1.texi
+
+Tests with incorrect results, though not bugs
+*********************************************
+
+utf8 encoded manual name and latex2html in latin1 locale
+./texi2any.pl --html --init ext/latex2html.pm -c 'L2H_CLEAN 0' tests/tex_html/tex_encod*_utf8.texi
+No error, but the file names are like
+ tex_encodÃ©_utf8_html/tex_encodÃ'$'\203''Â©_utf8_l2h.html
+That's in particular because the document_name is incorrect because it is
+decoded as if it was latin1.
+
+utf8 encoded manual name and tex4ht in latin1 locale
+./texi2any.pl --html --init ext/tex4ht.pm tests/tex_html/tex_encod*_utf8.texi
+html file generated by tex4ht with content="text/html; charset=iso-8859-1">,
+with character encoded in utf8 <img src="tex_encodÃ©_utf8_tex4ht_tex0x.png" ...>
+firefox opens tex_encodÃ©_utf8_html/Chapter.html but does not find the image
+and shows a path like tex_encodé_utf8_html/tex_encodÃ©_utf8_tex4ht_tex0x.png
+mixing latin1 and utf8.
+
+
+Tests in utf8 locales
+---------------------
+
+The archive epub file is not tested in the automated tests.
+
+epub for utf8 encoded manual in utf8 locale
+./texi2any.pl --force -I tests/ --init ext/epub3.pm tests/formatting/osé_utf8.texi
+
+The following tests require latin1 encoded file names.  Note that it
+could be done automatically now with
+tp/maintain/copy_change_file_name_encoding.pl.
+However, there is already a test with an include file in latin1, it
+is enough.
+./texi2any.pl tex_encod*_latin1.texi
+
+The following tests not important enough to have regression test
+./texi2any.pl --force -I tests/ -o encodé/raw.txt -c TEXINFO_OUTPUT_FORMAT=rawtext tests/formatting/os*_utf8.texi
+./texi2any.pl --force -I tests/ -c TEXINFO_OUTPUT_FORMAT=rawtext -c 'SUBDIR=subdîr' tests/formatting/os*_utf8.texi
+
+Test more interesting in non utf8 locale
+./texi2any.pl --set TEXINFO_OUTPUT_FORMAT=debugtree --set USE_NODES=0 -o résultat/encodé.txt ./t/input_files/simplest_no_node_section.texi
+résultat/encodé.txt file name encoded in utf8
+
+./texi2any.pl --set TEXINFO_OUTPUT_FORMAT=debugtree --set USE_NODES=0 -o char_latin1_latin1_in_refs_tree.txt ./t/input_files/char_latin1_latin1_in_refs.texi
+char_latin1_latin1_in_refs_tree.txt content encoded in latin1
+
+
+Notes on classes names in HTML
+==============================
+
+In january 2022 the classes in HTML elements were normalized.  There are no
+rules, but here is descriptions of the choices made at that time in case one
+want to use the same conventions.  The objective was to have the link between
+@-commands and classes easy to understand, avoid ambiguities, and have ways to
+style most of the output.
+
+The class names without hyphen were only used for @-commands, with one
+class attribute on an element maximum for each @-command appearing in the
+Texinfo source.  It was also attempted to have such a class for all
+the @-commands with an effect on output, though the coverage was not perfect,
+sometime it is not easy to select an element that would correspond to the
+most logical association with the @-command (case of @*ref @-commands with
+both a <cite> and a <a href> for example).
+
+Class names <command>-* with <command> a Texinfo @-command name were
+only used for classes marking elements within an @-command but in other
+elements that the main element for that @-command, in general sub elements.
+For example, a @flushright lead to a <div class="flushright"> where the
+@flushright command is and to <p class="flushright-paragraph"> for the
+paragraphs within the @flushright.
+
+Class names *-<command> with <command> a Texinfo @-command name were
+reserved for uses related to @-command <command>.  For example
+classes like summary-letter-printindex, cp-entries-printindex or
+cp-letters-header-printindex for the different parts of the @printindex
+formatting.
+
+def- and -def are used for classes related to @def*, in general without
+the specific command name used.
+
+For the classes not associated with @-commands, the names were selected to
+correspond to the role in the document rather than to the formatting style.
+
+
+In HTML, some @-commands do not have an element with a class associated, or the
+association is not perfect.  There is @author in @quotation, @-command affected
+by @definfoenclose.  @pxref and similar @-commands have no class for references
+to external nodes, and don't have the 'See ' in the element for references to
+internal nodes.  In general, it is because gdt() is used instead of direct
+HTML.
+
+
+Notes on protection of punctuation in nodes (done)
+==================================================
+
+This is implemented, in tp/Texinfo/Transformations.pm in _new_node for
+Texinfo generation, and in Info with INFO_SPECIAL_CHARS_QUOTE.  *[nN]ote
+is not protected, though, but it is not clear it would be right to do.
+There is a warning with @strong{note...}.
+
+Automatic generation of node names from section names.  To be protected:
+* in every case
+  ( at the beginning
+* In @node line
+  commas
+* In menu entry
+  * if there is a label
+    tab comma dot
+  * if there is no label
+    :
+* In @ref
+  commas
+
+In Info
+
+in cross-references. First : is searched.  if followed by a : the node
+name is found and there is no label. When parsing a node a filename
+with ( is searched for.  Nested parentheses are taken into account.
+
+Nodes:
+* in every case
+  ( at the beginning
+* in Node line
+  commas
+* In menu entry and *Note
+  * if there is a label
+    tab comma dot
+  * if there is no label
+    :
+
+Labels in Info (not index entries, in index entries the last : not in
+                a uoted node should be used to determine the end of the
+                index entry).
+  :
+
+* at the beginning of a line in a @menu
+*note more or less everywhere
+
+
+Interrogations and remarks
+==========================
+
+Should more Converter ignore the last new line (with type
+last_raw_newline) of a raw block format?
+
+There is no forward looking code anymore, so maybe a lex/yacc parser
+could be used for the main loop.  More simply, a binary tokenizer, at
+least, could make for a notable speedup.
+
+def/end_of_lines_protected_in_footnote.pl the footnote is
+   (1)  -- category: deffn_name arguments arg2 more args with end of line
+and not
+   (1)
+ -- category: deffn_name arguments arg2 more args with end of line
+It happens this way because the paragraph starts right after the footnote
+number.
+
+in HTML, the argument of a quotation is ignored if the quotation is empty,
+as in
+ @quotation thing
+ @end quotation
+Is it really a bug?
+
+In @copying things like some raw formats may be expanded.  However it is
+not clear that it should be the same than in the main converter.  Maybe a
+specific list of formats could be passed to Convert::Text::convert, which
+would be different (for example Info and Plaintext even if converting HTML).
+This requires a test, to begin with.
+
+In HTML, HEADERS is used.  But not in other modules, especially not in
+Plaintext.pm or Info.pm, this is determined by the module used (Plaintext.pm
+or Info.pm).  No idea whether it is right or wrong.
+
+From vincent Belaïche. About svg image files in HTML:
+
+I don't think that supporting svg would be easy: its seems that to embed an
+svg picture you need to declare the width x height of the frame in
+which you embed it, and this information cannot be derived quite
+straightforwardly from the picture.
+With @image you can declare width and height but this is intended for
+scaling. I am not sure whether or not that these arguments can be used
+for the purpose of defining that frame...
+What I did in 5x5 is that coded the height of the frame directly in
+the macro @FIGURE with which I embed the figure, without going through
+an argument.
+The @FIGURE @macro is, for html:
+@macro FIGURE {F,W}
+@html
+<div align="center">
+<embed src="5x5_\F\.svg" height="276"
+ type="image/svg+xml"
+ pluginspage="http://www.adobe.com/svg/viewer/install/" /></div>
+@end html
+@end macro
+
+Use of specialized synopsis in DocBook is not a priority and it is not even
+obvious that it is interesting to do so.  The following notes explain the
+possibilities and issues extensively.
+
+Instead of synopsis it might seem to be relevant to use specialized synopsis,
+funcsynopsis/funcprototype for deftype* and some def*, and other for object
+oriented.  There are many issues such that this possibility do not appear
+appealing at all.
+
+1) there is no possibility to have a category.  So the category must be
+   added somewhere as a role= or in the *synopsisinfo, or this should only
+   be used for specialized @def, like @defun.
+
+2) @defmethod and @deftypemethod cannot really be mapped to methodsynopsis
+   as the class name is not associated with the method as in Texinfo, but
+   instead  the method should be in a class in docbook.
+
+3) From the docbook reference for funcsynopsis
+  "For the most part, the processing application is expected to
+  generate all of the parentheses, semicolons, commas, and so on
+  required in the rendered synopsis. The exception to this rule is
+  that the spacing and other punctuation inside a parameter that is a
+  pointer to a function must be provided in the source markup."
+
+  So this mean it is language specific (C, as said in the docbook doc)
+  and one have to remove the parentheses, semicolons, commas.
+
+  See also the mails from Per Bothner bug-texinfo, Sun, 22 Jul 2012 01:45:54.
+
+specialized @def, without a need for category:
+@defun and @deftypefun
+<funcsynopsis><funcprototype><funcdef>TYPE <function>NAME</function><paramdef><parameter>args</parameter></paramdef></funcprototype></funcsynopsis>
+
+specialized @def, without a need for category, but without DocBook synopsis
+because of missing class:
+@defmethod, @deftypemethod: methodsynopsis cannot be used since the class
+is not available
+@defivar and @deftypeivar: fieldsynopsis cannot be used since the class
+is not available
+
+Generic @def with a need for a category
+For deffn deftypefn (and defmac?, defspec?), the possibilities of
+funcsynopsis, with a category added could be used:
+  <funcsynopsis><funcprototype><funcdef role=...>TYPE <function>NAME</function></funcdef><paramdef>PARAMTYPE <parameter>PARAM</parameter></paramdef></funcprototype></funcsynopsis>
+
+Alternatively, use funcsynopsisinfo for the category.
+
+Generic @def with a need for a category, but without DocBook synopsis because
+of missing class:
+@defop and @deftypeop: methodsynopsis cannot be used since the class
+is not available
+defcv, deftypecv: fieldsynopsis cannot be used since the class
+is not available
+
+Remaining @def without DocBook synopsis because there is no equivalent,
+and requires a category
+defvr (defvar, defopt), deftypevr (deftypevar)
+deftp
+
+
+Misc notes
+==========
+
+Test validity of Texinfo XML or docbook
+export XML_CATALOG_FILES=~/src/texinfo/tp/maintain/catalog.xml
+xmllint --nonet --noout --valid commands.xml
+
+tidy -qe *.html
+
+profiling: package on debian:
+libdevel-nytprof-perl
+In doc:
+perl -d:NYTProf ../tp/texi2any.pl texinfo.texi
+nytprofhtml
+# firefox nytprof/index.html
+
+Test with 8bit locale:
+export LANG=fr_FR; export LANGUAGE=fr_FR; export LC_ALL=fr_FR
+xterm &
+
+Turkish locale, interesting as ASCII upper-case letter I can become
+a (non-ASCII) dotless i when lower casing.  (Eli recommendation).
+export LANG=tr_TR.UTF-8; export LANGUAGE=tr_TR.UTF-8; export LC_ALL=tr_TR.UTF-8
+
+convert to pdf from docbook
+xsltproc -o intermediate-fo-file.fo /usr/share/xml/docbook/stylesheet/docbook-xsl/fo/docbook.xsl texinfo.xml
+fop -r -pdf texinfo-dbk.pdf -fo intermediate-fo-file.fo
+
+dblatex -o texinfo-dblatex.pdf texinfo.xml
+
+Open a specific info file in Emacs Info reader: C-u C-h i
+
+In tp/tests/, generate Texinfo file for Texinfo TeX coverage
+../texi2any.pl --force --error=100000 -c TEXINFO_OUTPUT_FORMAT=plaintexinfo -D valid layout/formatting.texi > formatting_valid.texi
+
+From doc/
+texi2pdf -I ../tp/tests/layout/ ../tp/tests/formatting_valid.texi
+
+mkdir -p val_res
+for file in t/*.t ; do bfile=`basename $file .t`; echo $bfile; valgrind -q perl -w $file > val_res/$bfile.out 2>&1 ; done
+
+For tests in tp/tests, a way to have valgrind -q prependend is to add, in tp/defs:
+prepended_command='valgrind -q'
+
+rm -rf t/check_debug_differences/
+mkdir t/check_debug_differences/
+for file in t/*.t ; do bfile=`basename $file .t`; perl -w $file -d 1 2>t/check_debug_differences/XS_$bfile.err ; done
+export TEXINFO_XS_PARSER=0
+for file in t/*.t ; do bfile=`basename $file .t`; perl -w $file -d 1 2>t/check_debug_differences/PL_$bfile.err ; done
+for file in t/*.t ; do bfile=`basename $file .t`; diff -u t/check_debug_differences/PL_$bfile.err t/check_debug_differences/XS_$bfile.err > t/check_debug_differences/debug_$bfile.diff; done

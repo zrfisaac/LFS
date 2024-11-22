@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>ms Document Control Settings (The GNU Troff Manual)</title>
+
+<meta name="description" content="ms Document Control Settings (The GNU Troff Manual)">
+<meta name="keywords" content="ms Document Control Settings (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms.html" rel="up" title="ms">
+<link href="ms-Document-Description-Macros.html" rel="next" title="ms Document Description Macros">
+<link href="ms-Document-Structure.html" rel="prev" title="ms Document Structure">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="ms-Document-Control-Settings">
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Document-Description-Macros.html" accesskey="n" rel="next">Document Description Macros</a>, Previous: <a href="ms-Document-Structure.html" accesskey="p" rel="prev">Document Structure</a>, Up: <a href="ms.html" accesskey="u" rel="up"><samp class="file">ms</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Document-Control-Settings">4.6.3 Document Control Settings</h4>
+<a class="index-entry-id" id="index-ms-macros_002c-document-control-settings"></a>
+
+<p><samp class="file">ms</samp> exposes many aspects of document layout to user control via
+<code class="code">groff</code> requests.  To use them, you must understand how to define
+registers and strings.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002enr"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.nr</code></strong> <var class="def-var-arguments">reg value</var><a class="copiable-link" href='#index-_002enr'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-nr"></a>
+<p>Set register <var class="var">reg</var> to <var class="var">value</var>.  If <var class="var">reg</var> doesn&rsquo;t exist, GNU
+<code class="code">troff</code> creates it.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eds"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ds</code></strong> <var class="def-var-arguments">name contents</var><a class="copiable-link" href='#index-_002eds'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ds"></a>
+<p>Set string <var class="var">name</var> to <var class="var">contents</var>.
+</p></dd></dl>
+
+<p>A list of document control registers and strings follows.  For any
+parameter whose default is unsatisfactory, define its register or string
+before calling any <samp class="file">ms</samp> macro other than <code class="code">RP</code>.
+</p>
+<ul class="mini-toc">
+<li><a href="#Margin-settings" accesskey="1">Margin settings</a></li>
+<li><a href="#Titles-_0028headers_002c-footers_0029" accesskey="2">Titles (headers, footers)</a></li>
+<li><a href="#Text-settings" accesskey="3">Text settings</a></li>
+<li><a href="#Paragraph-settings" accesskey="4">Paragraph settings</a></li>
+<li><a href="#Heading-settings" accesskey="5">Heading settings</a></li>
+<li><a href="#Footnote-settings" accesskey="6">Footnote settings</a></li>
+<li><a href="#Display-settings" accesskey="7">Display settings</a></li>
+<li><a href="#Other-settings" accesskey="8">Other settings</a></li>
+</ul>
+<div class="unnumberedsubsubsec-level-extent" id="Margin-settings">
+<h4 class="unnumberedsubsubsec">Margin settings</h4>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bPO_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[PO]</code></strong><a class="copiable-link" href='#index-_005cn_005bPO_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PO-_005bms_005d"></a>
+<p>Defines the page offset (i.e., the left margin).
+</p>
+<p>Effective: next page.
+</p>
+<p>Default: Varies by output device and paper format; 1<span class="dmn">i</span> is used for
+typesetters using U.S. letter paper, and zero for terminals.
+See <a class="xref" href="Paper-Format.html">Paper Format</a>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bLL_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[LL]</code></strong><a class="copiable-link" href='#index-_005cn_005bLL_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-LL-_005bms_005d"></a>
+<p>Defines the line length (i.e., the width of the body text).
+</p>
+<p>Effective: next paragraph.
+</p>
+<p>Default: Varies by output device and paper format; 6.5<span class="dmn">i</span> is used
+for typesetters using U.S. letter paper (see <a class="pxref" href="Paper-Format.html">Paper Format</a>) and
+65<span class="dmn">n</span> on terminals.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bLT_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[LT]</code></strong><a class="copiable-link" href='#index-_005cn_005bLT_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-LT-_005bms_005d"></a>
+<p>Defines the title line length (i.e., the header and footer width).  This
+is usually the same as <code class="code">LL</code>, but need not be.
+</p>
+<p>Effective: next paragraph.
+</p>
+<p>Default: Varies by output device and paper format; 6.5<span class="dmn">i</span> is used
+for typesetters using U.S. letter paper (see <a class="pxref" href="Paper-Format.html">Paper Format</a>) and
+65<span class="dmn">n</span> on terminals.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bHM_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[HM]</code></strong><a class="copiable-link" href='#index-_005cn_005bHM_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-HM-_005bms_005d"></a>
+<p>Defines the header margin height at the top of the page.
+</p>
+<p>Effective: next page.
+</p>
+<p>Default: 1<span class="dmn">i</span>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bFM_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[FM]</code></strong><a class="copiable-link" href='#index-_005cn_005bFM_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-FM-_005bms_005d"></a>
+<p>Defines the footer margin height at the bottom of the page.
+</p>
+<p>Effective: next page.
+</p>
+<p>Default: 1<span class="dmn">i</span>.
+</p></dd></dl>
+
+</div>
+<div class="unnumberedsubsubsec-level-extent" id="Titles-_0028headers_002c-footers_0029">
+<h4 class="unnumberedsubsubsec">Titles (headers, footers)</h4>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bLH_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[LH]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bLH_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-LH-_005bms_005d"></a>
+<p>Defines the text displayed in the left header position.
+</p>
+<p>Effective: next header.
+</p>
+<p>Default: empty.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bCH_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[CH]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bCH_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-CH-_005bms_005d"></a>
+<p>Defines the text displayed in the center header position.
+</p>
+<p>Effective: next header.
+</p>
+<p>Default: &lsquo;<samp class="samp">-\n[%]-</samp>&rsquo;.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bRH_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[RH]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bRH_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-RH-_005bms_005d"></a>
+<p>Defines the text displayed in the right header position.
+</p>
+<p>Effective: next header.
+</p>
+<p>Default: empty.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bLF_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[LF]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bLF_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-LF-_005bms_005d"></a>
+<p>Defines the text displayed in the left footer position.
+</p>
+<p>Effective: next footer.
+</p>
+<p>Default: empty.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bCF_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[CF]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bCF_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-CF-_005bms_005d"></a>
+<p>Defines the text displayed in the center footer position.
+</p>
+<p>Effective: next footer.
+</p>
+<p>Default: empty.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bRF_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[RF]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bRF_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-RF-_005bms_005d"></a>
+<p>Defines the text displayed in the right footer position.
+</p>
+<p>Effective: next footer.
+</p>
+<p>Default: empty.
+</p></dd></dl>
+
+</div>
+<div class="unnumberedsubsubsec-level-extent" id="Text-settings">
+<h4 class="unnumberedsubsubsec">Text settings</h4>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bPS_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[PS]</code></strong><a class="copiable-link" href='#index-_005cn_005bPS_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PS-_005bms_005d-1"></a>
+<p>Defines the type size of the body text.
+</p>
+<p>Effective: next paragraph.
+</p>
+<p>Default: 10<span class="dmn">p</span>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bVS_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[VS]</code></strong><a class="copiable-link" href='#index-_005cn_005bVS_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-VS-_005bms_005d"></a>
+<p>Defines the vertical spacing (type size plus leading).
+</p>
+<p>Effective: next paragraph.
+</p>
+<p>Default: 12<span class="dmn">p</span>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bHY_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[HY]</code></strong><a class="copiable-link" href='#index-_005cn_005bHY_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-HY-_005bms_005d"></a>
+<p>Defines the automatic hyphenation mode used with the <code class="code">hy</code> request.
+Setting <code class="code">HY</code> to&nbsp;0 is equivalent to using the <code class="code">nh</code>
+request.  This is a Tenth Edition Research Unix extension.
+</p>
+<p>Effective: next paragraph.
+</p>
+<p>Default: 6.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bFAM_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[FAM]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bFAM_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-FAM-_005bms_005d"></a>
+<p>Defines the font family used to typeset the document.  This is a GNU
+extension.
+</p>
+<p>Effective: next paragraph.
+</p>
+<p>Default: defined by the output device; often &lsquo;<samp class="samp">T</samp>&rsquo; (see <a class="pxref" href="ms-Body-Text.html">Body Text</a>)
+</p></dd></dl>
+
+</div>
+<div class="unnumberedsubsubsec-level-extent" id="Paragraph-settings">
+<h4 class="unnumberedsubsubsec">Paragraph settings</h4>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bPI_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[PI]</code></strong><a class="copiable-link" href='#index-_005cn_005bPI_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PI-_005bms_005d"></a>
+<p>Defines the indentation amount used by the <code class="code">PP</code>, <code class="code">IP</code> (unless
+overridden by an optional argument), <code class="code">XP</code>, and <code class="code">RS</code> macros.
+</p>
+<p>Effective: next paragraph.
+</p>
+<p>Default: 5<span class="dmn">n</span>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bPD_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[PD]</code></strong><a class="copiable-link" href='#index-_005cn_005bPD_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PD-_005bms_005d"></a>
+<p>Defines the space between paragraphs.
+</p>
+<p>Effective: next paragraph.
+</p>
+<p>Default: 0.3<span class="dmn">v</span> (1<span class="dmn">v</span> on low-resolution devices).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bQI_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[QI]</code></strong><a class="copiable-link" href='#index-_005cn_005bQI_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-QI-_005bms_005d"></a>
+<p>Defines the indentation amount used on both sides of a paragraph set
+with the <code class="code">QP</code> or between the <code class="code">QS</code> and <code class="code">QE</code> macros.
+</p>
+<p>Effective: next paragraph.
+</p>
+<p>Default: 5<span class="dmn">n</span>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bPORPHANS_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[PORPHANS]</code></strong><a class="copiable-link" href='#index-_005cn_005bPORPHANS_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PORPHANS-_005bms_005d"></a>
+<p>Defines the minimum number of initial lines of any paragraph that must
+be kept together to avoid isolated lines at the bottom of a page.  If a
+new paragraph is started close to the bottom of a page, and there is
+insufficient space to accommodate <code class="code">PORPHANS</code> lines before an
+automatic page break, then a page break is forced before the start of
+the paragraph.  This is a GNU extension.
+</p>
+<p>Effective: next paragraph.
+</p>
+<p>Default: 1.
+</p></dd></dl>
+
+</div>
+<div class="unnumberedsubsubsec-level-extent" id="Heading-settings">
+<h4 class="unnumberedsubsubsec">Heading settings</h4>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bPSINCR_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[PSINCR]</code></strong><a class="copiable-link" href='#index-_005cn_005bPSINCR_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PSINCR-_005bms_005d"></a>
+<p>Defines an increment in type size to be applied to a heading at a
+lesser depth than that specified in <code class="code">GROWPS</code>.  The value of
+<code class="code">PSINCR</code> should be specified in points with the <span class="dmn">p</span> scaling
+unit and may include a fractional component; for example, &lsquo;<samp class="samp">.nr&nbsp;PSINCR&nbsp;1.5p</samp>&rsquo;<!-- /@w --> sets a type size increment of 1.5<span class="dmn">p</span>.  This is a GNU
+extension.
+</p>
+<p>Effective: next heading.
+</p>
+<p>Default: 1<span class="dmn">p</span>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bGROWPS_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[GROWPS]</code></strong><a class="copiable-link" href='#index-_005cn_005bGROWPS_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-GROWPS-_005bms_005d"></a>
+<p>Defines the heading depth above which the type size increment set by
+<code class="code">PSINCR</code> becomes effective.  For each heading depth less than the
+value of <code class="code">GROWPS</code>, the type size is increased by <code class="code">PSINCR</code>.
+Setting <code class="code">GROWPS</code> to any value less than&nbsp;2 disables the
+incremental heading size feature.  This is a GNU extension.
+</p>
+<p>Effective: next heading.
+</p>
+<p>Default: 0.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bHORPHANS_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[HORPHANS]</code></strong><a class="copiable-link" href='#index-_005cn_005bHORPHANS_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-HORPHANS-_005bms_005d"></a>
+<p>Defines the minimum number of lines of an immediately succeeding
+paragraph that should be kept together with any heading introduced by
+the <code class="code">NH</code> or <code class="code">SH</code> macros.  If a heading is placed close to the
+bottom of a page, and there is insufficient space to accommodate both
+the heading and at least <code class="code">HORPHANS</code> lines of the following
+paragraph, before an automatic page break, then the page break is forced
+before the heading.  This is a GNU extension.
+</p>
+<p>Effective: next paragraph.
+</p>
+<p>Default: 1.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bSN_002dSTYLE_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[SN-STYLE]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bSN_002dSTYLE_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-SN_002dSTYLE-_005bms_005d"></a>
+<p>Defines the style used to print numbered headings.  See <a class="xref" href="Headings-in-ms.html">Headings</a>.  This is a GNU extension.
+</p>
+<p>Effective: next heading.
+</p>
+<p>Default: alias of <code class="code">SN-DOT</code>
+</p></dd></dl>
+
+</div>
+<div class="unnumberedsubsubsec-level-extent" id="Footnote-settings">
+<h4 class="unnumberedsubsubsec">Footnote settings</h4>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bFI_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[FI]</code></strong><a class="copiable-link" href='#index-_005cn_005bFI_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-FI-_005bms_005d"></a>
+<p>Defines the footnote indentation.  This is a Berkeley extension.
+</p>
+<p>Effective: next footnote.
+</p>
+<p>Default: 2<span class="dmn">n</span>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bFF_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[FF]</code></strong><a class="copiable-link" href='#index-_005cn_005bFF_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-FF-_005bms_005d"></a>
+<p>Defines the format of automatically numbered footnotes,
+and those for which the <code class="code">FS</code> request is given a marker argument, at
+the bottom of a column or page.  This is a Berkeley extension.
+</p><dl class="table">
+<dt><code class="code">0</code></dt>
+<dd><p>Set an automatic number<a class="footnote" id="DOCF8" href="groff.html_fot.html#FOOT8"><sup>8</sup></a> as a
+superscript (on typesetter devices) or surrounded by square brackets (on
+terminals).  The footnote paragraph is indented as with <code class="code">PP</code> if
+there is an <code class="code">FS</code> argument or an automatic number, and as with
+<code class="code">LP</code> otherwise.  This is the default.
+</p>
+</dd>
+<dt><code class="code">1</code></dt>
+<dd><p>As <code class="code">0</code>, but set the marker as regular text and follow an
+automatic number with a period.
+</p>
+</dd>
+<dt><code class="code">2</code></dt>
+<dd><p>As <code class="code">1</code>, but without indentation (like <code class="code">LP</code>).
+</p>
+</dd>
+<dt><code class="code">3</code></dt>
+<dd><p>As <code class="code">1</code>, but set the footnote paragraph with the marker hanging
+(like <code class="code">IP</code>).
+</p></dd>
+</dl>
+
+<p>Effective: next footnote.
+</p>
+<p>Default: 0.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bFPS_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[FPS]</code></strong><a class="copiable-link" href='#index-_005cn_005bFPS_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-FPS-_005bms_005d"></a>
+<p>Defines the footnote type size.
+</p>
+<p>Effective: next footnote.
+</p>
+<p>Default: <code class="code">\n[PS] - 2p</code>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bFVS_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[FVS]</code></strong><a class="copiable-link" href='#index-_005cn_005bFVS_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-FVS-_005bms_005d"></a>
+<p>Defines the footnote vertical spacing.
+</p>
+<p>Effective: next footnote.
+</p>
+<p>Default: <code class="code">\n[FPS] + 2p</code>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bFPD_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[FPD]</code></strong><a class="copiable-link" href='#index-_005cn_005bFPD_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-FPD-_005bms_005d"></a>
+<p>Defines the footnote paragraph spacing.  This is a GNU extension.
+</p>
+<p>Effective: next footnote.
+</p>
+<p>Default: <code class="code">\n[PD] / 2</code>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005bFR_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[FR]</code></strong><a class="copiable-link" href='#index-_005c_002a_005bFR_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-FR-_005bms_005d"></a>
+<p>Defines the ratio of the footnote line length to the current line
+length.  This is a GNU extension.
+</p>
+<p>Effective: next footnote in single-column arrangements, next page
+otherwise.
+</p>
+<p>Default: <code class="code">11/12</code>.
+</p></dd></dl>
+
+</div>
+<div class="unnumberedsubsubsec-level-extent" id="Display-settings">
+<h4 class="unnumberedsubsubsec">Display settings</h4>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bDD_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[DD]</code></strong><a class="copiable-link" href='#index-_005cn_005bDD_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-DD-_005bms_005d"></a>
+<p>Sets the display distance&mdash;the vertical spacing before and after a
+display, a <code class="code">tbl</code> table, an <code class="code">eqn</code> equation, or a <code class="code">pic</code>
+image.  This is a Berkeley extension.
+</p>
+<p>Effective: next display boundary.
+</p>
+<p>Default: 0.5<span class="dmn">v</span> (1<span class="dmn">v</span> on low-resolution devices).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bDI_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[DI]</code></strong><a class="copiable-link" href='#index-_005cn_005bDI_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-DI-_005bms_005d"></a>
+<p>Sets the default amount by which to indent a display started with
+<code class="code">DS</code> and <code class="code">ID</code> without arguments, to &lsquo;<samp class="samp">.DS&nbsp;I</samp>&rsquo; without
+an indentation argument, and to equations set with &lsquo;<samp class="samp">.EQ&nbsp;I</samp>&rsquo;.
+This is a GNU extension.
+</p>
+<p>Effective: next indented display.
+</p>
+<p>Default: 0.5<span class="dmn">i</span>.
+</p></dd></dl>
+
+</div>
+<div class="unnumberedsubsubsec-level-extent" id="Other-settings">
+<h4 class="unnumberedsubsubsec">Other settings</h4>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bMINGW_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[MINGW]</code></strong><a class="copiable-link" href='#index-_005cn_005bMINGW_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-MINGW-_005bms_005d"></a>
+<p>Defines the default minimum width between columns in a multi-column
+document.  This is a GNU extension.
+</p>
+<p>Effective: next page.
+</p>
+<p>Default: 2<span class="dmn">n</span>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bTC_002dMARGIN_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[TC-MARGIN]</code></strong><a class="copiable-link" href='#index-_005cn_005bTC_002dMARGIN_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-TC_002dMARGIN-_005bms_005d"></a>
+<p>Defines the width of the field in which page numbers are set in a table
+of contents entry; the right margin thus moves inboard by this amount.
+This is a GNU extension.
+</p>
+<p>Effective: next <code class="code">PX</code> call.
+</p>
+<p>Default: <code class="code">\w'000'</code>
+</p></dd></dl>
+
+
+
+</div>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Document-Description-Macros.html">Document Description Macros</a>, Previous: <a href="ms-Document-Structure.html">Document Structure</a>, Up: <a href="ms.html"><samp class="file">ms</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

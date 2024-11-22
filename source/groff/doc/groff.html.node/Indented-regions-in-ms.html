@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Indented regions in ms (The GNU Troff Manual)</title>
+
+<meta name="description" content="Indented regions in ms (The GNU Troff Manual)">
+<meta name="keywords" content="Indented regions in ms (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms-Body-Text.html" rel="up" title="ms Body Text">
+<link href="ms-keeps-and-displays.html" rel="next" title="ms keeps and displays">
+<link href="Lists-in-ms.html" rel="prev" title="Lists in ms">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="Indented-regions-in-ms">
+<div class="nav-panel">
+<p>
+Next: <a href="ms-keeps-and-displays.html" accesskey="n" rel="next">Keeps, boxed keeps, and displays</a>, Previous: <a href="Lists-in-ms.html" accesskey="p" rel="prev">Lists</a>, Up: <a href="ms-Body-Text.html" accesskey="u" rel="up">Body Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Indented-regions">4.6.5.7 Indented regions</h4>
+
+<p>You may need to indent a region of text while otherwise formatting it
+normally.  Indented regions can be nested; you can change <code class="code">\n[PI]</code>
+before each call to vary the amount of inset.
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eRS"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.RS</code></strong><a class="copiable-link" href='#index-_002eRS'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-RS-_005bms_005d"></a>
+<p>Begin a region where headings, paragraphs, and displays are indented
+(further) by the amount stored in the <code class="code">PI</code> register.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eRE"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.RE</code></strong><a class="copiable-link" href='#index-_002eRE'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-RE-_005bms_005d"></a>
+<p>End the (next) most recent indented region.
+</p></dd></dl>
+
+<p>This feature enables you to easily line up text under hanging and
+indented paragraphs.
+<a class="index-entry-id" id="index-ms-macros_002c-nested-lists"></a>
+<a class="index-entry-id" id="index-nested-lists-_005bms_005d"></a>
+For example, you may wish to structure lists hierarchically.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">.IP \[bu] 2
+Lawyers:
+.RS
+.IP \[bu]
+Dewey,
+.IP \[bu]
+Cheatham,
+and
+.IP \[bu]
+and Howe.
+.RE
+.IP \[bu]
+Guns
+</pre></div>
+</td></tr></table>
+
+<div class="example">
+<div class="group"><pre class="example-preformatted">&bull; Lawyers:
+
+  &bull;  Dewey,
+
+  &bull;  Cheatham, and
+
+  &bull;  Howe.
+
+&bull; Guns
+</pre></div></div>
+
+
+</div>
+
+
+
+</body>
+</html>

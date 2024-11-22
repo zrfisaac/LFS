@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Formatter Instructions (The GNU Troff Manual)</title>
+
+<meta name="description" content="Formatter Instructions (The GNU Troff Manual)">
+<meta name="keywords" content="Formatter Instructions (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Registers.html" rel="next" title="Registers">
+<link href="Identifiers.html" rel="prev" title="Identifiers">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Formatter-Instructions">
+<div class="nav-panel">
+<p>
+Next: <a href="Registers.html" accesskey="n" rel="next">Registers</a>, Previous: <a href="Identifiers.html" accesskey="p" rel="prev">Identifiers</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Formatter-Instructions-1">5.6 Formatter Instructions</h3>
+<a class="index-entry-id" id="index-formatter-instructions"></a>
+<a class="index-entry-id" id="index-instructing-the-formatter"></a>
+
+<p>To support documents that require more than filling, automatic line
+breaking and hyphenation, adjustment, and supplemental inter-sentence
+space, the <code class="code">roff</code> language offers two means of embedding
+instructions to the formatter.
+</p>
+<a class="index-entry-id" id="index-request-1"></a>
+<p>One is a <em class="dfn">request</em>, which begins with a control character and takes
+up the remainder of the input line.  Requests often perform relatively
+large-scale operations such as setting the page length, breaking the
+line, or starting a new page.  They also conduct internal operations
+like defining macros.
+</p>
+<a class="index-entry-id" id="index-escape-sequence"></a>
+<a class="index-entry-id" id="index-sequence_002c-escape"></a>
+<p>The other is an <em class="dfn">escape sequence</em>, which begins with the escape
+character and can be embedded anywhere in the input, even in arguments
+to requests and other escape sequences.  Escape sequences interpolate
+special characters, strings, or registers, and handle comparatively
+minor formatting tasks like sub- and superscripting.
+</p>
+<p>Some operations, such as font selection and type size alteration, are
+available via both requests and escape sequences.
+</p>
+
+
+<ul class="mini-toc">
+<li><a href="Control-Characters.html" accesskey="1">Control Characters</a></li>
+<li><a href="Invoking-Requests.html" accesskey="2">Invoking Requests</a></li>
+<li><a href="Calling-Macros.html" accesskey="3">Calling Macros</a></li>
+<li><a href="Using-Escape-Sequences.html" accesskey="4">Using Escape Sequences</a></li>
+<li><a href="Delimiters.html" accesskey="5">Delimiters</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

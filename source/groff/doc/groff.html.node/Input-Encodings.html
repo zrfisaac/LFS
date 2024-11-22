@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Input Encodings (The GNU Troff Manual)</title>
+
+<meta name="description" content="Input Encodings (The GNU Troff Manual)">
+<meta name="keywords" content="Input Encodings (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Text.html" rel="up" title="Text">
+<link href="Input-Conventions.html" rel="next" title="Input Conventions">
+<link href="Macro-Packages.html" rel="prev" title="Macro Packages">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span.w-nolinebreak-text {white-space: nowrap}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Input-Encodings">
+<div class="nav-panel">
+<p>
+Next: <a href="Input-Conventions.html" accesskey="n" rel="next">Input Conventions</a>, Previous: <a href="Macro-Packages.html" accesskey="p" rel="prev">Macro Packages</a>, Up: <a href="Text.html" accesskey="u" rel="up">Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Input-Encodings-1">5.1.9 Input Encodings</h4>
+
+<p>The <code class="command">groff</code> command&rsquo;s <samp class="option">-k</samp> option calls the
+<code class="command">preconv</code> preprocessor to perform input character encoding
+conversions.  Input to the GNU <code class="code">troff</code> formatter itself, on the
+other hand, must be in one of two encodings it can recognize.
+</p>
+<dl class="table">
+<dt id='index-encoding_002c-input_002c-EBCDIC'><span><code class="code">cp1047</code><a class="copiable-link" href='#index-encoding_002c-input_002c-EBCDIC'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-EBCDIC_002c-input-encoding"></a>
+<a class="index-entry-id" id="index-input-encoding_002c-EBCDIC"></a>
+<a class="index-entry-id" id="index-encoding_002c-input_002c-code-page-1047"></a>
+<a class="index-entry-id" id="index-code-page-1047_002c-input-encoding"></a>
+<a class="index-entry-id" id="index-input-encoding_002c-code-page-1047"></a>
+<a class="index-entry-id" id="index-IBM-code-page-1047-input-encoding"></a>
+<a class="index-entry-id" id="index-cp1047_002etmac"></a>
+<p>The code page 1047 input encoding works only on <abbr class="acronym">EBCDIC</abbr>
+platforms (and conversely, the other input encodings don&rsquo;t work with
+<abbr class="acronym">EBCDIC</abbr>); the file <samp class="file">cp1047.tmac</samp> is loaded at startup.
+</p>
+</dd>
+<dt id='index-encoding_002c-input_002c-Latin_002d1-_0028ISO-8859_002d1_0029'><span><code class="code">latin1</code><a class="copiable-link" href='#index-encoding_002c-input_002c-Latin_002d1-_0028ISO-8859_002d1_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-Latin_002d1-_0028ISO-8859_002d1_0029_002c-input-encoding"></a>
+<a class="index-entry-id" id="index-ISO-8859_002d1-_0028Latin_002d1_0029_002c-input-encoding"></a>
+<a class="index-entry-id" id="index-input-encoding_002c-Latin_002d1-_0028ISO-8859_002d1_0029"></a>
+<a class="index-entry-id" id="index-latin1_002etmac"></a>
+<p>ISO <span class="w-nolinebreak-text">Latin-1</span><!-- /@w -->, an encoding for Western European languages, is the
+default input encoding on non-<abbr class="acronym">EBCDIC</abbr> platforms; the file
+<samp class="file">latin1.tmac</samp> is loaded at startup.
+</p></dd>
+</dl>
+
+<p>Any document that is encoded in ISO 646:1991 (a descendant of USAS
+<span class="w-nolinebreak-text">X3.4-1968</span><!-- /@w --> or &ldquo;US-ASCII&rdquo;), or, equivalently, uses only code points
+from the &ldquo;C0 Controls&rdquo; and &ldquo;Basic Latin&rdquo; parts of the Unicode
+character set is also a valid ISO <span class="w-nolinebreak-text">Latin-1</span><!-- /@w --> document; the standards
+are interchangeable in their first 128 code points.<a class="footnote" id="DOCF30" href="groff.html_fot.html#FOOT30"><sup>30</sup></a>
+</p>
+<p>Other encodings are supported by means of macro packages.
+</p>
+<dl class="table">
+<dt id='index-encoding_002c-input_002c-Latin_002d2-_0028ISO-8859_002d2_0029'><span><code class="code">latin2</code><a class="copiable-link" href='#index-encoding_002c-input_002c-Latin_002d2-_0028ISO-8859_002d2_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-Latin_002d2-_0028ISO-8859_002d2_0029_002c-input-encoding"></a>
+<a class="index-entry-id" id="index-ISO-8859_002d2-_0028Latin_002d2_0029_002c-input-encoding"></a>
+<a class="index-entry-id" id="index-input-encoding_002c-Latin_002d2-_0028ISO-8859_002d2_0029"></a>
+<a class="index-entry-id" id="index-latin2_002etmac"></a>
+<p>To use ISO <span class="w-nolinebreak-text">Latin-2</span><!-- /@w -->, an encoding for Central and Eastern European
+languages, invoke &lsquo;<samp class="samp">.mso&nbsp;latin2.tmac</samp>&rsquo;<!-- /@w --> at the beginning of your
+document or supply &lsquo;<samp class="samp">-mlatin2</samp>&rsquo; as a command-line argument to
+<code class="code">groff</code>.
+</p>
+</dd>
+<dt id='index-encoding_002c-input_002c-Latin_002d5-_0028ISO-8859_002d9_0029'><span><code class="code">latin5</code><a class="copiable-link" href='#index-encoding_002c-input_002c-Latin_002d5-_0028ISO-8859_002d9_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-Latin_002d5-_0028ISO-8859_002d9_0029_002c-input-encoding"></a>
+<a class="index-entry-id" id="index-ISO-8859_002d9-_0028Latin_002d5_0029_002c-input-encoding"></a>
+<a class="index-entry-id" id="index-input-encoding_002c-Latin_002d5-_0028ISO-8859_002d9_0029"></a>
+<a class="index-entry-id" id="index-latin5_002etmac"></a>
+<p>To use ISO <span class="w-nolinebreak-text">Latin-5</span><!-- /@w -->, an encoding for the Turkish language, invoke
+&lsquo;<samp class="samp">.mso&nbsp;latin5.tmac</samp>&rsquo;<!-- /@w --> at the beginning of your document or
+supply &lsquo;<samp class="samp">-mlatin5</samp>&rsquo; as a command-line argument to <code class="code">groff</code>.
+</p>
+</dd>
+<dt id='index-encoding_002c-input_002c-Latin_002d9-_0028ISO-8859_002d15_0029'><span><code class="code">latin9</code><a class="copiable-link" href='#index-encoding_002c-input_002c-Latin_002d9-_0028ISO-8859_002d15_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-Latin_002d9-_0028ISO-8859_002d15_0029_002c-input-encoding"></a>
+<a class="index-entry-id" id="index-ISO-8859_002d15-_0028Latin_002d9_0029_002c-input-encoding"></a>
+<a class="index-entry-id" id="index-input-encoding_002c-Latin_002d9-_0028ISO-8859_002d15_0029"></a>
+<a class="index-entry-id" id="index-latin9_002etmac"></a>
+<p>ISO <span class="w-nolinebreak-text">Latin-9</span><!-- /@w --> succeeds <span class="w-nolinebreak-text">Latin-1</span><!-- /@w -->; it includes a Euro sign and better
+glyph coverage for French.  To use this encoding, invoke &lsquo;<samp class="samp">.mso&nbsp;latin9.tmac</samp>&rsquo;<!-- /@w --> at the beginning of your document or supply
+&lsquo;<samp class="samp">-mlatin9</samp>&rsquo; as a command-line argument to <code class="code">groff</code>.
+</p></dd>
+</dl>
+
+<p>Some characters from an input encoding may not be available with a
+particular output driver, or their glyphs may not have representation in
+the font used.  For terminal devices, fallbacks are defined, like
+&lsquo;<samp class="samp">EUR</samp>&rsquo; for the Euro sign and &lsquo;<samp class="samp">(C)</samp>&rsquo; for the copyright sign.  For
+typesetter devices, you may need to &ldquo;mount&rdquo; fonts that support glyphs
+required by the document.  See <a class="xref" href="Font-Positions.html">Font Positions</a>.
+</p>
+<a class="index-entry-id" id="index-freeeuro_002epfa"></a>
+<a class="index-entry-id" id="index-ec_002etmac"></a>
+<p>Because a Euro glyph was not historically defined in PostScript fonts,
+<code class="code">groff</code> comes with a font called <samp class="file">freeeuro.pfa</samp> that provides
+the Euro in several styles.  Standard PostScript fonts contain the
+glyphs from <span class="w-nolinebreak-text">Latin-5</span><!-- /@w --> and <span class="w-nolinebreak-text">Latin-9</span><!-- /@w --> that <span class="w-nolinebreak-text">Latin-1</span><!-- /@w --> lacks, so these
+encodings are supported for the <samp class="option">ps</samp> and <samp class="option">pdf</samp> output
+devices as <code class="code">groff</code> ships, while <span class="w-nolinebreak-text">Latin-2</span><!-- /@w --> is not.
+</p>
+<p>Unicode supports characters from all other input encodings; the
+<samp class="option">utf8</samp> output driver for terminals therefore does as well.  The
+DVI output driver supports the <span class="w-nolinebreak-text">Latin-2</span><!-- /@w --> and <span class="w-nolinebreak-text">Latin-9</span><!-- /@w --> encodings if
+the command-line option <samp class="option">-mec</samp> is used as well.  <a class="footnote" id="DOCF31" href="groff.html_fot.html#FOOT31"><sup>31</sup></a>
+</p>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Input-Conventions.html">Input Conventions</a>, Previous: <a href="Macro-Packages.html">Macro Packages</a>, Up: <a href="Text.html">Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

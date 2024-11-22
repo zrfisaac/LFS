@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>ms basic information (The GNU Troff Manual)</title>
+
+<meta name="description" content="ms basic information (The GNU Troff Manual)">
+<meta name="keywords" content="ms basic information (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms-Introduction.html" rel="up" title="ms Introduction">
+<link href="ms-Document-Structure.html" rel="next" title="ms Document Structure">
+<link href="ms-Introduction.html" rel="prev" title="ms Introduction">
+<style type="text/css">
+<!--
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="ms-basic-information">
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Document-Structure.html" accesskey="n" rel="next">Document Structure</a>, Previous: <a href="ms-Introduction.html" accesskey="p" rel="prev">Introduction</a>, Up: <a href="ms-Introduction.html" accesskey="u" rel="up">Introduction</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Basic-information">4.6.1.1 Basic information</h4>
+
+<p><samp class="file">ms</samp> documents are plain text files; prepare them with your
+preferred text editor.  If you&rsquo;re in a hurry to start, know that
+<samp class="file">ms</samp> needs one of its macros called at the beginning of a document
+so that it can initialize.  A <em class="dfn">macro</em> is a formatting instruction to
+<samp class="file">ms</samp>.  Put a macro call on a line by itself.  Use &lsquo;<samp class="samp">.PP</samp>&rsquo; if you
+want your paragraph&rsquo;s first line to be indented, or &lsquo;<samp class="samp">.LP</samp>&rsquo; if you
+don&rsquo;t.
+</p>
+<p>After that, start typing normally.  It is a good practice to start each
+sentence on a new line, or to put two spaces after sentence-ending
+punctuation, so that the formatter knows where the sentence boundaries
+are.  You can separate paragraphs with further paragraphing macros, or
+with blank lines, and you can indent with tabs.  When you need one of
+the features mentioned earlier (see <a class="pxref" href="ms.html"><samp class="file">ms</samp></a>), return to this part of the
+manual.
+</p>
+<p>Format the document with the <code class="command">groff</code> command.  <code class="command">nroff</code>
+can be useful for previewing.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">$ editor radical.ms
+$ nroff -ww -z -ms radical.ms # check for errors
+$ nroff -ms radical.ms | less -R
+$ groff -T ps -ms radical.ms &gt; radical.ps
+$ see radical.ps
+</pre></div>
+</td></tr></table>
+
+<p>Our <samp class="file">radical.ms</samp> document might look like this.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">.LP
+Radical novelties are so disturbing that they tend to be
+suppressed or ignored, to the extent that even the
+possibility of their existence in general is more often
+denied than admitted.
+
+&rarr;That's what Dijkstra said, anyway.
+</pre></div>
+</td></tr></table>
+
+<p><samp class="file">ms</samp> exposes many aspects of document layout to user control via
+<code class="code">groff</code>&rsquo;s <em class="dfn">registers</em> and <em class="dfn">strings</em>, which store numbers
+and text, respectively.  Measurements in <code class="code">groff</code> are expressed with
+a suffix called a <em class="dfn">scaling unit</em>.
+</p>
+<dl class="table">
+<dt><code class="code">i</code></dt>
+<dd><p>inches
+</p>
+</dd>
+<dt><code class="code">c</code></dt>
+<dd><p>centimeters
+</p>
+</dd>
+<dt><code class="code">p</code></dt>
+<dd><p>points (1/72 inch)
+</p>
+</dd>
+<dt><code class="code">P</code></dt>
+<dd><p>picas (1/6 inch)
+</p>
+</dd>
+<dt><code class="code">v</code></dt>
+<dd><p>vees; current vertical spacing
+</p>
+</dd>
+<dt><code class="code">m</code></dt>
+<dd><p>ems; width of an &ldquo;M&rdquo; in the current font
+</p>
+</dd>
+<dt><code class="code">n</code></dt>
+<dd><p>ens; one-half em
+</p></dd>
+</dl>
+
+<p>Set registers with the <code class="code">nr</code> request and strings with the <code class="code">ds</code>
+request.  <em class="dfn">Requests</em> are like macro calls; they go on lines by
+themselves and start with the <em class="dfn">control character</em>, a dot (<code class="code">.</code>).
+The difference is that they directly instruct the formatter program,
+rather than the macro package.  We&rsquo;ll discuss a few as applicable.  It
+is wise to specify a scaling unit when setting any register that
+represents a length, size, or distance.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">.nr PS 10.5p \&quot; Use 10.5-point type.
+.ds FAM P    \&quot; Use Palatino font family.
+</pre></div>
+</td></tr></table>
+
+<p>In the foregoing, we see that <code class="code">\&quot;</code> begins a comment.  This is an
+example of an <em class="dfn">escape sequence</em>, the other kind of formatting
+instruction.  Escape sequences can appear anywhere.  They begin with the
+escape character (<code class="code">\</code>) and are followed by at least one more
+character.  <samp class="file">ms</samp> documents
+tend to use only a few of <code class="code">groff</code>&rsquo;s many requests and escape
+sequences; see <a class="ref" href="Request-Index.html">Request Index</a> and <a class="ref" href="Escape-Sequence-Index.html">Escape Sequence Index</a> or
+the <cite class="cite">groff<span class="r">(7)</span></cite> man page for complete lists.
+</p>
+<dl class="table">
+<dt><code class="code">\&quot;</code></dt>
+<dd><p>Begin comment; ignore remainder of line.
+</p>
+</dd>
+<dt><code class="code">\n[<var class="var">reg</var>]</code></dt>
+<dd><p>Interpolate value of register <var class="var">reg</var>.
+</p>
+</dd>
+<dt><code class="code">\*[<var class="var">str</var>]</code></dt>
+<dd><p>Interpolate contents of string <var class="var">str</var>.
+</p>
+</dd>
+<dt><code class="code">\*<var class="var">s</var></code></dt>
+<dd><p>abbreviation of <code class="code">\*[<var class="var">s</var>]</code>; the name <var class="var">s</var> must be only one
+character
+</p>
+</dd>
+<dt><code class="code">\[<var class="var">char</var>]</code></dt>
+<dd><p>Interpolate glyph of special character named <var class="var">char</var>.
+</p>
+</dd>
+<dt><code class="code">\&amp;</code></dt>
+<dd><p>dummy character
+</p>
+</dd>
+<dt><code class="code">\~</code></dt>
+<dd><p>Insert an unbreakable space that is adjustable like a normal space.
+</p>
+</dd>
+<dt><code class="code">\|</code></dt>
+<dd><p>Move horizontally by one-sixth em (&ldquo;thin space&rdquo;).
+</p></dd>
+</dl>
+
+<p>Prefix any words that start with a dot &lsquo;<samp class="samp">.</samp>&rsquo; or neutral apostrophe
+&lsquo;<samp class="samp">'</samp>&rsquo; with <code class="code">\&amp;</code> if they are at the beginning of an input line
+(or might become that way in editing) to prevent them from being
+interpreted as macro calls or requests.  Suffix &lsquo;<samp class="samp">.</samp>&rsquo;, &lsquo;<samp class="samp">?</samp>&rsquo;, and
+&lsquo;<samp class="samp">!</samp>&rsquo; with <code class="code">\&amp;</code> when needed to cancel end-of-sentence detection.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">My exposure was \&amp;.5 to \&amp;.6 Sv of neutrons, said Dr.\&amp;
+Wallace after the criticality incident.
+</pre></div>
+</td></tr></table>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Document-Structure.html">Document Structure</a>, Previous: <a href="ms-Introduction.html">Introduction</a>, Up: <a href="ms-Introduction.html">Introduction</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

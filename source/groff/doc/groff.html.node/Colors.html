@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Colors (The GNU Troff Manual)</title>
+
+<meta name="description" content="Colors (The GNU Troff Manual)">
+<meta name="keywords" content="Colors (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Strings.html" rel="next" title="Strings">
+<link href="Manipulating-Type-Size-and-Vertical-Spacing.html" rel="prev" title="Manipulating Type Size and Vertical Spacing">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Colors">
+<div class="nav-panel">
+<p>
+Next: <a href="Strings.html" accesskey="n" rel="next">Strings</a>, Previous: <a href="Manipulating-Type-Size-and-Vertical-Spacing.html" accesskey="p" rel="prev">Manipulating Type Size and Vertical Spacing</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Colors-1">5.21 Colors</h3>
+<a class="index-entry-id" id="index-colors"></a>
+
+<a class="index-entry-id" id="index-stroke-color"></a>
+<a class="index-entry-id" id="index-color_002c-stroke"></a>
+<a class="index-entry-id" id="index-fill-color"></a>
+<a class="index-entry-id" id="index-color_002c-fill"></a>
+<p>GNU <code class="code">troff</code> supports color output with a variety of color spaces
+and up to 16 bits per channel.  Some devices, particularly terminals,
+may be more limited.  When color support is enabled, two colors are
+current at any given time: the <em class="dfn">stroke color</em>, with which glyphs,
+rules (lines), and geometric objects like circles and polygons are
+drawn, and the <em class="dfn">fill color</em>, which can be used to paint the interior
+of a closed geometric figure.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ecolor"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.color</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">n</i></span>]</var><a class="copiable-link" href='#index-_002ecolor'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-color"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ecolor_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.color]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ecolor_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ecolor-1"></a>
+<p>If <var class="var">n</var> is missing or non-zero, enable the output of color-related
+device-independent output commands (this is the default); otherwise,
+disable them.  This request sets a global flag; it does not produce an
+input token (see <a class="pxref" href="Gtroff-Internals.html"><code class="code">gtroff</code> Internals</a>).
+</p>
+<p>The read-only register <code class="code">.color</code> is&nbsp;1 if colors are enabled,
+0&nbsp;otherwise.
+</p>
+<p>Color can also be disabled with the <samp class="option">-c</samp> command-line option.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002edefcolor"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.defcolor</code></strong> <var class="def-var-arguments">ident scheme color-component &hellip;</var><a class="copiable-link" href='#index-_002edefcolor'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-defcolor"></a>
+<p>Define a color named <var class="var">ident</var>.  <var class="var">scheme</var> selects a color space
+and determines the quantity of required <var class="var">color-component</var>s; it must
+be one of &lsquo;<samp class="samp">rgb</samp>&rsquo; (three components), &lsquo;<samp class="samp">cmy</samp>&rsquo; (three), &lsquo;<samp class="samp">cmyk</samp>&rsquo;
+(four), or &lsquo;<samp class="samp">gray</samp>&rsquo; (one).  &lsquo;<samp class="samp">grey</samp>&rsquo; is accepted as a synonym of
+&lsquo;<samp class="samp">gray</samp>&rsquo;.  The color components can be encoded as a single
+hexadecimal value starting with &lsquo;<samp class="samp">#</samp>&rsquo; or &lsquo;<samp class="samp">##</samp>&rsquo;.  The former
+indicates that each component is in the range 0&ndash;255 (0&ndash;FF), the latter
+the range 0&ndash;65,535 (0&ndash;FFFF).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.defcolor half gray #7f
+.defcolor pink rgb #FFC0CB
+.defcolor magenta rgb  ##ffff0000ffff
+</pre></div></div>
+
+<a class="index-entry-id" id="index-f-scaling-unit"></a>
+<a class="index-entry-id" id="index-unit_002c-scaling_002c-f"></a>
+<a class="index-entry-id" id="index-scaling-unit-f"></a>
+<p>Alternatively, each color component can be specified as a decimal
+fraction in the range 0&ndash;1, interpreted using a default scaling
+unit of&nbsp;<code class="code">f</code>, which multiplies its value by 65,536 (but
+clamps it at 65,535).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.defcolor gray50 rgb 0.5 0.5 0.5
+.defcolor darkgreen rgb 0.1f 0.5f 0.2f
+</pre></div></div>
+</dd></dl>
+
+<a class="index-entry-id" id="index-default-color"></a>
+<a class="index-entry-id" id="index-color_002c-default"></a>
+<p>Each output device has a color named &lsquo;<samp class="samp">default</samp>&rsquo;, which cannot be
+redefined.  A device&rsquo;s default stroke and fill colors are not
+necessarily the same.  For the <code class="code">dvi</code>, <code class="code">html</code>, <code class="code">pdf</code>,
+<code class="code">ps</code>, and <code class="code">xhtml</code> output devices, GNU <code class="code">troff</code>
+automatically loads a macro file defining many color names at startup.
+By the same mechanism, the devices supported by <code class="code">grotty</code> recognize
+the eight standard ISO&nbsp;6429/EMCA-48 color names.<a class="footnote" id="DOCF86" href="groff.html_fot.html#FOOT86"><sup>86</sup></a>
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002egcolor"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.gcolor</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">color</i></span>]</var><a class="copiable-link" href='#index-_002egcolor'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-gcolor"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cmc"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\m</code><span class="r"><i class="slanted">c</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cmc'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cm"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cm_0028co"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\m(</code><span class="r"><i class="slanted">co</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cm_0028co'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cm_005bcolor_005d"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\m[</code><span class="r"><i class="slanted">color</i></span><code class="t">]</code></strong><a class="copiable-link" href='#index-_005cm_005bcolor_005d'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002em_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.m]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002em_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002em"></a>
+<p>Set the stroke color to <var class="var">color</var>.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.gcolor red
+The next words
+.gcolor
+\m[red]are in red\m[]
+and these words are in the previous color.
+</pre></div></div>
+
+<p>The escape sequence <code class="code">\m[]</code> restores the previous stroke color, as
+does a <code class="code">gcolor</code> request without an argument.
+</p>
+<a class="index-entry-id" id="index-stroke-color-name-register-_0028_002em_0029"></a>
+<a class="index-entry-id" id="index-name_002c-stroke-color_002c-register-_0028_002em_0029"></a>
+<a class="index-entry-id" id="index-color-name_002c-stroke_002c-register-_0028_002em_0029"></a>
+<p>The name of the current stroke color is available in the read-only
+string-valued register &lsquo;<samp class="samp">.m</samp>&rsquo;; it is associated with the environment
+(see <a class="pxref" href="Environments.html">Environments</a>).  It interpolates nothing when the stroke color
+is the default.
+</p>
+<p><code class="code">\m</code> doesn&rsquo;t produce an input token in GNU <code class="code">troff</code>
+(see <a class="pxref" href="Gtroff-Internals.html"><code class="code">gtroff</code> Internals</a>).  It therefore can be used in requests like
+<code class="code">mc</code> (which expects a single character as an argument) to change
+the color on the fly:
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.mc \m[red]x\m[]
+</pre></div></div>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002efcolor"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.fcolor</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">color</i></span>]</var><a class="copiable-link" href='#index-_002efcolor'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-fcolor"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cMc"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\M</code><span class="r"><i class="slanted">c</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cMc'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cM"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cM_0028co"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\M(</code><span class="r"><i class="slanted">co</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cM_0028co'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cM_005bcolor_005d"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\M[</code><span class="r"><i class="slanted">color</i></span><code class="t">]</code></strong><a class="copiable-link" href='#index-_005cM_005bcolor_005d'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002eM_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.M]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002eM_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002eM"></a>
+<p>Set the fill color for objects drawn with <code class="code">\D'&hellip;'</code> escape
+sequences.  The escape sequence <code class="code">\M[]</code> restores the previous fill
+color, as does an <code class="code">fcolor</code> request without an argument.
+</p>
+<a class="index-entry-id" id="index-background-color-name-register-_0028_002eM_0029"></a>
+<a class="index-entry-id" id="index-name_002c-background-color_002c-register-_0028_002eM_0029"></a>
+<a class="index-entry-id" id="index-color-name_002c-background_002c-register-_0028_002eM_0029"></a>
+<a class="index-entry-id" id="index-fill-color-name-register-_0028_002eM_0029"></a>
+<a class="index-entry-id" id="index-name_002c-fill-color_002c-register-_0028_002eM_0029"></a>
+<a class="index-entry-id" id="index-color-name_002c-fill_002c-register-_0028_002eM_0029"></a>
+<p>The name of the current fill color is available in the read-only
+string-valued register &lsquo;<samp class="samp">.M</samp>&rsquo;; it is associated with the environment
+(see <a class="pxref" href="Environments.html">Environments</a>).  It interpolates nothing when the fill color
+is the default.  <code class="code">\M</code> doesn&rsquo;t produce an input token in GNU
+<code class="code">troff</code>.
+</p>
+<p>Create an ellipse with a red interior as follows.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">\M[red]\h'0.5i'\D'E 2i 1i'\M[]
+</pre></div></div>
+</dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Strings.html">Strings</a>, Previous: <a href="Manipulating-Type-Size-and-Vertical-Spacing.html">Manipulating Type Size and Vertical Spacing</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

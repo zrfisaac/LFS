@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Tracker-miners-3.7.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-12.2">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> Edition) - Version 12.2
+      </h4>
+      <h3>
+        Chapter&nbsp;33.&nbsp;GNOME Libraries and Desktop
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tracker3.html" title=
+          "Tracker-3.7.3">Prev</a>
+          <p>
+            Tracker-3.7.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gsound.html" title="GSound-1.0.3">Next</a>
+          <p>
+            GSound-1.0.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "Chapter&nbsp;33.&nbsp;GNOME Libraries and Desktop">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V Edition) - Version 12.2">Home</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="tracker3-miners" name="tracker3-miners"></a>Tracker-miners-3.7.3
+    </h1>
+    <div class="sect1" lang="en" xml:lang="en">
+      <div class="package" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          Introduction to Tracker-miners
+        </h2>
+        <p>
+          The <span class="application">Tracker-miners</span> package
+          contains a set of data extractors for Tracker.
+        </p>
+        <p>
+          This package is known to build and work properly using an LFS 12.2
+          platform.
+        </p>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/tracker-miners/3.7/tracker-miners-3.7.3.tar.xz">
+                https://download.gnome.org/sources/tracker-miners/3.7/tracker-miners-3.7.3.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 8c1b48f2fa57d888967de9b5ff348fc1
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 4.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 36 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.3 SBU (with parallelism=4; add as
+                much as 1.0 SBU for tests, dependent on disk speed)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/12.2/tracker-miners-3.7.3-upstream_fixes-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/12.2/tracker-miners-3.7.3-upstream_fixes-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Tracker-miners Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../multimedia/gst10-plugins-base.html" title=
+          "gst-plugins-base-1.24.7">gst-plugins-base-1.24.7</a>, <a class=
+          "xref" href="tracker3.html" title=
+          "Tracker-3.7.3">Tracker-3.7.3</a>, <a class="xref" href=
+          "../general/exempi.html" title="Exempi-2.6.5">Exempi-2.6.5</a>, and
+          <a class="xref" href="gexiv2.html" title=
+          "gexiv2-0.14.3">gexiv2-0.14.3</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/giflib.html" title=
+          "giflib-5.2.2">giflib-5.2.2</a>, <a class="xref" href=
+          "../multimedia/gst10-plugins-good.html" title=
+          "gst-plugins-good-1.24.7">gst-plugins-good-1.24.7</a> (runtime),
+          <a class="xref" href="../multimedia/gst10-libav.html" title=
+          "gst-libav-1.24.7">gst-libav-1.24.7</a> (runtime), <a class="xref"
+          href="../general/icu.html" title="icu-75.1">ICU-75.1</a>, <a class=
+          "xref" href="../general/libexif.html" title=
+          "libexif-0.6.24">libexif-0.6.24</a>, <a class="xref" href=
+          "../general/libgxps.html" title="libgxps-0.3.2">libgxps-0.3.2</a>,
+          <a class="xref" href="../general/libseccomp.html" title=
+          "libseccomp-2.5.5">libseccomp-2.5.5</a>, <a class="xref" href=
+          "../general/poppler.html" title=
+          "Poppler-24.08.0">Poppler-24.08.0</a>, and <a class="xref" href=
+          "../general/upower.html" title="UPower-1.90.4">UPower-1.90.4</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/python-modules.html#asciidoc"
+          title="Asciidoc-10.2.1">asciidoc-10.2.1</a>, <a class="xref" href=
+          "../general/cmake.html" title="CMake-3.30.2">CMake-3.30.2</a>,
+          <a class="xref" href="dconf.html" title=
+          "DConf-0.40.0 / DConf-Editor-45.0.1">DConf-0.40.0</a>, <a class=
+          "xref" href="../multimedia/ffmpeg.html" title=
+          "FFmpeg-7.0.2">FFmpeg-7.0.2</a>, <a class="xref" href=
+          "../general/libgsf.html" title="libgsf-1.14.52">libgsf-1.14.52</a>,
+          <a class="xref" href="../basicnet/networkmanager.html" title=
+          "NetworkManager-1.48.8">NetworkManager-1.48.8</a>, <a class="xref"
+          href="../multimedia/taglib.html" title=
+          "Taglib-2.0.1">taglib-2.0.1</a>, <a class="xref" href=
+          "totem-pl-parser.html" title=
+          "totem-pl-parser-3.26.6">totem-pl-parser-3.26.6</a>, <a class=
+          "ulink" href="https://github.com/lipnitsk/libcue">libcue</a>,
+          <a class="ulink" href=
+          "https://gitlab.gnome.org/GNOME/libgrss">libgrss</a>, <a class=
+          "ulink" href=
+          "https://libiptcdata.sourceforge.net/">libitpcdata</a>, <a class=
+          "ulink" href="https://libosinfo.org">libosinfo</a>, and <a class=
+          "ulink" href="https://gitlab.gnome.org/GNOME/gupnp">gupnp</a>
+        </p>
+      </div>
+      <div class="kernel" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="tracker3-miners-kernel" name=
+          "tracker3-miners-kernel"></a>Kernel Configuration
+        </h2>
+        <p>
+          Enable the following options in the kernel configuration, then
+          recompile the kernel and reboot if necessary:
+        </p>
+        <pre class="screen"><span class=
+        "blue">S</span>ecurity options ---&gt;
+  [*]        <span class=
+"blue">E</span>nable different security models                         [SECURITY]
+  [*]        <span class=
+"blue">L</span>andlock support                                [SECURITY_LANDLOCK]
+  # List more Linux Security Modules here (separated with comma) if needed,
+  # for example 'landlock,lockdown,smack':
+  (landlock) <span class=
+"blue">O</span>rdered list of enabled LSMs                                  [LSM]</pre>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          Installation of Tracker-miners
+        </h2>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            If you plan to run the tests, some timeouts are too short when
+            using spinning disks. There are two places where timeouts are
+            used: first, individual tests inside a group of tests have a
+            default timeout of 10s. This can be changed by setting the
+            environment variable <code class=
+            "envar">TRACKER_TESTS_AWAIT_TIMEOUT</code> to the desired value
+            when running the tests (see below). Second, a global timeout for
+            a group of tests is fixed at configuration time. The default
+            value in the <code class="filename">functional-tests</code>
+            directory (other directories have only short lived tests) may be
+            increased with the following command (replace 200 with a value
+            suitable for your machine):
+          </p>
+          <pre class="userinput"><kbd class="command">sed -i s/120/<em class=
+          "replaceable"><code>200</code></em>/ tests/functional-tests/meson.build</kbd></pre>
+        </div>
+        <p>
+          First, fix one issue in the TIFF extractor and another issue in the
+          Landlock sandbox:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../tracker-miners-3.7.3-upstream_fixes-1.patch</kbd></pre>
+        <p>
+          Install <span class="application">Tracker-miners</span> by running
+          the following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr                  \
+            --buildtype=release            \
+            -D systemd_user_services=false \
+            -D man=false                   \
+            -D miner_rss=false             \
+            ..                             &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        <p>
+          To test the results, issue (adjust the individual test timeout to a
+          value suitable for your machine, see the note above):
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">meson configure -D debug=true &amp;&amp;
+dbus-run-session env LC_ALL=C.UTF-8 TRACKER_TESTS_AWAIT_TIMEOUT=<em class=
+"replaceable"><code>20</code></em> \
+                 ninja test &amp;&amp;
+rm -rf ~/tracker-tests</kbd></pre>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            The tests create files in the user directory (up to 24 MB), so
+            they have to be removed afterwards.
+          </p>
+        </div>
+      </div>
+      <div class="commands" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          Specify a buildtype suitable for stable releases of the package, as
+          the default may produce unoptimized binaries.
+        </p>
+        <p>
+          <em class="parameter"><code>-D man=false</code></em>: This switch
+          prevents the build process from generating man pages. Omit this
+          switch if you have <a class="xref" href=
+          "../general/python-modules.html#asciidoc" title=
+          "Asciidoc-10.2.1">asciidoc-10.2.1</a> installed and wish to
+          generate and install the man pages.
+        </p>
+        <p>
+          <em class="parameter"><code>-D miner_rss=false</code></em>: This
+          switch prevents using libgrss for indexing RSS feeds because
+          libgrss is insecure and no longer in BLFS.
+        </p>
+        <p>
+          <em class="parameter"><code>-D
+          systemd_user_services=false</code></em>: This switch prevents the
+          build process from installing systemd units since they are useless
+          on SysV systems.
+        </p>
+        <p>
+          <code class="option">-D seccomp=false</code>: This option disables
+          the seccomp system call filter. On some architectures, such as i686
+          and ARM, the functions that tracker-miners uses are not guarded
+          properly, and tracker-miners will get killed with a SIGSYS as a
+          result. Note that disabling seccomp may cause the system to be
+          compromised worse in the event that a security vulnerability in
+          tracker-miners or its dependencies is exploited.
+        </p>
+        <p>
+          <code class="option">-D landlock=disabled</code>: This switch
+          disables the Landlock file access sandbox. Use it if you don't want
+          to build the kernel with Landlock support. Note that disabling
+          Landlock may cause the system to be compromised worse in the event
+          that a security vulnerability in tracker-miners or its dependencies
+          is exploited.
+        </p>
+        <p>
+          <code class="option">-D battery_detection=none</code>: Use this
+          option if you have not installed the recommended dependency upower.
+          Do not use this option if your system has a battery (laptop battery
+          or UPS), or tracker-miners may waste the battery power and lifespan
+          when the A/C power is unavailable.
+        </p>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">tracker3-daemon, tracker3-extract,
+              tracker3-index, tracker3-info, tracker3-reset, tracker3-search,
+              tracker3-status, and tracker3-tag</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">Several modules under
+              /usr/lib/tracker-miners-3.0</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/lib/tracker-miners-3.0,
+              /usr/libexec/tracker3, and /usr/share/tracker3-miners</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tracker3-daemon" name=
+                    "tracker3-daemon"></a><span class="term"><span class=
+                    "command"><strong>tracker3-daemon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    starts, stops, restarts, and lists daemons responsible
+                    for indexing content
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tracker3-extract" name=
+                    "tracker3-extract"></a><span class="term"><span class=
+                    "command"><strong>tracker3-extract</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    extracts metadata from a file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tracker3-index" name=
+                    "tracker3-index"></a><span class="term"><span class=
+                    "command"><strong>tracker3-index</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    indexes content using the Tracker filesystem miner
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tracker3-info" name=
+                    "tracker3-info"></a><span class="term"><span class=
+                    "command"><strong>tracker3-info</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    retrieves all information available for a certain file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tracker3-reset" name=
+                    "tracker3-reset"></a><span class="term"><span class=
+                    "command"><strong>tracker3-reset</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    resets the Tracker index and configuration
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tracker3-search" name=
+                    "tracker3-search"></a><span class="term"><span class=
+                    "command"><strong>tracker3-search</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    searches for content by type or across all types
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tracker3-status" name=
+                    "tracker3-status"></a><span class="term"><span class=
+                    "command"><strong>tracker3-status</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides status and statistics on data that has been
+                    indexed
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tracker3-tag" name="tracker3-tag"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tracker3-tag</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    adds, removes, and lists tags
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tracker3.html" title=
+          "Tracker-3.7.3">Prev</a>
+          <p>
+            Tracker-3.7.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gsound.html" title="GSound-1.0.3">Next</a>
+          <p>
+            GSound-1.0.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "Chapter&nbsp;33.&nbsp;GNOME Libraries and Desktop">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V Edition) - Version 12.2">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

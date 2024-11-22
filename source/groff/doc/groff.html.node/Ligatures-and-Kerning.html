@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Ligatures and Kerning (The GNU Troff Manual)</title>
+
+<meta name="description" content="Ligatures and Kerning (The GNU Troff Manual)">
+<meta name="keywords" content="Ligatures and Kerning (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Using-Fonts.html" rel="up" title="Using Fonts">
+<link href="Dummy-Characters.html" rel="next" title="Dummy Characters">
+<link href="Artificial-Fonts.html" rel="prev" title="Artificial Fonts">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Ligatures-and-Kerning">
+<div class="nav-panel">
+<p>
+Next: <a href="Dummy-Characters.html" accesskey="n" rel="next">Dummy Characters</a>, Previous: <a href="Artificial-Fonts.html" accesskey="p" rel="prev">Artificial Fonts</a>, Up: <a href="Using-Fonts.html" accesskey="u" rel="up">Using Fonts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Ligatures-and-Kerning-1">5.19.8 Ligatures and Kerning</h4>
+<a class="index-entry-id" id="index-ligatures-and-kerning"></a>
+<a class="index-entry-id" id="index-kerning-and-ligatures"></a>
+
+<p>Ligatures are groups of characters that are run together, i.e, producing
+a single glyph.  For example, the letters &lsquo;f&rsquo; and &lsquo;i&rsquo; can form a
+ligature &lsquo;fi&rsquo; as in the word &lsquo;file&rsquo;.  This produces a cleaner look
+(albeit subtle) to the printed output.  Usually, ligatures are not
+available in fonts for TTY output devices.
+</p>
+<p>Most PostScript fonts support the fi and fl ligatures.  The C/A/T
+typesetter that was the target of <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> also
+supported &lsquo;ff&rsquo;, &lsquo;ffi&rsquo;, and &lsquo;ffl&rsquo; ligatures.  Advanced typesetters or
+&lsquo;expert&rsquo; fonts may include ligatures for &lsquo;ft&rsquo; and &lsquo;ct&rsquo;, although GNU
+<code class="code">troff</code> does not support these (yet).
+</p>
+<p>Only the current font is checked for ligatures and kerns; neither
+special fonts nor special charcters defined with the <code class="code">char</code> request
+(and its siblings) are taken into account.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002elg"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.lg</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">flag</i></span>]</var><a class="copiable-link" href='#index-_002elg'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-lg"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002elg_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.lg]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002elg_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002elg-1"></a>
+<a class="index-entry-id" id="index-activating-ligatures-_0028lg_0029"></a>
+<a class="index-entry-id" id="index-ligatures_002c-activating-_0028lg_0029"></a>
+<a class="index-entry-id" id="index-ligatures-enabled-register-_0028_002elg_0029"></a>
+<p>Switch the ligature mechanism on or off; if the parameter is non-zero or
+missing, ligatures are enabled, otherwise disabled.  Default is on.  The
+current ligature mode can be found in the read-only register <code class="code">.lg</code>
+(set to 1 or&nbsp;2 if ligatures are enabled, 0&nbsp;otherwise).
+</p>
+<p>Setting the ligature mode to&nbsp;2 enables the two-character ligatures
+(fi, fl, and ff) and disables the three-character ligatures (ffi and
+ffl).
+</p></dd></dl>
+
+<p><em class="dfn">Pairwise kerning</em> is another subtle typesetting mechanism that
+modifies the distance between a glyph pair to improve readability.  In
+most cases (but not always) the distance is decreased.
+Typewriter-like fonts and fonts for terminals where all glyphs have the
+same width don&rsquo;t use kerning.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ekern"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.kern</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">flag</i></span>]</var><a class="copiable-link" href='#index-_002ekern'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-kern"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ekern_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.kern]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ekern_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ekern-1"></a>
+<a class="index-entry-id" id="index-activating-kerning-_0028kern_0029"></a>
+<a class="index-entry-id" id="index-kerning_002c-activating-_0028kern_0029"></a>
+<a class="index-entry-id" id="index-kerning-enabled-register-_0028_002ekern_0029"></a>
+<p>Switch kerning on or off.  If the parameter is non-zero or missing,
+enable pairwise kerning, otherwise disable it.  The read-only register
+<code class="code">.kern</code> is set to&nbsp;1 if pairwise kerning is enabled,
+0&nbsp;otherwise.
+</p>
+<a class="index-entry-id" id="index-dummy-character-_0028_005c_0026_0029_002c-effect-on-kerning"></a>
+<a class="index-entry-id" id="index-character_002c-dummy-_0028_005c_0026_0029_002c-effect-on-kerning"></a>
+<p>If the font description file contains pairwise kerning information,
+glyphs from that font are kerned.  Kerning between two glyphs can be
+inhibited by placing <code class="code">\&amp;</code> between them: &lsquo;<samp class="samp">V\&amp;A</samp>&rsquo;.
+</p>
+<p>See <a class="xref" href="Font-Description-File-Format.html">Font Description File Format</a>.
+</p></dd></dl>
+
+<a class="index-entry-id" id="index-track-kerning"></a>
+<a class="index-entry-id" id="index-kerning_002c-track"></a>
+<p><em class="dfn">Track kerning</em> expands or reduces the space between glyphs.  This
+can be handy, for example, if you need to squeeze a long word onto a
+single line or spread some text to fill a narrow column.  It must be
+used with great care since it is usually considered bad typography if
+the reader notices the effect.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002etkf"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.tkf</code></strong> <var class="def-var-arguments">f s1 n1 s2 n2</var><a class="copiable-link" href='#index-_002etkf'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-tkf"></a>
+<a class="index-entry-id" id="index-activating-track-kerning-_0028tkf_0029"></a>
+<a class="index-entry-id" id="index-track-kerning_002c-activating-_0028tkf_0029"></a>
+<p>Enable track kerning for font&nbsp;<var class="var">f</var>.  If the current font
+is&nbsp;<var class="var">f</var> the width of every glyph is increased by an amount
+between <var class="var">n1</var> and <var class="var">n2</var> (<var class="var">n1</var>, <var class="var">n2</var> can be negative); if
+the current type size is less than or equal to <var class="var">s1</var> the width is
+increased by <var class="var">n1</var>; if it is greater than or equal to <var class="var">s2</var> the
+width is increased by <var class="var">n2</var>; if the type size is greater than or
+equal to <var class="var">s1</var> and less than or equal to <var class="var">s2</var> the increase in
+width is a linear function of the type size.
+</p>
+<p>The default scaling unit is &lsquo;<samp class="samp">z</samp>&rsquo; for <var class="var">s1</var> and <var class="var">s2</var>, &lsquo;<samp class="samp">p</samp>&rsquo;
+for <var class="var">n1</var> and <var class="var">n2</var>.
+</p>
+<p>The track kerning amount is added even to the rightmost glyph in a line;
+for large values it is thus recommended to increase the line length by
+the same amount to compensate.
+</p></dd></dl>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Dummy-Characters.html">Dummy Characters</a>, Previous: <a href="Artificial-Fonts.html">Artificial Fonts</a>, Up: <a href="Using-Fonts.html">Using Fonts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Using Symbols (The GNU Troff Manual)</title>
+
+<meta name="description" content="Using Symbols (The GNU Troff Manual)">
+<meta name="keywords" content="Using Symbols (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Using-Fonts.html" rel="up" title="Using Fonts">
+<link href="Character-Classes.html" rel="next" title="Character Classes">
+<link href="Font-Positions.html" rel="prev" title="Font Positions">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+pre.display-preformatted {font-family: inherit}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Using-Symbols">
+<div class="nav-panel">
+<p>
+Next: <a href="Character-Classes.html" accesskey="n" rel="next">Character Classes</a>, Previous: <a href="Font-Positions.html" accesskey="p" rel="prev">Font Positions</a>, Up: <a href="Using-Fonts.html" accesskey="u" rel="up">Using Fonts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Using-Symbols-1">5.19.4 Using Symbols</h4>
+<a class="index-entry-id" id="index-using-symbols"></a>
+<a class="index-entry-id" id="index-symbols_002c-using"></a>
+
+<a class="index-entry-id" id="index-glyph"></a>
+<a class="index-entry-id" id="index-character"></a>
+<a class="index-entry-id" id="index-glyph_002c-distinguished-from-character"></a>
+<a class="index-entry-id" id="index-character_002c-distinguished-from-glyph"></a>
+<a class="index-entry-id" id="index-ligature"></a>
+<p>A <em class="dfn">glyph</em> is a graphical representation of a <em class="dfn">character</em>.  While
+a character is an abstraction of semantic information, a glyph is
+something that can be seen on screen or paper.  A character has many
+possible representation forms (for example, the character &lsquo;A&rsquo; can be
+written in an upright or slanted typeface, producing distinct
+glyphs).  Sometimes, a sequence of characters map to a single glyph:
+this is a <em class="dfn">ligature</em>&mdash;the most common is &lsquo;fi&rsquo;.
+</p>
+<p>Space characters never become glyphs in GNU <code class="code">troff</code>.  If not
+discarded (as when trailing on text lines), they are represented by
+horizontal motions in the output.
+</p>
+<a class="index-entry-id" id="index-symbol"></a>
+<a class="index-entry-id" id="index-special-fonts"></a>
+<a class="index-entry-id" id="index-fonts"></a>
+<a class="index-entry-id" id="index-DESC-2"></a>
+<a class="index-entry-id" id="index-special-request_002c-and-glyph-search-order"></a>
+<a class="index-entry-id" id="index-fspecial-request_002c-and-glyph-search-order"></a>
+<p>A <em class="dfn">symbol</em> is simply a named glyph.  Within <code class="code">gtroff</code>, all glyph
+names of a particular font are defined in its font file.  If the user
+requests a glyph not available in this font, <code class="code">gtroff</code> looks up an
+ordered list of <em class="dfn">special fonts</em>.  By default, the PostScript output
+device supports the two special fonts &lsquo;<samp class="samp">SS</samp>&rsquo; (slanted symbols) and
+&lsquo;<samp class="samp">S</samp>&rsquo; (symbols) (the former is looked up before the latter).  Other
+output devices use different names for special fonts.  Fonts mounted
+with the <code class="code">fonts</code> keyword in the <samp class="file">DESC</samp> file are globally
+available.  To install additional special fonts locally (i.e., for a
+particular font), use the <code class="code">fspecial</code> request.
+</p>
+<p>Here are the exact rules how <code class="code">gtroff</code> searches a given symbol:
+</p>
+<ul class="itemize mark-bullet">
+<li>If the symbol has been defined with the <code class="code">char</code> request, use it.
+This hides a symbol with the same name in the current font.
+
+</li><li>Check the current font.
+
+</li><li>If the symbol has been defined with the <code class="code">fchar</code> request, use it.
+
+</li><li>Check whether the current font has a font-specific list of special
+fonts; test all fonts in the order of appearance in the last
+<code class="code">fspecial</code> call if appropriate.
+
+</li><li>If the symbol has been defined with the <code class="code">fschar</code> request for the
+current font, use it.
+
+</li><li>Check all fonts in the order of appearance in the last <code class="code">special</code>
+call.
+
+</li><li>If the symbol has been defined with the <code class="code">schar</code> request, use it.
+
+</li><li>As a last resort, consult all fonts loaded up to now for special fonts
+and check them, starting with the lowest font number.  This can
+sometimes lead to surprising results since the <code class="code">fonts</code> line in
+the <samp class="file">DESC</samp> file often contains empty positions, which are filled
+later on.  For example, consider the following:
+
+<div class="example">
+<div class="group"><pre class="example-preformatted">fonts 3 0 0 FOO
+</pre></div></div>
+
+<p>This mounts font <code class="code">foo</code> at font position&nbsp;3.  We assume that
+<code class="code">FOO</code> is a special font, containing glyph <code class="code">foo</code>, and that no
+font has been loaded yet.  The line
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.fspecial BAR BAZ
+</pre></div></div>
+
+<p>makes font <code class="code">BAZ</code> special only if font <code class="code">BAR</code> is active.  We
+further assume that <code class="code">BAZ</code> is really a special font, i.e., the font
+description file contains the <code class="code">special</code> keyword, and that it also
+contains glyph <code class="code">foo</code> with a special shape fitting to font
+<code class="code">BAR</code>.  After executing <code class="code">fspecial</code>, font <code class="code">BAR</code> is loaded
+at font position&nbsp;1, and <code class="code">BAZ</code> at position&nbsp;2.
+</p>
+<p>We now switch to a new font <code class="code">XXX</code>, trying to access glyph
+<code class="code">foo</code> that is assumed to be missing.  There are neither
+font-specific special fonts for <code class="code">XXX</code> nor any other fonts made
+special with the <code class="code">special</code> request, so <code class="code">gtroff</code> starts the
+search for special fonts in the list of already mounted fonts, with
+increasing font positions.  Consequently, it finds <code class="code">BAZ</code> before
+<code class="code">FOO</code> even for <code class="code">XXX</code>, which is not the intended behaviour.
+</p></li></ul>
+
+<p>See <a class="xref" href="Device-and-Font-Description-Files.html">Device and Font Description Files</a>, and <a class="ref" href="Special-Fonts.html">Special Fonts</a>, for
+more details.
+</p>
+<a class="index-entry-id" id="index-list-of-special-characters-_0028groff_005fchar_00287_0029-man-page_0029"></a>
+<a class="index-entry-id" id="index-special-characters_002c-list-of-_0028groff_005fchar_00287_0029-man-page_0029"></a>
+<a class="index-entry-id" id="index-characters_002c-special_002c-list-of-_0028groff_005fchar_00287_0029-man-page_0029"></a>
+<a class="index-entry-id" id="index-available-glyphs_002c-list-of-_0028groff_005fchar_00287_0029-man-page_0029"></a>
+<a class="index-entry-id" id="index-glyphs_002c-available_002c-list-of-_0028groff_005fchar_00287_0029-man-page_0029"></a>
+<p>The <cite class="cite">groff_char<span class="r">(7)</span></cite> man page houses a complete list of
+predefined special character names, but the availability of any as a
+glyph is device- and font-dependent.  For example, say
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">man -Tdvi groff_char &gt; groff_char.dvi
+</pre></div></div>
+
+<p>to obtain those available with the DVI device and default font
+configuration.<a class="footnote" id="DOCF77" href="groff.html_fot.html#FOOT77"><sup>77</sup></a>  If you want to use an additional macro package to change
+the fonts used, <code class="code">groff</code> (or <code class="code">gtroff</code>) must be run directly.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">groff -Tdvi -mec -man groff_char.7 &gt; groff_char.dvi
+</pre></div></div>
+
+<a class="index-entry-id" id="index-composite-glyph-names"></a>
+<a class="index-entry-id" id="index-glyph-names_002c-composite"></a>
+<a class="index-entry-id" id="index-groff-glyph-list-_0028GGL_0029"></a>
+<a class="index-entry-id" id="index-GGL-_0028groff-glyph-list_0029"></a>
+<a class="index-entry-id" id="index-Adobe-Glyph-List-_0028AGL_0029"></a>
+<p>Special character names not listed in <cite class="cite">groff_char<span class="r">(7)</span></cite> are
+derived algorithmically, using a simplified version of the Adobe Glyph
+List (AGL) algorithm, which is described in
+<a class="uref" href="https://github.com/adobe-type-tools/agl-aglfn">https://github.com/adobe-type-tools/agl-aglfn</a>.  The (frozen)
+set of names that can&rsquo;t be derived algorithmically is called the
+<em class="dfn"><code class="code">groff</code> glyph list (GGL)</em>.
+</p>
+<ul class="itemize mark-bullet">
+<li>A glyph for Unicode character U+<var class="var">XXXX</var>[<var class="var">X</var>[<var class="var">X</var>]], which is
+not a composite character is named
+<code class="code">u<var class="var">XXXX</var><span class="r">[</span><var class="var">X</var><span class="r">[</span><var class="var">X</var><span class="r">]]</span></code>.  <var class="var">X</var> must be an
+uppercase hexadecimal digit.  Examples: <code class="code">u1234</code>, <code class="code">u008E</code>,
+<code class="code">u12DB8</code>.  The largest Unicode value is 0x10FFFF.  There must be at
+least four <code class="code">X</code> digits; if necessary, add leading zeroes (after the
+&lsquo;<samp class="samp">u</samp>&rsquo;).  No zero padding is allowed for character codes greater than
+0xFFFF.  Surrogates (i.e., Unicode values greater than 0xFFFF
+represented with character codes from the surrogate area U+D800-U+DFFF)
+are not allowed either.
+
+</li><li>A glyph representing more than a single input character is named
+
+<div class="display">
+<pre class="display-preformatted">&lsquo;<samp class="samp">u</samp>&rsquo; <var class="var">component1</var> &lsquo;<samp class="samp">_</samp>&rsquo; <var class="var">component2</var> &lsquo;<samp class="samp">_</samp>&rsquo; <var class="var">component3</var> &hellip;
+</pre></div>
+
+<p>Example: <code class="code">u0045_0302_0301</code>.
+</p>
+<p>For simplicity, all Unicode characters that are composites must be
+maximally decomposed to NFD;<a class="footnote" id="DOCF78" href="groff.html_fot.html#FOOT78"><sup>78</sup></a> for example,
+<code class="code">u00CA_0301</code> is not a valid glyph name since U+00CA (<small class="sc">LATIN
+CAPITAL LETTER E WITH CIRCUMFLEX</small>) can be further decomposed into U+0045
+(<small class="sc">LATIN CAPITAL LETTER E</small>) and U+0302 (<small class="sc">COMBINING CIRCUMFLEX
+ACCENT</small>).  <code class="code">u0045_0302_0301</code> is thus the glyph name for U+1EBE,
+<small class="sc">LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND ACUTE</small>.
+</p>
+</li><li>groff maintains a table to decompose all algorithmically derived glyph
+names that are composites itself.  For example, <code class="code">u0100</code> (<small class="sc">LATIN
+LETTER A WITH MACRON</small>) is automatically decomposed into
+<code class="code">u0041_0304</code>.  Additionally, a glyph name of the GGL is preferred
+to an algorithmically derived glyph name; <code class="code">groff</code> also
+automatically does the mapping.  Example: The glyph <code class="code">u0045_0302</code> is
+mapped to <code class="code">^E</code>.
+
+</li><li>glyph names of the GGL can&rsquo;t be used in composite glyph names; for
+example, <code class="code">^E_u0301</code> is invalid.
+</li></ul>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_0028nm"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\(</code><span class="r"><i class="slanted">nm</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_0028nm'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c-1"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_005bname_005d"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\[</code><span class="r"><i class="slanted">name</i></span><code class="t">]</code></strong><a class="copiable-link" href='#index-_005c_005bname_005d'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005c_005bbase_002dglyph-combining_002dcomponent-_2026_005d"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\[</code><span class="r"><i class="slanted">base-glyph combining-component &hellip;</i></span><code class="t">]</code></strong><a class="copiable-link" href='#index-_005c_005bbase_002dglyph-combining_002dcomponent-_2026_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_0028"></a>
+<a class="index-entry-id" id="index-_005c_005b"></a>
+<p>Typeset a special character <var class="var">name</var> (two-character name <var class="var">nm</var>) or
+a composite glyph consisting of <var class="var">base-glyph</var> overlaid with one or
+more <var class="var">combining-component</var>s.  For example, &lsquo;<samp class="samp">\[A ho]</samp>&rsquo; is a
+capital letter &ldquo;A&rdquo; with a &ldquo;hook accent&rdquo; (ogonek).
+</p>
+<p>There is no special syntax for one-character names&mdash;the analogous form
+&lsquo;<samp class="samp">\<var class="var">n</var></samp>&rsquo; would collide with other escape sequences.  However, the
+four escape sequences <code class="code">\'</code>, <code class="code">\-</code>, <code class="code">\_</code>, and <code class="code">\`</code>,
+are translated on input to the special character escape sequences
+<code class="code">\[aa]</code>, <code class="code">\[-]</code>, <code class="code">\[ul]</code>, and <code class="code">\[ga]</code>, respectively.
+</p>
+<p>A special character name of length one is not the same thing as an
+ordinary character: that is, the character <code class="code">a</code> is not the same as
+<code class="code">\[a]</code>.
+</p>
+<p>If <var class="var">name</var> is undefined, a warning in category &lsquo;<samp class="samp">char</samp>&rsquo; is
+produced and the escape is ignored.  See <a class="xref" href="Warnings.html">Warnings</a>, for information
+about the enablement and suppression of warnings.
+</p>
+<p>GNU <code class="code">troff</code> resolves <code class="code">\[<span class="r">&hellip;</span>]</code> with more than a single
+component as follows:
+</p>
+<ul class="itemize mark-bullet">
+<li>Any component that is found in the GGL is converted to the
+<code class="code">u<var class="var">XXXX</var></code> form.
+
+</li><li>Any component <code class="code">u<var class="var">XXXX</var></code> that is found in the list of
+decomposable glyphs is decomposed.
+
+</li><li>The resulting elements are then concatenated with &lsquo;<samp class="samp">_</samp>&rsquo; in between,
+dropping the leading &lsquo;<samp class="samp">u</samp>&rsquo; in all elements but the first.
+</li></ul>
+
+<p>No check for the existence of any component (similar to <code class="code">tr</code>
+request) is done.
+</p>
+<p>Examples:
+</p>
+<dl class="table">
+<dt><code class="code">\[A ho]</code></dt>
+<dd><p>&lsquo;<samp class="samp">A</samp>&rsquo; maps to <code class="code">u0041</code>, &lsquo;<samp class="samp">ho</samp>&rsquo; maps to <code class="code">u02DB</code>, thus the
+final glyph name would be <code class="code">u0041_02DB</code>.  This is not the expected
+result: the ogonek glyph &lsquo;<samp class="samp">ho</samp>&rsquo; is a spacing ogonek, but for a
+proper composite a non-spacing ogonek (U+0328) is necessary.  Looking
+into the file <samp class="file">composite.tmac</samp>, one can find &lsquo;<samp class="samp">.composite&nbsp;ho&nbsp;u0328</samp>&rsquo;<!-- /@w -->, which changes the mapping of &lsquo;<samp class="samp">ho</samp>&rsquo; while a composite glyph
+name is constructed, causing the final glyph name to be
+<code class="code">u0041_0328</code>.
+</p>
+</dd>
+<dt><code class="code">\[^E u0301]</code></dt>
+<dt><code class="code">\[^E aa]</code></dt>
+<dt><code class="code">\[E a^ aa]</code></dt>
+<dt><code class="code">\[E ^ <code class="code">'</code>]</code></dt>
+<dd><p>&lsquo;<samp class="samp">^E</samp>&rsquo; maps to <code class="code">u0045_0302</code>, thus the final glyph name is
+<code class="code">u0045_0302_0301</code> in all forms (assuming proper calls of the
+<code class="code">composite</code> request).
+</p></dd>
+</dl>
+
+<p>It is not possible to define glyphs with names like &lsquo;<samp class="samp">A&nbsp;ho</samp>&rsquo;<!-- /@w -->
+within a <code class="code">groff</code> font file.  This is not really a limitation;
+instead, you have to define <code class="code">u0041_0328</code>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cC_0027xxx_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\C<code class="code">'</code></code><span class="r"><i class="slanted">xxx</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cC_0027xxx_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cC"></a>
+<a class="index-entry-id" id="index-named-character-_0028_005cC_0029"></a>
+<a class="index-entry-id" id="index-character_002c-named-_0028_005cC_0029"></a>
+<p>Typeset the glyph of the special character <var class="var">xxx</var>.  Normally, it is
+more convenient to use <code class="code">\[<var class="var">xxx</var>]</code>, but <code class="code">\C</code> has some
+advantages: it is compatible with <abbr class="acronym">AT&amp;T</abbr> device-independent
+<code class="code">troff</code> (and therefore available in compatibility
+mode<a class="footnote" id="DOCF79" href="groff.html_fot.html#FOOT79"><sup>79</sup></a>) and can interpolate special
+characters with &lsquo;<samp class="samp">]</samp>&rsquo; in their names.  The delimiter need not be
+a neutral apostrophe; see <a class="ref" href="Delimiters.html">Delimiters</a>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ecomposite"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.composite</code></strong> <var class="def-var-arguments">id1 id2</var><a class="copiable-link" href='#index-_002ecomposite'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-composite"></a>
+<a class="index-entry-id" id="index-composite_002etmac"></a>
+<p>Map special character name <var class="var">id1</var> to <var class="var">id2</var> if <var class="var">id1</var> is used
+in <code class="code">\[...]</code> with more than one component.  See above for examples.
+This is a strict rewriting of the special character name; no check is
+performed for the existence of a glyph for either.  A set of default
+mappings for many accents can be found in the file
+<samp class="file">composite.tmac</samp>, loaded by the default <samp class="file">troffrc</samp> at startup.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cN_0027n_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\N<code class="code">'</code></code><span class="r"><i class="slanted">n</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cN_0027n_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cN"></a>
+<a class="index-entry-id" id="index-numbered-glyph-_0028_005cN_0029-1"></a>
+<a class="index-entry-id" id="index-glyph_002c-numbered-_0028_005cN_0029-1"></a>
+<a class="index-entry-id" id="index-char-request_002c-used-with-_005cN"></a>
+<a class="index-entry-id" id="index-Unicode-1"></a>
+<p>Typeset the glyph with code&nbsp;<var class="var">n</var> in the current font
+(<code class="code">n</code>&nbsp;is <em class="emph">not</em> the input character code).  The number
+<var class="var">n</var>&nbsp;can be any non-negative decimal integer.  Most devices only
+have glyphs with codes between 0 and&nbsp;255; the Unicode output device
+uses codes in the range 0&ndash;65535.  If the current font does not contain
+a glyph with that code, special fonts are <em class="emph">not</em> searched.  The
+<code class="code">\N</code> escape sequence can be conveniently used in conjunction with
+the <code class="code">char</code> request:
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.char \[phone] \f[ZD]\N'37'
+</pre></div></div>
+
+<a class="index-entry-id" id="index-DESC-3"></a>
+<a class="index-entry-id" id="index-unnamed-glyphs"></a>
+<a class="index-entry-id" id="index-glyphs_002c-unnamed"></a>
+<p>The code of each glyph is given in the fourth column in the font
+description file after the <code class="code">charset</code> command.  It is possible to
+include unnamed glyphs in the font description file by using a name of
+&lsquo;<samp class="samp">---</samp>&rsquo;; the <code class="code">\N</code> escape sequence is the only way to use these.
+</p>
+<p>No kerning is applied to glyphs accessed with <code class="code">\N</code>.  The delimiter
+need not be a neutral apostrophe; see <a class="ref" href="Delimiters.html">Delimiters</a>.
+</p></dd></dl>
+
+<p>A few escape sequences are also special characters.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_0027-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\<code class="code">'</code></code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_0027-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_0027"></a>
+<p>An escaped neutral apostrophe is a synonym for <code class="code">\[aa]</code> (acute
+accent).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_0060-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\<code class="code">`</code></code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_0060-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_0060"></a>
+<p>An escaped grave accent is a synonym for <code class="code">\[ga]</code> (grave accent).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002d-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\-</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_002d-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_002d"></a>
+<p>An escaped hyphen-minus is a synonym for <code class="code">\[-]</code> (minus sign).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_005f-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\_</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_005f-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_005f"></a>
+<p>An escaped underscore (&ldquo;low line&rdquo;) is a synonym for <code class="code">\[ul]</code>
+(underrule).  On typesetting devices, the underrule is font-invariant
+and drawn lower than the underscore &lsquo;<samp class="samp">_</samp>&rsquo;.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ecflags"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.cflags</code></strong> <var class="def-var-arguments">n c1 c2 &hellip;</var><a class="copiable-link" href='#index-_002ecflags'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-cflags"></a>
+<a class="index-entry-id" id="index-glyph-properties-_0028cflags_0029"></a>
+<a class="index-entry-id" id="index-character-properties-_0028cflags_0029"></a>
+<a class="index-entry-id" id="index-properties-of-glyphs-_0028cflags_0029"></a>
+<a class="index-entry-id" id="index-properties-of-characters-_0028cflags_0029"></a>
+<p>Assign properties encoded by the number <var class="var">n</var> to characters <var class="var">c1</var>,
+<var class="var">c2</var>, and so on.
+</p>
+<p>Input characters, including special characters introduced by an escape,
+have certain properties associated with them.<a class="footnote" id="DOCF80" href="groff.html_fot.html#FOOT80"><sup>80</sup></a>
+These properties can be modified with this request.  The first argument
+is the sum of the desired flags and the remaining arguments are the
+characters to be assigned those properties.  Spaces between the <var class="var">cn</var>
+arguments are optional.  Any argument <var class="var">cn</var> can be a character class
+defined with the <code class="code">class</code> request rather than an individual
+character.  See <a class="xref" href="Character-Classes.html">Character Classes</a>.
+</p>
+<p>The non-negative integer <var class="var">n</var> is the sum of any of the following.
+Some combinations are nonsensical, such as &lsquo;<samp class="samp">33</samp>&rsquo; (1 + 32).
+</p>
+<dl class="table">
+<dt id='index-end_002dof_002dsentence-characters-1'><span><code class="code">1</code><a class="copiable-link" href='#index-end_002dof_002dsentence-characters-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-characters_002c-end_002dof_002dsentence"></a>
+<p>Recognize the character as ending a sentence if followed by a newline
+or two spaces.  Initially, characters &lsquo;<samp class="samp">.?!</samp>&rsquo; have this property.
+</p>
+</dd>
+<dt id='index-hyphenating-characters'><span><code class="code">2</code><a class="copiable-link" href='#index-hyphenating-characters'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-characters_002c-hyphenation"></a>
+<p>Enable breaks before the character.  A line is not broken at a character
+with this property unless the characters on each side both have non-zero
+hyphenation codes.  This exception can be overridden by adding 64.
+Initially, no characters have this property.
+</p>
+</dd>
+<dt id='index-_005c_002d-glyph_002c-and-cflags'><span><code class="code">4</code><a class="copiable-link" href='#index-_005c_002d-glyph_002c-and-cflags'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hy-glyph_002c-and-cflags"></a>
+<a class="index-entry-id" id="index-em-glyph_002c-and-cflags"></a>
+<p>Enable breaks after the character.  A line is not broken at a character
+with this property unless the characters on each side both have non-zero
+hyphenation codes.  This exception can be overridden by adding 64.
+Initially, characters &lsquo;<samp class="samp">\-\[hy]\[em]</samp>&rsquo; have this property.
+</p>
+</dd>
+<dt id='index-overlapping-characters'><span><code class="code">8</code><a class="copiable-link" href='#index-overlapping-characters'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-characters_002c-overlapping"></a>
+<a class="index-entry-id" id="index-ul-glyph_002c-and-cflags"></a>
+<a class="index-entry-id" id="index-rn-glyph_002c-and-cflags"></a>
+<a class="index-entry-id" id="index-ru-glyph_002c-and-cflags"></a>
+<a class="index-entry-id" id="index-radicalex-glyph_002c-and-cflags"></a>
+<a class="index-entry-id" id="index-sqrtex-glyph_002c-and-cflags"></a>
+<p>Mark the glyph associated with this character as overlapping other
+instances of itself horizontally.  Initially, characters
+&lsquo;<samp class="samp">\[ul]\[rn]\[ru]\[radicalex]\[sqrtex]</samp>&rsquo; have this property.
+</p>
+</dd>
+<dt id='index-br-glyph_002c-and-cflags'><span><code class="code">16</code><a class="copiable-link" href='#index-br-glyph_002c-and-cflags'> &para;</a></span></dt>
+<dd><p>Mark the glyph associated with this character as overlapping other
+instances of itself vertically.  Initially, the character &lsquo;<samp class="samp">\[br]</samp>&rsquo;
+has this property.
+</p>
+</dd>
+<dt id='index-transparent-characters'><span><code class="code">32</code><a class="copiable-link" href='#index-transparent-characters'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-character_002c-transparent"></a>
+<a class="index-entry-id" id="index-_0022_002c-at-end-of-sentence-1"></a>
+<a class="index-entry-id" id="index-_0027_002c-at-end-of-sentence-1"></a>
+<a class="index-entry-id" id="index-_0029_002c-at-end-of-sentence-1"></a>
+<a class="index-entry-id" id="index-_005d_002c-at-end-of-sentence-1"></a>
+<a class="index-entry-id" id="index-_002a_002c-at-end-of-sentence-1"></a>
+<a class="index-entry-id" id="index-dg-glyph_002c-at-end-of-sentence-1"></a>
+<a class="index-entry-id" id="index-dd-glyph_002c-at-end-of-sentence-1"></a>
+<a class="index-entry-id" id="index-rq-glyph_002c-at-end-of-sentence-1"></a>
+<a class="index-entry-id" id="index-cq-glyph_002c-at-end-of-sentence-1"></a>
+<p>Mark the character as transparent for the purpose of end-of-sentence
+recognition.  In other words, an end-of-sentence character followed by
+any number of characters with this property is treated as the end of a
+sentence if followed by a newline or two spaces.  This is the same as
+having a zero space factor in TeX.  Initially, characters
+&lsquo;<samp class="samp">&quot;')]*\[dg]\[dd]\[rq]\[cq]</samp>&rsquo; have this property.
+</p>
+</dd>
+<dt><code class="code">64</code></dt>
+<dd><p>Ignore hyphenation codes of the surrounding characters.  Use this in
+combination with values 2 and&nbsp;4 (initially, no characters have this
+property).
+</p>
+<p>For example, if you need an automatic break point after the en-dash in
+numeric ranges like &ldquo;3000&ndash;5000&rdquo;, insert
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.cflags 68 \[en]
+</pre></div></div>
+
+<p>into your document.  However, this practice can lead to bad layout if
+done thoughtlessly; in most situations, a better solution instead of
+changing the <code class="code">cflags</code> value is to insert <code class="code">\:</code> right after the
+hyphen at the places that really need a break point.
+</p></dd>
+</dl>
+
+<p>The remaining values were implemented for East Asian language support;
+those who use alphabetic scripts exclusively can disregard them.
+</p>
+<dl class="table">
+<dt><code class="code">128</code></dt>
+<dd><p>Prohibit a line break before the character, but allow a line break after
+the character.  This works only in combination with flags 256 and 512
+and has no effect otherwise.  Initially, no characters have this
+property.
+</p>
+</dd>
+<dt><code class="code">256</code></dt>
+<dd><p>Prohibit a line break after the character, but allow a line break before
+the character.  This works only in combination with flags 128 and 512
+and has no effect otherwise.  Initially, no characters have this
+property.
+</p>
+</dd>
+<dt><code class="code">512</code></dt>
+<dd><p>Allow line break before or after the character.  This works only in
+combination with flags 128 and 256 and has no effect otherwise.
+Initially, no characters have this property.
+</p></dd>
+</dl>
+
+<p>In contrast to values 2 and&nbsp;4, the values 128, 256, and 512 work
+pairwise.  If, for example, the left character has value 512, and the
+right character 128, no break will be automatically inserted between
+them.  If we use value&nbsp;6 instead for the left character, a break
+after the character can&rsquo;t be suppressed since the neighboring character
+on the right doesn&rsquo;t get examined.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002echar"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.char</code></strong> <var class="def-var-arguments">c [<span class="r"><i class="slanted">contents</i></span>]</var><a class="copiable-link" href='#index-_002echar'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-char"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002efchar"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.fchar</code></strong> <var class="def-var-arguments">c [<span class="r"><i class="slanted">contents</i></span>]</var><a class="copiable-link" href='#index-_002efchar'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-fchar"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002efschar"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.fschar</code></strong> <var class="def-var-arguments">f c [<span class="r"><i class="slanted">contents</i></span>]</var><a class="copiable-link" href='#index-_002efschar'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-fschar"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002eschar"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.schar</code></strong> <var class="def-var-arguments">c [<span class="r"><i class="slanted">contents</i></span>]</var><a class="copiable-link" href='#index-_002eschar'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-schar"></a>
+<a class="index-entry-id" id="index-defining-character-_0028char_0029"></a>
+<a class="index-entry-id" id="index-defining-fallback-character-_0028fchar_002c-fschar_002c-schar_0029"></a>
+<a class="index-entry-id" id="index-character_002c-defining-_0028char_0029"></a>
+<a class="index-entry-id" id="index-character_002c-defining-fallback-_0028fchar_002c-fschar_002c-schar_0029"></a>
+<a class="index-entry-id" id="index-fallback-character_002c-defining-_0028fchar_002c-fschar_002c-schar_0029"></a>
+<a class="index-entry-id" id="index-creating-new-characters-_0028char_0029"></a>
+<a class="index-entry-id" id="index-defining-symbol-_0028char_0029"></a>
+<a class="index-entry-id" id="index-symbol_002c-defining-_0028char_0029"></a>
+<a class="index-entry-id" id="index-defining-glyph-_0028char_0029"></a>
+<a class="index-entry-id" id="index-glyph_002c-defining-_0028char_0029"></a>
+<a class="index-entry-id" id="index-escape-character_002c-while-defining-glyph"></a>
+<a class="index-entry-id" id="index-character_002c-escape_002c-while-defining-glyph"></a>
+<a class="index-entry-id" id="index-tr-request_002c-and-glyph-definitions"></a>
+<a class="index-entry-id" id="index-cp-request_002c-and-glyph-definitions"></a>
+<a class="index-entry-id" id="index-rc-request_002c-and-glyph-definitions"></a>
+<a class="index-entry-id" id="index-lc-request_002c-and-glyph-definitions"></a>
+<a class="index-entry-id" id="index-_005cl_002c-and-glyph-definitions"></a>
+<a class="index-entry-id" id="index-_005cL_002c-and-glyph-definitions"></a>
+<a class="index-entry-id" id="index-_005c_0026_002c-and-glyph-definitions"></a>
+<a class="index-entry-id" id="index-_005ce_002c-and-glyph-definitions"></a>
+<a class="index-entry-id" id="index-hcode-request_002c-and-glyph-definitions"></a>
+<p>Define a new character or glyph&nbsp;<var class="var">c</var> to be <var class="var">contents</var>, which
+can be empty.  More precisely, <code class="code">char</code> defines a <code class="code">groff</code> object
+(or redefines an existing one) that is accessed with the
+name&nbsp;<var class="var">c</var> on input, and produces <var class="var">contents</var> on output.
+Every time glyph&nbsp;<var class="var">c</var> needs to be printed, <var class="var">contents</var> is
+processed in a temporary environment and the result is wrapped up into a
+single object.  Compatibility mode is turned off and the escape
+character is set to&nbsp;<code class="code">\</code> while <var class="var">contents</var> is processed.
+Any emboldening, constant spacing, or track kerning is applied to this
+object rather than to individual glyphs in <var class="var">contents</var>.
+</p>
+<p>An object defined by these requests can be used just like a normal glyph
+provided by the output device.  In particular, other characters can be
+translated to it with the <code class="code">tr</code> or <code class="code">trin</code> requests; it can be
+made the leader character with the <code class="code">lc</code> request; repeated patterns
+can be drawn with it using the <code class="code">\l</code> and <code class="code">\L</code> escape sequences;
+and words containing&nbsp;<var class="var">c</var> can be hyphenated correctly if the
+<code class="code">hcode</code> request is used to give the object a hyphenation code.
+</p>
+<p>There is a special anti-recursion feature: use of the object within its
+own definition is handled like a normal character (not
+defined with <code class="code">char</code>).
+</p>
+<p>The <code class="code">tr</code> and <code class="code">trin</code> requests take precedence if <code class="code">char</code>
+accesses the same symbol.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.tr XY
+X
+    &rArr; Y
+.char X Z
+X
+    &rArr; Y
+.tr XX
+X
+    &rArr; Z
+</pre></div></div>
+
+<p>The <code class="code">fchar</code> request defines a fallback glyph: <code class="code">gtroff</code> only
+checks for glyphs defined with <code class="code">fchar</code> if it cannot find the glyph
+in the current font.  <code class="code">gtroff</code> carries out this test before
+checking special fonts.
+</p>
+<p><code class="code">fschar</code> defines a fallback glyph for font&nbsp;<var class="var">f</var>:
+<code class="code">gtroff</code> checks for glyphs defined with <code class="code">fschar</code> after the
+list of fonts declared as font-specific special fonts with the
+<code class="code">fspecial</code> request, but before the list of fonts declared as global
+special fonts with the <code class="code">special</code> request.
+</p>
+<p>Finally, the <code class="code">schar</code> request defines a global fallback glyph:
+<code class="code">gtroff</code> checks for glyphs defined with <code class="code">schar</code> after the list
+of fonts declared as global special fonts with the <code class="code">special</code>
+request, but before the already mounted special fonts.
+</p>
+<p>See <a class="xref" href="Character-Classes.html">Character Classes</a>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002erchar"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.rchar</code></strong> <var class="def-var-arguments">c &hellip;</var><a class="copiable-link" href='#index-_002erchar'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-rchar"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002erfschar"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.rfschar</code></strong> <var class="def-var-arguments">f c &hellip;</var><a class="copiable-link" href='#index-_002erfschar'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-rfschar"></a>
+<a class="index-entry-id" id="index-removing-glyph-definition-_0028rchar_002c-rfschar_0029"></a>
+<a class="index-entry-id" id="index-glyph_002c-removing-definition-_0028rchar_002c-rfschar_0029"></a>
+<a class="index-entry-id" id="index-fallback-glyph_002c-removing-definition-_0028rchar_002c-rfschar_0029"></a>
+<p>Remove definition of each ordinary or special character <var class="var">c</var>,
+undoing the effect of a <code class="code">char</code>, <code class="code">fchar</code>, or <code class="code">schar</code>
+request.  Those supplied by font description files cannot be removed.
+Spaces and tabs may separate <var class="var">c</var>&nbsp;arguments.
+</p>
+<p>The request <code class="code">rfschar</code> removes glyph definitions defined with
+<code class="code">fschar</code> for font&nbsp;<var class="var">f</var>.
+</p></dd></dl>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Character-Classes.html">Character Classes</a>, Previous: <a href="Font-Positions.html">Font Positions</a>, Up: <a href="Using-Fonts.html">Using Fonts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

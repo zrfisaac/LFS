@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Manipulating Hyphenation (The GNU Troff Manual)</title>
+
+<meta name="description" content="Manipulating Hyphenation (The GNU Troff Manual)">
+<meta name="keywords" content="Manipulating Hyphenation (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Manipulating-Spacing.html" rel="next" title="Manipulating Spacing">
+<link href="Manipulating-Filling-and-Adjustment.html" rel="prev" title="Manipulating Filling and Adjustment">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Manipulating-Hyphenation">
+<div class="nav-panel">
+<p>
+Next: <a href="Manipulating-Spacing.html" accesskey="n" rel="next">Manipulating Spacing</a>, Previous: <a href="Manipulating-Filling-and-Adjustment.html" accesskey="p" rel="prev">Manipulating Filling and Adjustment</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Manipulating-Hyphenation-1">5.10 Manipulating Hyphenation</h3>
+<a class="index-entry-id" id="index-manipulating-hyphenation"></a>
+<a class="index-entry-id" id="index-hyphenation_002c-manipulating"></a>
+
+<a class="index-entry-id" id="index-hyphenation_002c-automatic"></a>
+<a class="index-entry-id" id="index-automatic-hyphenation"></a>
+<p>When filling, GNU <code class="code">troff</code> hyphenates words as needed at
+user-specified and automatically determined hyphenation points.  The
+machine-driven determination of hyphenation points in words requires
+algorithms and data, and is susceptible to conventions and preferences.
+Before tackling such <em class="dfn">automatic hyphenation</em>, let us consider how
+hyphenation points can be set explicitly.
+</p>
+<a class="index-entry-id" id="index-hyphenation_002c-explicit"></a>
+<a class="index-entry-id" id="index-explicit-hyphenation"></a>
+<a class="index-entry-id" id="index-hyphenation_002c-manual"></a>
+<a class="index-entry-id" id="index-manual-hyphenation"></a>
+<p>Explicitly hyphenated words such as &ldquo;mother-in-law&rdquo; are eligible for
+breaking after each of their hyphens.  Relatively few words in a
+language offer such obvious break points, however, and automatic
+detection of syllabic (or phonetic) boundaries for hyphenation is not
+perfect,<a class="footnote" id="DOCF56" href="groff.html_fot.html#FOOT56"><sup>56</sup></a> particularly for
+unusual words found in technical literature.  We can instruct GNU
+<code class="code">troff</code> how to hyphenate specific words if the need arises.
+</p>
+<a class="index-entry-id" id="index-hyphenation-exceptions"></a>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ehw"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.hw</code></strong> <var class="def-var-arguments">word &hellip;</var><a class="copiable-link" href='#index-_002ehw'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hw"></a>
+<p>Define each <em class="dfn">hyphenation exception</em> <var class="var">word</var> with each hyphen &lsquo;-&rsquo;
+in the word indicating a hyphenation point.  For example, the request
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.hw in-sa-lub-rious alpha
+</pre></div></div>
+
+<p>marks potential hyphenation points in &ldquo;insalubrious&rdquo;, and prevents
+&ldquo;alpha&rdquo; from being hyphenated at all.
+</p>
+<p>Besides the space character, any character whose hyphenation code is
+zero can be used to separate the arguments of <code class="code">hw</code> (see the
+<code class="code">hcode</code> request below).  In addition, this request can be used more
+than once.
+</p>
+<a class="index-entry-id" id="index-hw-request_002c-and-hy-restrictions"></a>
+<p>Hyphenation points specified with <code class="code">hw</code> are not subject to the
+within-word placement restrictions imposed by the <code class="code">hy</code> request (see
+below).
+</p>
+<p>Hyphenation exceptions specified with the <code class="code">hw</code> request are
+associated with the hyphenation language (see the <code class="code">hla</code> request
+below) and environment (see <a class="pxref" href="Environments.html">Environments</a>); invoking the <code class="code">hw</code>
+request in the absence of a hyphenation language is an error.
+</p>
+<p>The request is ignored if there are no parameters.
+</p></dd></dl>
+
+<p>These are known as hyphenation <i class="slanted">exceptions</i> in the expectation
+that most users will avail themselves of automatic hyphenation; these
+exceptions override any rules that would normally apply to a word
+matching a hyphenation exception defined with <code class="code">hw</code>.
+</p>
+<p>Situations also arise when only a specific occurrence of a word needs
+its hyphenation altered or suppressed, or when a URL or similar string
+needs to be breakable in sensible places without hyphenation.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_0025-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\%</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_0025-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_0025"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_003a-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\:</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_003a-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_003a"></a>
+<a class="index-entry-id" id="index-hyphenation-character-_0028_005c_0025_0029"></a>
+<a class="index-entry-id" id="index-character_002c-hyphenation-_0028_005c_0025_0029"></a>
+<a class="index-entry-id" id="index-disabling-hyphenation-_0028_005c_0025_0029"></a>
+<a class="index-entry-id" id="index-hyphenation_002c-disabling-_0028_005c_0025_0029"></a>
+<p>To tell GNU <code class="code">troff</code> how to hyphenate words as they occur in input,
+use the <code class="code">\%</code> escape sequence; it is the default <em class="dfn">hyphenation
+character</em>.  Each instance within a word indicates to GNU <code class="code">troff</code>
+that the word may be hyphenated at that point, while prefixing a word
+with this escape sequence prevents it from being otherwise hyphenated.
+This mechanism affects only that occurrence of the word; to change the
+hyphenation of a word for the remainder of input processing, use the
+<code class="code">hw</code> request.
+</p>
+<a class="index-entry-id" id="index-_005cX_002c-followed-by-_005c_0025"></a>
+<a class="index-entry-id" id="index-_005cY_002c-followed-by-_005c_0025"></a>
+<a class="index-entry-id" id="index-_005c_0025_002c-following-_005cX-or-_005cY"></a>
+<p>GNU <code class="code">troff</code> regards the escape sequences <code class="code">\X</code> and <code class="code">\Y</code> as
+starting a word; that is, the <code class="code">\%</code> escape sequence in, say,
+&lsquo;<samp class="samp">\X'...'\%foobar</samp>&rsquo;<!-- /@w --> or &lsquo;<samp class="samp">\Y'...'\%foobar</samp>&rsquo;<!-- /@w --> no longer
+prevents hyphenation of &lsquo;<samp class="samp">foobar</samp>&rsquo; but inserts a hyphenation point
+just prior to it; most likely this isn&rsquo;t what you want.
+See <a class="xref" href="Postprocessor-Access.html">Postprocessor Access</a>.
+</p>
+<a class="index-entry-id" id="index-non_002dprinting-break-point-_0028_005c_003a_0029"></a>
+<a class="index-entry-id" id="index-breaking-without-hyphens-_0028_005c_003a_0029"></a>
+<a class="index-entry-id" id="index-file-names_002c-breaking-_0028_005c_003a_0029"></a>
+<a class="index-entry-id" id="index-breaking-file-names-_0028_005c_003a_0029"></a>
+<a class="index-entry-id" id="index-URLs_002c-breaking-_0028_005c_003a_0029"></a>
+<a class="index-entry-id" id="index-breaking-URLs-_0028_005c_003a_0029"></a>
+<p><code class="code">\:</code> inserts a non-printing break point; that is, a word can break
+there, but the soft hyphen glyph (see below) is not written to the
+output if it does.  This escape sequence is an input word boundary, so
+the remainder of the word is subject to hyphenation as normal.
+</p>
+<p>You can combine <code class="code">\:</code> and <code class="code">\%</code> to control breaking of a file
+name or URL, or to permit hyphenation only after certain explicit
+hyphens within a word.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">The \%Lethbridge-Stewart-\:\%Sackville-Baggins divorce
+was, in retrospect, inevitable once the contents of
+\%/var/log/\:\%httpd/\:\%access_log on the family web
+server came to light, revealing visitors from Hogwarts.
+</pre></div></div>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ehc"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.hc</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">char</i></span>]</var><a class="copiable-link" href='#index-_002ehc'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hc"></a>
+<p>Change the hyphenation character to <var class="var">char</var>.  This character then
+works as the <code class="code">\%</code> escape sequence normally does, and thus no longer
+appears in the output.<a class="footnote" id="DOCF57" href="groff.html_fot.html#FOOT57"><sup>57</sup></a>  Without an
+argument, <code class="code">hc</code> resets the hyphenation character to <code class="code">\%</code> (the
+default).  The hyphenation character is associated with the environment
+(see <a class="pxref" href="Environments.html">Environments</a>).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eshc"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.shc</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">c</i></span>]</var><a class="copiable-link" href='#index-_002eshc'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-shc"></a>
+<a class="index-entry-id" id="index-soft-hyphen-character_002c-setting-_0028shc_0029"></a>
+<a class="index-entry-id" id="index-character_002c-soft-hyphen_002c-setting-_0028shc_0029"></a>
+<a class="index-entry-id" id="index-glyph_002c-soft-hyphen-_0028hy_0029"></a>
+<a class="index-entry-id" id="index-soft-hyphen-glyph-_0028hy_0029"></a>
+<a class="index-entry-id" id="index-char-request_002c-and-soft-hyphen-character"></a>
+<a class="index-entry-id" id="index-tr-request_002c-and-soft-hyphen-character"></a>
+<p>Set the <em class="dfn">soft hyphen character</em>, inserted when a word is hyphenated
+automatically or at a hyphenation character, to the ordinary or special
+character&nbsp;<var class="var">c</var>.<a class="footnote" id="DOCF58" href="groff.html_fot.html#FOOT58"><sup>58</sup></a>  If the argument is omitted, the soft
+hyphen character is set to the default, <code class="code">\[hy]</code>.  If no glyph for
+<var class="var">c</var> exists in the font in use at a potential hyphenation point, then
+the line is not broken there.  Neither character definitions (specified
+with the <code class="code">char</code> and similar requests) nor translations (specified
+with the <code class="code">tr</code> request) are applied to <var class="var">c</var>.
+</p></dd></dl>
+
+<a class="index-entry-id" id="index-hyphenation-parameters_002c-automatic"></a>
+<a class="index-entry-id" id="index-automatic-hyphenation-parameters"></a>
+<p>Several requests influence automatic hyphenation.  Because conventions
+vary, a variety of hyphenation modes is available to the <code class="code">hy</code>
+request; these determine whether hyphenation will apply to a
+word prior to breaking a line at the end of a page (more or less; see
+below for details), and at which positions within that word
+automatically determined hyphenation points are permissible.  The places
+within a word that are eligible for hyphenation are determined by
+language-specific data and lettercase relationships.  Furthermore,
+hyphenation of a word might be suppressed due to a limit on
+consecutive hyphenated lines (<code class="code">hlm</code>), a minimum line length
+threshold (<code class="code">hym</code>), or because the line can instead be adjusted with
+additional inter-word space (<code class="code">hys</code>).
+</p>
+<a class="index-entry-id" id="index-hyphenation-mode-register-_0028_002ehy_0029"></a>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ehy"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.hy</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">mode</i></span>]</var><a class="copiable-link" href='#index-_002ehy'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hy"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ehy_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.hy]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ehy_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ehy-1"></a>
+<p>Set automatic hyphenation mode to <var class="var">mode</var>, an integer encoding
+conditions for hyphenation; if omitted, &lsquo;<samp class="samp">1</samp>&rsquo; is implied.  The
+hyphenation mode is available in the read-only register &lsquo;<samp class="samp">.hy</samp>&rsquo;; it
+is associated with the environment (see <a class="pxref" href="Environments.html">Environments</a>).  The default
+hyphenation mode depends on the localization file loaded when GNU
+<code class="code">troff</code> starts up; see the <code class="code">hpf</code> request below.
+</p>
+<p>Typesetting practice generally does not avail itself of every
+opportunity for hyphenation, but the details differ by language and site
+mandates.  The hyphenation modes of <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> were
+implemented with English-language publishing practices of the 1970s in
+mind, not a scrupulous enumeration of conceivable parameters.  GNU
+<code class="code">troff</code> extends those modes such that finer-grained control is
+possible, favoring compatibility with older implementations over a more
+intuitive arrangement.  The means of hyphenation mode control is a set
+of numbers that can be added up to encode the behavior
+sought.<a class="footnote" id="DOCF59" href="groff.html_fot.html#FOOT59"><sup>59</sup></a>  The entries in the
+following table are termed <em class="dfn">values</em>; the sum of the desired
+values is the <em class="dfn">mode</em>.
+</p>
+<dl class="table">
+<dt><code class="code">0</code></dt>
+<dd><p>disables hyphenation.
+</p>
+</dd>
+<dt><code class="code">1</code></dt>
+<dd><p>enables hyphenation except after the first and before the last character
+of a word.
+</p></dd>
+</dl>
+
+<p>The remaining values &ldquo;imply&rdquo; 1; that is, they enable hyphenation
+under the same conditions as &lsquo;<samp class="samp">.hy 1</samp>&rsquo;, and then apply or lift
+restrictions relative to that basis.
+</p>
+<dl class="table">
+<dt><code class="code">2</code></dt>
+<dd><p>disables hyphenation of the last word on a page,<a class="footnote" id="DOCF60" href="groff.html_fot.html#FOOT60"><sup>60</sup></a> even for explicitly hyphenated words.
+</p>
+</dd>
+<dt><code class="code">4</code></dt>
+<dd><p>disables hyphenation before the last two characters of a word.
+</p>
+</dd>
+<dt><code class="code">8</code></dt>
+<dd><p>disables hyphenation after the first two characters of a word.
+</p>
+</dd>
+<dt><code class="code">16</code></dt>
+<dd><p>enables hyphenation before the last character of a word.
+</p>
+</dd>
+<dt><code class="code">32</code></dt>
+<dd><p>enables hyphenation after the first character of a word.
+</p></dd>
+</dl>
+
+<p>Apart from value&nbsp;2, restrictions imposed by the hyphenation mode
+are <em class="emph">not</em> respected for words whose hyphenations have been
+specified with the hyphenation character (&lsquo;<samp class="samp">\%</samp>&rsquo; by default) or the
+<code class="code">hw</code> request.
+</p>
+<p>Nonzero values in the previous table are additive.  For example,
+mode&nbsp;12 causes GNU <code class="code">troff</code> to hyphenate neither the last two
+nor the first two characters of a word.  Some values cannot be used
+together because they contradict; for instance, values 4 and&nbsp;16,
+and values 8 and&nbsp;32.  As noted, it is superfluous to add 1 to any
+non-zero even mode.
+</p>
+<a class="index-entry-id" id="index-hyphenation-pattern-files"></a>
+<a class="index-entry-id" id="index-pattern-files_002c-for-hyphenation"></a>
+<p>The automatic placement of hyphens in words is determined by
+<em class="dfn">pattern files</em>, which are derived from TeX and available for
+several languages.  The number of characters at the beginning of a word
+after which the first hyphenation point should be inserted is determined
+by the patterns themselves; it can&rsquo;t be reduced further without
+introducing additional, invalid hyphenation points (unfortunately, this
+information is not part of a pattern file&mdash;you have to know it in
+advance).  The same is true for the number of characters at the end of
+a word before the last hyphenation point should be inserted.  For
+example, you can supply the following input to &lsquo;<samp class="samp">echo $(nroff)</samp>&rsquo;.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ll 1
+.hy 48
+splitting
+</pre></div></div>
+
+<p>You will get
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">s- plit- t- in- g
+</pre></div></div>
+
+<p>instead of the correct &lsquo;split- ting&rsquo;.  English patterns as distributed
+with GNU <code class="code">troff</code> need two characters at the beginning and three
+characters at the end; this means that value&nbsp;4 of <code class="code">hy</code> is
+mandatory.  Value&nbsp;8 is possible as an additional restriction, but
+values&nbsp;16 and&nbsp;32 should be avoided, as should mode&nbsp;1.
+Modes&nbsp;4 and&nbsp;6 are typical.
+</p>
+<p>A table of left and right minimum character counts for hyphenation as
+needed by the patterns distributed with GNU <code class="code">troff</code> follows; see
+the <cite class="cite">groff_tmac<span class="r">(5)</span></cite> man page for more information on GNU
+<code class="code">troff</code>&rsquo;s language macro files.
+</p>
+<table class="multitable">
+<thead><tr><th>language</th><th>pattern name</th><th>left min</th><th>right min</th></tr></thead>
+<tbody><tr><td>Czech</td><td>cs</td><td>2</td><td>2</td></tr>
+<tr><td>English</td><td>en</td><td>2</td><td>3</td></tr>
+<tr><td>French</td><td>fr</td><td>2</td><td>3</td></tr>
+<tr><td>German traditional</td><td>det</td><td>2</td><td>2</td></tr>
+<tr><td>German reformed</td><td>den</td><td>2</td><td>2</td></tr>
+<tr><td>Italian</td><td>it</td><td>2</td><td>2</td></tr>
+<tr><td>Swedish</td><td>sv</td><td>1</td><td>2</td></tr>
+</tbody>
+</table>
+
+<p>Hyphenation exceptions within pattern files (i.e., the words within a
+TeX <code class="code">\hyphenation</code> group) obey the hyphenation restrictions
+given by <code class="code">hy</code>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002enh"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.nh</code></strong><a class="copiable-link" href='#index-_002enh'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-nh"></a>
+<p>Disable automatic hyphenation; i.e., set the hyphenation mode to&nbsp;0
+(see above).  The hyphenation mode of the last call to <code class="code">hy</code> is not
+remembered.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ehpf"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.hpf</code></strong> <var class="def-var-arguments">pattern-file</var><a class="copiable-link" href='#index-_002ehpf'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hpf"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002ehpfa"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.hpfa</code></strong> <var class="def-var-arguments">pattern-file</var><a class="copiable-link" href='#index-_002ehpfa'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hpfa"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002ehpfcode"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.hpfcode</code></strong> <var class="def-var-arguments">a b [c d] &hellip;</var><a class="copiable-link" href='#index-_002ehpfcode'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hpfcode"></a>
+<a class="index-entry-id" id="index-hyphenation-patterns-_0028hpf_0029"></a>
+<a class="index-entry-id" id="index-patterns-for-hyphenation-_0028hpf_0029"></a>
+<p>Read hyphenation patterns from <var class="var">pattern-file</var>, which is sought
+in the same way that macro files are with the <code class="code">mso</code> request or the
+<samp class="option">-m<var class="var">name</var></samp> command-line option to <code class="code">groff</code>.  The
+<var class="var">pattern-file</var> should have the same format as (simple) TeX
+pattern files.  More specifically, the following scanning rules are
+implemented.
+</p>
+<ul class="itemize mark-bullet">
+<li>A percent sign starts a comment (up to the end of the line) even if
+preceded by a backslash.
+
+</li><li>&ldquo;Digraphs&rdquo; like <code class="code">\$</code> are not supported.
+
+</li><li><code class="code">^^<var class="var">xx</var></code> (where each <var class="var">x</var> is 0&ndash;9 or a&ndash;f) and
+<code class="code">^^<var class="var">c</var></code> (character <var class="var">c</var> in the code point range 0&ndash;127
+decimal) are recognized; other uses of <code class="code">^</code> cause an error.
+
+</li><li>No macro expansion is performed.
+
+</li><li><code class="code">hpf</code> checks for the expression <code class="code">\patterns{&hellip;}</code>
+(possibly with whitespace before or after the braces).  Everything
+between the braces is taken as hyphenation patterns.  Consequently,
+<code class="code">{</code> and <code class="code">}</code> are not allowed in patterns.
+
+</li><li>Similarly, <code class="code">\hyphenation{&hellip;}</code> gives a list of hyphenation
+exceptions.
+
+</li><li><code class="code">\endinput</code> is recognized also.
+
+</li><li>For backward compatibility, if <code class="code">\patterns</code> is missing, the whole
+file is treated as a list of hyphenation patterns (except that the
+<code class="code">%</code> character is recognized as the start of a comment).
+</li></ul>
+
+<p>The <code class="code">hpfa</code> request appends a file of patterns to the current list.
+</p>
+<p>The <code class="code">hpfcode</code> request defines mapping values for character codes in
+pattern files.  It is an older mechanism no longer used by GNU
+<code class="code">troff</code>&rsquo;s own macro files; for its successor, see <code class="code">hcode</code>
+below.  <code class="code">hpf</code> or <code class="code">hpfa</code> apply the mapping after reading the
+patterns but before replacing or appending to the active list of
+patterns.  Its arguments are pairs of character codes&mdash;integers from 0
+to&nbsp;255.  The request maps character code&nbsp;<var class="var">a</var> to
+code&nbsp;<var class="var">b</var>, code&nbsp;<var class="var">c</var> to code&nbsp;<var class="var">d</var>, and so on.
+Character codes that would otherwise be invalid in GNU <code class="code">troff</code> can
+be used.  By default, every code maps to itself except those for letters
+&lsquo;A&rsquo; to &lsquo;Z&rsquo;, which map to those for &lsquo;a&rsquo; to &lsquo;z&rsquo;.
+</p>
+<a class="index-entry-id" id="index-localization"></a>
+<a class="index-entry-id" id="index-troffrc-2"></a>
+<a class="index-entry-id" id="index-cs_002etmac"></a>
+<a class="index-entry-id" id="index-de_002etmac"></a>
+<a class="index-entry-id" id="index-en_002etmac"></a>
+<a class="index-entry-id" id="index-fr_002etmac"></a>
+<a class="index-entry-id" id="index-it_002etmac"></a>
+<a class="index-entry-id" id="index-ja_002etmac"></a>
+<a class="index-entry-id" id="index-sv_002etmac"></a>
+<a class="index-entry-id" id="index-zh_002etmac"></a>
+<p>The set of hyphenation patterns is associated with the language set by
+the <code class="code">hla</code> request (see below).  The <code class="code">hpf</code> request is usually
+invoked by a localization file loaded by the <samp class="file">troffrc</samp>
+file.<a class="footnote" id="DOCF61" href="groff.html_fot.html#FOOT61"><sup>61</sup></a>
+</p>
+<p>A second call to <code class="code">hpf</code> (for the same language) replaces the
+hyphenation patterns with the new ones.  Invoking <code class="code">hpf</code> or
+<code class="code">hpfa</code> causes an error if there is no hyphenation language.  If no
+<code class="code">hpf</code> request is specified (either in the document, in a file
+loaded at startup, or in a macro package), GNU <code class="code">troff</code> won&rsquo;t
+automatically hyphenate at all.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ehcode"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.hcode</code></strong> <var class="def-var-arguments">c1 code1 [c2 code2] &hellip;</var><a class="copiable-link" href='#index-_002ehcode'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hcode"></a>
+<a class="index-entry-id" id="index-hyphenation-code-_0028hcode_0029"></a>
+<a class="index-entry-id" id="index-code_002c-hyphenation-_0028hcode_0029"></a>
+<p>Set the hyphenation code of character <var class="var">c1</var> to <var class="var">code1</var>, that of
+<var class="var">c2</var> to <var class="var">code2</var>, and so on.  A hyphenation code must be an
+ordinary character (not a special character escape sequence) other than
+a digit or a space.  The request is ignored if given no arguments.
+</p>
+<p>For hyphenation to work, hyphenation codes must be set up.  At
+startup, GNU <code class="code">troff</code> assigns hyphenation codes to the letters
+&lsquo;<samp class="samp">a</samp>&rsquo;&ndash;&lsquo;<samp class="samp">z</samp>&rsquo; (mapped to themselves), to the letters
+&lsquo;<samp class="samp">A</samp>&rsquo;&ndash;&lsquo;<samp class="samp">Z</samp>&rsquo; (mapped to &lsquo;<samp class="samp">a</samp>&rsquo;&ndash;&lsquo;<samp class="samp">z</samp>&rsquo;), and zero to all other
+characters.  Normally, hyphenation patterns contain only lowercase
+letters which should be applied regardless of case.  In other words,
+they assume that the words &lsquo;FOO&rsquo; and &lsquo;Foo&rsquo; should be hyphenated exactly
+as &lsquo;foo&rsquo; is.  The <code class="code">hcode</code> request extends this principle to letters
+outside the Unicode basic Latin alphabet; without it, words containing
+such letters won&rsquo;t be hyphenated properly even if the corresponding
+hyphenation patterns contain them.
+</p>
+<p>For example, the following <code class="code">hcode</code> requests are necessary to assign
+hyphenation codes to the letters &lsquo;<samp class="samp">ÄäÖöÜüß</samp>&rsquo;, needed for German.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.hcode ä ä  Ä ä
+.hcode ö ö  Ö ö
+.hcode ü ü  Ü ü
+.hcode ß ß
+</pre></div></div>
+
+<p>Without these assignments, GNU <code class="code">troff</code> treats the German word
+&lsquo;Kindergärten&rsquo;<!-- /@w --> (the plural form of &lsquo;kindergarten&rsquo;) as two words
+&lsquo;kinderg&rsquo;<!-- /@w --> and &lsquo;rten&rsquo;<!-- /@w --> because the hyphenation code of the
+umlaut&nbsp;a is zero by default, just like a space.  There is a German
+hyphenation pattern that covers &lsquo;kinder&rsquo;<!-- /@w -->, so GNU <code class="code">troff</code> finds
+the hyphenation &lsquo;kin-der&rsquo;.  The other two hyphenation points
+(&lsquo;kin-der-gär-ten&rsquo;) are missed.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ehla"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.hla</code></strong> <var class="def-var-arguments">lang</var><a class="copiable-link" href='#index-_002ehla'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hla"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ehla_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.hla]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ehla_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ehla-1"></a>
+<a class="index-entry-id" id="index-hpf-request_002c-and-hyphenation-language"></a>
+<a class="index-entry-id" id="index-hw-request_002c-and-hyphenation-language"></a>
+<a class="index-entry-id" id="index-troffrc-3"></a>
+<a class="index-entry-id" id="index-troffrc_002dend-1"></a>
+<p>Set the hyphenation language to <var class="var">lang</var>.  Hyphenation exceptions
+specified with the <code class="code">hw</code> request and hyphenation patterns and
+exceptions specified with the <code class="code">hpf</code> and <code class="code">hpfa</code> requests are
+associated with the hyphenation language.  The <code class="code">hla</code> request is
+usually invoked by a localization file, which is turn loaded by the
+<samp class="file">troffrc</samp> or <samp class="file">troffrc-end</samp> file; see the <code class="code">hpf</code> request
+above.
+</p>
+<a class="index-entry-id" id="index-hyphenation-language-register-_0028_002ehla_0029"></a>
+<p>The hyphenation language is available in the read-only string-valued
+register &lsquo;<samp class="samp">.hla</samp>&rsquo;; it is associated with the environment
+(see <a class="pxref" href="Environments.html">Environments</a>).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ehlm"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.hlm</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">n</i></span>]</var><a class="copiable-link" href='#index-_002ehlm'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hlm"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ehlm_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.hlm]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ehlm_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ehlm-1"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ehlc_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.hlc]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ehlc_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ehlc"></a>
+<a class="index-entry-id" id="index-explicit-hyphen-_0028_005c_0025_0029"></a>
+<a class="index-entry-id" id="index-hyphen_002c-explicit-_0028_005c_0025_0029"></a>
+<a class="index-entry-id" id="index-consecutive-hyphenated-lines-_0028hlm_0029"></a>
+<a class="index-entry-id" id="index-lines_002c-consecutive-hyphenated-_0028hlm_0029"></a>
+<a class="index-entry-id" id="index-hyphenated-lines_002c-consecutive-_0028hlm_0029"></a>
+<p>Set the maximum quantity of consecutive hyphenated lines to <var class="var">n</var>.  If
+<var class="var">n</var> is negative, there is no maximum.  If omitted, <var class="var">n</var>
+is&nbsp;&minus;1.  This value is associated with the environment
+(see <a class="pxref" href="Environments.html">Environments</a>).  Only lines output from a given environment
+count toward the maximum associated with that environment.  Hyphens
+resulting from <code class="code">\%</code> are counted; explicit hyphens are not.
+</p>
+<a class="index-entry-id" id="index-hyphenation-consecutive-line-limit-register-_0028_002ehlm_0029"></a>
+<a class="index-entry-id" id="index-hyphenation-consecutive-line-count-register-_0028_002ehlc_0029"></a>
+<p>The <code class="code">.hlm</code> read-only register stores this maximum.  The count of
+immediately preceding consecutive hyphenated lines is available in the
+read-only register <code class="code">.hlc</code>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ehym"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.hym</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">length</i></span>]</var><a class="copiable-link" href='#index-_002ehym'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hym"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ehym_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.hym]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ehym_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ehym-1"></a>
+<a class="index-entry-id" id="index-hyphenation-margin-_0028hym_0029"></a>
+<a class="index-entry-id" id="index-margin-for-hyphenation-_0028hym_0029"></a>
+<a class="index-entry-id" id="index-ad-request_002c-and-hyphenation-margin"></a>
+<p>Set the (right) hyphenation margin to <var class="var">length</var>.  If the adjustment
+mode is not &lsquo;<samp class="samp">b</samp>&rsquo; or &lsquo;<samp class="samp">n</samp>&rsquo;, the line is not hyphenated if it is
+shorter than <var class="var">length</var>.  Without an argument, the hyphenation margin
+is reset to its default value, 0.  The default scaling unit is &lsquo;<samp class="samp">m</samp>&rsquo;.
+The hyphenation margin is associated with the environment
+(see <a class="pxref" href="Environments.html">Environments</a>).
+</p>
+<p>A negative argument resets the hyphenation margin to zero, emitting a
+warning in category &lsquo;<samp class="samp">range</samp>&rsquo;.
+</p>
+<a class="index-entry-id" id="index-hyphenation-margin-register-_0028_002ehym_0029"></a>
+<p>The hyphenation margin is available in the <code class="code">.hym</code> read-only
+register.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ehys"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.hys</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">hyphenation-space</i></span>]</var><a class="copiable-link" href='#index-_002ehys'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-hys"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ehys_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.hys]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ehys_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ehys-1"></a>
+<a class="index-entry-id" id="index-hyphenation-space-_0028hys_0029"></a>
+<a class="index-entry-id" id="index-hyphenation-space-adjustment-threshold"></a>
+<a class="index-entry-id" id="index-ad-request_002c-and-hyphenation-space"></a>
+<p>Suppress hyphenation of the line in adjustment modes &lsquo;<samp class="samp">b</samp>&rsquo; or
+&lsquo;<samp class="samp">n</samp>&rsquo; if it can be justified by adding no more than
+<var class="var">hyphenation-space</var> extra space to each inter-word space.  Without
+an argument, the hyphenation space adjustment threshold is set to its
+default value, 0.  The default scaling unit is &lsquo;<samp class="samp">m</samp>&rsquo;.  The
+hyphenation space adjustment threshold is associated with the
+environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p>
+<p>A negative argument resets the hyphenation space adjustment threshold to
+zero, emitting a warning in category &lsquo;<samp class="samp">range</samp>&rsquo;.
+</p>
+<a class="index-entry-id" id="index-hyphenation-space-adjustment-threshold-register-_0028_002ehys_0029"></a>
+<p>The hyphenation space adjustment threshold is available in the
+<code class="code">.hys</code> read-only register.
+</p></dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Manipulating-Spacing.html">Manipulating Spacing</a>, Previous: <a href="Manipulating-Filling-and-Adjustment.html">Manipulating Filling and Adjustment</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

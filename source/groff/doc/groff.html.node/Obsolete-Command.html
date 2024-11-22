@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Obsolete Command (The GNU Troff Manual)</title>
+
+<meta name="description" content="Obsolete Command (The GNU Troff Manual)">
+<meta name="keywords" content="Obsolete Command (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Command-Reference.html" rel="up" title="Command Reference">
+<link href="Device-Control-Commands.html" rel="prev" title="Device Control Commands">
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="Obsolete-Command">
+<div class="nav-panel">
+<p>
+Previous: <a href="Device-Control-Commands.html" accesskey="p" rel="prev">Device Control Commands</a>, Up: <a href="Command-Reference.html" accesskey="u" rel="up">Command Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Obsolete-Command-1">6.1.2.5 Obsolete Command</h4>
+<p>In <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> output, the writing of a single glyph is
+mostly done by a very strange command that combines a horizontal move
+and a single character giving the glyph name.  It doesn&rsquo;t have a command
+code, but is represented by a 3-character argument consisting of exactly
+2&nbsp;digits and a character.
+</p>
+<dl class="table">
+<dt><var class="var">dd</var><var class="var">g</var></dt>
+<dd><p>Move right <var class="var">dd</var> (exactly two decimal digits) basic units &lsquo;<samp class="samp">u</samp>&rsquo;,
+then print glyph&nbsp;<var class="var">g</var> (represented as a single character).
+</p>
+<p>In GNU <code class="code">troff</code>, arbitrary syntactical space around and within this
+command is allowed.  Only when a preceding command on the same line ends
+with an argument of variable length is a separating space obligatory.
+In <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code>, large clusters of these and other
+commands are used, mostly without spaces; this made such output almost
+unreadable.
+</p></dd>
+</dl>
+
+<p>For modern high-resolution devices, this command does not make sense
+because the width of the glyphs can become much larger than two decimal
+digits.  In <code class="code">gtroff</code>, this is only used for the devices <code class="code">X75</code>,
+<code class="code">X75-12</code>, <code class="code">X100</code>, and <code class="code">X100-12</code>.  For other devices, the
+commands &lsquo;<samp class="samp">t</samp>&rsquo; and &lsquo;<samp class="samp">u</samp>&rsquo; provide a better functionality.
+</p>
+
+</div>
+
+
+
+</body>
+</html>

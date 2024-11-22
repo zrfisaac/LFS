@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Page Layout (The GNU Troff Manual)</title>
+
+<meta name="description" content="Page Layout (The GNU Troff Manual)">
+<meta name="keywords" content="Page Layout (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Page-Control.html" rel="next" title="Page Control">
+<link href="Line-Continuation.html" rel="prev" title="Line Continuation">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Page-Layout">
+<div class="nav-panel">
+<p>
+Next: <a href="Page-Control.html" accesskey="n" rel="next">Page Control</a>, Previous: <a href="Line-Continuation.html" accesskey="p" rel="prev">Line Continuation</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Page-Layout-2">5.17 Page Layout</h3>
+<a class="index-entry-id" id="index-page-layout"></a>
+<a class="index-entry-id" id="index-layout_002c-page"></a>
+
+<p>The formatter permits configuration of the page length and page number.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002epl"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pl</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">length</i></span>]</var><a class="copiable-link" href='#index-_002epl'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-pl"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002epl-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pl</code></strong> <var class="def-var-arguments"><code class="t">+</code><span class="r"><i class="slanted">length</i></span></var><a class="copiable-link" href='#index-_002epl-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_002epl-2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pl</code></strong> <var class="def-var-arguments"><code class="t">-</code><span class="r"><i class="slanted">length</i></span></var><a class="copiable-link" href='#index-_002epl-2'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ep_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.p]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ep_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ep"></a>
+<a class="index-entry-id" id="index-page-length_002c-configuring-_0028pl_0029"></a>
+<a class="index-entry-id" id="index-length-of-the-page_002c-configuring-_0028pl_0029"></a>
+<a class="index-entry-id" id="index-configuring-the-page-length-_0028pl_0029"></a>
+<a class="index-entry-id" id="index-setting-the-page-length-_0028pl_0029"></a>
+<p>Change (increase or decrease) the page length per the numeric expression
+<var class="var">length</var>.  The default scaling unit is &lsquo;<samp class="samp">v</samp>&rsquo;.  A negative
+<var class="var">length</var> is valid, but an uncommon application: it prevents page
+location traps from being sprung,<a class="footnote" id="DOCF70" href="groff.html_fot.html#FOOT70"><sup>70</sup></a> and each
+output line is placed on a new page.  If <var class="var">length</var> is invalid, GNU
+<code class="code">troff</code> emits a warning in category &lsquo;<samp class="samp">number</samp>&rsquo;.  If <var class="var">length</var>
+is absent or invalid, &lsquo;<samp class="samp">11i</samp>&rsquo; is assumed.
+</p>
+<a class="index-entry-id" id="index-page-length-register-_0028_002ep_0029"></a>
+<p>The read-only register &lsquo;<samp class="samp">.p</samp>&rsquo; interpolates the current page length.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002epn"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pn</code></strong> <var class="def-var-arguments">num</var><a class="copiable-link" href='#index-_002epn'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-pn"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002epn-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pn</code></strong> <var class="def-var-arguments"><code class="t">+</code><span class="r"><i class="slanted">num</i></span></var><a class="copiable-link" href='#index-_002epn-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_002epn-2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pn</code></strong> <var class="def-var-arguments"><code class="t">-</code><span class="r"><i class="slanted">num</i></span></var><a class="copiable-link" href='#index-_002epn-2'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002epn_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.pn]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002epn_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002epn-3"></a>
+<a class="index-entry-id" id="index-page-number_002c-configuring-next-_0028pn_0029"></a>
+<a class="index-entry-id" id="index-next-page-number_002c-configuring-_0028pn_0029"></a>
+<a class="index-entry-id" id="index-number_002c-page_002c-next_002c-configuring-_0028pn_0029"></a>
+<p>Change (increase or decrease) the page number of the <em class="emph">next</em> page
+per the numeric expression <var class="var">num</var>.  If <var class="var">num</var> is invalid, GNU
+<code class="code">troff</code> emits a warning in category &lsquo;<samp class="samp">number</samp>&rsquo; and ignores the
+request.  Without an argument, <code class="code">pn</code> is ignored.
+</p>
+<a class="index-entry-id" id="index-next-page-number-register-_0028_002epn_0029"></a>
+<a class="index-entry-id" id="index-page-number_002c-next_002c-register-_0028_002epn_0029"></a>
+<p>The read-only register <code class="code">.pn</code> interpolates <var class="var">num</var> if set by
+<code class="code">pn</code> on the current page, or the current page number plus&nbsp;1.
+</p></dd></dl>
+
+<a class="index-entry-id" id="index-headers"></a>
+<a class="index-entry-id" id="index-footers"></a>
+<a class="index-entry-id" id="index-titles"></a>
+<p>The formatter offers special support for typesetting headers and
+footers, collectively termed <em class="dfn">titles</em>.  Titles have an independent
+line length, and their placement on the page is not restricted.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002etl"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.tl</code></strong> <var class="def-var-arguments"><code class="code">'</code><span class="r"><i class="slanted">left</i></span><code class="code">'</code><span class="r"><i class="slanted">center</i></span><code class="code">'</code><span class="r"><i class="slanted">right</i></span><code class="code">'</code></var><a class="copiable-link" href='#index-_002etl'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-tl"></a>
+<a class="index-entry-id" id="index-title-line_002c-formatting-_0028tl_0029"></a>
+<a class="index-entry-id" id="index-formatting-a-title-line-_0028tl_0029"></a>
+<a class="index-entry-id" id="index-three_002dpart-title-_0028tl_0029"></a>
+<a class="index-entry-id" id="index-page-number-character-_0028_0025_0029"></a>
+<p>Format an output line as a title consisting of <var class="var">left</var>, <var class="var">center</var>,
+and <var class="var">right</var>, each aligned accordingly.  The delimiter need not be a
+neutral apostrophe: <code class="code">tl</code> accepts the same delimiters as most escape
+sequences; see <a class="ref" href="Delimiters.html">Delimiters</a>.  If not used as the delimiter, any
+<em class="dfn">page number character</em> character is replaced with the current page
+number; the default is &lsquo;<samp class="samp">%</samp>&rsquo;; see the the <code class="code">pc</code> request below.
+Without an argument, <code class="code">tl</code> is ignored.  <code class="code">tl</code> writes the title
+line immediately, ignoring any partially collected line.
+</p>
+<p>It is not an error to omit delimiters after the first.  For example,
+&lsquo;<samp class="samp">.tl&nbsp;/Thesis</samp>&rsquo;<!-- /@w --> is interpreted as &lsquo;<samp class="samp">.tl&nbsp;/Thesis///</samp>&rsquo;<!-- /@w -->: it
+sets a title line comprising only the left-aligned word &lsquo;<samp class="samp">Thesis</samp>&rsquo;.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002elt"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.lt</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">length</i></span>]</var><a class="copiable-link" href='#index-_002elt'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-lt"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002elt-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.lt</code></strong> <var class="def-var-arguments"><code class="t">+</code><span class="r"><i class="slanted">length</i></span></var><a class="copiable-link" href='#index-_002elt-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_002elt-2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.lt</code></strong> <var class="def-var-arguments"><code class="t">-</code><span class="r"><i class="slanted">length</i></span></var><a class="copiable-link" href='#index-_002elt-2'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002elt_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.lt]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002elt_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002elt-3"></a>
+<a class="index-entry-id" id="index-length-of-title-line_002c-configuring-_0028lt_0029"></a>
+<a class="index-entry-id" id="index-title-length_002c-configuring-_0028lt_0029"></a>
+<p>Change (increase or decrease) the line length used by titles per the
+numeric expression <var class="var">length</var>.  The default scaling unit is &lsquo;<samp class="samp">m</samp>&rsquo;.
+If <var class="var">length</var> is negative, GNU emits a warning in category
+&lsquo;<samp class="samp">range</samp>&rsquo; and treats <var class="var">length</var> as &lsquo;<samp class="samp">0</samp>&rsquo;.  If <var class="var">length</var> is
+invalid, GNU <code class="code">troff</code> emits a warning in category &lsquo;<samp class="samp">number</samp>&rsquo; and
+ignores the request.  The formatter&rsquo;s default title length is
+&lsquo;<samp class="samp">6.5i</samp>&rsquo;.  With no argument, the title length is restored to the
+previous value.  The title length is is associated with the environment
+(see <a class="pxref" href="Environments.html">Environments</a>).
+</p>
+<a class="index-entry-id" id="index-title-line-length-register-_0028_002elt_0029"></a>
+<p>The read-only register &lsquo;<samp class="samp">.lt</samp>&rsquo; interpolates the title line length.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002epc"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.pc</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">char</i></span>]</var><a class="copiable-link" href='#index-_002epc'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-pc"></a>
+<a class="index-entry-id" id="index-changing-the-page-number-character-_0028pc_0029"></a>
+<a class="index-entry-id" id="index-page-number-character_002c-changing-_0028pc_0029"></a>
+<a class="index-entry-id" id="index-_0025-1"></a>
+<p>Set the page number character to <var class="var">char</var>.  With no argument, the page
+number character is disabled.  <code class="code">pc</code> does not affect the
+register&nbsp;<code class="code">%</code>.
+</p></dd></dl>
+
+<p>The following example exercises title features.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.lt 50n
+This is my partially collected
+.tl 'Isomers 2023'%'Dextrose Edition'
+line.
+    &rArr; Isomers 2023             1        Dextrose Edition
+    &rArr; This is my partially collected line.
+</pre></div></div>
+
+<p>We most often see titles used in page header and footer traps.
+See <a class="xref" href="Traps.html">Traps</a>.
+</p>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Page-Control.html">Page Control</a>, Previous: <a href="Line-Continuation.html">Line Continuation</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

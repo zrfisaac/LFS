@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Breaking (The GNU Troff Manual)</title>
+
+<meta name="description" content="Breaking (The GNU Troff Manual)">
+<meta name="keywords" content="Breaking (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Text.html" rel="up" title="Text">
+<link href="Adjustment.html" rel="next" title="Adjustment">
+<link href="Hyphenation.html" rel="prev" title="Hyphenation">
+<style type="text/css">
+<!--
+div.example {margin-left: 3.2em}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Breaking">
+<div class="nav-panel">
+<p>
+Next: <a href="Adjustment.html" accesskey="n" rel="next">Adjustment</a>, Previous: <a href="Hyphenation.html" accesskey="p" rel="prev">Hyphenation</a>, Up: <a href="Text.html" accesskey="u" rel="up">Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Breaking-1">5.1.4 Breaking</h4>
+<a class="index-entry-id" id="index-break"></a>
+<a class="index-entry-id" id="index-implicit-line-break"></a>
+<a class="index-entry-id" id="index-line-break_002c-output"></a>
+<a class="index-entry-id" id="index-output-line-break"></a>
+
+<p>Once an output line is full, the next word (or remainder of a hyphenated
+one) is placed on a different output line; this is called a <em class="dfn">break</em>.
+In this manual and in <code class="code">roff</code> discussions generally, a &ldquo;break&rdquo; if
+not further qualified always refers to the termination of an output
+line.  When the formatter is filling text, it introduces breaks
+automatically to keep output lines from exceeding the configured line
+length.  After an automatic break, GNU <code class="code">troff</code> adjusts the line if
+applicable (see below), and then resumes collecting and filling text on
+the next output line.
+</p>
+<p>Sometimes, a line cannot be broken automatically.  This usually does
+not happen with natural language text unless the output line length has
+been manipulated to be extremely short, but it can with specialized
+text like program source code.  We can use <code class="code">perl</code> at the shell
+prompt to contrive an example of failure to break the line.  We also
+employ the <samp class="option">-z</samp> option to suppress normal output.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">$ perl -e 'print &quot;#&quot; x 80, &quot;\n&quot;;' | nroff -z
+    error&rarr; warning: cannot break line
+</pre></div></div>
+
+<p>The remedy for these cases is to tell GNU <code class="code">troff</code> where the line
+may be broken without hyphens.  This is done with the non-printing break
+point escape sequence &lsquo;<samp class="samp">\:</samp>&rsquo;; see <a class="ref" href="Manipulating-Hyphenation.html">Manipulating Hyphenation</a>.
+</p>
+<a class="index-entry-id" id="index-blank-line"></a>
+<a class="index-entry-id" id="index-empty-line"></a>
+<a class="index-entry-id" id="index-line_002c-blank"></a>
+<a class="index-entry-id" id="index-blank-line-macro-_0028blm_0029"></a>
+<p>What if the document author wants to stop filling lines temporarily, for
+instance to start a new paragraph?  There are several solutions.  A
+blank input line not only causes a break, but by default it also outputs
+a one-line vertical space (effectively a blank output line).  This
+behavior can be modified; see <a class="ref" href="Blank-Line-Traps.html">Blank Line Traps</a>.  Macro packages
+may discourage or disable the blank line method of paragraphing in favor
+of their own macros.
+</p>
+<a class="index-entry-id" id="index-leading-spaces"></a>
+<a class="index-entry-id" id="index-spaces_002c-leading-and-trailing"></a>
+<a class="index-entry-id" id="index-trailing-spaces-on-text-lines"></a>
+<a class="index-entry-id" id="index-leading-space-macro-_0028lsm_0029"></a>
+<p>A line that begins with one or more spaces causes a break.  The spaces
+are output at the beginning of the next line without being
+<em class="emph">adjusted</em> (see below); however, this behavior can be modified
+(see <a class="pxref" href="Leading-Space-Traps.html">Leading Space Traps</a>).  Again, macro packages may provide other
+methods of producing indented paragraphs.  Trailing spaces on text lines
+are discarded.<a class="footnote" id="DOCF23" href="groff.html_fot.html#FOOT23"><sup>23</sup></a>
+</p>
+<p>What if the file ends before enough words have been collected to fill an
+output line?  Or the output line is exactly full but not yet broken, and
+there is no more input?  GNU <code class="code">troff</code> interprets the end of input as
+a break.  Certain requests also cause breaks, implicitly or explicitly.
+This is discussed in <a class="ref" href="Manipulating-Filling-and-Adjustment.html">Manipulating Filling and Adjustment</a>.
+</p>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Adjustment.html">Adjustment</a>, Previous: <a href="Hyphenation.html">Hyphenation</a>, Up: <a href="Text.html">Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

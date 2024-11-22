@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>gtroff Output (The GNU Troff Manual)</title>
+
+<meta name="description" content="gtroff Output (The GNU Troff Manual)">
+<meta name="keywords" content="gtroff Output (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="File-Formats.html" rel="up" title="File Formats">
+<link href="Device-and-Font-Description-Files.html" rel="next" title="Device and Font Description Files">
+<link href="File-Formats.html" rel="prev" title="File Formats">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="gtroff-Output">
+<div class="nav-panel">
+<p>
+Next: <a href="Device-and-Font-Description-Files.html" accesskey="n" rel="next">Device and Font Description Files</a>, Previous: <a href="File-Formats.html" accesskey="p" rel="prev">File Formats</a>, Up: <a href="File-Formats.html" accesskey="u" rel="up">File Formats</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="gtroff-Output-1">6.1 <code class="code">gtroff</code> Output</h3>
+<a class="index-entry-id" id="index-gtroff_002c-output"></a>
+<a class="index-entry-id" id="index-output_002c-gtroff"></a>
+
+<p>This section describes the <code class="code">groff</code> intermediate output format
+produced by GNU <code class="code">troff</code>.
+</p>
+<p>As <code class="code">groff</code> is a wrapper program around GNU <code class="code">troff</code> and
+automatically calls an output driver (or &ldquo;postprocessor&rdquo;), this output
+does not show up normally.  This is why it is called
+<em class="emph">intermediate</em>.  <code class="code">groff</code> provides the option <samp class="option">-Z</samp> to
+inhibit postprocessing such that the produced intermediate output is
+sent to standard output just as it is when calling GNU <code class="code">troff</code>
+directly.
+</p>
+<a class="index-entry-id" id="index-troff-output"></a>
+<a class="index-entry-id" id="index-output_002c-troff"></a>
+<a class="index-entry-id" id="index-intermediate-output"></a>
+<a class="index-entry-id" id="index-output_002c-intermediate"></a>
+<p>Here, the term <em class="dfn">troff output</em> describes what is output by
+GNU <code class="code">troff</code>, while <em class="dfn">intermediate output</em> refers to the language
+that is accepted by the parser that prepares this output for the output
+drivers.  This parser handles whitespace more flexibly than
+<abbr class="acronym">AT&amp;T</abbr>&rsquo;s implementation and implements obsolete elements for
+compatibility; otherwise, both formats are the same.<a class="footnote" id="DOCF124" href="groff.html_fot.html#FOOT124"><sup>124</sup></a>
+</p>
+<p>The main purpose of the intermediate output concept is to facilitate the
+development of postprocessors by providing a common programming
+interface for all devices.  It has a language of its own that is
+completely different from the <code class="code">gtroff</code> language.  While the
+<code class="code">gtroff</code> language is a high-level programming language for text
+processing, the intermediate output language is a kind of low-level
+assembler language by specifying all positions on the page for writing
+and drawing.
+</p>
+<p>The intermediate output produced by <code class="code">gtroff</code> is fairly readable,
+while output from <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> is rather hard to
+understand because of strange habits that are still supported, but not
+used any longer by <code class="code">gtroff</code>.
+</p>
+
+
+<ul class="mini-toc">
+<li><a href="Language-Concepts.html" accesskey="1">Language Concepts</a></li>
+<li><a href="Command-Reference.html" accesskey="2">Command Reference</a></li>
+<li><a href="Intermediate-Output-Examples.html" accesskey="3">Intermediate Output Examples</a></li>
+<li><a href="Output-Language-Compatibility.html" accesskey="4">Output Language Compatibility</a></li>
+</ul>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Device-and-Font-Description-Files.html">Device and Font Description Files</a>, Previous: <a href="File-Formats.html">File Formats</a>, Up: <a href="File-Formats.html">File Formats</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

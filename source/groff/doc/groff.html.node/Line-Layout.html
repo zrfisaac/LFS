@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Line Layout (The GNU Troff Manual)</title>
+
+<meta name="description" content="Line Layout (The GNU Troff Manual)">
+<meta name="keywords" content="Line Layout (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Line-Continuation.html" rel="next" title="Line Continuation">
+<link href="troff-and-nroff-Modes.html" rel="prev" title="troff and nroff Modes">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Line-Layout">
+<div class="nav-panel">
+<p>
+Next: <a href="Line-Continuation.html" accesskey="n" rel="next">Line Continuation</a>, Previous: <a href="troff-and-nroff-Modes.html" accesskey="p" rel="prev"><code class="code">troff</code> and <code class="code">nroff</code> Modes</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Line-Layout-1">5.15 Line Layout</h3>
+<a class="index-entry-id" id="index-line-layout"></a>
+<a class="index-entry-id" id="index-layout_002c-line"></a>
+
+<a class="index-entry-id" id="index-dimensions_002c-line"></a>
+<a class="index-entry-id" id="index-line-dimensions"></a>
+<p>The following drawing shows the dimensions that <code class="code">gtroff</code> uses for
+placing a line of output onto the page.  They are labeled with the
+request that manipulates each dimension.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">     --&gt;| in |&lt;--
+        |&lt;-----------ll------------&gt;|
+   +----+----+----------------------+----+
+   |    :    :                      :    |
+   +----+----+----------------------+----+
+--&gt;| po |&lt;--
+   |&lt;--------paper width----------------&gt;|
+</pre></div></div>
+
+<p>These dimensions are:
+</p>
+<dl class="ftable">
+<dt id='index-po'><span><code class="code">po</code><a class="copiable-link" href='#index-po'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-left-margin-_0028po_0029"></a>
+<a class="index-entry-id" id="index-margin_002c-left-_0028po_0029"></a>
+<a class="index-entry-id" id="index-page-offset-_0028po_0029"></a>
+<a class="index-entry-id" id="index-offset_002c-page-_0028po_0029"></a>
+<p><em class="dfn">Page offset</em>&mdash;this is the leftmost position of text on the final
+output, defining the <em class="dfn">left margin</em>.
+</p>
+</dd>
+<dt id='index-in'><span><code class="code">in</code><a class="copiable-link" href='#index-in'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-indentation-_0028in_0029"></a>
+<a class="index-entry-id" id="index-line-indentation-_0028in_0029"></a>
+<p><em class="dfn">Indentation</em>&mdash;this is the distance from the left margin where
+text is printed.
+</p>
+</dd>
+<dt id='index-ll'><span><code class="code">ll</code><a class="copiable-link" href='#index-ll'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-line-length-_0028ll_0029"></a>
+<a class="index-entry-id" id="index-length-of-line-_0028ll_0029"></a>
+<p><em class="dfn">Line length</em>&mdash;this is the distance from the left margin to right
+margin.
+</p></dd>
+</dl>
+
+<a class="index-entry-id" id="index-margin_002c-right"></a>
+<a class="index-entry-id" id="index-right-margin"></a>
+<p>The right margin is not explicitly configured; the combination of page
+offset and line length provides the information necessary to derive it.
+</p>
+<p>A simple demonstration:
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ll 3i
+This is text without indentation.
+The line length has been set to 3\~inches.
+.in +.5i
+.ll -.5i
+Now the left and right margins are both increased.
+.in
+.ll
+Calling .in and .ll without parameters restores
+the previous values.
+</pre></div></div>
+
+<div class="example">
+<div class="group"><pre class="example-preformatted">    &rArr; This  is text without indenta-
+    &rArr; tion.   The  line  length  has
+    &rArr; been set to 3 inches.
+    &rArr;      Now   the  left  and
+    &rArr;      right  margins   are
+    &rArr;      both increased.
+    &rArr; Calling  .in  and  .ll without
+    &rArr; parameters restores the previ-
+    &rArr; ous values.
+</pre></div></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002epo"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.po</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">offset</i></span>]</var><a class="copiable-link" href='#index-_002epo'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-po-1"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002epo-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.po</code></strong> <var class="def-var-arguments"><code class="t">+</code><span class="r"><i class="slanted">offset</i></span></var><a class="copiable-link" href='#index-_002epo-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_002epo-2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.po</code></strong> <var class="def-var-arguments"><code class="t">-</code><span class="r"><i class="slanted">offset</i></span></var><a class="copiable-link" href='#index-_002epo-2'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002eo_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.o]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002eo_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002eo"></a>
+<a class="index-entry-id" id="index-tty_002etmac-1"></a>
+<p>Set page offset to <var class="var">offset</var> (or increment or decrement its current
+value by <var class="var">offset</var>).  If invoked without an argument, the page offset
+is restored to the value before the previous <code class="code">po</code> request.
+This request does not cause a break; the page offset in effect when an
+output line is broken prevails (see <a class="pxref" href="Manipulating-Filling-and-Adjustment.html">Manipulating Filling and Adjustment</a>).  The initial value is 1<span class="dmn">i</span> and the default scaling
+unit is &lsquo;<samp class="samp">m</samp>&rsquo;.  On terminal devices, the page offset is set to zero
+by a driver-specific macro file, <samp class="file">tty.tmac</samp>.  The current page
+offset can be found in the read-only register &lsquo;<samp class="samp">.o</samp>&rsquo;.
+<a class="index-entry-id" id="index-CSTR-_002354-errata-1"></a>
+<a class="index-entry-id" id="index-CSTR-_002354-erratum_002c-po-request"></a>
+This request is incorrectly documented in the <abbr class="acronym">AT&amp;T</abbr>
+<code class="code">troff</code> manual as using a default scaling unit of &lsquo;<samp class="samp">v</samp>&rsquo;.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.po 3i
+\n[.o]
+    &rArr; 720
+.po -1i
+\n[.o]
+    &rArr; 480
+.po
+\n[.o]
+    &rArr; 720
+</pre></div></div>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ein"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.in</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">indent</i></span>]</var><a class="copiable-link" href='#index-_002ein'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-in-1"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002ein-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.in</code></strong> <var class="def-var-arguments"><code class="t">+</code><span class="r"><i class="slanted">indent</i></span></var><a class="copiable-link" href='#index-_002ein-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_002ein-2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.in</code></strong> <var class="def-var-arguments"><code class="t">-</code><span class="r"><i class="slanted">indent</i></span></var><a class="copiable-link" href='#index-_002ein-2'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ei_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.i]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ei_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ei"></a>
+<p>Set indentation to <var class="var">indent</var> (or increment or decrement the current
+value by <var class="var">indent</var>).  This request causes a break.  Initially, there
+is no indentation.
+</p>
+<p>If <code class="code">in</code> is called without an argument, the indentation is reset to
+the previous value before the last call to <code class="code">in</code>.  The default
+scaling unit is &lsquo;<samp class="samp">m</samp>&rsquo;.
+</p>
+<p>If a negative indentation value is specified (which is not allowed),
+<code class="code">gtroff</code> emits a warning in category &lsquo;<samp class="samp">range</samp>&rsquo; and sets the
+indentation to zero.
+</p>
+<p>The effect of <code class="code">in</code> is delayed until a partially collected line (if
+it exists) is output.  A temporary indentation value is reset to zero
+also.
+</p>
+<p>The current indentation (as set by <code class="code">in</code>) can be found in the
+read-only register &lsquo;<samp class="samp">.i</samp>&rsquo;.  The indentation is associated with the
+environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eti"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ti</code></strong> <var class="def-var-arguments">offset</var><a class="copiable-link" href='#index-_002eti'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ti"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002eti-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ti</code></strong> <var class="def-var-arguments"><code class="t">+</code><span class="r"><i class="slanted">offset</i></span></var><a class="copiable-link" href='#index-_002eti-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_002eti-2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ti</code></strong> <var class="def-var-arguments"><code class="t">-</code><span class="r"><i class="slanted">offset</i></span></var><a class="copiable-link" href='#index-_002eti-2'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ein_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.in]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ein_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ein-3"></a>
+<p>Temporarily indent the next output line by <var class="var">offset</var>.  If an
+increment or decrement value is specified, adjust the temporary
+indentation relative to the value set by the <code class="code">in</code> request.
+</p>
+<p>This request causes a break; its value is associated with the
+environment (see <a class="pxref" href="Environments.html">Environments</a>).  The default scaling unit is
+&lsquo;<samp class="samp">m</samp>&rsquo;.  A call of <code class="code">ti</code> without an argument is ignored.
+</p>
+<p>If the total indentation value is negative (which is not allowed),
+<code class="code">gtroff</code> emits a warning in category &lsquo;<samp class="samp">range</samp>&rsquo; and sets the
+temporary indentation to zero.  &lsquo;Total indentation&rsquo; is either
+<var class="var">offset</var> if specified as an absolute value, or the temporary plus
+normal indentation, if <var class="var">offset</var> is given as a relative value.
+</p>
+<p>The effect of <code class="code">ti</code> is delayed until a partially collected line (if
+it exists) is output.
+</p>
+<p>The read-only register <code class="code">.in</code> is the indentation that applies to the
+current output line.
+</p>
+<p>The difference between <code class="code">.i</code> and <code class="code">.in</code> is that the latter takes
+into account whether a partially collected line still uses the old
+indentation value or a temporary indentation value is active.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ell"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ll</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">length</i></span>]</var><a class="copiable-link" href='#index-_002ell'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ll-1"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002ell-1"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ll</code></strong> <var class="def-var-arguments"><code class="t">+</code><span class="r"><i class="slanted">length</i></span></var><a class="copiable-link" href='#index-_002ell-1'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_002ell-2"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ll</code></strong> <var class="def-var-arguments"><code class="t">-</code><span class="r"><i class="slanted">length</i></span></var><a class="copiable-link" href='#index-_002ell-2'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002el_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.l]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002el_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002el"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ell_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.ll]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ell_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ell-3"></a>
+<p>Set the line length to <var class="var">length</var> (or increment or decrement the
+current value by <var class="var">length</var>).  Initially, the line length is set to
+6.5<span class="dmn">i</span>.  The effect of <code class="code">ll</code> is delayed until a partially
+collected line (if it exists) is output.  The default scaling unit is
+&lsquo;<samp class="samp">m</samp>&rsquo;.
+</p>
+<p>If <code class="code">ll</code> is called without an argument, the line length is reset to
+the previous value before the last call to <code class="code">ll</code>.  If a negative
+line length is specified (which is not allowed), <code class="code">gtroff</code> emits a
+warning in category &lsquo;<samp class="samp">range</samp>&rsquo; and sets the line length to zero.  The
+line length is associated with the environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p>
+<a class="index-entry-id" id="index-line-length-register-_0028_002el_0029"></a>
+<p>The current line length (as set by <code class="code">ll</code>) can be found in the
+read-only register &lsquo;<samp class="samp">.l</samp>&rsquo;.  The read-only register <code class="code">.ll</code> is the
+line length that applies to the current output line.
+</p>
+<p>Similar to <code class="code">.i</code> and <code class="code">.in</code>, the difference between <code class="code">.l</code>
+and <code class="code">.ll</code> is that the latter takes into account whether a partially
+collected line still uses the old line length value.
+</p></dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Line-Continuation.html">Line Continuation</a>, Previous: <a href="troff-and-nroff-Modes.html"><code class="code">troff</code> and <code class="code">nroff</code> Modes</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

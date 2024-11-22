@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Measurements (The GNU Troff Manual)</title>
+
+<meta name="description" content="Measurements (The GNU Troff Manual)">
+<meta name="keywords" content="Measurements (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Numeric-Expressions.html" rel="next" title="Numeric Expressions">
+<link href="Text.html" rel="prev" title="Text">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Measurements">
+<div class="nav-panel">
+<p>
+Next: <a href="Numeric-Expressions.html" accesskey="n" rel="next">Numeric Expressions</a>, Previous: <a href="Text.html" accesskey="p" rel="prev">Text</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Measurements-1">5.3 Measurements</h3>
+<a class="index-entry-id" id="index-measurements"></a>
+<a class="index-entry-id" id="index-scaling-indicator"></a>
+<a class="index-entry-id" id="index-indicator_002c-scaling"></a>
+
+<a class="index-entry-id" id="index-units-of-measurement"></a>
+<a class="index-entry-id" id="index-measurement-units"></a>
+<p>The formatter sometimes requires the input of numeric parameters to
+specify measurements.  These are specified as integers or decimal
+fractions with an optional <em class="dfn">scaling unit</em> suffixed.  A scaling unit
+is a letter that immediately follows the last digit of a number.  Digits
+after the decimal point are optional.  Measurement expressions include
+&lsquo;<samp class="samp">10.5p</samp>&rsquo;, &lsquo;<samp class="samp">11i</samp>&rsquo;, and &lsquo;<samp class="samp">3.c</samp>&rsquo;.
+</p>
+<a class="index-entry-id" id="index-basic-units_002c-conversion-to"></a>
+<a class="index-entry-id" id="index-units_002c-basic_002c-conversion-to"></a>
+<a class="index-entry-id" id="index-conversion-to-basic-units"></a>
+<p>Measurements are scaled by the scaling unit and stored internally (with
+any fractional part discarded) in basic units.
+<a class="index-entry-id" id="index-device-resolution_002c-obtaining-in-the-formatter"></a>
+<a class="index-entry-id" id="index-resolution_002c-device_002c-obtaining-in-the-formatter"></a>
+The device resolution can therefore be obtained by storing a value of
+&lsquo;<samp class="samp">1i</samp>&rsquo; to a register.  The only constraint on the basic unit is that
+it is at least as small as any other unit.
+</p>
+<dl class="table">
+<dd><a class="index-entry-id" id="index-basic-scaling-unit-_0028u_0029"></a>
+<a class="index-entry-id" id="index-u-scaling-unit"></a>
+<a class="index-entry-id" id="index-unit_002c-scaling_002c-u"></a>
+<a class="index-entry-id" id="index-scaling-unit-u"></a>
+</dd>
+<dt><code class="code">u</code></dt>
+<dd><p>Basic unit.
+</p>
+</dd>
+<dt id='index-inch-scaling-unit-_0028i_0029'><span><code class="code">i</code><a class="copiable-link" href='#index-inch-scaling-unit-_0028i_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-i-scaling-unit"></a>
+<a class="index-entry-id" id="index-unit_002c-scaling_002c-i"></a>
+<a class="index-entry-id" id="index-scaling-unit-i"></a>
+<p>Inch; defined as 2.54&nbsp;centimeters.
+</p>
+</dd>
+<dt id='index-centimeter-scaling-unit-_0028c_0029'><span><code class="code">c</code><a class="copiable-link" href='#index-centimeter-scaling-unit-_0028c_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-c-scaling-unit"></a>
+<a class="index-entry-id" id="index-unit_002c-scaling_002c-c"></a>
+<a class="index-entry-id" id="index-scaling-unit-c"></a>
+<p>Centimeter; a centimeter is about 0.3937&nbsp;inches.
+</p>
+</dd>
+<dt id='index-point-scaling-unit-_0028p_0029'><span><code class="code">p</code><a class="copiable-link" href='#index-point-scaling-unit-_0028p_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-p-scaling-unit"></a>
+<a class="index-entry-id" id="index-unit_002c-scaling_002c-p"></a>
+<a class="index-entry-id" id="index-scaling-unit-p"></a>
+<p>Point; a typesetter&rsquo;s unit used for measuring type size.
+There are 72&nbsp;points to an inch.
+</p>
+</dd>
+<dt id='index-pica-scaling-unit-_0028P_0029'><span><code class="code">P</code><a class="copiable-link" href='#index-pica-scaling-unit-_0028P_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-P-scaling-unit"></a>
+<a class="index-entry-id" id="index-unit_002c-scaling_002c-P"></a>
+<a class="index-entry-id" id="index-scaling-unit-P"></a>
+<p>Pica; another typesetter&rsquo;s unit.  There are 6&nbsp;picas to an inch and
+12&nbsp;points to a pica.
+</p>
+</dd>
+<dt><code class="code">s</code></dt>
+<dt><code class="code">z</code></dt>
+<dd><p>See <a class="xref" href="Using-Fractional-Type-Sizes.html">Using Fractional Type Sizes</a>, for a discussion of these units.
+</p>
+</dd>
+<dt><code class="code">f</code></dt>
+<dd><p>GNU <code class="code">troff</code> defines this unit to scale decimal fractions in the
+interval [0, 1] to 16-bit unsigned integers.  It multiplies a quantity
+by 65,536.  See <a class="xref" href="Colors.html">Colors</a>, for usage.
+</p></dd>
+</dl>
+
+<p>The magnitudes of other scaling units depend on the text formatting
+parameters in effect.  These are useful when specifying measurements
+that need to scale with the typeface or vertical spacing.
+</p>
+<dl class="table">
+<dt id='index-em-scaling-unit-_0028m_0029'><span><code class="code">m</code><a class="copiable-link" href='#index-em-scaling-unit-_0028m_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-m-scaling-unit"></a>
+<a class="index-entry-id" id="index-unit_002c-scaling_002c-m"></a>
+<a class="index-entry-id" id="index-scaling-unit-m"></a>
+<p>Em; an em is equal to the current type size in points.  It is named thus
+because it is approximately the width of the letter&nbsp;&lsquo;<samp class="samp">M</samp>&rsquo;.
+</p>
+</dd>
+<dt id='index-en-scaling-unit-_0028n_0029'><span><code class="code">n</code><a class="copiable-link" href='#index-en-scaling-unit-_0028n_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-n-scaling-unit"></a>
+<a class="index-entry-id" id="index-unit_002c-scaling_002c-n"></a>
+<a class="index-entry-id" id="index-scaling-unit-n"></a>
+<p>En; an en is one-half em.
+</p>
+</dd>
+<dt id='index-vertical-space-unit-_0028v_0029'><span><code class="code">v</code><a class="copiable-link" href='#index-vertical-space-unit-_0028v_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-space_002c-vertical_002c-unit-_0028v_0029"></a>
+<a class="index-entry-id" id="index-vee-scaling-unit-_0028v_0029"></a>
+<a class="index-entry-id" id="index-v-scaling-unit"></a>
+<a class="index-entry-id" id="index-unit_002c-scaling_002c-v"></a>
+<a class="index-entry-id" id="index-scaling-unit-v"></a>
+<p>Vee; recall <a class="ref" href="Page-Geometry.html">Page Geometry</a>.
+</p>
+</dd>
+<dt id='index-M-scaling-unit'><span><code class="code">M</code><a class="copiable-link" href='#index-M-scaling-unit'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-unit_002c-scaling_002c-M"></a>
+<a class="index-entry-id" id="index-scaling-unit-M"></a>
+<p>Hundredth of an em.
+</p></dd>
+</dl>
+
+
+
+<ul class="mini-toc">
+<li><a href="Motion-Quanta.html" accesskey="1">Motion Quanta</a></li>
+<li><a href="Default-Units.html" accesskey="2">Default Units</a></li>
+</ul>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Numeric-Expressions.html">Numeric Expressions</a>, Previous: <a href="Text.html">Text</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

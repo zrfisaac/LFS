@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Gtroff Internals (The GNU Troff Manual)</title>
+
+<meta name="description" content="Gtroff Internals (The GNU Troff Manual)">
+<meta name="keywords" content="Gtroff Internals (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Debugging.html" rel="next" title="Debugging">
+<link href="Miscellaneous.html" rel="prev" title="Miscellaneous">
+<style type="text/css">
+<!--
+div.example {margin-left: 3.2em}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Gtroff-Internals">
+<div class="nav-panel">
+<p>
+Next: <a href="Debugging.html" accesskey="n" rel="next">Debugging</a>, Previous: <a href="Miscellaneous.html" accesskey="p" rel="prev">Miscellaneous</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="gtroff-Internals">5.36 <code class="code">gtroff</code> Internals</h3>
+
+<a class="index-entry-id" id="index-input-token"></a>
+<a class="index-entry-id" id="index-token_002c-input"></a>
+<a class="index-entry-id" id="index-output-node"></a>
+<a class="index-entry-id" id="index-node_002c-output"></a>
+<p><code class="code">gtroff</code> processes input in three steps.  One or more input
+characters are converted to an <em class="dfn">input token</em>.<a class="footnote" id="DOCF119" href="groff.html_fot.html#FOOT119"><sup>119</sup></a>  Then, one or more input tokens are converted to
+an <em class="dfn">output node</em>.  Finally, output nodes are converted to the
+intermediate output language understood by all output devices.
+</p>
+<p>Actually, before step one happens, <code class="code">gtroff</code> converts certain escape
+sequences into reserved input characters (not accessible by the user);
+such reserved characters are used for other internal processing also &ndash;
+this is the very reason why not all characters are valid input.
+See <a class="xref" href="Identifiers.html">Identifiers</a>, for more on this topic.
+</p>
+<p>For example, the input string &lsquo;<samp class="samp">fi\[:u]</samp>&rsquo; is converted into a
+character token &lsquo;<samp class="samp">f</samp>&rsquo;, a character token &lsquo;<samp class="samp">i</samp>&rsquo;, and a special
+token &lsquo;<samp class="samp">:u</samp>&rsquo; (representing u&nbsp;umlaut).  Later on, the character
+tokens &lsquo;<samp class="samp">f</samp>&rsquo; and &lsquo;<samp class="samp">i</samp>&rsquo; are merged to a single output node
+representing the ligature glyph &lsquo;<samp class="samp">fi</samp>&rsquo; (provided the current font has
+a glyph for this ligature); the same happens with &lsquo;<samp class="samp">:u</samp>&rsquo;.  All output
+glyph nodes are &lsquo;processed&rsquo;, which means that they are invariably
+associated with a given font, font size, advance width, etc.  During the
+formatting process, <code class="code">gtroff</code> itself adds various nodes to control
+the data flow.
+</p>
+<p>Macros, diversions, and strings collect elements in two chained lists: a
+list of input tokens that have been passed unprocessed, and a list of
+output nodes.  Consider the following diversion.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.di xxx
+a
+\!b
+c
+.br
+.di
+</pre></div></div>
+
+<p>It contains these elements.
+</p>
+<table class="multitable">
+<tbody><tr><td>node list</td><td>token list</td><td>element number</td></tr>
+<tr><td><i class="i">line start node</i></td><td>&mdash;</td><td>1</td></tr>
+<tr><td><i class="i">glyph node <code class="code">a</code></i></td><td>&mdash;</td><td>2</td></tr>
+<tr><td><i class="i">word space node</i></td><td>&mdash;</td><td>3</td></tr>
+<tr><td>&mdash;</td><td><code class="code">b</code></td><td>4</td></tr>
+<tr><td>&mdash;</td><td><code class="code">\n</code></td><td>5</td></tr>
+<tr><td><i class="i">glyph node <code class="code">c</code></i></td><td>&mdash;</td><td>6</td></tr>
+<tr><td><i class="i">vertical size node</i></td><td>&mdash;</td><td>7</td></tr>
+<tr><td><i class="i">vertical size node</i></td><td>&mdash;</td><td>8</td></tr>
+<tr><td>&mdash;</td><td><code class="code">\n</code></td><td>9</td></tr>
+</tbody>
+</table>
+
+<a class="index-entry-id" id="index-_005cv_002c-internal-representation"></a>
+<p>Elements 1, 7, and&nbsp;8 are inserted by <code class="code">gtroff</code>; the latter two
+(which are always present) specify the vertical extent of the last line,
+possibly modified by <code class="code">\x</code>.  The <code class="code">br</code> request finishes the
+pending output line, inserting a newline input token, which is
+subsequently converted to a space when the diversion is reread.  Note
+that the word space node has a fixed width that isn&rsquo;t adjustable
+anymore.  To convert horizontal space nodes back to input tokens, use
+the <code class="code">unformat</code> request.
+</p>
+<p>Macros only contain elements in the token list (and the node list is
+empty); diversions and strings can contain elements in both lists.
+</p>
+<p>The <code class="code">chop</code> request simply reduces the number of elements in a
+macro, string, or diversion by one.  Exceptions are <em class="dfn">compatibility
+save</em> and <em class="dfn">compatibility ignore</em> input tokens, which are ignored.
+The <code class="code">substring</code> request also ignores those input tokens.
+</p>
+<p>Some requests like <code class="code">tr</code> or <code class="code">cflags</code> work on glyph identifiers
+only; this means that the associated glyph can be changed without
+destroying this association.  This can be very helpful for substituting
+glyphs.  In the following example, we assume that glyph &lsquo;<samp class="samp">foo</samp>&rsquo; isn&rsquo;t
+available by default, so we provide a substitution using the
+<code class="code">fchar</code> request and map it to input character &lsquo;<samp class="samp">x</samp>&rsquo;.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.fchar \[foo] foo
+.tr x \[foo]
+</pre></div></div>
+
+<p>Now let us assume that we install an additional special font &lsquo;<samp class="samp">bar</samp>&rsquo;
+that has glyph &lsquo;<samp class="samp">foo</samp>&rsquo;.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.special bar
+.rchar \[foo]
+</pre></div></div>
+
+<p>Since glyphs defined with <code class="code">fchar</code> are searched before glyphs in
+special fonts, we must call <code class="code">rchar</code> to remove the definition of the
+fallback glyph.  Anyway, the translation is still active; &lsquo;<samp class="samp">x</samp>&rsquo; now
+maps to the real glyph &lsquo;<samp class="samp">foo</samp>&rsquo;.
+</p>
+<a class="index-entry-id" id="index-compatibility-mode_002c-and-parameters"></a>
+<a class="index-entry-id" id="index-mode_002c-compatibility_002c-and-parameters"></a>
+<a class="index-entry-id" id="index-arguments_002c-and-compatibility-mode"></a>
+<a class="index-entry-id" id="index-parameters_002c-and-compatibility-mode"></a>
+<a class="index-entry-id" id="index-macro-arguments_002c-and-compatibility-mode"></a>
+<a class="index-entry-id" id="index-request-arguments_002c-and-compatibility-mode"></a>
+<p>Macro and request arguments preserve compatibility mode enablement.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.cp 1     \&quot; switch to compatibility mode
+.de xx
+\\$1
+..
+.cp 0     \&quot; switch compatibility mode off
+.xx caf\['e]
+    &rArr; café
+</pre></div></div>
+
+<p>Since compatibility mode is enabled while <code class="code">de</code> is invoked, the
+macro <code class="code">xx</code> enables compatibility mode when it is called.  Argument
+<code class="code">$1</code> can still be handled properly because it inherits the
+compatibility mode enablement status that was active at the point where
+<code class="code">xx</code> was called.
+</p>
+<p>After interpolation of the parameters, the compatibility save and
+restore tokens are removed.
+</p>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Debugging.html">Debugging</a>, Previous: <a href="Miscellaneous.html">Miscellaneous</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

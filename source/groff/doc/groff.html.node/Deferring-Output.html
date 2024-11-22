@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Deferring Output (The GNU Troff Manual)</title>
+
+<meta name="description" content="Deferring Output (The GNU Troff Manual)">
+<meta name="keywords" content="Deferring Output (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Traps.html" rel="next" title="Traps">
+<link href="Drawing-Geometric-Objects.html" rel="prev" title="Drawing Geometric Objects">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Deferring-Output">
+<div class="nav-panel">
+<p>
+Next: <a href="Traps.html" accesskey="n" rel="next">Traps</a>, Previous: <a href="Drawing-Geometric-Objects.html" accesskey="p" rel="prev">Drawing Geometric Objects</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Deferring-Output-1">5.27 Deferring Output</h3>
+<a class="index-entry-id" id="index-deferred-output"></a>
+
+<a class="index-entry-id" id="index-environment"></a>
+<a class="index-entry-id" id="index-diversion"></a>
+<a class="index-entry-id" id="index-trap"></a>
+<p>A few <code class="code">roff</code> language elements are generally not used in simple
+documents, but arise as page layouts become more sophisticated and
+demanding.  <em class="dfn">Environments</em> collect formatting parameters like line
+length and typeface.  A <em class="dfn">diversion</em> stores formatted output for
+later use.  A <em class="dfn">trap</em> is a condition on the input or output, tested
+automatically by the formatter, that is associated with a macro, causing
+it to be called when that condition is fulfilled.
+</p>
+<p>Footnote support often exercises all three of the foregoing features.  A
+simple implementation might work as follows.  A pair of macros is
+defined: one starts a footnote and the other ends it.  The author calls
+the first macro where a footnote marker is desired.  The macro
+establishes a diversion so that the footnote text is collected at the
+place in the body text where its corresponding marker appears.  An
+environment is created for the footnote so that it is set at a smaller
+typeface.  The footnote text is formatted in the diversion using that
+environment, but it does not yet appear in the output.  The document
+author calls the footnote end macro, which returns to the previous
+environment and ends the diversion.  Later, after much more body text in
+the document, a trap, set a small distance above the page bottom, is
+sprung.  The macro called by the trap draws a line across the page and
+emits the stored diversion.  Thus, the footnote is rendered.
+</p>
+<p>Diversions and traps make the text formatting process non-linear.  Let
+us imagine a set of text lines or paragraphs labelled &lsquo;<samp class="samp">A</samp>&rsquo;,
+&lsquo;<samp class="samp">B</samp>&rsquo;, and so on.  If we set up a trap that produces text &lsquo;<samp class="samp">T</samp>&rsquo;
+(as a page footer, say), and we also use a diversion to store the
+formatted text &lsquo;<samp class="samp">D</samp>&rsquo;, then a document with input text in the order
+&lsquo;<samp class="samp">A B C D E F</samp>&rsquo; might render as &lsquo;<samp class="samp">A B C E T F</samp>&rsquo;.  The diversion
+&lsquo;<samp class="samp">D</samp>&rsquo; will never be output if we do not call for it.
+</p>
+<p>Environments of themselves are not a source of non-linearity in document
+formatting: environment switches have immediate effect.  One could
+always write a macro to change as many formatting parameters as desired
+with a single convenient call.  But because diversions can be nested and
+macros called by traps that are sprung by other trap-called macros, they
+may be called upon in varying contexts.  For example, consider a page
+header that is always to be set in Helvetica.  A document that uses
+Times for most of its body text, but Courier for displayed code
+examples, poses a challenge if a page break occurs in the middle of a
+code display; if the header trap assumes that the &ldquo;previous font&rdquo; is
+always Times, the rest of the example will be formatted in the wrong
+typeface.  One could carefully save all formatting parameters upon
+entering the trap and restore them upon leaving it, but this is verbose,
+error-prone, and not future-proof as the <code class="code">groff</code> language develops.
+Environments save us considerable effort.
+</p>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Traps.html">Traps</a>, Previous: <a href="Drawing-Geometric-Objects.html">Drawing Geometric Objects</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

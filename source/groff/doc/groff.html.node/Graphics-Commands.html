@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Graphics Commands (The GNU Troff Manual)</title>
+
+<meta name="description" content="Graphics Commands (The GNU Troff Manual)">
+<meta name="keywords" content="Graphics Commands (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Command-Reference.html" rel="up" title="Command Reference">
+<link href="Device-Control-Commands.html" rel="next" title="Device Control Commands">
+<link href="Simple-Commands.html" rel="prev" title="Simple Commands">
+<style type="text/css">
+<!--
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="Graphics-Commands">
+<div class="nav-panel">
+<p>
+Next: <a href="Device-Control-Commands.html" accesskey="n" rel="next">Device Control Commands</a>, Previous: <a href="Simple-Commands.html" accesskey="p" rel="prev">Simple Commands</a>, Up: <a href="Command-Reference.html" accesskey="u" rel="up">Command Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Graphics-Commands-1">6.1.2.3 Graphics Commands</h4>
+
+<p>Each graphics or drawing command in the intermediate output starts with
+the letter &lsquo;<samp class="samp">D</samp>&rsquo;, followed by one or two characters that specify a
+subcommand; this is followed by a fixed or variable number of integer
+arguments that are separated by a single space character.  A &lsquo;<samp class="samp">D</samp>&rsquo;
+command may not be followed by another command on the same line (apart
+from a comment), so each &lsquo;<samp class="samp">D</samp>&rsquo; command is terminated by a syntactical
+line break.
+</p>
+<p><code class="code">gtroff</code> output follows the classical spacing rules (no space
+between command and subcommand, all arguments are preceded by a single
+space character), but the parser allows optional space between the
+command letters and makes the space before the first argument optional.
+As usual, each space can be any sequence of tab and space characters.
+</p>
+<p>Some graphics commands can take a variable number of arguments.  In this
+case, they are integers representing a size measured in basic units
+&lsquo;<samp class="samp">u</samp>&rsquo;.  The arguments called <var class="var">h1</var>, <var class="var">h2</var>, &hellip;, <var class="var">hn</var>
+stand for horizontal distances where positive means right, negative
+left.  The arguments called <var class="var">v1</var>, <var class="var">v2</var>, &hellip;, <var class="var">vn</var> stand
+for vertical distances where positive means down, negative up.  All
+these distances are offsets relative to the current location.
+</p>
+<p>Each graphics command directly corresponds to a similar <code class="code">gtroff</code>
+<code class="code">\D</code> escape sequence.  See <a class="xref" href="Drawing-Geometric-Objects.html">Drawing Geometric Objects</a>.
+</p>
+<p>Unknown &lsquo;<samp class="samp">D</samp>&rsquo; commands are assumed to be device-specific.  Its
+arguments are parsed as strings; the whole information is then sent to
+the postprocessor.
+</p>
+<p>In the following command reference, the syntax element &lsaquo;<span class="r">line
+break</span>&rsaquo; means a syntactical line break as defined above.
+</p>
+<dl class="table">
+<dt><code class="code">D~ <var class="var">h1</var> <var class="var">v1</var> <var class="var">h2</var> <var class="var">v2</var> &hellip; <var class="var">hn</var> <var class="var">vn</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Draw B-spline from current position to offset (<var class="var">h1</var>,<var class="var">v1</var>), then
+to offset (<var class="var">h2</var>,<var class="var">v2</var>), if given, etc., up to
+(<var class="var">hn</var>,<var class="var">vn</var>).  This command takes a variable number of argument
+pairs; the current position is moved to the terminal point of the drawn
+curve.
+</p>
+</dd>
+<dt><code class="code">Da <var class="var">h1</var> <var class="var">v1</var> <var class="var">h2</var> <var class="var">v2</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Draw arc from current position to
+(<var class="var">h1</var>,<var class="var">v1</var>)<em class="math">+</em>(<var class="var">h2</var>,<var class="var">v2</var>) with center at
+(<var class="var">h1</var>,<var class="var">v1</var>); then move the current position to the final point
+of the arc.
+</p>
+</dd>
+<dt><code class="code">DC <var class="var">d</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dt><code class="code">DC <var class="var">d</var> <var class="var">dummy-arg</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Draw a solid circle using the current fill color with
+diameter&nbsp;<var class="var">d</var> (integer in basic units &lsquo;<samp class="samp">u</samp>&rsquo;) with leftmost
+point at the current position; then move the current position to the
+rightmost point of the circle.  An optional second integer argument is
+ignored (this allows the formatter to generate an even number of
+arguments).  This command is a <code class="code">gtroff</code> extension.
+</p>
+</dd>
+<dt><code class="code">Dc <var class="var">d</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Draw circle line with diameter&nbsp;<var class="var">d</var> (integer in basic units
+&lsquo;<samp class="samp">u</samp>&rsquo;) with leftmost point at the current position; then move the
+current position to the rightmost point of the circle.
+</p>
+</dd>
+<dt><code class="code">DE <var class="var">h</var> <var class="var">v</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Draw a solid ellipse in the current fill color with a horizontal
+diameter of&nbsp;<var class="var">h</var> and a vertical diameter of&nbsp;<var class="var">v</var> (both
+integers in basic units &lsquo;<samp class="samp">u</samp>&rsquo;) with the leftmost point at the current
+position; then move to the rightmost point of the ellipse.  This command
+is a <code class="code">gtroff</code> extension.
+</p>
+</dd>
+<dt><code class="code">De <var class="var">h</var> <var class="var">v</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Draw an outlined ellipse with a horizontal diameter of&nbsp;<var class="var">h</var> and
+a vertical diameter of&nbsp;<var class="var">v</var> (both integers in basic units
+&lsquo;<samp class="samp">u</samp>&rsquo;) with the leftmost point at current position; then move to the
+rightmost point of the ellipse.
+</p>
+</dd>
+<dt><code class="code">DF <var class="var">color-scheme</var> <span class="r">[</span><var class="var">component</var> &hellip;<span class="r">]</span>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Set fill color for solid drawing objects using different color schemes;
+the analogous command for setting the color of text, line graphics, and
+the outline of graphic objects is &lsquo;<samp class="samp">m</samp>&rsquo;.  The color components are
+specified as integer arguments between 0 and 65535.  The number of color
+components and their meaning vary for the different color schemes.
+These commands are generated by <code class="code">gtroff</code>&rsquo;s escape sequences
+&lsquo;<samp class="samp">\D'F &hellip;'</samp>&rsquo; and <code class="code">\M</code> (with no other corresponding
+graphics commands).  No position changing.  This command is a
+<code class="code">gtroff</code> extension.
+</p>
+<dl class="table">
+<dt><code class="code">DFc <var class="var">cyan</var> <var class="var">magenta</var> <var class="var">yellow</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Set fill color for solid drawing objects using the CMY color scheme,
+having the 3&nbsp;color components <var class="var">cyan</var>, <var class="var">magenta</var>, and
+<var class="var">yellow</var>.
+</p>
+</dd>
+<dt><code class="code">DFd&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Set fill color for solid drawing objects to the default fill color value
+(black in most cases).  No component arguments.
+</p>
+</dd>
+<dt><code class="code">DFg <var class="var">gray</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Set fill color for solid drawing objects to the shade of gray given by
+the argument, an integer between 0 (black) and 65535 (white).
+</p>
+</dd>
+<dt><code class="code">DFk <var class="var">cyan</var> <var class="var">magenta</var> <var class="var">yellow</var> <var class="var">black</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Set fill color for solid drawing objects using the CMYK color scheme,
+having the 4&nbsp;color components <var class="var">cyan</var>, <var class="var">magenta</var>,
+<var class="var">yellow</var>, and <var class="var">black</var>.
+</p>
+</dd>
+<dt><code class="code">DFr <var class="var">red</var> <var class="var">green</var> <var class="var">blue</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Set fill color for solid drawing objects using the RGB color scheme,
+having the 3&nbsp;color components <var class="var">red</var>, <var class="var">green</var>, and
+<var class="var">blue</var>.
+</p></dd>
+</dl>
+
+</dd>
+<dt><code class="code">Df <var class="var">n</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>The argument&nbsp;<var class="var">n</var> must be an integer in the range <em class="math">-32767</em>
+to 32767.
+</p>
+<dl class="table">
+<dt><em class="math">0 &le; <var class="var">n</var> &le; 1000</em></dt>
+<dd><p>Set the color for filling solid drawing objects to a shade of gray,
+where 0 corresponds to solid white, 1000 (the default) to solid black,
+and values in between to intermediate shades of gray; this is obsoleted
+by command &lsquo;<samp class="samp">DFg</samp>&rsquo;.
+</p>
+</dd>
+<dt><em class="math"><var class="var">n</var> &lt; 0</em> or <em class="math"><var class="var">n</var> &gt; 1000</em></dt>
+<dd><p>Set the filling color to the color that is currently being used for the
+text and the outline, see command &lsquo;<samp class="samp">m</samp>&rsquo;.  For example, the command
+sequence
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">mg 0 0 65535
+Df -1
+</pre></div></div>
+
+<p>sets all colors to blue.
+</p></dd>
+</dl>
+
+<p>No position changing.  This command is a <code class="code">gtroff</code> extension.
+</p>
+</dd>
+<dt><code class="code">Dl <var class="var">h</var> <var class="var">v</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Draw line from current position to offset (<var class="var">h</var>,<var class="var">v</var>) (integers in
+basic units &lsquo;<samp class="samp">u</samp>&rsquo;); then set current position to the end of the drawn
+line.
+</p>
+</dd>
+<dt><code class="code">Dp <var class="var">h1</var> <var class="var">v1</var> <var class="var">h2</var> <var class="var">v2</var> &hellip; <var class="var">hn</var> <var class="var">vn</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Draw a polygon line from current position to offset (<var class="var">h1</var>,<var class="var">v1</var>),
+from there to offset (<var class="var">h2</var>,<var class="var">v2</var>), etc., up to offset
+(<var class="var">hn</var>,<var class="var">vn</var>), and from there back to the starting position.  For
+historical reasons, the position is changed by adding the sum of all
+arguments with odd index to the actual horizontal position and the even
+ones to the vertical position.  Although this doesn&rsquo;t make sense it is
+kept for compatibility.
+This command is a <code class="code">gtroff</code> extension.
+</p>
+</dd>
+<dt><code class="code">DP <var class="var">h1</var> <var class="var">v1</var> <var class="var">h2</var> <var class="var">v2</var> &hellip; <var class="var">hn</var> <var class="var">vn</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Draw a solid polygon in the current fill color rather than an outlined
+polygon, using the same arguments and positioning as the corresponding
+&lsquo;<samp class="samp">Dp</samp>&rsquo; command.
+This command is a <code class="code">gtroff</code> extension.
+</p>
+</dd>
+<dt><code class="code">Dt <var class="var">n</var>&lsaquo;<span class="r">line break</span>&rsaquo;</code></dt>
+<dd><p>Set the current line thickness to&nbsp;<var class="var">n</var> (an integer in basic
+units &lsquo;<samp class="samp">u</samp>&rsquo;) if <em class="math"><var class="var">n</var>&gt;0</em>; if <em class="math"><var class="var">n</var>=0</em> select the
+smallest available line thickness; if <em class="math"><var class="var">n</var>&lt;0</em> set the line
+thickness proportional to the type size (this is the default before the
+first &lsquo;<samp class="samp">Dt</samp>&rsquo; command was specified).  For historical reasons, the
+horizontal position is changed by adding the argument to the actual
+horizontal position, while the vertical position is not changed.
+Although this doesn&rsquo;t make sense it is kept for compatibility.
+This command is a <code class="code">gtroff</code> extension.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Device-Control-Commands.html">Device Control Commands</a>, Previous: <a href="Simple-Commands.html">Simple Commands</a>, Up: <a href="Command-Reference.html">Command Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

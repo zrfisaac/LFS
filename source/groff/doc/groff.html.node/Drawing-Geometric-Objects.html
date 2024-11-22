@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Drawing Geometric Objects (The GNU Troff Manual)</title>
+
+<meta name="description" content="Drawing Geometric Objects (The GNU Troff Manual)">
+<meta name="keywords" content="Drawing Geometric Objects (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Traps.html" rel="next" title="Traps">
+<link href="Page-Motions.html" rel="prev" title="Page Motions">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Drawing-Geometric-Objects">
+<div class="nav-panel">
+<p>
+Next: <a href="Traps.html" accesskey="n" rel="next">Traps</a>, Previous: <a href="Page-Motions.html" accesskey="p" rel="prev">Page Motions</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Drawing-Geometric-Objects-1">5.26 Drawing Geometric Objects</h3>
+<a class="index-entry-id" id="index-drawing-requests"></a>
+<a class="index-entry-id" id="index-requests-for-drawing"></a>
+
+<p>A few of the formatter&rsquo;s escape sequences draw lines and other geometric
+objects.  Combined with each other and with page motion commands
+(see <a class="pxref" href="Page-Motions.html">Page Motions</a>), a wide variety of figures is possible.  For
+complex drawings, these operations can be cumbersome; the preprocessors
+<code class="code">gpic</code> or <code class="code">ggrn</code> are typically used instead.
+</p>
+<p>The <code class="code">\l</code> and <code class="code">\L</code> escape sequences draw horizontal and
+vertical sequences of glyphs, respectively.  Even the simplest of
+output devices supports them.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cl_0027l_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\l<code class="code">'</code></code><span class="r"><i class="slanted">l</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cl_0027l_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cl"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cl_0027lc_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\l<code class="code">'</code></code><span class="r"><i class="slanted">lc</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cl_0027lc_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-drawing-horizontal-lines-_0028_005cl_0029"></a>
+<a class="index-entry-id" id="index-horizontal-line_002c-drawing-_0028_005cl_0029"></a>
+<a class="index-entry-id" id="index-line_002c-horizontal_002c-drawing-_0028_005cl_0029"></a>
+<p>Draw a horizontal line of length <var class="var">l</var> from the drawing position.
+Rightward motion is positive.  Afterward, the drawing position is at the
+right end of the line.  The default scaling unit is &lsquo;<samp class="samp">m</samp>&rsquo;.
+</p>
+<a class="index-entry-id" id="index-baseline-rule-special-character_0028_005c_005bru_005d_0029"></a>
+<a class="index-entry-id" id="index-glyph_002c-underscore-_0028_005c_005bru_005d_0029"></a>
+<a class="index-entry-id" id="index-line-drawing-glyph"></a>
+<a class="index-entry-id" id="index-glyph_002c-for-line-drawing"></a>
+<p>The optional second parameter&nbsp;<var class="var">c</var> is a character with which to
+draw the line.  The default is the baseline rule special character,
+<code class="code">\[ru]</code>.
+</p>
+<a class="index-entry-id" id="index-dummy-character-_0028_005c_0026_0029_002c-effect-on-_005cl-escape-sequence"></a>
+<a class="index-entry-id" id="index-character_002c-dummy-_0028_005c_0026_0029_002c-effect-on-_005cl-escape-sequence"></a>
+<p>If <var class="var">c</var> is a valid scaling unit, put <code class="code">\&amp;</code> after <var class="var">l</var> to
+disambiguate the input.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de textbox
+\[br]\\$*\[br]\l'|0\[rn]'\l'|0\[ul]'
+..
+</pre></div></div>
+
+<p>The foregoing outputs a box rule (a vertical line), the text
+argument(s), and another box rule.  We employ the boundary-relative
+motion operator &lsquo;<samp class="samp">|</samp>&rsquo;.  Finally, the line-drawing escape sequences
+draw a radical extender (a form of overline) and an underline from the
+drawing position to the position coresponding to beginning of the
+<em class="emph">input</em> line.  The drawing position returns to just after the
+right-hand box rule because the lengths of the drawn lines are negative,
+as noted above.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cL_0027l_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\L<code class="code">'</code></code><span class="r"><i class="slanted">l</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cL_0027l_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cL"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cL_0027lc_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\L<code class="code">'</code></code><span class="r"><i class="slanted">lc</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cL_0027lc_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-drawing-vertical-lines-_0028_005cL_0029"></a>
+<a class="index-entry-id" id="index-vertical-line-drawing-_0028_005cL_0029"></a>
+<a class="index-entry-id" id="index-line_002c-vertical_002c-drawing-_0028_005cL_0029"></a>
+<a class="index-entry-id" id="index-line-drawing-glyph-1"></a>
+<a class="index-entry-id" id="index-glyph-for-line-drawing"></a>
+<a class="index-entry-id" id="index-box-rule-glyph-_0028_005c_005bbr_005d_0029"></a>
+<a class="index-entry-id" id="index-glyph_002c-box-rule-_0028_005c_005bbr_005d_0029"></a>
+<p>Draw a vertical line of length <var class="var">l</var> from the drawing position.
+Downward motion is positive.  The default scaling unit is &lsquo;<samp class="samp">v</samp>&rsquo;.  The
+default character is the box rule, <code class="code">\[br]</code>.  As with vertical
+motion escape sequences, text processing continues where the line ends.
+<code class="code">\L</code> is otherwise similar to <code class="code">\l</code>.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">$ nroff &lt;&lt;EOF
+This is a \L'3v'test.
+EOF
+    &rArr; This is a
+    &rArr;           |
+    &rArr;           |
+    &rArr;           |test.
+</pre></div></div>
+
+<p>When writing text, the drawing position is at the text baseline; recall
+<a class="ref" href="Page-Geometry.html">Page Geometry</a>.
+</p></dd></dl>
+
+<p>The <code class="code">\D</code> escape sequence provides <em class="dfn">drawing commands</em> that
+direct the output device to render geometrical objects rather than
+glyphs.  Specific devices may support only a subset, or may feature
+additional ones; consult the man page for the output driver in use.
+Terminal devices in particular implement almost none.  See <a class="xref" href="Graphics-Commands.html">Graphics Commands</a>.
+</p>
+<p>Rendering starts at the drawing position; when finished, the drawing
+position is left at the rightmost point of the object, even for closed
+figures, except where noted.  GNU <code class="code">troff</code> draws stroked (outlined)
+objects with the stroke color, and shades filled ones with the fill
+color.  See <a class="xref" href="Colors.html">Colors</a>.  Coordinates <var class="var">h</var> and <var class="var">v</var> are horizontal
+and vertical motions relative to the drawing position or previous point
+in the command.  The default scaling unit for horizontal measurements
+(and diameters of circles) is &lsquo;<samp class="samp">m</samp>&rsquo;; for vertical ones, &lsquo;<samp class="samp">v</samp>&rsquo;.
+</p>
+<p>Circles, ellipses, and polygons can be drawn filled or stroked.  These
+are independent properties; if you want a filled, stroked figure, you
+must draw the same figure twice using each drawing command.  A filled
+figure is always smaller than an outlined one because the former is
+drawn only within its defined area, whereas strokes have a line
+thickness (set with &lsquo;<samp class="samp">\D't'</samp>&rsquo;).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">\h'1i'\v'1i'\
+\# increase line thickness
+\Z'\D't 5p''\
+\# draw stroked (unfilled) polygon
+\Z'\D'p 3 3 -6 0''\
+\# draw filled (solid) polygon
+\Z'\D'P 3 3 -6 0''
+</pre></div></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cD_0027command-argument-_2026_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\D<code class="code">'</code></code><span class="r"><i class="slanted">command argument &hellip;</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cD_0027command-argument-_2026_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cD"></a>
+<p>Drawing command escape sequence parameters begin with an ordinary
+character, <var class="var">command</var>, selecting the type of object to be drawn,
+followed by <var class="var">argument</var>s whose meaning is determined by
+<var class="var">command</var>.
+</p>
+<dl class="table">
+<dt id='index-drawing-a-spline-_0028_005cD_0027_007e-_2026_0027_0029'><span><code class="code">\D'~ <var class="var">h1</var> <var class="var">v1</var> &hellip; <var class="var">hn</var> <var class="var">vn</var>'</code><a class="copiable-link" href='#index-drawing-a-spline-_0028_005cD_0027_007e-_2026_0027_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-spline_002c-drawing-_0028_005cD_0027_007e-_2026_0027_0029"></a>
+<p>Draw a B-spline to each point in sequence, leaving the drawing position
+at (<var class="var">hn</var>, <var class="var">vn</var>).
+</p>
+</dd>
+<dt id='index-arc_002c-drawing-_0028_005cD_0027a-_2026_0027_0029'><span><code class="code">\D'a <var class="var">hc</var> <var class="var">vc</var> <var class="var">h</var> <var class="var">v</var>'</code><a class="copiable-link" href='#index-arc_002c-drawing-_0028_005cD_0027a-_2026_0027_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-drawing-an-arc-_0028_005cD_0027a-_2026_0027_0029"></a>
+<p>Draw a circular arc centered at (<var class="var">hc</var>, <var class="var">vc</var>) counterclockwise
+from the drawing position to a point (<var class="var">h</var>, <var class="var">v</var>) relative to the
+center.  <a class="footnote" id="DOCF105" href="groff.html_fot.html#FOOT105"><sup>105</sup></a>
+</p>
+</dd>
+<dt id='index-circle_002c-stroked_002c-drawing-_0028_005cD_0027c-_2026_0027_0029'><span><code class="code">\D'c <var class="var">d</var>'</code><a class="copiable-link" href='#index-circle_002c-stroked_002c-drawing-_0028_005cD_0027c-_2026_0027_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-drawing-a-stroked-circle-_0028_005cD_0027c-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-stroked-circle_002c-drawing-_0028_005cD_0027c-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-circle_002c-outlined_002c-drawing-_0028_005cD_0027c-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-drawing-an-outlined-circle-_0028_005cD_0027c-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-outlined-circle_002c-drawing-_0028_005cD_0027c-_2026_0027_0029"></a>
+<p>Draw a circle of diameter <var class="var">d</var> with its leftmost point at the drawing
+position.
+</p>
+</dd>
+<dt id='index-circle_002c-filled_002c-drawing-_0028_005cD_0027C-_2026_0027_0029'><span><code class="code">\D'C <var class="var">d</var>'</code><a class="copiable-link" href='#index-circle_002c-filled_002c-drawing-_0028_005cD_0027C-_2026_0027_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-drawing-a-filled-circle-_0028_005cD_0027C-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-filled-circle_002c-drawing-_0028_005cD_0027C-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-circle_002c-solid_002c-drawing-_0028_005cD_0027C-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-drawing-a-solid-circle-_0028_005cD_0027C-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-solid-circle_002c-drawing-_0028_005cD_0027C-_2026_0027_0029"></a>
+<p>As &lsquo;<samp class="samp">\D'C <span class="r">&hellip;</span>'</samp>&rsquo;, but the circle is filled.
+</p>
+</dd>
+<dt id='index-ellipse_002c-stroked_002c-drawing-_0028_005cD_0027e-_2026_0027_0029'><span><code class="code">\D'e <var class="var">h</var> <var class="var">v</var>'</code><a class="copiable-link" href='#index-ellipse_002c-stroked_002c-drawing-_0028_005cD_0027e-_2026_0027_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-drawing-a-stroked-ellipse-_0028_005cD_0027e-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-stroked-ellipse_002c-drawing-_0028_005cD_0027e-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-ellipse_002c-outlined_002c-drawing-_0028_005cD_0027e-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-drawing-an-outlined-ellipse-_0028_005cD_0027e-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-outlined-ellipse_002c-drawing-_0028_005cD_0027e-_2026_0027_0029"></a>
+<p>Draw an ellipse of width <var class="var">h</var> and height <var class="var">v</var> with its leftmost
+point at the drawing position.
+</p>
+</dd>
+<dt id='index-ellipse_002c-filled_002c-drawing-_0028_005cD_0027E-_2026_0027_0029'><span><code class="code">\D'E <var class="var">x</var> <var class="var">y</var>'</code><a class="copiable-link" href='#index-ellipse_002c-filled_002c-drawing-_0028_005cD_0027E-_2026_0027_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-drawing-a-filled-ellipse-_0028_005cD_0027E-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-filled-ellipse_002c-drawing-_0028_005cD_0027E-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-ellipse_002c-solid_002c-drawing-_0028_005cD_0027E-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-drawing-a-solid-ellipse-_0028_005cD_0027E-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-solid-ellipse_002c-drawing-_0028_005cD_0027E-_2026_0027_0029"></a>
+<p>As &lsquo;<samp class="samp">\D'e <span class="r">&hellip;</span>'</samp>&rsquo;, but the ellipse is filled.
+</p>
+</dd>
+<dt id='index-line_002c-drawing-_0028_005cD_0027l-_2026_0027_0029'><span><code class="code">\D'l <var class="var">dx</var> <var class="var">dy</var>'</code><a class="copiable-link" href='#index-line_002c-drawing-_0028_005cD_0027l-_2026_0027_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-drawing-a-line-_0028_005cD_0027l-_2026_0027_0029"></a>
+<p>Draw line from the drawing position to (<var class="var">h</var>, <var class="var">v</var>).
+</p>
+<p>The following is a macro for drawing a box around a text argument; for
+simplicity, the box margin is a fixed at 0.2<span class="dmn">m</span>.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de TEXTBOX
+.  nr @wd \w'\\$1'
+\h'.2m'\
+\h'-.2m'\v'(.2m - \\n[rsb]u)'\
+\D'l 0 -(\\n[rst]u - \\n[rsb]u + .4m)'\
+\D'l (\\n[@wd]u + .4m) 0'\
+\D'l 0 (\\n[rst]u - \\n[rsb]u + .4m)'\
+\D'l -(\\n[@wd]u + .4m) 0'\
+\h'.2m'\v'-(.2m - \\n[rsb]u)'\
+\\$1\
+\h'.2m'
+..
+</pre></div></div>
+
+<p>The argument is measured with the <code class="code">\w</code> escape sequence.  Its width
+is stored in register <code class="code">@wd</code>.  <code class="code">\w</code> also sets the registers
+<code class="code">rst</code> and <code class="code">rsb</code>; these contain its maximum vertical extents of
+the argument.  Then, four lines are drawn to form a box, offset by the
+box margin.
+</p>
+</dd>
+<dt id='index-polygon_002c-stroked_002c-drawing-_0028_005cD_0027p-_2026_0027_0029'><span><code class="code">\D'p <var class="var">h1</var> <var class="var">v1</var> &hellip; <var class="var">hn</var> <var class="var">vn</var>'</code><a class="copiable-link" href='#index-polygon_002c-stroked_002c-drawing-_0028_005cD_0027p-_2026_0027_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-drawing-a-stroked-polygon-_0028_005cD_0027p-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-stroked-polygon_002c-drawing-_0028_005cD_0027p-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-polygon_002c-outlined_002c-drawing-_0028_005cD_0027p-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-drawing-an-outlined-polygon-_0028_005cD_0027p-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-outlined-polygon_002c-drawing-_0028_005cD_0027p-_2026_0027_0029"></a>
+<p>Draw polygon with vertices at drawing position and each point in
+sequence.  GNU <code class="code">troff</code> closes the polygon by drawing a line from
+(<var class="var">hn</var>, <var class="var">vn</var>) back to the initial drawing position.
+Afterward, the drawing position is left at (<var class="var">hn</var>, <var class="var">vn</var>).
+</p>
+</dd>
+<dt id='index-polygon_002c-filled_002c-drawing-_0028_005cD_0027P-_2026_0027_0029'><span><code class="code">\D'P <var class="var">dx1</var> <var class="var">dy1</var> <var class="var">dx2</var> <var class="var">dy2</var> &hellip;'</code><a class="copiable-link" href='#index-polygon_002c-filled_002c-drawing-_0028_005cD_0027P-_2026_0027_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-drawing-a-filled-polygon-_0028_005cD_0027P-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-filled-polygon_002c-drawing-_0028_005cD_0027P-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-polygon_002c-solid_002c-drawing-_0028_005cD_0027P-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-drawing-a-solid-polygon-_0028_005cD_0027P-_2026_0027_0029"></a>
+<a class="index-entry-id" id="index-solid-polygon_002c-drawing-_0028_005cD_0027P-_2026_0027_0029"></a>
+<p>As &lsquo;<samp class="samp">\D'P <span class="r">&hellip;</span>'</samp>&rsquo;, but the polygon is filled.
+</p>
+<p>The following macro is like the &lsquo;<samp class="samp">\D'l'</samp>&rsquo; example, but shades the
+box.  We draw the box before writing the text because colors in GNU
+<code class="code">troff</code> have no transparency; in othe opposite order, the filled
+polygon would occlude the text.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de TEXTBOX
+.  nr @wd \w'\\$1'
+\h'.2m'\
+\h'-.2m'\v'(.2m - \\n[rsb]u)'\
+\M[lightcyan]\
+\D'P 0 -(\\n[rst]u - \\n[rsb]u + .4m) \
+     (\\n[@wd]u + .4m) 0 \
+     0 (\\n[rst]u - \\n[rsb]u + .4m) \
+     -(\\n[@wd]u + .4m) 0'\
+\h'.2m'\v'-(.2m - \\n[rsb]u)'\
+\M[]\
+\\$1\
+\h'.2m'
+..
+</pre></div></div>
+
+</dd>
+<dt id='index-line-thickness-_0028_005cD_0027t-_2026_0027_0029'><span><code class="code">\D't <var class="var">n</var>'</code><a class="copiable-link" href='#index-line-thickness-_0028_005cD_0027t-_2026_0027_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-thickness-of-lines-_0028_005cD_0027t-_2026_0027_0029"></a>
+<p>Set the stroke thickness of geometric objects to <var class="var">n</var> basic units.  A
+zero <var class="var">n</var> selects the minimal supported thickness.  A negative
+<var class="var">n</var> selects a thickness proportional to the type size; this is the
+default.
+</p></dd>
+</dl>
+</dd></dl>
+
+<p>In a hazy penumbra between text rendering and drawing commands we locate
+the bracket-building escape sequence, <code class="code">\b</code>.  It can assemble
+apparently large glyphs by vertically stacking ordinary ones.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cb_0027contents_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\b<code class="code">'</code></code><span class="r"><i class="slanted">contents</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cb_0027contents_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cb"></a>
+<a class="index-entry-id" id="index-pile_002c-glyph-_0028_005cb_0029"></a>
+<a class="index-entry-id" id="index-glyph-pile-_0028_005cb_0029"></a>
+<a class="index-entry-id" id="index-stacking-glyphs-_0028_005cb_0029"></a>
+<p>Pile and center a sequence of glyphs vertically on the output line.
+<em class="dfn">Piling</em> stacks glyphs corresponding to each character in
+<var class="var">contents</var>, read from left to right, and placed from top to bottom.
+GNU <code class="code">troff</code> separates the glyphs vertically by 1<span class="dmn">m</span>, and the
+pile itself is centered 0.5<span class="dmn">m</span> above the text baseline.  The
+horizontal drawing position is then advanced by the width of the widest
+glyph in the pile.
+</p>
+<a class="index-entry-id" id="index-_005cb_002c-limitations-of"></a>
+<a class="index-entry-id" id="index-limitations-of-_005cb-escape-sequence"></a>
+<p>This rather inflexible positioning algorithm doesn&rsquo;t work with the
+<code class="code">dvi</code> output device since its bracket pieces vary in height.
+Instead, use the <code class="code">geqn</code> preprocessor.
+</p>
+<p><a class="ref" href="Manipulating-Spacing.html">Manipulating Spacing</a> describes how to adjust the vertical spacing
+of the output line with the <code class="code">\x</code> escape sequence.
+</p>
+<p>The application of <code class="code">\b</code> that lends its name is construction of
+brackets, braces, and parentheses when typesetting mathematics.  We
+might construct a large opening (left) brace as follows.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">\b'\[lt]\[bv]\[lk]\[bv]\[lb]'
+</pre></div></div>
+
+<p>See <cite class="cite">groff_char<span class="r">(7)</span></cite> for a list of special character
+identifiers.
+</p></dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Traps.html">Traps</a>, Previous: <a href="Page-Motions.html">Page Motions</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

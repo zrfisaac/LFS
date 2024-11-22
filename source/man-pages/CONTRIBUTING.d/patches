@@ -1,0 +1,141 @@
+Name
+       Patches - instructions for contributing patches
+
+Description
+       If you know how to fix a problem in a manual page (if not, see
+       <CONTRIBUTING.d/bugs>), then send a patch in an email.
+
+       -  Configure git(1) for this project.  See <CONTRIBUTING.d/git>.
+
+       -  Follow the instructions for sending mail to the mailing list
+          from <CONTRIBUTING.d/mail>.  See also "Send the patches"
+          below.
+
+       -  The subject of the email should contain "[PATCH]" in the
+          subject line.  This prefix might include more information,
+          such as the version of the patch: "[PATCH v1]".
+
+       The above is the minimum needed so that someone might respond to
+       your patch.  If you did that and someone does not respond within
+       a few days, then ping the email thread, "replying to all".  Make
+       sure to send it to the maintainers in addition to the mailing
+       list.
+
+       To make your patch even more useful, please note the following
+       points:
+
+       -  Write a suitable subject line.  Make sure to mention the
+          name(s) of the page(s) being patched.  Example:
+
+             [PATCH v1] shmop.2: Add "(void *)" cast to RETURN VALUE
+
+       -  Sign your patch with "Signed-off-by:".  Read about the
+          "Developer's Certificate of Origin" at
+          <https://www.kernel.org/doc/Documentation/process/submitting-patches.rst>.
+          When appropriate, other tags documented in that file, such as
+          "Reported-by:", "Reviewed-by:", "Acked-by:", and
+          "Suggested-by:" can be added to the patch.  The man-pages
+          project also uses a "Cowritten-by:" tag with the obvious
+          meaning.  Example:
+
+              Signed-off-by: Alejandro Colomar <alx@kernel.org>
+
+       -  Describe how you obtained the information in your patch.  For
+          example, was it:
+
+          -  by reading (or writing) the relevant kernel or (g)libc
+             source code?  Please provide a pointer to the relevant
+             code.
+
+          -  from a commit message in the kernel or (g)libc source code
+             repository?  Please provide a commit ID.
+
+          -  by writing a test program?  Send it with the patch, but
+             please make sure it's as simple as possible, and provide
+             instructions on how to use it and/or a demo run.
+
+          -  from a standards document?  Please name the standard, and
+             quote the relevant text.
+
+          -  from other documentation?  Please provide a pointer to that
+             documentation.
+
+          -  from a mailing list or online forum?  Please provide a URL
+             if possible.
+
+       -  Send patches in diff -u format in an email patch.  You may
+          find it useful to employ git-format-patch(1) and
+          git-send-email(1).
+
+       -  Where relevant, include source code comments that cite commit
+          hashes for relevant kernel or glibc changes:
+
+              .\" linux.git commit <40-character-git-hash>
+
+       -  For trivial patches, you can use subject tags:
+
+          -  ffix: Formatting fix.
+          -  tfix: Typo fix.
+          -  wfix: Minor wording fix.
+          -  srcfix: Change to manual page source that doesn't affect
+             the output.
+
+          Example:
+
+              [PATCH v1] tcp.7: tfix
+
+       -  Send logically separate patches.  For unrelated pages, or for
+          logically-separate issues in the same page, send separate
+          emails.
+
+       -  Make patches against the latest version of the manual page.
+          Use git(1) for getting the latest version.
+
+   Prepare the patches for email submission
+       We recommend using git-format-patch(1) to prepare the patches.
+       Please use --range-diff to document the differences between
+       revisions of the patch set, even in the first revision.
+
+       To prepare a branch to be sent as a patch set (v1):
+
+           $ git format-patch -o ./patches master..HEAD \
+                   --range-diff=master -v1 --cover-letter;
+
+       The range diff will be included in the cover letter (or in a
+       single patch, if there is only one):
+
+           $ tail -n7 ./patches/v1-0000-cover-letter.patch;
+           Range-diff against v0:
+           -:  --------- > 1:  7ec952012 foo.3: tfix
+           -:  --------- > 2:  d80376b08 bar.3: ffix
+           -:  --------- > 3:  892a12470 foo.3: wfix
+           --
+           2.43.0
+
+       To send a v2 after some feedback:
+
+           $ git format-patch -o ./patches master..HEAD \
+                   --range-diff=old_master..old_HEAD -v2 --cover-letter;
+
+       The values for 'old_master' and 'old_HEAD' can be consulted in
+       the previous cover letter.  In this example, it would be
+       '--range-diff=7ec952012^..892a12470'.
+
+   Send the patches
+       We recommend using git-send-email(1) to send the patches to the
+       mailing list.  For instructions on how to configure and use it,
+       see <https://git-send-email.io/>.  See also <CONTRIBUTING.d/git>.
+
+   Sign the patches with PGP
+       See <CONTRIBUTING.d/mail> for more details on signing your mail
+       to the list.  See also <CONTRIBUTING.d/git> for instructions for
+       configuring git-send-email(1) to use neomutt(1) as a driver.
+
+See also
+       CONTRIBUTING
+       CONTRIBUTING.d/*
+
+       <https://www.kernel.org/doc/Documentation/process/submitting-patches.rst>
+       <https://inbox.sourceware.org/gcc/ZiV5unTogyI7rPJA@debian/>
+       <https://git-send-email.io/>
+       <https://neomutt.org/feature/cli-crypto>

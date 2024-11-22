@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Font Positions (The GNU Troff Manual)</title>
+
+<meta name="description" content="Font Positions (The GNU Troff Manual)">
+<meta name="keywords" content="Font Positions (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Using-Fonts.html" rel="up" title="Using Fonts">
+<link href="Using-Symbols.html" rel="next" title="Using Symbols">
+<link href="Font-Families.html" rel="prev" title="Font Families">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Font-Positions">
+<div class="nav-panel">
+<p>
+Next: <a href="Using-Symbols.html" accesskey="n" rel="next">Using Symbols</a>, Previous: <a href="Font-Families.html" accesskey="p" rel="prev">Font Families</a>, Up: <a href="Using-Fonts.html" accesskey="u" rel="up">Using Fonts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Font-Positions-1">5.19.3 Font Positions</h4>
+<a class="index-entry-id" id="index-font-positions"></a>
+<a class="index-entry-id" id="index-positions_002c-font"></a>
+
+<p>To support typeface indirection through abstract styles, and for
+compatibility with <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code>, the formatter maintains
+a list of font <em class="dfn">positions</em> at which fonts required by a document are
+<em class="dfn">mounted</em>.  An output device&rsquo;s description file <samp class="file">DESC</samp>
+typically configures a set of pre-mounted fonts; see <a class="ref" href="Device-and-Font-Description-Files.html">Device and Font Description Files</a>.  A font need not be explicitly mounted before
+it is selected; GNU <code class="code">troff</code> will search <code class="env">GROFF_FONT_PATH</code> for
+it by name and mount it at the first free mounting position on demand.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002efp"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.fp</code></strong> <var class="def-var-arguments">pos id [<span class="r"><i class="slanted">font-description-file-name</i></span>]</var><a class="copiable-link" href='#index-_002efp'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-fp"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ef_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.f]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ef_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ef"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002efp_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.fp]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002efp_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002efp-1"></a>
+<a class="index-entry-id" id="index-mounting-a-font-_0028fp_0029"></a>
+<a class="index-entry-id" id="index-font_002c-mounting-_0028fp_0029"></a>
+<p>Mount a font under the name <var class="var">id</var> at mounting position <var class="var">pos</var>, a
+non-negative integer.  When the formatter starts up, it reads the output
+device&rsquo;s description to mount an initial set of faces, and selects font
+position&nbsp;1.  Position&nbsp;0 is unused by default.  Unless the
+<var class="var">font-description-file-name</var> argument is given, <var class="var">id</var> should be
+the name of a font description file stored in a directory corresponding
+to the selected output device.  GNU <code class="code">troff</code> does not traverse
+directories to locate the font description file.
+</p>
+<a class="index-entry-id" id="index-font-aliasing-with-third-argument-to-fp-request"></a>
+<a class="index-entry-id" id="index-aliasing-fonts-with-third-argument-to-fp-request"></a>
+<p>The optional third argument enables font names to be aliased, which can
+be necessary in compatibility mode since AT&amp;T <code class="code">troff</code> syntax
+affords no means of identifying fonts with names longer than two
+characters, like &lsquo;<samp class="samp">TBI</samp>&rsquo; or &lsquo;<samp class="samp">ZCMI</samp>&rsquo;, in a font selection escape
+sequence.  See <a class="xref" href="Compatibility-Mode.html">Compatibility Mode</a>.  You can also alias fonts on
+mounting for convenience or abstraction.  (See below regarding the
+<code class="code">.fp</code> register.)
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.fp \n[.fp] SC ZCMI
+Send a \f(SChand-written\fP thank-you note.
+.fp \n[.fp] Emph TI
+.fp \n[.fp] Strong TB
+Are \f[Emph]these names\f[] \f[Strong]comfortable\f[]?
+</pre></div></div>
+
+<p>&lsquo;<samp class="samp">DESC</samp>&rsquo;, &lsquo;<samp class="samp">P</samp>&rsquo;, and non-negative integers are not usable as font
+identifiers.
+</p>
+<a class="index-entry-id" id="index-font-position-register-_0028_002ef_0029"></a>
+<p>The position of the currently selected font (or abstract style) is
+available in the read-only register &lsquo;<samp class="samp">.f</samp>&rsquo;.  It is associated with
+the environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p>
+<p>You can copy the value of <code class="code">.f</code> to another register to save it for
+later use.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr saved-font \n[.f]
+<span class="r">&hellip; <i class="i">text involving many font changes</i> &hellip;</span>
+.ft \n[saved-font]
+</pre></div></div>
+
+<a class="index-entry-id" id="index-next-free-font-position-register-_0028_002efp_0029"></a>
+<p>The index of the next (non-zero) free font position is available in the
+read-only register &lsquo;<samp class="samp">.fp</samp>&rsquo;.
+<a class="index-entry-id" id="index-DESC-file_002c-and-font-mounting"></a>
+Fonts not listed in the <samp class="file">DESC</samp> file are automatically mounted at
+position &lsquo;<samp class="samp">\n[.fp]</samp>&rsquo; when selected with the <code class="code">ft</code> request or
+<code class="code">\f</code> escape sequence.  When mounting a font at a position
+explicitly with the <code class="code">fp</code> request, this same practice should be
+followed, although GNU <code class="code">troff</code> does not enforce this strictly.
+</p></dd></dl>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Using-Symbols.html">Using Symbols</a>, Previous: <a href="Font-Families.html">Font Families</a>, Up: <a href="Using-Fonts.html">Using Fonts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

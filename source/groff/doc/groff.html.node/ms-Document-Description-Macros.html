@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>ms Document Description Macros (The GNU Troff Manual)</title>
+
+<meta name="description" content="ms Document Description Macros (The GNU Troff Manual)">
+<meta name="keywords" content="ms Document Description Macros (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms.html" rel="up" title="ms">
+<link href="ms-Body-Text.html" rel="next" title="ms Body Text">
+<link href="ms-Document-Control-Settings.html" rel="prev" title="ms Document Control Settings">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="ms-Document-Description-Macros">
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Body-Text.html" accesskey="n" rel="next">Body Text</a>, Previous: <a href="ms-Document-Control-Settings.html" accesskey="p" rel="prev">Document Control Settings</a>, Up: <a href="ms.html" accesskey="u" rel="up"><samp class="file">ms</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Document-Description-Macros">4.6.4 Document Description Macros</h4>
+<a class="index-entry-id" id="index-ms-macros_002c-document-description"></a>
+<a class="index-entry-id" id="index-document-description-macros_002c-_005bms_005d"></a>
+
+<p>Only the simplest document lacks a title.<a class="footnote" id="DOCF9" href="groff.html_fot.html#FOOT9"><sup>9</sup></a>  As its level of sophistication (or
+complexity) increases, it tends to acquire a date of revision,
+explicitly identified authors, sponsoring institutions for authors, and,
+at the rarefied heights, an abstract of its content.  Define these
+data by calling the macros below in the order shown; <code class="code">DA</code> or
+<code class="code">ND</code> can be called to set the document date (or other identifier)
+at any time before (a) the abstract, if present, or (b) its information
+is required in a header or footer.  Use of these macros is optional,
+except that <code class="code">TL</code> is mandatory if any of <code class="code">RP</code>, <code class="code">AU</code>,
+<code class="code">AI</code>, or <code class="code">AB</code> is called, and <code class="code">AE</code> is mandatory if
+<code class="code">AB</code> is called.
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eRP"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.RP</code></strong> <var class="def-var-arguments">[<code class="code">no-repeat-info</code>] [<code class="code">no-renumber</code>]</var><a class="copiable-link" href='#index-_002eRP'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-RP-_005bms_005d"></a>
+<p>Use the &ldquo;report&rdquo; (<abbr class="acronym">AT&amp;T</abbr>: &ldquo;released paper&rdquo;) format for your
+document, creating a separate cover page.  The default arrangement is to
+place most of the document description (title, author names and
+institutions, and abstract, but not the date) at the top of the first
+page.  If the optional <code class="code">no-repeat-info</code> argument is given,
+<samp class="file">ms</samp> produces a cover page but does not repeat any of its
+information subsequently (but see the <code class="code">DA</code> macro below regarding
+the date).  Normally, <code class="code">RP</code> sets the page number following the cover
+page to&nbsp;1.  Specifying the optional <code class="code">no-renumber</code> argument
+suppresses this alteration.  Optional arguments can occur in any order.
+<code class="code">no</code> is recognized as a synonym of <code class="code">no-repeat-info</code> for
+<code class="code">AT&amp;T</code> compatibility.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eTL"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.TL</code></strong><a class="copiable-link" href='#index-_002eTL'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-TL-_005bms_005d"></a>
+<p>Specify the document title.  <samp class="file">ms</samp> collects text on input lines
+following this call into the title until reaching <code class="code">AU</code>, <code class="code">AB</code>,
+or a heading or paragraphing macro call.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eAU"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.AU</code></strong><a class="copiable-link" href='#index-_002eAU'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-AU-_005bms_005d"></a>
+<p>Specify an author&rsquo;s name.  <samp class="file">ms</samp> collects text on input lines
+following this call into the author&rsquo;s name until reaching <code class="code">AI</code>,
+<code class="code">AB</code>, another <code class="code">AU</code>, or a heading or paragraphing macro call.
+Call it repeatedly to specify multiple authors.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eAI"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.AI</code></strong><a class="copiable-link" href='#index-_002eAI'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-AI-_005bms_005d"></a>
+<p>Specify the preceding author&rsquo;s institution.  An <code class="code">AU</code> call is
+usefully followed by at most one <code class="code">AI</code> call; if there are more, the
+last <code class="code">AI</code> call controls.  <samp class="file">ms</samp> collects text on input lines
+following this call into the author&rsquo;s institution until reaching
+<code class="code">AU</code>, <code class="code">AB</code>, or a heading or paragraphing macro call.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eDA"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.DA</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">x</i></span> &hellip;]</var><a class="copiable-link" href='#index-_002eDA'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-DA-_005bms_005d"></a>
+<p>Typeset the current date, or any arguments <var class="var">x</var>, in the center
+footer, and, if <code class="code">RP</code> is also called, left-aligned at the end of the
+description information on the cover page.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eND"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.ND</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">x</i></span> &hellip;]</var><a class="copiable-link" href='#index-_002eND'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ND-_005bms_005d"></a>
+<p>Typeset the current date, or any arguments <var class="var">x</var>, if <code class="code">RP</code> is also
+called, left-aligned at the end of the document description on the cover
+page.  This is <code class="code">groff</code> <samp class="file">ms</samp>&rsquo;s default.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eAB"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.AB</code></strong> <var class="def-var-arguments">[<code class="code">no</code>]</var><a class="copiable-link" href='#index-_002eAB'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-AB-_005bms_005d"></a>
+<p>Begin the abstract.  <samp class="file">ms</samp> collects text on input lines following
+this call into the abstract until reaching an <code class="code">AE</code> call.  By
+default, <samp class="file">ms</samp> places the word &ldquo;ABSTRACT&rdquo; centered and in italics
+above the text of the abstract.  The optional argument <code class="code">no</code>
+suppresses this heading.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eAE"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.AE</code></strong><a class="copiable-link" href='#index-_002eAE'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-AE-_005bms_005d"></a>
+<p>End the abstract.
+</p></dd></dl>
+
+<p>An example document description, using a cover page, follows.
+<a class="index-entry-id" id="index-cover-page-in-_005bms_005d_002c-example-markup"></a>
+<a class="index-entry-id" id="index-example-markup_002c-cover-page-in-_005bms_005d"></a>
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">.RP
+.TL
+The Inevitability of Code Bloat
+in Commercial and Free Software
+.AU
+J.\&amp; Random Luser
+.AI
+University of West Bumblefuzz
+.AB
+This report examines the long-term growth of the code
+bases in two large,
+popular software packages;
+the free Emacs and the commercial Microsoft Word.
+While differences appear in the type or order of
+features added,
+due to the different methodologies used,
+the results are the same in the end.
+.PP
+The free software approach is shown to be superior in
+that while free software can become as bloated as
+commercial offerings,
+free software tends to have fewer serious bugs and the
+added features are more in line with user demand.
+.AE
+
+<span class="r">&hellip;the rest of the paper&hellip;</span>
+</pre></div>
+</td></tr></table>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Body-Text.html">Body Text</a>, Previous: <a href="ms-Document-Control-Settings.html">Document Control Settings</a>, Up: <a href="ms.html"><samp class="file">ms</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

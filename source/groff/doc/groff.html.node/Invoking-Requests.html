@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Invoking Requests (The GNU Troff Manual)</title>
+
+<meta name="description" content="Invoking Requests (The GNU Troff Manual)">
+<meta name="keywords" content="Invoking Requests (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Formatter-Instructions.html" rel="up" title="Formatter Instructions">
+<link href="Calling-Macros.html" rel="next" title="Calling Macros">
+<link href="Control-Characters.html" rel="prev" title="Control Characters">
+<style type="text/css">
+<!--
+div.example {margin-left: 3.2em}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Invoking-Requests">
+<div class="nav-panel">
+<p>
+Next: <a href="Calling-Macros.html" accesskey="n" rel="next">Calling Macros</a>, Previous: <a href="Control-Characters.html" accesskey="p" rel="prev">Control Characters</a>, Up: <a href="Formatter-Instructions.html" accesskey="u" rel="up">Formatter Instructions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Invoking-Requests-1">5.6.2 Invoking Requests</h4>
+<a class="index-entry-id" id="index-invoking-requests"></a>
+<a class="index-entry-id" id="index-requests_002c-invoking"></a>
+
+<p>A control character is optionally followed by tabs and/or spaces and
+then an identifier naming a request or macro.  The invocation of an
+unrecognized request is interpreted as a macro call.  Defining a macro
+with the same name as a request replaces the request.  Deleting a
+request name with the <code class="code">rm</code> request makes it unavailable.  The
+<code class="code">als</code> request can alias requests, permitting them to be wrapped or
+non-destructively replaced.  See <a class="xref" href="Strings.html">Strings</a>.
+</p>
+<a class="index-entry-id" id="index-request-arguments"></a>
+<a class="index-entry-id" id="index-arguments-to-requests"></a>
+<a class="index-entry-id" id="index-tabs_002c-and-macro-arguments"></a>
+<a class="index-entry-id" id="index-macro-arguments_002c-and-tabs"></a>
+<a class="index-entry-id" id="index-arguments-to-macros_002c-and-tabs"></a>
+<a class="index-entry-id" id="index-tabs_002c-and-request-arguments"></a>
+<a class="index-entry-id" id="index-request-arguments_002c-and-tabs"></a>
+<a class="index-entry-id" id="index-arguments-to-requests_002c-and-tabs"></a>
+<p>There is no inherent limit on argument length or quantity.  Most
+requests take one or more arguments, and ignore any they do not expect.
+A request may be separated from its arguments by tabs or spaces, but
+only spaces can separate an argument from its successor.  Only one
+between arguments is necessary; any excess is ignored.  GNU <code class="code">troff</code>
+does not allow tabs for argument separation.<a class="footnote" id="DOCF43" href="groff.html_fot.html#FOOT43"><sup>43</sup></a>
+</p>
+<p>Generally, a space <em class="emph">within</em> a request argument is not relevant, not
+meaningful, or is supported by bespoke provisions, as with the <code class="code">tl</code>
+request&rsquo;s delimiters (see <a class="pxref" href="Page-Layout.html">Page Layout</a>).  Some requests, like
+<code class="code">ds</code>, interpret the remainder of the control line as a single
+argument.  See <a class="xref" href="Strings.html">Strings</a>.
+</p>
+<a class="index-entry-id" id="index-structuring-source-code-of-documents-or-macro-packages"></a>
+<a class="index-entry-id" id="index-documents_002c-structuring-the-source-of"></a>
+<a class="index-entry-id" id="index-macro-package_002c-structuring-the-source-of"></a>
+<a class="index-entry-id" id="index-package_002c-package_002c-structuring-the-source-of"></a>
+<a class="index-entry-id" id="index-indentation_002c-of-roff-source-code"></a>
+<p>Spaces and tabs immediately after a control character are ignored.
+Commonly, authors structure the source of documents or macro files with
+them.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de center
+.  if \\n[.br] \
+.    br
+.  ce \\$1
+..
+.
+.
+.de right-align
+.&rarr;if \\n[.br] \
+.&rarr;&rarr;br
+.&rarr;rj \\$1
+..
+</pre></div></div>
+
+<a class="index-entry-id" id="index-blank-line-trap-_0028blm_0029"></a>
+<a class="index-entry-id" id="index-blank-line-macro-_0028blm_0029-1"></a>
+<p>If you assign an empty blank line trap, you can separate macro
+definitions (or any input lines) with blank lines.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de do-nothing
+..
+.blm do-nothing  \&quot; activate blank line trap
+
+.de center
+.  if \\n[.br] \
+.    br
+.  ce \\$1
+..
+
+
+.de right-align
+.&rarr;if \\n[.br] \
+.&rarr;&rarr;br
+.&rarr;rj \\$1
+..
+
+.blm             \&quot; deactivate blank line trap
+</pre></div></div>
+
+<p>See <a class="xref" href="Blank-Line-Traps.html">Blank Line Traps</a>.
+</p>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Calling-Macros.html">Calling Macros</a>, Previous: <a href="Control-Characters.html">Control Characters</a>, Up: <a href="Formatter-Instructions.html">Formatter Instructions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

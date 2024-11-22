@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Character Translations (The GNU Troff Manual)</title>
+
+<meta name="description" content="Character Translations (The GNU Troff Manual)">
+<meta name="keywords" content="Character Translations (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="troff-and-nroff-Modes.html" rel="next" title="troff and nroff Modes">
+<link href="Tabs-and-Fields.html" rel="prev" title="Tabs and Fields">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+kbd.key {font-style: normal}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Character-Translations">
+<div class="nav-panel">
+<p>
+Next: <a href="troff-and-nroff-Modes.html" accesskey="n" rel="next"><code class="code">troff</code> and <code class="code">nroff</code> Modes</a>, Previous: <a href="Tabs-and-Fields.html" accesskey="p" rel="prev">Tabs and Fields</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Character-Translations-1">5.13 Character Translations</h3>
+<a class="index-entry-id" id="index-character-translations"></a>
+<a class="index-entry-id" id="index-translations-of-characters"></a>
+
+<p>A <em class="dfn">translation</em> is a mapping of an input character to an output
+glyph.  The mapping occurs at output time, i.e., the input character
+gets assigned the metric information of the mapped output character
+right before input tokens are converted to nodes (see <a class="pxref" href="Gtroff-Internals.html"><code class="code">gtroff</code> Internals</a>, for more on this process).
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002etr"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.tr</code></strong> <var class="def-var-arguments"><span class="r"><i class="slanted">a</i></span><span class="r"><i class="slanted">b</i></span><span class="r"><i class="slanted">c</i></span><span class="r"><i class="slanted">d</i></span>&hellip;</var><a class="copiable-link" href='#index-_002etr'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-tr"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002etrin"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.trin</code></strong> <var class="def-var-arguments"><span class="r"><i class="slanted">a</i></span><span class="r"><i class="slanted">b</i></span><span class="r"><i class="slanted">c</i></span><span class="r"><i class="slanted">d</i></span>&hellip;</var><a class="copiable-link" href='#index-_002etrin'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-trin"></a>
+<p>Translate character <var class="var">a</var> to glyph&nbsp;<var class="var">b</var>, character <var class="var">c</var> to
+glyph&nbsp;<var class="var">d</var>, and so on.  If there is an odd number of characters
+in the argument, the last one is translated to a fixed-width space (the
+same one obtained by the <code class="code">\<kbd class="key">SP</kbd></code> escape sequence).
+</p>
+<p>The <code class="code">trin</code> request is identical to <code class="code">tr</code>, but when you unformat
+a diversion with <code class="code">asciify</code> it ignores the translation.
+See <a class="xref" href="Diversions.html">Diversions</a>, for details about the <code class="code">asciify</code> request.
+</p>
+<p>Some notes:
+</p>
+<ul class="itemize mark-bullet">
+<li><a class="index-entry-id" id="index-_005c_0028_002c-and-translations"></a>
+<a class="index-entry-id" id="index-_005c_005b_002c-and-translations"></a>
+<a class="index-entry-id" id="index-_005c_0027_002c-and-translations"></a>
+<a class="index-entry-id" id="index-_005c_0060_002c-and-translations"></a>
+<a class="index-entry-id" id="index-_005c_002d_002c-and-translations"></a>
+<a class="index-entry-id" id="index-_005c_005f_002c-and-translations"></a>
+<a class="index-entry-id" id="index-_005cC_002c-and-translations"></a>
+<a class="index-entry-id" id="index-_005cN_002c-and-translations"></a>
+<a class="index-entry-id" id="index-char-request_002c-and-translations"></a>
+<a class="index-entry-id" id="index-special-characters-1"></a>
+<a class="index-entry-id" id="index-character_002c-special"></a>
+<a class="index-entry-id" id="index-numbered-glyph-_0028_005cN_0029"></a>
+<a class="index-entry-id" id="index-glyph_002c-numbered-_0028_005cN_0029"></a>
+Special characters (<code class="code">\(<var class="var">xx</var></code>, <code class="code">\[<var class="var">xxx</var>]</code>,
+<code class="code">\C'<var class="var">xxx</var>'</code>, <code class="code">\'</code>, <code class="code">\`</code>, <code class="code">\-</code>, <code class="code">\_</code>),
+glyphs defined with the <code class="code">char</code> request, and numbered glyphs
+(<code class="code">\N'<var class="var">xxx</var>'</code>) can be translated also.
+
+</li><li><a class="index-entry-id" id="index-_005ce_002c-and-translations"></a>
+The <code class="code">\e</code> escape can be translated also.
+
+</li><li><a class="index-entry-id" id="index-_005c_0025_002c-and-translations"></a>
+<a class="index-entry-id" id="index-_005c_007e_002c-and-translations"></a>
+Characters can be mapped onto the <code class="code">\%</code> and <code class="code">\~</code> escape
+sequences (but <code class="code">\%</code> and <code class="code">\~</code> can&rsquo;t be mapped onto another
+glyph).
+
+</li><li><a class="index-entry-id" id="index-backspace-character_002c-and-translations"></a>
+<a class="index-entry-id" id="index-character_002c-backspace_002c-and-translations"></a>
+<a class="index-entry-id" id="index-leader-character_002c-and-translations"></a>
+<a class="index-entry-id" id="index-character_002c-leader_002c-and-translations"></a>
+<a class="index-entry-id" id="index-newline-character_002c-and-translations"></a>
+<a class="index-entry-id" id="index-character_002c-newline_002c-and-translations"></a>
+<a class="index-entry-id" id="index-tab-character_002c-and-translations"></a>
+<a class="index-entry-id" id="index-character_002c-tab_002c-and-translations"></a>
+<a class="index-entry-id" id="index-_005ca_002c-and-translations"></a>
+<a class="index-entry-id" id="index-_005ct_002c-and-translations"></a>
+The following characters can&rsquo;t be translated: space (with one exception,
+see below), backspace, newline, leader (and <code class="code">\a</code>), tab (and
+<code class="code">\t</code>).
+
+</li><li><a class="index-entry-id" id="index-shc-request_002c-and-translations"></a>
+Translations are not considered for finding the soft hyphen character
+set with the <code class="code">shc</code> request.
+
+</li><li><a class="index-entry-id" id="index-_005c_0026_002c-and-translations"></a>
+The pair &lsquo;<samp class="samp"><var class="var">c</var>\&amp;</samp>&rsquo; (an arbitrary character&nbsp;<var class="var">c</var> followed
+by the dummy character) maps this character to &ldquo;nothing&rdquo;.
+
+<div class="example">
+<div class="group"><pre class="example-preformatted">.tr a\&amp;
+foo bar
+    &rArr; foo br
+</pre></div></div>
+
+<p>Even the space character can be mapped to the dummy character.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.tr aa \&amp;
+foo bar
+    &rArr; foobar
+</pre></div></div>
+
+<p>As shown in the example, the space character can&rsquo;t be the first
+character/glyph pair as an argument of <code class="code">tr</code>.  Additionally, it is
+not possible to map the space character to any other glyph; requests
+like &lsquo;<samp class="samp">.tr&nbsp;aa&nbsp;x</samp>&rsquo;<!-- /@w --> undo &lsquo;<samp class="samp">.tr&nbsp;aa&nbsp;\&amp;</samp>&rsquo;<!-- /@w --> instead.
+</p>
+<p>If justification is active, lines are justified in spite of the &lsquo;empty&rsquo;
+space character (but there is no minimal distance, i.e., the space
+character, between words).
+</p>
+</li><li>After an output glyph has been constructed (this happens at the moment
+immediately before the glyph is appended to an output glyph list, either
+by direct output, in a macro, diversion, or string), it is no longer
+affected by <code class="code">tr</code>.
+
+</li><li>Translating character to glyphs where one of them or both are undefined
+is possible also; <code class="code">tr</code> does not check whether the elements of its
+argument exist.
+
+<p>See <a class="xref" href="Gtroff-Internals.html"><code class="code">gtroff</code> Internals</a>.
+</p>
+</li><li>Without an argument, the <code class="code">tr</code> request is ignored.
+</li></ul>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002etrnt"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.trnt</code></strong> <var class="def-var-arguments"><span class="r"><i class="slanted">a</i></span><span class="r"><i class="slanted">b</i></span><span class="r"><i class="slanted">c</i></span><span class="r"><i class="slanted">d</i></span>&hellip;</var><a class="copiable-link" href='#index-_002etrnt'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-trnt"></a>
+<a class="index-entry-id" id="index-_005c_0021_002c-and-trnt"></a>
+<p><code class="code">trnt</code> is the same as the <code class="code">tr</code> request except that the
+translations do not apply to text that is transparently throughput into
+a diversion with <code class="code">\!</code>.  See <a class="xref" href="Diversions.html">Diversions</a>.
+</p>
+<p>For example,
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.tr ab
+.di x
+\!.tm a
+.di
+.x
+</pre></div></div>
+
+<p>prints &lsquo;<samp class="samp">b</samp>&rsquo; to the standard error stream; if <code class="code">trnt</code> is used
+instead of <code class="code">tr</code> it prints &lsquo;<samp class="samp">a</samp>&rsquo;.
+</p></dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="troff-and-nroff-Modes.html"><code class="code">troff</code> and <code class="code">nroff</code> Modes</a>, Previous: <a href="Tabs-and-Fields.html">Tabs and Fields</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

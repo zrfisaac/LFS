@@ -1,0 +1,27 @@
+    Copyright (C) 1989-2020 Free Software Foundation, Inc.
+
+    Copying and distribution of this file, with or without modification,
+    are permitted in any medium without royalty provided the copyright
+    notice and this notice are preserved.
+
+This is mm, a macro package for groff.
+
+It is supposed to be compatible with the Documenter's Workbench (DWB) mm
+macros, and has several extensions.
+
+Please submit bug reports using groff's 'BUG-REPORT' file to
+http://savannah.gnu.org/bugs/?group=groff.
+
+Any new ideas or improvements are welcome.
+
+This README should be bigger :-)
+
+/Jörgen Hägg
+
+Thanks to everyone who have sent me bug reports and fixes.
+
+
+##### Editor settings
+Local Variables:
+mode: text
+End:

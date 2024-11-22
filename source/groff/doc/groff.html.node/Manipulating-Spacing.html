@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Manipulating Spacing (The GNU Troff Manual)</title>
+
+<meta name="description" content="Manipulating Spacing (The GNU Troff Manual)">
+<meta name="keywords" content="Manipulating Spacing (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Tabs-and-Fields.html" rel="next" title="Tabs and Fields">
+<link href="Manipulating-Hyphenation.html" rel="prev" title="Manipulating Hyphenation">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Manipulating-Spacing">
+<div class="nav-panel">
+<p>
+Next: <a href="Tabs-and-Fields.html" accesskey="n" rel="next">Tabs and Fields</a>, Previous: <a href="Manipulating-Hyphenation.html" accesskey="p" rel="prev">Manipulating Hyphenation</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Manipulating-Spacing-1">5.11 Manipulating Spacing</h3>
+<a class="index-entry-id" id="index-manipulating-spacing"></a>
+<a class="index-entry-id" id="index-spacing_002c-manipulating"></a>
+
+<p>A break causes the formatter to update the vertical drawing position at
+which the new text baseline is aligned.  You can alter this location.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002esp"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.sp</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">distance</i></span>]</var><a class="copiable-link" href='#index-_002esp'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-sp"></a>
+<p>Break and move the next text baseline down by <var class="var">distance</var>, or until
+springing a page location trap.<a class="footnote" id="DOCF62" href="groff.html_fot.html#FOOT62"><sup>62</sup></a>
+If invoked with the no-break control character, <code class="code">sp</code> moves the
+pending output line&rsquo;s text baseline by <var class="var">distance</var>.  A negative
+<var class="var">distance</var> will not reduce the position of the text baseline below
+zero.  Inside a diversion, any <var class="var">distance</var> argument is ignored.  The
+default scaling unit is &lsquo;<samp class="samp">v</samp>&rsquo;.  If <var class="var">distance</var> is not specified,
+&lsquo;<samp class="samp">1v</samp>&rsquo; is assumed.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.pl 5v \&quot; Set page length to 5 vees.
+.de xx
+\-\-\-
+.  br
+..
+.wh 0 xx \&quot; Set a trap at the top of the page.
+foo on page \n%
+.sp 2v
+bar on page \n%
+.sp 50v \&quot; This will cause a page break.
+baz on page \n%
+.pl \n(nlu \&quot; Truncate page to current position.
+    &rArr; ---
+    &rArr; foo on page 1
+    &rArr;
+    &rArr;
+    &rArr; bar on page 1
+    &rArr; ---
+    &rArr; baz on page 2
+</pre></div></div>
+
+<p>You might use the following macros to set the baseline of the next
+output text at a given distance from the top or the bottom of the page.
+We subtract one line height (<code class="code">\n[.v]</code>) because the <code class="code">|</code>
+operator moves to one vee below the page top (recall <a class="ref" href="Numeric-Expressions.html">Numeric Expressions</a>).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de y-from-top-down
+.  sp |\\$1-\\n[.v]u
+..
+.
+.de y-from-bot-up
+.  sp |\\n[.p]u-\\$1-\\n[.v]u
+..
+</pre></div></div>
+
+<p>A call to &lsquo;<samp class="samp">.y-from-bot-up 10c</samp>&rsquo; means that the next text baseline
+will be 10&nbsp;cm from the bottom edge of the paper.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002els"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ls</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">count</i></span>]</var><a class="copiable-link" href='#index-_002els'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ls"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002eL_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.L]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002eL_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002eL"></a>
+<a class="index-entry-id" id="index-double_002dspacing-_0028ls_0029"></a>
+<p>Set the line spacing; add <var class="var">count</var>&minus;1<!-- /@w --> blank lines after each
+line of text.  With no argument, GNU <code class="code">troff</code> uses the previous
+value before the last <code class="code">ls</code> call.  The default is <code class="code">1</code>.
+</p>
+
+<a class="index-entry-id" id="index-line-spacing-register-_0028_002eL_0029"></a>
+<p>The read-only register <code class="code">.L</code> contains the current line spacing; it
+is associated with the environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p></dd></dl>
+
+<p>The <code class="code">ls</code> request is a coarse mechanism.  See <a class="xref" href="Changing-the-Type-Size.html">Changing the Type Size</a>, for the requests <code class="code">vs</code> and <code class="code">pvs</code> as alternatives to
+<code class="code">ls</code>.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cx_0027spacing_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\x<code class="code">'</code></code><span class="r"><i class="slanted">spacing</i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cx_0027spacing_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cx"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ea_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.a]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ea_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ea"></a>
+<p>Sometimes, an output line requires additional vertical spacing, for
+instance to allow room for a tall construct like an inline equation with
+exponents or subscripts (particularly if they are iterated).  The
+<code class="code">\x</code> escape sequence takes a delimited measurement (like
+&lsquo;<samp class="samp">\x'3p'</samp>&rsquo;) to increase the vertical spacing of the pending output
+line.  The default scaling unit is &lsquo;<samp class="samp">v</samp>&rsquo;.  If the measurement is
+positive, extra vertical space is inserted below the current line; a
+negative measurement adds space above.  If <code class="code">\x</code> is applied to the
+pending output line multiple times, the maxima of the positive and
+negative adjustments are separately applied.  The delimiter need not be
+a neutral apostrophe; see <a class="ref" href="Delimiters.html">Delimiters</a>.
+</p>
+<a class="index-entry-id" id="index-extra-post_002dvertical-line-space-register-_0028_002ea_0029"></a>
+<p>The <code class="code">.a</code> read-only register contains the extra vertical spacing
+<em class="emph">after</em> the text baseline of the most recently emitted output line.
+(In other words, it is the largest positive argument to <code class="code">\x</code>
+encountered on that line.)  This quantity is exposed via a register
+because if an output line requires this &ldquo;extra post-vertical line
+spacing&rdquo;, and the subsequent output line requires &ldquo;extra pre-vertical
+line spacing&rdquo; (a negative argument to <code class="code">\x</code>), then applying both
+can lead to excessive spacing between the output lines.  Text that is
+piling high on line <var class="var">n</var> might not require (as much) extra
+pre-vertical line spacing if line <var class="var">n</var>&minus;1 carries extra
+post-vertical line spacing.
+</p>
+<p>Use of <code class="code">\x</code> can be necessary in combination with the
+bracket-building escape sequence <code class="code">\b</code>,<a class="footnote" id="DOCF63" href="groff.html_fot.html#FOOT63"><sup>63</sup></a> as the following example shows.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nf
+This is a test of \[rs]b (1).
+This is a test of \[rs]b (2).
+This is a test of \b'xyz'\x'-1m'\x'1m' (3).
+This is a test of \[rs]b (4).
+This is a test of \[rs]b (5).
+    &rArr; This is a test of \b (1).
+    &rArr; This is a test of \b (2).
+    &rArr;                   x
+    &rArr; This is a test of y (3).
+    &rArr;                   z
+    &rArr; This is a test of \b (4).
+    &rArr; This is a test of \b (5).
+</pre></div></div>
+</dd></dl>
+
+<p>Without <code class="code">\x</code>, the backslashes on the lines marked &lsquo;<samp class="samp">(2)</samp>&rsquo; and
+&lsquo;<samp class="samp">(4)</samp>&rsquo; would be overprinted.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ens"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ns</code></strong><a class="copiable-link" href='#index-_002ens'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ns"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002ers"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.rs</code></strong><a class="copiable-link" href='#index-_002ers'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-rs"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ens_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.ns]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ens_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ens-1"></a>
+<a class="index-entry-id" id="index-sp-request_002c-and-no_002dspace-mode"></a>
+<a class="index-entry-id" id="index-no_002dspace-mode-_0028ns_0029"></a>
+<a class="index-entry-id" id="index-mode_002c-no_002dspace-_0028ns_0029"></a>
+<a class="index-entry-id" id="index-blank-lines_002c-disabling"></a>
+<a class="index-entry-id" id="index-lines_002c-blank_002c-disabling"></a>
+<p>Enable <em class="dfn">no-space mode</em>.  Vertical spacing, whether by <code class="code">sp</code>
+requests or blank input lines, is disabled.  The <code class="code">bp</code> request to
+advance to the next page is also disabled, unless it is accompanied by a
+page number (see <a class="pxref" href="Page-Control.html">Page Control</a>).  No-space mode ends automatically
+when text<a class="footnote" id="DOCF64" href="groff.html_fot.html#FOOT64"><sup>64</sup></a> is formatted for output <a class="footnote" id="DOCF65" href="groff.html_fot.html#FOOT65"><sup>65</sup></a> or the <code class="code">rs</code> request is invoked, which ends
+no-space mode.  The read-only register <code class="code">.ns</code> interpolates a Boolean
+value indicating the enablement of no-space mode.
+</p>
+<p>A paragraphing macro might ordinarily insert vertical space to separate
+paragraphs.  A section heading macro could invoke <code class="code">ns</code> to suppress
+this spacing for the first paragraph in a section.
+</p></dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Tabs-and-Fields.html">Tabs and Fields</a>, Previous: <a href="Manipulating-Hyphenation.html">Manipulating Hyphenation</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

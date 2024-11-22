@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Parameters (The GNU Troff Manual)</title>
+
+<meta name="description" content="Parameters (The GNU Troff Manual)">
+<meta name="keywords" content="Parameters (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Writing-Macros.html" rel="up" title="Writing Macros">
+<link href="Copy-Mode.html" rel="next" title="Copy Mode">
+<link href="Writing-Macros.html" rel="prev" title="Writing Macros">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Parameters">
+<div class="nav-panel">
+<p>
+Next: <a href="Copy-Mode.html" accesskey="n" rel="next">Copy Mode</a>, Previous: <a href="Writing-Macros.html" accesskey="p" rel="prev">Writing Macros</a>, Up: <a href="Writing-Macros.html" accesskey="u" rel="up">Writing Macros</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Parameters-1">5.24.1 Parameters</h4>
+<a class="index-entry-id" id="index-parameters"></a>
+
+<p>Macro calls and string interpolations optionally accept a list of
+arguments; recall <a class="ref" href="Calling-Macros.html">Calling Macros</a>.  At the time such an
+interpolation takes place, these <em class="dfn">parameters</em> can be examined using
+a register and a variety of escape sequences starting with &lsquo;<samp class="samp">\$</samp>&rsquo;.
+All such escape sequences are interpreted even in copy mode, a fact we
+shall motivate and explain below (see <a class="pxref" href="Copy-Mode.html">Copy Mode</a>).
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005b_002e_0024_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.$]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002e_0024_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002e_0024"></a>
+<a class="index-entry-id" id="index-parameter-count-register-_0028_002e_0024_0029"></a>
+<p>The count of parameters available to a macro or string is kept in this
+read-only register.  The <code class="code">shift</code> request can change its value.
+</p></dd></dl>
+
+<p>Any individual parameter can be accessed by its position in the list of
+arguments to the macro call, numbered from left to right starting at 1,
+with one of the following escape sequences.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_0024n"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\$</code><span class="r"><i class="slanted">n</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_0024n'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_0024"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_0024_0028nn"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\$(</code><span class="r"><i class="slanted">nn</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_0024_0028nn'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005c_0024_005bnnn_005d"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\$[</code><span class="r"><i class="slanted">nnn</i></span><code class="t">]</code></strong><a class="copiable-link" href='#index-_005c_0024_005bnnn_005d'> &para;</a></span></dt>
+<dd><p>Interpolate the <var class="var">n</var>th, <var class="var">nn</var>th, or <var class="var">nnn</var>th parameter.  The
+first form expects only a single digit (1&le;<var class="var">n</var>&le;9)), the
+second two digits (01&le;<var class="var">nn</var>&le;99)), and the third any
+positive integer <var class="var">nnn</var>.  Macros and strings accept an unlimited
+number of parameters.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eshift"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.shift</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">n</i></span>]</var><a class="copiable-link" href='#index-_002eshift'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-shift"></a>
+<p>Shift the parameters <var class="var">n</var> places (1&nbsp;by default).  This is a
+&ldquo;left shift&rdquo;: what was parameter&nbsp;<var class="var">i</var> becomes parameter
+<em class="math"><var class="var">i</var>-<var class="var">n</var></em>.  The parameters formerly in positions 1
+to&nbsp;<var class="var">n</var> are no longer available.  Shifting by a non-positive
+amount performs no operation.  The register <code class="code">.$</code> is adjusted
+accordingly.
+</p></dd></dl>
+
+<a class="index-entry-id" id="index-copy-mode_002c-and-macro-parameters"></a>
+<a class="index-entry-id" id="index-mode_002c-copy_002c-and-macro-parameters"></a>
+<a class="index-entry-id" id="index-macro_002c-parameters-_0028_005c_0024_0029"></a>
+<a class="index-entry-id" id="index-parameters_002c-macro-_0028_005c_0024_0029"></a>
+<p>In practice, parameter interpolations are usually seen prefixed with an
+extra escape character.  This is because the <code class="code">\$</code> family of escape
+sequences is interpreted even in copy mode.<a class="footnote" id="DOCF100" href="groff.html_fot.html#FOOT100"><sup>100</sup></a>
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_0024_002a-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\$*</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_0024_002a-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_0024_002a"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_0024_0040-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\$@</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_0024_0040-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_0024_0040"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_0024_005e-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\$^</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_0024_005e-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_0024_005e"></a>
+<p>In some cases it is convenient to interpolate all of the parameters at
+once (to pass them to a request, for instance).  The <code class="code">\$*</code> escape
+concatenates the parameters, separating them with spaces.  <code class="code">\$@</code>
+is similar, concatenating the parameters, surrounding each with double
+quotes and separating them with spaces.  If not in compatibility mode,
+the interpolation depth of double quotes is preserved (see <a class="pxref" href="Calling-Macros.html">Calling Macros</a>).  <code class="code">\$^</code> interpolates all parameters as if they were
+arguments to the <code class="code">ds</code> request.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de foo
+. tm $1='\\$1'
+. tm $2='\\$2'
+. tm $*='\\$*'
+. tm $@='\\$@'
+. tm $^='\\$^'
+..
+.foo &quot; This is a &quot;test&quot;
+    error&rarr; $1=' This is a '
+    error&rarr; $2='test&quot;'
+    error&rarr; $*=' This is a  test&quot;'
+    error&rarr; $@='&quot; This is a &quot; &quot;test&quot;&quot;'
+    error&rarr; $^='&quot; This is a &quot;test&quot;'
+</pre></div></div>
+
+<p><code class="code">\$*</code> is useful when writing a macro that doesn&rsquo;t need to
+distinguish its arguments, or even to not interpret them; examples
+include macros that produce diagnostic messages by wrapping the
+<code class="code">tm</code> or <code class="code">ab</code> requests.  Use <code class="code">\$@</code> when writing a macro
+that may need to shift its parameters and/or wrap a macro or request
+that finds the count significant.  If in doubt, prefer <code class="code">\$@</code> to
+<code class="code">\$*</code>.  An application of <code class="code">\$^</code> is seen in <samp class="file">trace.tmac</samp>,
+which redefines some requests and macros for debugging purposes.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_00240-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\$0</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_00240-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_00240"></a>
+<a class="index-entry-id" id="index-macro-name-register-_0028_005c_00240_0029"></a>
+<a class="index-entry-id" id="index-als-request_002c-and-_005c_00240"></a>
+<p>Interpolate the name by which the macro being interpreted was called.
+The <code class="code">als</code> request can cause a macro to have more than one name.
+Applying string interpolation to a macro does not change this name.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de foo
+.  tm \\$0
+..
+.als bar foo
+.
+.de aaa
+.  foo
+..
+.de bbb
+.  bar
+..
+.de ccc
+\\*[foo]\\
+..
+.de ddd
+\\*[bar]\\
+..
+.
+.aaa
+    error&rarr; foo
+.bbb
+    error&rarr; bar
+.ccc
+    error&rarr; ccc
+.ddd
+    error&rarr; ddd
+</pre></div></div>
+</dd></dl>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Copy-Mode.html">Copy Mode</a>, Previous: <a href="Writing-Macros.html">Writing Macros</a>, Up: <a href="Writing-Macros.html">Writing Macros</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

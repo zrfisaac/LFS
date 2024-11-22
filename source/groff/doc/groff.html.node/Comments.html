@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Comments (The GNU Troff Manual)</title>
+
+<meta name="description" content="Comments (The GNU Troff Manual)">
+<meta name="keywords" content="Comments (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Registers.html" rel="next" title="Registers">
+<link href="Formatter-Instructions.html" rel="prev" title="Formatter Instructions">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Comments">
+<div class="nav-panel">
+<p>
+Next: <a href="Registers.html" accesskey="n" rel="next">Registers</a>, Previous: <a href="Formatter-Instructions.html" accesskey="p" rel="prev">Formatter Instructions</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Comments-1">5.7 Comments</h3>
+<a class="index-entry-id" id="index-comments"></a>
+
+<p>One of the most common forms of escape sequence is the
+comment.<a class="footnote" id="DOCF48" href="groff.html_fot.html#FOOT48"><sup>48</sup></a>
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_0022-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\&quot;</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_0022-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_0022"></a>
+<p>Start a comment.  Everything up to the next newline is ignored.
+</p>
+<p>This may sound simple, but it can be tricky to keep the comments from
+interfering with the appearance of the output.
+<a class="index-entry-id" id="index-ds_002c-ds1-requests_002c-and-comments"></a>
+<a class="index-entry-id" id="index-as_002c-as1-requests_002c-and-comments"></a>
+If the escape sequence is to the right of some text or a request, that
+portion of the line is ignored, but spaces preceding it are processed
+normally by GNU <code class="code">troff</code>.  This affects only the <code class="code">ds</code> and
+<code class="code">as</code> requests and their variants.
+</p>
+<a class="index-entry-id" id="index-tabs_002c-before-comments"></a>
+<a class="index-entry-id" id="index-comments_002c-lining-up-with-tabs"></a>
+<p>One possibly irritating idiosyncrasy is that tabs should not be used to
+vertically align comments in the source document.  Tab characters are
+not treated as separators between a request name and its first argument,
+nor between arguments.
+</p>
+<a class="index-entry-id" id="index-undefined-request"></a>
+<a class="index-entry-id" id="index-request_002c-undefined"></a>
+<p>A comment on a line by itself is treated as a blank line, because after
+eliminating the comment, that is all that remains.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">Test
+\&quot; comment
+Test
+    &rArr; Test
+    &rArr;
+    &rArr; Test
+</pre></div></div>
+
+<p>To avoid this, it is common to combine the empty request with the
+comment escape sequence as &lsquo;<samp class="samp">.\&quot;</samp>&rsquo;, causing the input line to be
+ignored.
+</p>
+<a class="index-entry-id" id="index-_0027_002c-as-a-comment"></a>
+<p>Another commenting scheme sometimes seen is three consecutive single
+quotes (<code class="code">'''</code>) at the beginning of a line.  This works, but GNU
+<code class="code">troff</code> emits a warning diagnostic (if enabled) about an undefined
+macro (namely &lsquo;<samp class="samp">''</samp>&rsquo;).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_0023-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\#</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_0023-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_0023"></a>
+<p>Start a comment; everything up to and including the next newline is
+ignored.  This <code class="code">groff</code> extension was introduced to avoid the
+problems described above.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">Test
+\# comment
+Test
+    &rArr; Test Test
+</pre></div></div>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eig"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ig</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">end</i></span>]</var><a class="copiable-link" href='#index-_002eig'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ig"></a>
+<p>Ignore input until, in the current conditional block (if
+any),<a class="footnote" id="DOCF49" href="groff.html_fot.html#FOOT49"><sup>49</sup></a> the macro <var class="var">end</var> is called
+at the start of a control line, or the control line &lsquo;<samp class="samp">..</samp>&rsquo; is
+encountered if <var class="var">end</var> is not specified.  <code class="code">ig</code> is parsed as if it
+were a macro definition, but its contents are discarded, not
+stored.<a class="footnote" id="DOCF50" href="groff.html_fot.html#FOOT50"><sup>50</sup></a>
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">hand\c
+.de TX
+fasting
+..
+.ig TX
+This is part of a large block of input that has been
+temporarily(?) commented out.
+We can restore it simply by removing the .ig request and
+the call of its end macro.
+.TX
+</pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted">    &rArr; handfasting
+</pre></div></div>
+</dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Registers.html">Registers</a>, Previous: <a href="Formatter-Instructions.html">Formatter Instructions</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

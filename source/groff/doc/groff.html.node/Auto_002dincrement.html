@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Auto-increment (The GNU Troff Manual)</title>
+
+<meta name="description" content="Auto-increment (The GNU Troff Manual)">
+<meta name="keywords" content="Auto-increment (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Registers.html" rel="up" title="Registers">
+<link href="Assigning-Register-Formats.html" rel="next" title="Assigning Register Formats">
+<link href="Interpolating-Registers.html" rel="prev" title="Interpolating Registers">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Auto_002dincrement">
+<div class="nav-panel">
+<p>
+Next: <a href="Assigning-Register-Formats.html" accesskey="n" rel="next">Assigning Register Formats</a>, Previous: <a href="Interpolating-Registers.html" accesskey="p" rel="prev">Interpolating Registers</a>, Up: <a href="Registers.html" accesskey="u" rel="up">Registers</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Auto_002dincrement-1">5.8.3 Auto-increment</h4>
+<a class="index-entry-id" id="index-auto_002dincrementation-of-a-register"></a>
+<a class="index-entry-id" id="index-incrementation_002c-automatic_002c-of-a-register"></a>
+<a class="index-entry-id" id="index-decrementation_002c-automatic_002c-of-a-register"></a>
+
+<p>Registers can also be incremented or decremented by a configured amount
+at the time they are interpolated.  The value of the increment is
+specified with a third argument to the <code class="code">nr</code> request, and a special
+interpolation syntax is used to alter and then retrieve the register&rsquo;s
+value.  Together, these features are called
+<em class="dfn">auto-increment</em>.<a class="footnote" id="DOCF51" href="groff.html_fot.html#FOOT51"><sup>51</sup></a>
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002enr-4"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.nr</code></strong> <var class="def-var-arguments">ident value incr</var><a class="copiable-link" href='#index-_002enr-4'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-nr-3"></a>
+<a class="index-entry-id" id="index-_005cR_002c-difference-from-nr"></a>
+<p>Set register <var class="var">ident</var> to <var class="var">value</var> and its auto-incrementation
+amount to to <var class="var">incr</var>.  The <code class="code">\R</code> escape sequence doesn&rsquo;t support
+an <var class="var">incr</var> argument.
+</p></dd></dl>
+
+<p>Auto-incrementation is not <em class="emph">completely</em> automatic; the <code class="code">\n</code>
+escape sequence in its basic form never alters the value of a register.
+To apply auto-incrementation to a register, interpolate it with
+&lsquo;<samp class="samp">\n±</samp>&rsquo;.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_002bi"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\n+</code><span class="r"><i class="slanted">i</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cn_002bi'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cn-1"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_002di"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\n-</code><span class="r"><i class="slanted">i</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cn_002di'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_002b_0028id"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\n+(</code><span class="r"><i class="slanted">id</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cn_002b_0028id'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_002d_0028id"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\n-(</code><span class="r"><i class="slanted">id</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cn_002d_0028id'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_002b_005bident_005d"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\n+[</code><span class="r"><i class="slanted">ident</i></span><code class="t">]</code></strong><a class="copiable-link" href='#index-_005cn_002b_005bident_005d'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cn_002d_005bident_005d"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\n-[</code><span class="r"><i class="slanted">ident</i></span><code class="t">]</code></strong><a class="copiable-link" href='#index-_005cn_002d_005bident_005d'> &para;</a></span></dt>
+<dd><p>Increment or decrement <var class="var">ident</var> (one-character
+name&nbsp;<var class="var">i</var>, two-character name <var class="var">id</var>) by the register&rsquo;s
+auto-incrementation value and then interpolate the new register value.
+If <var class="var">ident</var> has no auto-incrementation value, interpolate as with
+<code class="code">\n</code>.
+</p></dd></dl>
+
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr a 0 1
+.nr xx 0 5
+.nr foo 0 -2
+\n+a, \n+a, \n+a, \n+a, \n+a
+.br
+\n-(xx, \n-(xx, \n-(xx, \n-(xx, \n-(xx
+.br
+\n+[foo], \n+[foo], \n+[foo], \n+[foo], \n+[foo]
+    &rArr; 1, 2, 3, 4, 5
+    &rArr; -5, -10, -15, -20, -25
+    &rArr; -2, -4, -6, -8, -10
+</pre></div></div>
+
+<a class="index-entry-id" id="index-increment-value-without-changing-the-register"></a>
+<a class="index-entry-id" id="index-value_002c-incrementing-without-changing-the-register"></a>
+<p>To change the increment value without changing the value of a register,
+assign the register&rsquo;s value to itself by interpolating it, and specify
+the desired increment normally.  Apply an increment of &lsquo;<samp class="samp">0</samp>&rsquo; to
+disable auto-incrementation of the register.
+</p>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Assigning-Register-Formats.html">Assigning Register Formats</a>, Previous: <a href="Interpolating-Registers.html">Interpolating Registers</a>, Up: <a href="Registers.html">Registers</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

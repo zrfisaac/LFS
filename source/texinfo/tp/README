@@ -1,0 +1,66 @@
+texinfo/tp/README
+
+  Copyright 2011-2023 Free Software Foundation, Inc.
+
+  Copying and distribution of this file, with or without modification,
+  are permitted in any medium without royalty provided the copyright
+  notice and this notice are preserved.
+
+texi2any is a Perl program for converting Texinfo input to to divers
+output formats.  Texinfo::Parser (hence the directory name tp) is a Perl
+module for parsing Texinfo code into a tree representing the Texinfo
+code structure.
+
+These other modules and libraries are required (all have been standard
+parts of Perl for years, at least since 5.7.3):
+  Carp, Config, Data::Dumper, Encode, File::Basename, File::Spec
+  Getopt::Long, Unicode::Normalize, Storable
+
+Unicode::Collate (also a standard module since 5.7.3) is required for
+correct index sorting.
+
+texi2any also uses the less widely-available modules:
+  Locale::Messages, Unicode::EastAsianWidth, Text::Unidecode
+For these, internal versions are included, and are installed and used as
+part of Texinfo (not disturbing the Perl installation at all) (although
+see the output of 'configure --help' for how to use externally installed
+modules).
+
+
+Archive::Zip is needed for the EPUB output format final file creation.
+It is not included in Texinfo; it is detected at runtime and an error is
+issued if it cannot be loaded.
+
+
+To run the tests you also need:
+  Test::More, Data::Compare, Test::Deep
+On Debian-based distros, Test::More is part of perl-modules and thus 
+installed with perl, the packages corresponding to the other modules
+are named:
+  libdata-compare-perl libtest-deep-perl
+
+The tests are in the subdirectories t/ and test/.  The tests in t/ test 
+the Perl modules used by the makeinfo command, and the tests in test/ 
+test the command itself.
+
+
+If you want to delve into making a new backend, the documentation in
+tp/Texinfo/Convert/Converter.pm is a good starting point, as it
+describes the existing backends and other places to look.  To do a good
+job, expect to spend a lot of time making it do the right thing with the
+existing tests.
+
+The Texinfo parser builds a complicated parse tree.  It can output a lot of
+debug information about the tree, and what it's doing generally.  For example,
+these commands output the tree (in different forms):
+  makeinfo -c DUMP_TREE=1 -c TEXINFO_OUTPUT_FORMAT=parse document.texi
+  makeinfo -c TEXINFO_OUTPUT_FORMAT=debugtree document.texi
+In addition (or instead) setting the DEBUG configuration variable will
+dump more information about what it's doing.
+
+
+Sometime the messages on syntax errors can be incomplete because of the
+system used to set the paths.  It is possible in that case to use something
+along the following line to test the validity of one source file:
+
+perl -c -I '.' -I './maintain/lib/libintl-perl/lib/' -I './maintain/lib/Unicode-EastAsianWidth/lib/' -I './maintain/lib/Text-Unidecode/lib' Texinfo/Convert/HTML.pm

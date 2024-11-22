@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>ms Insertions (The GNU Troff Manual)</title>
+
+<meta name="description" content="ms Insertions (The GNU Troff Manual)">
+<meta name="keywords" content="ms Insertions (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms-Body-Text.html" rel="up" title="ms Body Text">
+<link href="ms-Footnotes.html" rel="next" title="ms Footnotes">
+<link href="ms-keeps-and-displays.html" rel="prev" title="ms keeps and displays">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="ms-Insertions">
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Footnotes.html" accesskey="n" rel="next">Footnotes</a>, Previous: <a href="ms-keeps-and-displays.html" accesskey="p" rel="prev">Keeps, boxed keeps, and displays</a>, Up: <a href="ms-Body-Text.html" accesskey="u" rel="up">Body Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Tables_002c-figures_002c-equations_002c-and-references">4.6.5.9 Tables, figures, equations, and references</h4>
+<a class="index-entry-id" id="index-ms-macros_002c-tables"></a>
+<a class="index-entry-id" id="index-ms-macros_002c-figures"></a>
+<a class="index-entry-id" id="index-ms-macros_002c-equations"></a>
+<a class="index-entry-id" id="index-ms-macros_002c-references"></a>
+<a class="index-entry-id" id="index-tables-_005bms_005d"></a>
+<a class="index-entry-id" id="index-figures-_005bms_005d"></a>
+<a class="index-entry-id" id="index-equations-_005bms_005d"></a>
+<a class="index-entry-id" id="index-references-_005bms_005d"></a>
+
+<p>The <samp class="file">ms</samp> package is often used with the <code class="code">tbl</code>, <code class="code">pic</code>,
+<code class="code">eqn</code>, and <code class="code">refer</code> preprocessors.
+<a class="index-entry-id" id="index-tbl"></a>
+<a class="index-entry-id" id="index-pic"></a>
+<a class="index-entry-id" id="index-eqn"></a>
+<a class="index-entry-id" id="index-refer"></a>
+Mark text meant for preprocessors by enclosing it in pairs of tokens
+as follows, with nothing between the dot and the macro name.  The
+preprocessors match these tokens only at the start of an input line.
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eTS"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.TS</code></strong> <var class="def-var-arguments">[<code class="code">H</code>]</var><a class="copiable-link" href='#index-_002eTS'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-TS-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002eTE"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.TE</code></strong><a class="copiable-link" href='#index-_002eTE'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-TE-_005bms_005d"></a>
+<p>Demarcate a table to be processed by the <code class="code">tbl</code> preprocessor.  The
+optional argument&nbsp;<code class="code">H</code> to <code class="code">TS</code> instructs <samp class="file">ms</samp> to
+repeat table rows (often column headings) at the top of each new page
+the table spans, if applicable; calling the <code class="code">TH</code> macro marks the
+end of such rows.  The GNU <cite class="cite">tbl<span class="r">(1)</span></cite> man page provides a
+comprehensive reference to the preprocessor and offers examples of its
+use.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002ePS"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.PS</code></strong><a class="copiable-link" href='#index-_002ePS'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PS-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002ePE"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.PE</code></strong><a class="copiable-link" href='#index-_002ePE'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PE-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002ePF"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.PF</code></strong><a class="copiable-link" href='#index-_002ePF'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PF-_005bms_005d"></a>
+<p><code class="code">PS</code> begins a picture to be processed by the <code class="command">gpic</code>
+preprocessor; either of <code class="code">PE</code> or <code class="code">PF</code> ends it, the latter with
+&ldquo;flyback&rdquo; to the vertical position at its top.  You can create
+<code class="code">pic</code> input manually or with a program such as <code class="code">xfig</code>.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eEQ"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.EQ</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">align</i></span> [<span class="r"><i class="slanted">label</i></span>]]</var><a class="copiable-link" href='#index-_002eEQ'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-EQ-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002eEN"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.EN</code></strong><a class="copiable-link" href='#index-_002eEN'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-EN-_005bms_005d"></a>
+<p>Demarcate an equation to be processed by the <code class="code">eqn</code> preprocessor.
+The equation is centered by default; <var class="var">align</var> can be &lsquo;<samp class="samp">C</samp>&rsquo;,
+&lsquo;<samp class="samp">L</samp>&rsquo;, or &lsquo;<samp class="samp">I</samp>&rsquo; to (explicitly) center, left-align, or indent it
+by the amount stored in the <code class="code">DI</code> register, respectively.  If
+specified, <var class="var">label</var> is set right-aligned.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002e_005b"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.[</code></strong><a class="copiable-link" href='#index-_002e_005b'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005b-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002e_005d"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.]</code></strong><a class="copiable-link" href='#index-_002e_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005d-_005bms_005d"></a>
+<p>Demarcate a bibliographic citation to be processed by the <code class="code">refer</code>
+preprocessor.  The GNU <cite class="cite">refer<span class="r">(1)</span></cite> man page provides a
+comprehensive reference to the preprocessor and the format of its
+bibliographic database.  Type &lsquo;<samp class="samp">man refer</samp>&rsquo; at the command line to
+view it.
+</p></dd></dl>
+
+<p>When <code class="code">refer</code> emits collected references (as might be done on a
+&ldquo;Works Cited&rdquo; page), it interpolates the <code class="code">REFERENCES</code> string as
+an unnumbered heading (<code class="code">SH</code>).
+</p>
+<a class="index-entry-id" id="index-table_002c-multi_002dpage_002c-example-_005bms_005d"></a>
+<a class="index-entry-id" id="index-multi_002dpage-table-example-_005bms_005d"></a>
+<p>The following is an example of how to set up a table that may print
+across two or more pages.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">.TS H
+allbox;
+Cb | Cb .
+Part&rarr;Description
+_
+.TH
+.T&amp;
+GH-1978&rarr;Fribulating gonkulator
+<span class="r">&hellip;the rest of the table follows&hellip;</span>
+.TE
+</pre></div>
+</td></tr></table>
+
+<p>Attempting to place a multi-page table inside a keep can lead to
+unpleasant results, particularly if the <code class="code">tbl</code> <code class="code">allbox</code> option
+is used.
+</p>
+<a class="index-entry-id" id="index-equation-example-_005bms_005d"></a>
+<p>Mathematics can be typeset using the language of the <code class="code">eqn</code>
+preprocessor.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">.EQ C (\*[SN-NO-DOT]a)
+p ~ = ~ q sqrt { ( 1 + ~ ( x / q sup 2 ) }
+.EN
+</pre></div>
+</td></tr></table>
+
+<p>This input formats a labelled equation.  We used the <code class="code">SN-NO-DOT</code>
+string to base the equation label on the current heading number, giving
+us more flexibility to reorganize the document.
+</p>
+<p>Use <code class="command">groff</code> options to run preprocessors on the input:
+<samp class="option">-e</samp> for <code class="command">geqn</code>, <samp class="option">-p</samp> for <code class="command">gpic</code>,
+<samp class="option">-R</samp> for <code class="command">grefer</code>, and <samp class="option">-t</samp> for <code class="command">gtbl</code>.
+</p>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="ms-Footnotes.html">Footnotes</a>, Previous: <a href="ms-keeps-and-displays.html">Keeps, boxed keeps, and displays</a>, Up: <a href="ms-Body-Text.html">Body Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

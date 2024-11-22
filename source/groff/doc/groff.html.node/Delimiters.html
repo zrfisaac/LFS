@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Delimiters (The GNU Troff Manual)</title>
+
+<meta name="description" content="Delimiters (The GNU Troff Manual)">
+<meta name="keywords" content="Delimiters (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Formatter-Instructions.html" rel="up" title="Formatter Instructions">
+<link href="Using-Escape-Sequences.html" rel="prev" title="Using Escape Sequences">
+<style type="text/css">
+<!--
+div.example {margin-left: 3.2em}
+kbd.key {font-style: normal}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Delimiters">
+<div class="nav-panel">
+<p>
+Previous: <a href="Using-Escape-Sequences.html" accesskey="p" rel="prev">Using Escape Sequences</a>, Up: <a href="Formatter-Instructions.html" accesskey="u" rel="up">Formatter Instructions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Delimiters-1">5.6.5 Delimiters</h4>
+<a class="index-entry-id" id="index-delimiting-escape-sequence-arguments"></a>
+<a class="index-entry-id" id="index-escape-sequence-argument-delimiters"></a>
+<a class="index-entry-id" id="index-delimiters_002c-for-escape-sequence-arguments"></a>
+<a class="index-entry-id" id="index-arguments_002c-to-escape-sequences_002c-delimiting"></a>
+
+<a class="index-entry-id" id="index-_0027_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_0022_002c-as-delimiter"></a>
+<p>Some escape sequences that require parameters use delimiters.  The
+neutral apostrophe <code class="code">'</code> is a popular choice and shown in this
+document.  The neutral double quote <code class="code">&quot;</code> is also commonly seen.
+Letters, numerals, and leaders can be used.  Punctuation characters
+are likely better choices, except for those defined as infix operators
+in numeric expressions; see below.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">\l'1.5i\[bu]' \&quot; draw 1.5 inches of bullet glyphs
+</pre></div></div>
+
+<a class="index-entry-id" id="index-_005c_0025_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005cSP_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_007c_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_005e_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_007b_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_007d_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_0027_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_0060_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_002d_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_005f_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_0021_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_003f_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_0029_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_002f_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_002c_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_0026_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_003a_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c_007e_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005c0_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005ca_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005cc_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005cd_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005ce_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005cE_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005cp_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005cr_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005ct_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_005cu_002c-as-delimiter"></a>
+<p>The following escape sequences don&rsquo;t take arguments and thus are allowed
+as delimiters:
+<code class="code">\<kbd class="key">SP</kbd></code>, <code class="code">\%</code>, <code class="code">\|</code>, <code class="code">\^</code>, <code class="code">\{</code>,
+<code class="code">\}</code>, <code class="code">\'</code>, <code class="code">\`</code>, <code class="code">\-</code>, <code class="code">\_</code>, <code class="code">\!</code>,
+<code class="code">\?</code>, <code class="code">\)</code>, <code class="code">\/</code>, <code class="code">\,</code>, <code class="code">\&amp;</code>, <code class="code">\:</code>,
+<code class="code">\~</code>, <code class="code">\0</code>, <code class="code">\a</code>, <code class="code">\c</code>, <code class="code">\d</code>, <code class="code">\e</code>,
+<code class="code">\E</code>, <code class="code">\p</code>, <code class="code">\r</code>, <code class="code">\t</code>, and <code class="code">\u</code>.  However,
+using them this way is discouraged; they can make the input confusing to
+read.
+</p>
+<a class="index-entry-id" id="index-_005cA_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cb_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005co_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cw_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cX_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cZ_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-newline_002c-as-delimiter"></a>
+<p>A few escape sequences,
+<code class="code">\A</code>,
+<code class="code">\b</code>,
+<code class="code">\o</code>,
+<code class="code">\w</code>,
+<code class="code">\X</code>,
+and <code class="code">\Z</code>, accept a newline as a delimiter.  Newlines that serve
+as delimiters continue to be recognized as input line terminators.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">A caf\o
+e\(aa
+in Paris
+    &rArr; A café in Paris
+</pre></div></div>
+
+<p>Use of newlines as delimiters in escape sequences is also discouraged.
+</p>
+<a class="index-entry-id" id="index-_005cD_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005ch_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cH_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cl_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cL_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cN_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cR_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cs_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cS_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cv_002c-delimiters-allowed-by"></a>
+<a class="index-entry-id" id="index-_005cx_002c-delimiters-allowed-by"></a>
+<p>Finally, the escape sequences <code class="code">\D</code>, <code class="code">\h</code>, <code class="code">\H</code>,
+<code class="code">\l</code>, <code class="code">\L</code>, <code class="code">\N</code>, <code class="code">\R</code>, <code class="code">\s</code>, <code class="code">\S</code>,
+<code class="code">\v</code>, and <code class="code">\x</code> prohibit many delimiters.
+</p>
+<ul class="itemize mark-bullet">
+<li><a class="index-entry-id" id="index-numerals_002c-as-delimiters"></a>
+<a class="index-entry-id" id="index-digits_002c-as-delimiters"></a>
+<a class="index-entry-id" id="index-_002e_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-decimal-point_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-dot_002c-as-delimiter"></a>
+the numerals <code class="code">0</code>-<code class="code">9</code> and the decimal point <code class="code">.</code>
+
+</li><li><a class="index-entry-id" id="index-operators_002c-as-delimiters"></a>
+<a class="index-entry-id" id="index-_002b_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_002d_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_002f_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_002a_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_0025_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_003c_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_003e_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_003d_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_0026_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_003a_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_0028_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-_0029_002c-as-delimiter"></a>
+the (single-character) operators &lsquo;<samp class="samp">+-/*%&lt;&gt;=&amp;:()</samp>&rsquo;
+
+</li><li><a class="index-entry-id" id="index-space-character_002c-as-delimiter"></a>
+<a class="index-entry-id" id="index-tab-character_002c-as-delimiter"></a>
+the space and tab characters
+
+</li><li><a class="index-entry-id" id="index-_005c_0025_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005c_003a_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005c_007b_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005c_007d_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005c_0027_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005c_0060_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005c_002d_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005c_005f_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005c_0021_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005c_002f_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005cc_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005ce_002c-as-delimiter-1"></a>
+<a class="index-entry-id" id="index-_005cp_002c-as-delimiter-1"></a>
+any escape sequences other than <code class="code">\%</code>, <code class="code">\:</code>, <code class="code">\{</code>,
+<code class="code">\}</code>, <code class="code">\'</code>, <code class="code">\`</code>, <code class="code">\-</code>, <code class="code">\_</code>, <code class="code">\!</code>,
+<code class="code">\/</code>, <code class="code">\c</code>, <code class="code">\e</code>, and <code class="code">\p</code>
+</li></ul>
+
+<p>Delimiter syntax is complex and flexible primarily for historical
+reasons; the foregoing restrictions need be kept in mind mainly when
+using <code class="code">groff</code> in <abbr class="acronym">AT&amp;T</abbr> compatibility mode.  GNU
+<code class="code">troff</code> keeps track of the nesting depth of escape sequence
+interpolations, so the only characters you need to avoid using as
+delimiters are those that appear in the arguments you input, not any
+that result from interpolation. Typically, <code class="code">'</code> works fine.
+See <a class="xref" href="Implementation-Differences.html">Implementation Differences</a>.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">$ groff -Tps
+.de Mw
+.  nr wd \w'\\$1'
+.  tm &quot;\\$1&quot; is \\n(wd units wide.
+..
+.Mw Wet'suwet'en
+.Mw Wet+200i
+.cp 1 \&quot; turn on compatibility mode
+.Mw Wet'suwet'en
+.Mw Wet'
+.Mw Wet+200i
+    error&rarr; &quot;Wet'suwet'en&quot; is 54740 units wide.
+    error&rarr; &quot;Wet'+200i&quot; is 42610 units wide.
+    error&rarr; &quot;Wet'suwet'en&quot; is 15860 units wide.
+    error&rarr; &quot;Wet'&quot; is 15860 units wide.
+    error&rarr; &quot;Wet'+200i&quot; is 14415860 units wide.
+</pre></div></div>
+
+<p>We see here that in compatibility mode, the part of the argument after
+the <code class="code">'</code> delimiter escapes from its context and, if nefariously
+crafted, influences the computation of the <var class="var">wd</var> register&rsquo;s value in
+a surprising way.
+</p>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Previous: <a href="Using-Escape-Sequences.html">Using Escape Sequences</a>, Up: <a href="Formatter-Instructions.html">Formatter Instructions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

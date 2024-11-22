@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Paragraphs in ms (The GNU Troff Manual)</title>
+
+<meta name="description" content="Paragraphs in ms (The GNU Troff Manual)">
+<meta name="keywords" content="Paragraphs in ms (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms-Body-Text.html" rel="up" title="ms Body Text">
+<link href="Headings-in-ms.html" rel="next" title="Headings in ms">
+<link href="Typographical-symbols-in-ms.html" rel="prev" title="Typographical symbols in ms">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="Paragraphs-in-ms">
+<div class="nav-panel">
+<p>
+Next: <a href="Headings-in-ms.html" accesskey="n" rel="next">Headings</a>, Previous: <a href="Typographical-symbols-in-ms.html" accesskey="p" rel="prev">Typographical symbols</a>, Up: <a href="ms-Body-Text.html" accesskey="u" rel="up">Body Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Paragraphs-2">4.6.5.3 Paragraphs</h4>
+<a class="index-entry-id" id="index-ms-macros_002c-paragraph-handling"></a>
+
+<p>Paragraphing macros <em class="dfn">break</em>, or terminate, any pending output line
+so that a new paragraph can begin.  Several paragraph types are
+available, differing in how indentation applies to them: to left, right,
+or both margins; to the first output line of the paragraph, all output
+lines, or all but the first.  All paragraphing macro calls cause the
+insertion of vertical space in the amount stored in the <code class="code">PD</code>
+register, except at page or column breaks.  Alternatively, a blank input
+line breaks the output line and vertically spaces by one vee.
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eLP"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.LP</code></strong><a class="copiable-link" href='#index-_002eLP'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-LP-_005bms_005d"></a>
+<p>Set a paragraph without any (additional) indentation.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002ePP"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.PP</code></strong><a class="copiable-link" href='#index-_002ePP'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-PP-_005bms_005d"></a>
+<p>Set a paragraph with a first-line left indentation in the amount stored
+in the <code class="code">PI</code> register.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eIP"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.IP</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">marker</i></span> [<span class="r"><i class="slanted">width</i></span>]]</var><a class="copiable-link" href='#index-_002eIP'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-IP-_005bms_005d"></a>
+<p>Set a paragraph with a left indentation.  The optional <var class="var">marker</var> is
+not indented and is empty by default.  It has several applications;
+see <a class="ref" href="Lists-in-ms.html">Lists</a>.  <var class="var">width</var> overrides the indentation amount
+stored in the <code class="code">PI</code> register; its default unit is &lsquo;<samp class="samp">n</samp>&rsquo;.  Once
+specified, <var class="var">width</var> applies to further <code class="code">IP</code> calls until
+specified again or a heading or different paragraphing macro is called.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eQP"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.QP</code></strong><a class="copiable-link" href='#index-_002eQP'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-QP-_005bms_005d"></a>
+<p>Set a paragraph indented from both left and right margins by the amount
+stored in the <code class="code">QI</code> register.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eQS"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.QS</code></strong><a class="copiable-link" href='#index-_002eQS'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-QS-_005bms_005d"></a>
+</dd><dt class="deffnx defmacx-alias-deffnx def-cmd-deffn" id="index-_002eQE"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.QE</code></strong><a class="copiable-link" href='#index-_002eQE'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-QE-_005bms_005d"></a>
+<p>Begin (<code class="code">QS</code>) and end (<code class="code">QE</code>) a region where each paragraph is
+indented from both margins by the amount stored in the <code class="code">QI</code>
+register.  The text between <code class="code">QS</code> and <code class="code">QE</code> can be structured
+further by use of other paragraphing macros.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eXP"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.XP</code></strong><a class="copiable-link" href='#index-_002eXP'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-XP-_005bms_005d"></a>
+<p>Set an &ldquo;exdented&rdquo; paragraph&mdash;one with a left indentation in the
+amount stored in the <code class="code">PI</code> register on every line <em class="emph">except</em> the
+first (also known as a hanging indent).  This is a Berkeley extension.
+</p></dd></dl>
+
+<p>The following example illustrates the use of paragraphing macros.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">.NH 2
+Cases used in the 2001 study
+.LP
+Two software releases were considered for this report.
+.PP
+The first is commercial software;
+the second is free.
+.IP \[bu]
+Microsoft Word for Windows,
+starting with version 1.0 through the current version
+(Word 2000).
+.IP \[bu]
+GNU Emacs,
+from its first appearance as a standalone editor through
+the current version (v20).
+See [Bloggs 2002] for details.
+.QP
+Franklin's Law applied to software:
+software expands to outgrow both RAM and disk space over
+time.
+.SH
+Bibliography
+.XP
+Bloggs, Joseph R.,
+.I &quot;Everyone's a Critic&quot; ,
+Underground Press, March 2002.
+A definitive work that answers all questions and
+criticisms about the quality and usability of free
+software.
+</pre></div>
+</td></tr></table>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Headings-in-ms.html">Headings</a>, Previous: <a href="Typographical-symbols-in-ms.html">Typographical symbols</a>, Up: <a href="ms-Body-Text.html">Body Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

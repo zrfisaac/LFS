@@ -1,0 +1,34 @@
+texinfo_set_from_init_file('shortcontents', 1);
+
+sub mini_ker_element_type($$$$)
+{
+  my $self = shift;
+  my $type = shift;
+  my $element = shift;
+  my $content = shift;
+
+  if ($self->element_is_tree_unit_top($element)) {
+    my $result = '';
+    $result .= &{$self->formatting_function('format_navigation_header')}($self,
+          $self->get_conf('MISC_BUTTONS'), $type, $element)
+      if ($self->get_conf('SPLIT') or $self->get_conf('HEADERS'));
+    $result .= &{$self->formatting_function('format_titlepage')}($self);
+    my $overview = &{$self->formatting_function('format_contents')}($self,
+                                                          'shortcontents');
+    if ($overview) {
+      $result .= '<h2> ' .$self->convert_tree($self->gdt('Overview:'))
+                  . "</h2>\n" . "<blockquote>\n";
+      $result .= $overview;;
+      $result .= "</blockquote>\n";
+    }
+    $result .= &{$self->default_formatting_function('format_element_footer')}($self,
+                                                 $type, $element, $content);
+    return $result;
+  } else {
+    return &{$self->default_type_conversion($type)}($self,
+                                 $type, $element, $content);
+  }
+}
+
+texinfo_register_type_formatting('unit', \&mini_ker_element_type);
+

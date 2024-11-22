@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Displays and Keeps (The GNU Troff Manual)</title>
+
+<meta name="description" content="Displays and Keeps (The GNU Troff Manual)">
+<meta name="keywords" content="Displays and Keeps (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Common-Features.html" rel="up" title="Common Features">
+<link href="Footnotes-and-Endnotes.html" rel="next" title="Footnotes and Endnotes">
+<link href="Page-Layout-Adjustment.html" rel="prev" title="Page Layout Adjustment">
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Displays-and-Keeps">
+<div class="nav-panel">
+<p>
+Next: <a href="Footnotes-and-Endnotes.html" accesskey="n" rel="next">Footnotes and Endnotes</a>, Previous: <a href="Page-Layout-Adjustment.html" accesskey="p" rel="prev">Page Layout</a>, Up: <a href="Common-Features.html" accesskey="u" rel="up">Common Features</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Displays-and-Keeps-1">3.2.5 Displays and Keeps</h4>
+<a class="index-entry-id" id="index-displays"></a>
+
+<p><i class="slanted">Displays</i> are sections of text set off from the surrounding
+material (typically paragraphs), often differing in indentation, and/or
+spacing.  Tables, block quotations, and figures are displayed.
+Equations and code examples, when not much shorter than an output line,
+often are.  Lists may or may not be.  Packages for setting man pages
+support example displays but not keeps.
+</p>
+<a class="index-entry-id" id="index-keeps-_0028introduction_0029"></a>
+<p>A <i class="slanted">keep</i> is a group of output lines, often a display, that is
+formatted on a single page if possible; it causes a page break to happen
+early so as to not interrupt the kept material.
+</p>
+<a class="index-entry-id" id="index-keep_002c-floating"></a>
+<a class="index-entry-id" id="index-floating-keep"></a>
+<p><i class="slanted">Floating keeps</i> can move, or &ldquo;float&rdquo;, relative to the text
+around them in the input.  They are useful for displays that are
+captioned and referred to by name, as with &ldquo;See figure&nbsp;3&rdquo;.
+Depending on the package, a floating keep appears at the bottom of the
+current page if it fits, and at the top of the next otherwise.
+Alternatively, floating keeps might be deferred to the end of a section.
+Using a floating keep can avoid the large vertical spaces that may
+precede a tall keep of the ordinary sort when it won&rsquo;t fit on the page.
+</p>
+
+</div>
+
+
+
+</body>
+</html>

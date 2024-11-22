@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Language Concepts (The GNU Troff Manual)</title>
+
+<meta name="description" content="Language Concepts (The GNU Troff Manual)">
+<meta name="keywords" content="Language Concepts (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="gtroff-Output.html" rel="up" title="gtroff Output">
+<link href="Command-Reference.html" rel="next" title="Command Reference">
+<link href="gtroff-Output.html" rel="prev" title="gtroff Output">
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Language-Concepts">
+<div class="nav-panel">
+<p>
+Next: <a href="Command-Reference.html" accesskey="n" rel="next">Command Reference</a>, Previous: <a href="gtroff-Output.html" accesskey="p" rel="prev"><code class="code">gtroff</code> Output</a>, Up: <a href="gtroff-Output.html" accesskey="u" rel="up"><code class="code">gtroff</code> Output</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Language-Concepts-1">6.1.1 Language Concepts</h4>
+
+<p>The fundamental operation of the GNU <code class="code">troff</code> formatter is the
+translation of the <code class="code">groff</code> input language into a device-independent
+form primarily concerned with what has to be written or drawn at
+specific positions on the output device.  This language is simple and
+imperative.  In the following discussion, the term <em class="dfn">command</em> always
+refers to this intermediate output language, and never to the
+<code class="code">groff</code> language intended for direct use by document authors.
+Intermediate output commands comprise several categories: glyph output;
+font, color, and text size selection; motion of the printing position;
+page advancement; drawing of geometric objects; and device control
+commands, a catch-all for operations not easily classified as any of the
+foregoing, such as directives to start and stop output, identify the
+intended output device, or place URL hyperlinks in supported output
+formats.
+</p>
+
+<ul class="mini-toc">
+<li><a href="Separation.html" accesskey="1">Separation</a></li>
+<li><a href="Argument-Units.html" accesskey="2">Argument Units</a></li>
+<li><a href="Document-Parts.html" accesskey="3">Document Parts</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

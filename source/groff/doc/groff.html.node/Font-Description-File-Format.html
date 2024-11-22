@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Font Description File Format (The GNU Troff Manual)</title>
+
+<meta name="description" content="Font Description File Format (The GNU Troff Manual)">
+<meta name="keywords" content="Font Description File Format (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Device-and-Font-Description-Files.html" rel="up" title="Device and Font Description Files">
+<link href="DESC-File-Format.html" rel="prev" title="DESC File Format">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+pre.display-preformatted {font-family: inherit}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Font-Description-File-Format">
+<div class="nav-panel">
+<p>
+Previous: <a href="DESC-File-Format.html" accesskey="p" rel="prev"><samp class="file">DESC</samp> File Format</a>, Up: <a href="Device-and-Font-Description-Files.html" accesskey="u" rel="up">Device and Font Description Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Font-Description-File-Format-1">6.2.2 Font Description File Format</h4>
+<a class="index-entry-id" id="index-font-file_002c-format"></a>
+<a class="index-entry-id" id="index-font-description-file_002c-format"></a>
+<a class="index-entry-id" id="index-format-of-font-files"></a>
+<a class="index-entry-id" id="index-format-of-font-description-files"></a>
+
+<p>On typesetting output devices, each font is typically available at
+multiple sizes.  While paper measurements in the device description file
+are in absolute units, measurements applicable to fonts must be
+proportional to the type size.  <code class="code">groff</code> achieves this using the
+precedent set by <abbr class="acronym">AT&amp;T</abbr> device-independent <code class="code">troff</code>: one
+font size is chosen as a norm, and all others are scaled linearly
+relative to that basis.  The &ldquo;unit width&rdquo; is the number of basic units
+per point when the font is rendered at this nominal size.
+</p>
+<p>For instance, <code class="code">groff</code>&rsquo;s <code class="code">lbp</code> device uses a <code class="code">unitwidth</code>
+of&nbsp;800.  Its Times roman font &lsquo;<samp class="samp">TR</samp>&rsquo; has a <code class="code">spacewidth</code>
+of&nbsp;833; this is also the width of its comma, period, centered
+period, and mathematical asterisk, while its &lsquo;<samp class="samp">M</samp>&rsquo; is 2,963 basic
+units.  Thus, an &lsquo;<samp class="samp">M</samp>&rsquo; on the <code class="code">lbp</code> device is 2,963 basic units
+wide at a notional type size of 800&nbsp;points.<a class="footnote" id="DOCF126" href="groff.html_fot.html#FOOT126"><sup>126</sup></a>
+</p>
+<p>A font description file has two sections.  The first is a sequence of
+directives, and is parsed similarly to the <samp class="file">DESC</samp> file described
+above.  Except for the directive names that begin the second section,
+their ordering is immaterial.  Later directives of the same name
+override earlier ones, spaces and tabs are handled in the same way,
+<a class="index-entry-id" id="index-comments-in-font-description-files"></a>
+<a class="index-entry-id" id="index-font-description-files_002c-comments"></a>
+<a class="index-entry-id" id="index-_0023-1"></a>
+and the same comment syntax is supported.  Empty lines are ignored
+throughout.
+</p>
+<dl class="table">
+<dt id='index-name'><span><code class="code">name <var class="var">f</var></code><a class="copiable-link" href='#index-name'> &para;</a></span></dt>
+<dd><p>The name of the font is&nbsp;<var class="var">f</var>.  &lsquo;<samp class="samp">DESC</samp>&rsquo; is an invalid font
+name.  Simple integers are valid, but their use is
+discouraged.<a class="footnote" id="DOCF127" href="groff.html_fot.html#FOOT127"><sup>127</sup></a>
+</p>
+</dd>
+<dt id='index-spacewidth'><span><code class="code">spacewidth <var class="var">n</var></code><a class="copiable-link" href='#index-spacewidth'> &para;</a></span></dt>
+<dd><p>The width of an unadjusted inter-word space is <var class="var">n</var>&nbsp;basic units.
+</p></dd>
+</dl>
+
+<p>The directives above must appear in the first section; those below are
+optional.
+</p>
+<dl class="table">
+<dt id='index-slant'><span><code class="code">slant <var class="var">n</var></code><a class="copiable-link" href='#index-slant'> &para;</a></span></dt>
+<dd><p>The font&rsquo;s glyphs have a slant of <var class="var">n</var>&nbsp;degrees; a positive
+<var class="var">n</var> slants in the direction of text flow.
+</p>
+</dd>
+<dt id='index-ligatures'><span><code class="code">ligatures <var class="var">lig1</var> <span class="r">&hellip;</span> <var class="var">lign</var> <span class="r">[</span>0<span class="r">]</span></code><a class="copiable-link" href='#index-ligatures'> &para;</a></span></dt>
+<dd><p>Glyphs <var class="var">lig1</var>, &hellip;, <var class="var">lign</var> are ligatures; possible ligatures
+are &lsquo;<samp class="samp">ff</samp>&rsquo;, &lsquo;<samp class="samp">fi</samp>&rsquo;, &lsquo;<samp class="samp">fl</samp>&rsquo;, &lsquo;<samp class="samp">ffi</samp>&rsquo; and &lsquo;<samp class="samp">ffl</samp>&rsquo;.  For
+compatibility with other <code class="code">troff</code> implementations, the list of
+ligatures may be terminated with a&nbsp;<code class="code">0</code>.  The list of ligatures
+must not extend over more than one line.
+</p>
+</dd>
+<dt id='index-special-fonts-2'><span><code class="code">special</code><a class="copiable-link" href='#index-special-fonts-2'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-special-1"></a>
+<p>The font is <em class="dfn">special</em>: when a glyph is requested that is not present
+in the current font, it is sought in any mounted fonts that bear this
+property.
+</p></dd>
+</dl>
+
+<p>Other directives in this section are ignored by GNU <code class="code">troff</code>, but
+may be used by postprocessors to obtain further information about the
+font.
+</p>
+<p>The second section contains one or two subsections.  These can appear in
+either order; the first one encountered commences the second section.
+Each starts with a directive on a line by itself.  A <code class="code">charset</code>
+subsection is mandatory unless the associated <samp class="file">DESC</samp> file contains
+the <code class="code">unicode</code> directive.  Another subsection, <code class="code">kernpairs</code>,
+is optional.
+</p>
+<a class="index-entry-id" id="index-charset-1"></a>
+<p>The directive <code class="code">charset</code> starts the character set
+subsection.<a class="footnote" id="DOCF128" href="groff.html_fot.html#FOOT128"><sup>128</sup></a>  It precedes a series
+of glyph descriptions, one per line.  Each such glyph description
+comprises a set of fields separated by spaces or tabs and organized as
+follows.
+</p>
+<blockquote class="quotation">
+<p><var class="var">name</var> <var class="var">metrics</var> <var class="var">type</var> <var class="var">code</var> [<var class="var">entity-name</var>]
+[<code class="code">--</code> <var class="var">comment</var>]
+</p></blockquote>
+
+<a class="index-entry-id" id="index-8_002dbit-input"></a>
+<a class="index-entry-id" id="index-input_002c-8_002dbit"></a>
+<a class="index-entry-id" id="index-accessing-unnamed-glyphs-with-_005cN"></a>
+<a class="index-entry-id" id="index-unnamed-glyphs_002c-accessing-with-_005cN"></a>
+<a class="index-entry-id" id="index-characters_002c-unnamed_002c-accessing-with-_005cN"></a>
+<a class="index-entry-id" id="index-glyphs_002c-unnamed_002c-accessing-with-_005cN"></a>
+<a class="index-entry-id" id="index-_002d_002d_002d"></a>
+<p><var class="var">name</var> identifies the glyph:
+if <var class="var">name</var> is a printable character&nbsp;<var class="var">c</var>, it corresponds to
+the <code class="code">troff</code> ordinary character&nbsp;<var class="var">c</var>.  If <var class="var">name</var> is a
+multi-character sequence not beginning with <code class="code">\</code>, it corresponds to
+the GNU <code class="code">troff</code> special character escape sequence
+&lsquo;<samp class="samp">\[<var class="var">name</var>]</samp>&rsquo;.  A name consisting of three minus signs,
+&lsquo;<samp class="samp">---</samp>&rsquo;, is special and indicates that the glyph is unnamed: such
+glyphs can be accessed only by the <code class="code">\N</code> escape sequence in
+<code class="code">troff</code>.  A special character named &lsquo;<samp class="samp">---</samp>&rsquo; can still be defined
+using <code class="code">char</code> and similar requests.  The <var class="var">name</var> &lsquo;<samp class="samp">\-</samp>&rsquo;
+defines the minus sign glyph.  Finally, <var class="var">name</var> can be the
+unbreakable one-sixth and one-twelfth space escape sequences, <code class="code">\|</code>
+and <code class="code">\^</code> (&ldquo;thin&rdquo; and &ldquo;hair&rdquo; spaces, respectively), in which
+case only the width metric described below is interpreted; a font can
+thus customize the widths of these spaces.
+</p>
+<p>The form of the <var class="var">metrics</var> field is as follows.
+</p>
+<div class="display">
+<div class="group"><pre class="display-preformatted"><var class="var">width</var>[<code class="code">,</code>[<var class="var">height</var>[<code class="code">,</code>[<var class="var">depth</var>[<code class="code">,</code>[<var class="var">italic-correction</var>
+  [<code class="code">,</code>[<var class="var">left-italic-correction</var>[<code class="code">,</code>[<var class="var">subscript-correction</var>]]]]]]]]]]
+</pre></div></div>
+
+<p>There must not be any spaces, tabs, or newlines between these
+<em class="dfn">subfields</em> (which have been split here into two lines only for
+better legibility).  The subfields are in basic units expressed as
+decimal integers.  Unspecified subfields default to&nbsp;<code class="code">0</code>.
+Since there is no associated binary format, these values are not
+required to fit into the C language data type &lsquo;<samp class="samp">char</samp>&rsquo; as they are in
+<abbr class="acronym">AT&amp;T</abbr> device-independent <code class="code">troff</code>.
+</p>
+<p>The <var class="var">width</var> subfield gives the width of the glyph.  The <var class="var">height</var>
+subfield gives the height of the glyph (upward is positive); if a glyph
+does not extend above the baseline, it should be given a zero height,
+rather than a negative height.  The <var class="var">depth</var> subfield gives the depth
+of the glyph, that is, the distance below the baseline to which the
+glyph extends (downward is positive); if a glyph does not extend below
+the baseline, it should be given a zero depth, rather than a negative
+depth.  Italic corrections are relevant to glyphs in italic or oblique
+styles.  The <var class="var">italic-correction</var> is the amount of space that should
+be added after an oblique glyph to be followed immediately by an upright
+glyph.  The <var class="var">left-italic-correction</var> is the amount of space that
+should be added before an oblique glyph to be preceded immediately by an
+upright glyph.  The <var class="var">subscript-correction</var> is the amount of space
+that should be added after an oblique glyph to be followed by a
+subscript; it should be less than the italic correction.
+</p>
+<p>For fonts used with typesetting devices, the <var class="var">type</var> field gives a
+featural description of the glyph: it is a bit mask recording whether
+the glyph is an ascender, descender, both, or neither.  When a <code class="code">\w</code>
+escape sequence is interpolated, these values are bitwise or-ed
+together for each glyph and stored in the <code class="code">nr</code> register.  In font
+descriptions for terminal devices, all glyphs might have a type of zero,
+regardless of their appearance.
+</p>
+<dl class="table">
+<dt><code class="code">0</code></dt>
+<dd><p>means the glyph lies entirely between the baseline and a horizontal line
+at the &ldquo;x-height&rdquo; of the font; typical examples are &lsquo;<samp class="samp">a</samp>&rsquo;,
+&lsquo;<samp class="samp">c</samp>&rsquo;, and &lsquo;<samp class="samp">x</samp>&rsquo;;
+</p>
+</dd>
+<dt><code class="code">1</code></dt>
+<dd><p>means the glyph descends below the baseline, like &lsquo;<samp class="samp">p</samp>&rsquo;;
+</p>
+</dd>
+<dt><code class="code">2</code></dt>
+<dd><p>means the glyph ascends above the font&rsquo;s x-height, like &lsquo;<samp class="samp">A</samp>&rsquo; or
+&lsquo;<samp class="samp">b</samp>&rsquo;; and
+</p>
+</dd>
+<dt><code class="code">3</code></dt>
+<dd><p>means the glyph is both an ascender and a descender&mdash;this is true of
+parentheses in some fonts.
+</p></dd>
+</dl>
+
+<p>The <var class="var">code</var> field gives a numeric identifier that the postprocessor
+uses to render the glyph.  The glyph can be specified to <code class="code">troff</code>
+using this code by means of the <code class="code">\N</code> escape sequence.  <var class="var">code</var>
+can be any integer.<a class="footnote" id="DOCF129" href="groff.html_fot.html#FOOT129"><sup>129</sup></a>
+</p>
+<p>The <var class="var">entity-name</var> field defines an identifier for the glyph that the
+postprocessor uses to print the GNU <code class="code">troff</code> glyph <var class="var">name</var>.  This
+field is optional; it was introduced so that the <code class="code">grohtml</code> output
+driver could encode its character set.  For example, the glyph
+&lsquo;<samp class="samp">\[Po]</samp>&rsquo; is represented by &lsquo;<samp class="samp">&amp;pound;</samp>&rsquo; in <abbr class="acronym">HTML</abbr> 4.0.
+For efficiency, these data are now compiled directly into
+<code class="code">grohtml</code>.  <code class="code">grops</code> uses the field to build sub-encoding
+arrays for PostScript fonts containing more than 256 glyphs.  Anything
+on the line after the <var class="var">entity-name</var> field or &lsquo;<samp class="samp">--</samp>&rsquo; is ignored.
+</p>
+<p>A line in the <code class="code">charset</code> section can also have the form
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted"><var class="var">name</var> &quot;
+</pre></div></div>
+
+<p>identifying <var class="var">name</var> as another name for the glyph mentioned in the
+preceding line.  Such aliases can be chained.
+</p>
+<a class="index-entry-id" id="index-kernpairs"></a>
+<p>The directive <code class="code">kernpairs</code> starts a list of kerning adjustments to
+be made to adjacent glyph pairs from this font.  It contains a sequence
+of lines formatted as follows.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted"><var class="var">g1</var> <var class="var">g2</var> <var class="var">n</var>
+</pre></div></div>
+
+<p>The foregoing means that when glyph <var class="var">g1</var> is typeset immediately
+before <var class="var">g2</var>, the space between them should be increased
+by&nbsp;<var class="var">n</var>.  Most kerning pairs should have a negative value
+for&nbsp;<var class="var">n</var>.
+</p>
+
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Previous: <a href="DESC-File-Format.html"><samp class="file">DESC</samp> File Format</a>, Up: <a href="Device-and-Font-Description-Files.html">Device and Font Description Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

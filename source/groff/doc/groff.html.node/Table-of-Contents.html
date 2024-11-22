@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Table of Contents (The GNU Troff Manual)</title>
+
+<meta name="description" content="Table of Contents (The GNU Troff Manual)">
+<meta name="keywords" content="Table of Contents (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Common-Features.html" rel="up" title="Common Features">
+<link href="Indexing.html" rel="next" title="Indexing">
+<link href="Footnotes-and-Endnotes.html" rel="prev" title="Footnotes and Endnotes">
+<style type="text/css">
+<!--
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Table-of-Contents">
+<div class="nav-panel">
+<p>
+Next: <a href="Indexing.html" accesskey="n" rel="next">Indexing</a>, Previous: <a href="Footnotes-and-Endnotes.html" accesskey="p" rel="prev">Footnotes and Endnotes</a>, Up: <a href="Common-Features.html" accesskey="u" rel="up">Common Features</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Table-of-Contents-1">3.2.7 Table of Contents</h4>
+<a class="index-entry-id" id="index-table-of-contents"></a>
+<a class="index-entry-id" id="index-contents_002c-table-of"></a>
+
+<p>A package may handle a <i class="slanted">table of contents</i> by directing section
+heading macros to save section heading text and the page number where it
+occurs for use in a later <i class="slanted">entry</i> for a table of contents.  It
+writes the collected entries at the end of the document, once all are
+known, upon request.  A row of dots (a <i class="slanted">leader</i>) bridges the
+text on the left with its location on the right.  Other collections
+might work in this manner, providing lists of figures or tables.
+</p>
+<p>A table of contents is often found at the end of a GNU <code class="code">troff</code>
+document because the formatter processes the document in a single pass.
+The <code class="command">gropdf</code> output driver supports a PDF feature that relocates
+pages at the time the document is rendered; see the <cite class="cite">gropdf<span class="r">(1)</span></cite>
+man page.  Type &lsquo;<samp class="samp">man gropdf</samp>&rsquo; at the command line to view it.
+</p>
+
+</div>
+
+
+
+</body>
+</html>

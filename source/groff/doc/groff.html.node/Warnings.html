@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Warnings (The GNU Troff Manual)</title>
+
+<meta name="description" content="Warnings (The GNU Troff Manual)">
+<meta name="keywords" content="Warnings (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Debugging.html" rel="up" title="Debugging">
+<link href="Debugging.html" rel="prev" title="Debugging">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Warnings">
+<div class="nav-panel">
+<p>
+Previous: <a href="Debugging.html" accesskey="p" rel="prev">Debugging</a>, Up: <a href="Debugging.html" accesskey="u" rel="up">Debugging</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Warnings-1">5.37.1 Warnings</h4>
+<a class="index-entry-id" id="index-warnings-1"></a>
+
+<p>Warning diagnostics emitted by GNU <code class="code">troff</code> are divided into named,
+numbered categories.  The name associated with each warning category is
+used by the <samp class="option">-w</samp> and <samp class="option">-W</samp> options.  Each category is also
+assigned a power of two; the sum of enabled category values is used by
+the <code class="code">warn</code> request and the <code class="code">.warn</code> register.
+</p>
+<p>Warnings of each category are produced under the following
+circumstances.
+</p>
+<a class="index-entry-id" id="index-categories_002c-warning"></a>
+<a class="index-entry-id" id="index-warning-categories"></a>
+<dl class="table">
+<dt>&lsquo;<samp class="samp">char</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">1</samp>&rsquo;</dt>
+<dd><p>No mounted font defines a glyph for the requested character.  This
+category is enabled by default.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">number</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">2</samp>&rsquo;</dt>
+<dd><p>An invalid numeric expression was encountered.  This category is enabled
+by default.
+See <a class="xref" href="Numeric-Expressions.html">Numeric Expressions</a>.
+</p>
+</dd>
+<dt id='index-filling_002c-and-break-warnings'><span>&lsquo;<samp class="samp">break</samp>&rsquo;<a class="copiable-link" href='#index-filling_002c-and-break-warnings'> &para;</a></span></dt>
+<dt>&lsquo;<samp class="samp">4</samp>&rsquo;</dt>
+<dd><a class="index-entry-id" id="index-mode_002c-fill_002c-and-break-warnings"></a>
+<p>A filled output line could not be broken such that its length was less
+than the output line length &lsquo;<samp class="samp">\n[.l]</samp>&rsquo;.  This category is enabled by
+default.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">delim</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">8</samp>&rsquo;</dt>
+<dd><p>The closing delimiter in an escape sequence was missing or mismatched.
+</p>
+</dd>
+<dt id='index-ie-request_002c-and-warnings'><span>&lsquo;<samp class="samp">el</samp>&rsquo;<a class="copiable-link" href='#index-ie-request_002c-and-warnings'> &para;</a></span></dt>
+<dt>&lsquo;<samp class="samp">16</samp>&rsquo;</dt>
+<dd><a class="index-entry-id" id="index-el-request_002c-and-warnings"></a>
+<p>The <code class="code">el</code> request was encountered with no prior corresponding
+<code class="code">ie</code> request.  See <a class="xref" href="if_002delse.html">if-else</a>.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">scale</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">32</samp>&rsquo;</dt>
+<dd><p>A scaling unit inappropriate to its context was used in a numeric
+expression.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">range</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">64</samp>&rsquo;</dt>
+<dd><p>A numeric expression was out of range for its context.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">syntax</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">128</samp>&rsquo;</dt>
+<dd><p>A self-contradictory hyphenation mode was requested; an empty or
+incomplete numeric expression was encountered; an operand to a numeric
+operator was missing; an attempt was made to define a recursive, empty,
+or nonsensical character class; or a <code class="code">groff</code> extension conditional
+expression operator was used while in compatibility mode.
+</p>
+</dd>
+<dt id='index-di-request_002c-and-warnings'><span>&lsquo;<samp class="samp">di</samp>&rsquo;<a class="copiable-link" href='#index-di-request_002c-and-warnings'> &para;</a></span></dt>
+<dt>&lsquo;<samp class="samp">256</samp>&rsquo;</dt>
+<dd><a class="index-entry-id" id="index-da-request_002c-and-warnings"></a>
+<a class="index-entry-id" id="index-box-request_002c-and-warnings"></a>
+<a class="index-entry-id" id="index-boxa-request_002c-and-warnings"></a>
+<p>A <code class="code">di</code>, <code class="code">da</code>, <code class="code">box</code>, or <code class="code">boxa</code> request was invoked
+without an argument when there was no current diversion.
+</p>
+</dd>
+<dt id='index-de_002c-de1_002c-dei-requests_002c-and-warnings'><span>&lsquo;<samp class="samp">mac</samp>&rsquo;<a class="copiable-link" href='#index-de_002c-de1_002c-dei-requests_002c-and-warnings'> &para;</a></span></dt>
+<dt>&lsquo;<samp class="samp">512</samp>&rsquo;</dt>
+<dd><a class="index-entry-id" id="index-am_002c-am1_002c-ami-requests_002c-and-warnings"></a>
+<a class="index-entry-id" id="index-ds_002c-ds1-requests_002c-and-warnings"></a>
+<a class="index-entry-id" id="index-as_002c-as1-requests_002c-and-warnings"></a>
+<a class="index-entry-id" id="index-di-request_002c-and-warnings-1"></a>
+<a class="index-entry-id" id="index-da-request_002c-and-warnings-1"></a>
+<a class="index-entry-id" id="index-box_002c-boxa-requests_002c-and-warnings"></a>
+<a class="index-entry-id" id="index-_005c_002a_002c-and-warnings"></a>
+<p>An undefined string, macro, or diversion was used.  When such an object
+is dereferenced, an empty one of that name is automatically created.
+So, unless it is later deleted, at most one warning is given for each.
+</p>
+<p>This warning is also emitted upon an attempt to move an unplanted trap
+macro (see <a class="pxref" href="Page-Location-Traps.html">Page Location Traps</a>).  In such cases, the unplanted macro
+is <em class="emph">not</em> dereferenced, so it is not created if it does not exist.
+</p>
+</dd>
+<dt id='index-nr-request_002c-and-warnings'><span>&lsquo;<samp class="samp">reg</samp>&rsquo;<a class="copiable-link" href='#index-nr-request_002c-and-warnings'> &para;</a></span></dt>
+<dt>&lsquo;<samp class="samp">1024</samp>&rsquo;</dt>
+<dd><a class="index-entry-id" id="index-_005cR_002c-and-warnings"></a>
+<a class="index-entry-id" id="index-_005cn_002c-and-warnings"></a>
+<p>An undefined register was used.  When an undefined register is
+dereferenced, it is automatically defined with a value of&nbsp;0.  So,
+unless it is later deleted, at most one warning is given for each.
+</p>
+</dd>
+<dt id='index-_005ct_002c-and-warnings'><span>&lsquo;<samp class="samp">tab</samp>&rsquo;<a class="copiable-link" href='#index-_005ct_002c-and-warnings'> &para;</a></span></dt>
+<dt>&lsquo;<samp class="samp">2048</samp>&rsquo;</dt>
+<dd><p>A tab character was encountered where a number was expected, or appeared
+in an unquoted macro argument.
+</p>
+</dd>
+<dt id='index-_005c_007d_002c-and-warnings'><span>&lsquo;<samp class="samp">right-brace</samp>&rsquo;<a class="copiable-link" href='#index-_005c_007d_002c-and-warnings'> &para;</a></span></dt>
+<dt>&lsquo;<samp class="samp">4096</samp>&rsquo;</dt>
+<dd><p>A right brace escape sequence <code class="code">\}</code> was encountered where a number
+was expected.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">missing</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">8192</samp>&rsquo;</dt>
+<dd><p>A request was invoked with a mandatory argument absent.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">input</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">16384</samp>&rsquo;</dt>
+<dd><p>An invalid character occurred on the input stream.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">escape</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">32768</samp>&rsquo;</dt>
+<dd><p>An unsupported escape sequence was encountered.
+</p>
+</dd>
+<dt id='index-compatibility-mode'><span>&lsquo;<samp class="samp">space</samp>&rsquo;<a class="copiable-link" href='#index-compatibility-mode'> &para;</a></span></dt>
+<dt>&lsquo;<samp class="samp">65536</samp>&rsquo;</dt>
+<dd><p>A space was missing between a request or macro and its argument.  This
+warning is produced when an undefined name longer than two characters is
+encountered and the first two characters of the name constitute a
+defined name.  No request is invoked, no macro called, and an empty
+macro is not defined.  This category is enabled by default.  It never
+occurs in compatibility mode.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">font</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">131072</samp>&rsquo;</dt>
+<dd><p>A non-existent font was selected, or the selection was ignored because a
+font selection escape sequence was used after the output line
+continuation escape sequence on an input line.  This category is enabled
+by default.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">ig</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">262144</samp>&rsquo;</dt>
+<dd><p>An invalid escape sequence occurred in input ignored using the <code class="code">ig</code>
+request.  This warning category diagnoses a condition that is an error
+when it occurs in non-ignored input.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">color</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">524288</samp>&rsquo;</dt>
+<dd><p>An undefined color was selected, an attempt was made to define a color
+using an unrecognized color space, an invalid component in a color
+definition was encountered, or an attempt was made to redefine a default
+color.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">file</samp>&rsquo;</dt>
+<dt>&lsquo;<samp class="samp">1048576</samp>&rsquo;</dt>
+<dd><p>An attempt was made to load a file that does not exist.  This category
+is enabled by default.
+</p></dd>
+</dl>
+
+<p>Two warning names group other warning categories for convenience.
+</p>
+<dl class="table">
+<dt>&lsquo;<samp class="samp">all</samp>&rsquo;</dt>
+<dd><p>All warning categories except &lsquo;<samp class="samp">di</samp>&rsquo;, &lsquo;<samp class="samp">mac</samp>&rsquo; and &lsquo;<samp class="samp">reg</samp>&rsquo;.
+This shorthand is intended to produce all warnings that are useful with
+macro packages written for <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> and its
+descendants, which have less fastidious diagnostics than GNU
+<code class="code">troff</code>.
+</p>
+</dd>
+<dt>&lsquo;<samp class="samp">w</samp>&rsquo;</dt>
+<dd><p>All warning categories.  Authors of documents and macro packages
+targeting <code class="code">groff</code> are encouraged to use this setting.
+</p></dd>
+</dl>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Previous: <a href="Debugging.html">Debugging</a>, Up: <a href="Debugging.html">Debugging</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

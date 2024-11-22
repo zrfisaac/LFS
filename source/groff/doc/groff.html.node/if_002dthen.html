@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>if-then (The GNU Troff Manual)</title>
+
+<meta name="description" content="if-then (The GNU Troff Manual)">
+<meta name="keywords" content="if-then (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Conditionals-and-Loops.html" rel="up" title="Conditionals and Loops">
+<link href="if_002delse.html" rel="next" title="if-else">
+<link href="Operators-in-Conditionals.html" rel="prev" title="Operators in Conditionals">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="if_002dthen">
+<div class="nav-panel">
+<p>
+Next: <a href="if_002delse.html" accesskey="n" rel="next">if-else</a>, Previous: <a href="Operators-in-Conditionals.html" accesskey="p" rel="prev">Operators in Conditionals</a>, Up: <a href="Conditionals-and-Loops.html" accesskey="u" rel="up">Conditionals and Loops</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="if_002dthen-1">5.23.2 if-then</h4>
+<a class="index-entry-id" id="index-if_002dthen"></a>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002eif"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.if</code></strong> <var class="def-var-arguments">cond-expr anything</var><a class="copiable-link" href='#index-_002eif'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-if"></a>
+<p>Evaluate the conditional expression <var class="var">cond-expr</var>, and if it evaluates
+true (or to a positive value), interpret the remainder of the line
+<var class="var">anything</var> as if it were an input line.  Recall from <a class="ref" href="Invoking-Requests.html">Invoking Requests</a> that any quantity of spaces between arguments to requests
+serves only to separate them; leading spaces in <var class="var">anything</var> are thus
+not seen.  <var class="var">anything</var> effectively <em class="emph">cannot</em> be omitted; if
+<var class="var">cond-expr</var> is true and <var class="var">anything</var> is empty, the newline at the
+end of the control line is interpreted as a blank input line (and
+therefore a blank text line).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">super\c
+tanker
+.nr force-word-break 1
+super\c
+.if ((\n[force-word-break] = 1) &amp; \n[.int])
+tanker
+    &rArr; supertanker super tanker
+</pre></div></div>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002enop"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.nop</code></strong> <var class="def-var-arguments">anything</var><a class="copiable-link" href='#index-_002enop'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-nop"></a>
+<p>Interpret <var class="var">anything</var> as if it were an input line.  This is similar
+to &lsquo;<samp class="samp">.if&nbsp;1</samp>&rsquo;.  <code class="code">nop</code> is not really &ldquo;no operation&rdquo;; its
+argument <em class="emph">is</em> processed&mdash;unconditionally.  It can be used to cause
+text lines to share indentation with surrounding control lines.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.als real-MAC MAC
+.de wrapped-MAC
+.  tm MAC: called with arguments \\$@
+.  nop \\*[real-MAC]\\
+..
+.als MAC wrapped-MAC
+\# Later...
+.als MAC real-MAC
+</pre></div></div>
+
+<p>In the above, we&rsquo;ve used aliasing, <code class="code">nop</code>, and the interpolation of
+a macro as a string to interpose a wrapper around the macro &lsquo;<samp class="samp">MAC</samp>&rsquo;
+(perhaps to debug it).
+</p></dd></dl>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="if_002delse.html">if-else</a>, Previous: <a href="Operators-in-Conditionals.html">Operators in Conditionals</a>, Up: <a href="Conditionals-and-Loops.html">Conditionals and Loops</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

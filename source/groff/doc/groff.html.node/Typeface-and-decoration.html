@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Typeface and decoration (The GNU Troff Manual)</title>
+
+<meta name="description" content="Typeface and decoration (The GNU Troff Manual)">
+<meta name="keywords" content="Typeface and decoration (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="ms-Body-Text.html" rel="up" title="ms Body Text">
+<link href="Lists-in-ms.html" rel="next" title="Lists in ms">
+<link href="Headings-in-ms.html" rel="prev" title="Headings in ms">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+kbd.key {font-style: normal}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="Typeface-and-decoration">
+<div class="nav-panel">
+<p>
+Next: <a href="Lists-in-ms.html" accesskey="n" rel="next">Lists</a>, Previous: <a href="Headings-in-ms.html" accesskey="p" rel="prev">Headings</a>, Up: <a href="ms-Body-Text.html" accesskey="u" rel="up">Body Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Typeface-and-decoration-1">4.6.5.5 Typeface and decoration</h4>
+
+<p>The <samp class="file">ms</samp> macros provide a variety of ways to style text.
+Attend closely to the ordering of arguments labeled <var class="var">pre</var> and
+<var class="var">post</var>, which is not intuitive.  Support for <var class="var">pre</var>
+arguments is a GNU extension.<a class="footnote" id="DOCF10" href="groff.html_fot.html#FOOT10"><sup>10</sup></a>
+</p>
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eB"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.B</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">text</i></span> [<span class="r"><i class="slanted">post</i></span> [<span class="r"><i class="slanted">pre</i></span>]]]</var><a class="copiable-link" href='#index-_002eB'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-B-_005bms_005d"></a>
+<p>Style <var class="var">text</var> in <b class="b">bold</b>, followed by <var class="var">post</var> in the previous
+font style without intervening space, and preceded by <var class="var">pre</var>
+similarly.  Without arguments, <samp class="file">ms</samp> styles subsequent text in bold
+until the next paragraphing, heading, or no-argument typeface macro
+call.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eR-1"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.R</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">text</i></span> [<span class="r"><i class="slanted">post</i></span> [<span class="r"><i class="slanted">pre</i></span>]]]</var><a class="copiable-link" href='#index-_002eR-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-R-_005bms_005d"></a>
+<p>As <code class="code">B</code>, but use the roman style (upright text of normal weight)
+instead of bold.  Argument recognition is a GNU extension.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eI"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.I</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">text</i></span> [<span class="r"><i class="slanted">post</i></span> [<span class="r"><i class="slanted">pre</i></span>]]]</var><a class="copiable-link" href='#index-_002eI'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-I-_005bms_005d"></a>
+<p>As <code class="code">B</code>, but use an <i class="i">italic</i> or oblique style instead of bold.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eBI"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.BI</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">text</i></span> [<span class="r"><i class="slanted">post</i></span> [<span class="r"><i class="slanted">pre</i></span>]]]</var><a class="copiable-link" href='#index-_002eBI'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-BI-_005bms_005d"></a>
+<p>As <code class="code">B</code>, but use a bold italic or bold oblique style instead of
+upright bold.  This is a Tenth Edition Research Unix extension.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eCW-1"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.CW</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">text</i></span> [<span class="r"><i class="slanted">post</i></span> [<span class="r"><i class="slanted">pre</i></span>]]]</var><a class="copiable-link" href='#index-_002eCW-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-CW-_005bms_005d"></a>
+<p>As <code class="code">B</code>, but use a <code class="t">constant-width</code> (monospaced) roman typeface
+instead of bold.  This is a Tenth Edition Research Unix extension.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eBX"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.BX</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">text</i></span>]</var><a class="copiable-link" href='#index-_002eBX'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-BX-_005bms_005d"></a>
+<p>Typeset <var class="var">text</var> and draw a box around it.  On terminal devices,
+reverse video is used instead.  If you want <var class="var">text</var> to contain space,
+use unbreakable space or horizontal motion escape sequences (<code class="code">\~</code>,
+<code class="code">\<kbd class="key">SP</kbd></code>, <code class="code">\^</code>, <code class="code">\|</code>, <code class="code">\0</code> or <code class="code">\h</code>).
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eUL"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.UL</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">text</i></span> [<span class="r"><i class="slanted">post</i></span>]]</var><a class="copiable-link" href='#index-_002eUL'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-UL-_005bms_005d"></a>
+<p>Typeset <var class="var">text</var> with an underline.  <var class="var">post</var>, if present, is set
+after <var class="var">text</var> with no intervening space.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eLG"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.LG</code></strong><a class="copiable-link" href='#index-_002eLG'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-LG-_005bms_005d"></a>
+<p>Set subsequent text in larger type (two points larger than the
+current size) until the next type size, paragraphing, or heading macro
+call.  You can specify this macro multiple times to enlarge the type
+size as needed.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eSM"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.SM</code></strong><a class="copiable-link" href='#index-_002eSM'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-SM-_005bms_005d"></a>
+<p>Set subsequent text in smaller type (two points smaller than the current
+size) until the next type size, paragraphing, or heading macro call.
+You can specify this macro multiple times to reduce the type size as
+needed.
+</p></dd></dl>
+
+<dl class="first-deffn first-defmac-alias-first-deffn">
+<dt class="deffn defmac-alias-deffn" id="index-_002eNL"><span class="category-def">Macro: </span><span><strong class="def-name"><code class="t">.NL</code></strong><a class="copiable-link" href='#index-_002eNL'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-NL-_005bms_005d"></a>
+<p>Set subsequent text at the normal type size (the amount in the <code class="code">PS</code>
+register).
+</p></dd></dl>
+
+<p><var class="var">pre</var> and <var class="var">post</var> arguments are typically used to simplify the
+attachment of punctuation to styled words.  When <var class="var">pre</var> is used,
+a hyphenation control escape sequence <code class="code">\%</code> that would ordinarily
+start <var class="var">text</var> must start <var class="var">pre</var> instead to have the desired
+effect.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">The CS course's students found one C language keyword
+.CW static ) \%(
+most troublesome.
+</pre></div>
+</td></tr></table>
+
+<p>The foregoing example produces output as follows.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted"><span class="r">The CS course&rsquo;s students found one C language keyword (<code class="t">static</code>)
+most troublesome.</span>
+</pre></div>
+</td></tr></table>
+
+<p>You can use the output line continuation escape sequence <code class="code">\c</code> to
+achieve the same result (see <a class="pxref" href="Line-Continuation.html">Line Continuation</a>).  It is also
+portable to older <samp class="file">ms</samp> implementations.
+</p>
+<table class="cartouche" border="1"><tr><td>
+<div class="example">
+<pre class="example-preformatted">The CS course's students found one C language keyword
+\%(\c
+.CW \%static )
+most troublesome.
+</pre></div>
+</td></tr></table>
+
+<p><code class="code">groff</code> <samp class="file">ms</samp> also offers strings to begin and end super- and
+subscripting.  These are GNU extensions.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_007b_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[{]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_007b_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_007b-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005b_007d_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[}]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_007d_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_007d-_005bms_005d"></a>
+<p>Begin and end superscripting, respectively.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_002a_005b_003c_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[&lt;]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_003c_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_003c-_005bms_005d"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005c_002a_005b_003e_005d"><span class="category-def">String: </span><span><strong class="def-name"><code class="t">\*[&gt;]</code></strong><a class="copiable-link" href='#index-_005c_002a_005b_003e_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_003e-_005bms_005d"></a>
+<p>Begin and end subscripting, respectively.
+</p></dd></dl>
+
+<p>Rather than calling the <code class="code">CW</code> macro, in <code class="code">groff</code> <samp class="file">ms</samp> you
+might prefer to change the font family to Courier by setting the
+<code class="code">FAM</code> string to &lsquo;<samp class="samp">C</samp>&rsquo;.  You can then use all four style macros
+above, returning to the default family (Times) with &lsquo;<samp class="samp">.ds FAM T</samp>&rsquo;.
+Because changes to <code class="code">FAM</code> take effect only at the next paragraph,
+<code class="code">CW</code> remains useful to &ldquo;inline&rdquo; a change to the font family,
+similarly to the practice of this document in noting syntactical
+elements of <samp class="file">ms</samp> and <code class="code">groff</code>.
+</p>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Lists-in-ms.html">Lists</a>, Previous: <a href="Headings-in-ms.html">Headings</a>, Up: <a href="ms-Body-Text.html">Body Text</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

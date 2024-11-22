@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Environment (The GNU Troff Manual)</title>
+
+<meta name="description" content="Environment (The GNU Troff Manual)">
+<meta name="keywords" content="Environment (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Invoking-groff.html" rel="up" title="Invoking groff">
+<link href="Macro-Directories.html" rel="next" title="Macro Directories">
+<link href="Groff-Options.html" rel="prev" title="Groff Options">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Environment">
+<div class="nav-panel">
+<p>
+Next: <a href="Macro-Directories.html" accesskey="n" rel="next">Macro Directories</a>, Previous: <a href="Groff-Options.html" accesskey="p" rel="prev">Options</a>, Up: <a href="Invoking-groff.html" accesskey="u" rel="up">Invoking <code class="code">groff</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Environment-1">2.2 Environment</h3>
+<a class="index-entry-id" id="index-environment-variables"></a>
+<a class="index-entry-id" id="index-variables-in-environment"></a>
+
+<p>There are also several environment variables (of the operating system,
+not within <code class="code">gtroff</code>) that can modify the behavior of <code class="code">groff</code>.
+</p>
+<dl class="table">
+<dt id='index-GROFF_005fBIN_005fPATH_002c-environment-variable'><span><code class="code">GROFF_BIN_PATH</code><a class="copiable-link" href='#index-GROFF_005fBIN_005fPATH_002c-environment-variable'> &para;</a></span></dt>
+<dd><p>This search path, followed by <code class="code">PATH</code>, is used for commands executed
+by <code class="code">groff</code>.
+</p>
+</dd>
+<dt id='index-GROFF_005fCOMMAND_005fPREFIX_002c-environment-variable'><span><code class="code">GROFF_COMMAND_PREFIX</code><a class="copiable-link" href='#index-GROFF_005fCOMMAND_005fPREFIX_002c-environment-variable'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-command-prefix"></a>
+<a class="index-entry-id" id="index-prefix_002c-for-commands"></a>
+<p>If this is set to&nbsp;<var class="var">X</var>, then <code class="command">groff</code> runs
+<code class="command"><var class="var">X</var>troff</code> instead of <code class="command">gtroff</code>.  This also applies
+to <code class="command">tbl</code>, <code class="command">pic</code>, <code class="command">eqn</code>, <code class="command">grn</code>,
+<code class="command">chem</code>, <code class="command">refer</code>, and <code class="command">soelim</code>.  It does not
+apply to <code class="command">grops</code>, <code class="command">grodvi</code>, <code class="command">grotty</code>,
+<code class="command">pre-grohtml</code>, <code class="command">post-grohtml</code>, <code class="command">preconv</code>,
+<code class="command">grolj4</code>, <code class="command">gropdf</code>, and <code class="command">gxditview</code>.
+</p>
+<p>The default command prefix is determined during the installation
+process.  If a non-GNU <code class="code">troff</code> system is found, prefix &lsquo;<samp class="samp">g</samp>&rsquo; is
+used, none otherwise.
+</p>
+</dd>
+<dt id='index-GROFF_005fENCODING_002c-environment-variable'><span><code class="code">GROFF_ENCODING</code><a class="copiable-link" href='#index-GROFF_005fENCODING_002c-environment-variable'> &para;</a></span></dt>
+<dd><p>The value of this variable is passed to the <code class="code">preconv</code>
+preprocessor&rsquo;s <samp class="option">-e</samp> option to select the character encoding of
+input files.  This variable&rsquo;s existence implies the <code class="code">groff</code> option
+<samp class="option">-k</samp>.  If set but empty, <code class="code">groff</code> calls <code class="code">preconv</code>
+without an <samp class="option">-e</samp> option.  <code class="code">groff</code>&rsquo;s <samp class="option">-K</samp> option
+overrides <code class="env">GROFF_ENCODING</code>.  See the <cite class="cite">preconv<span class="r">(7)</span></cite> man page;
+type &lsquo;<samp class="samp">man preconv</samp>&rsquo; at the command line to view it.
+</p>
+</dd>
+<dt id='index-GROFF_005fFONT_005fPATH_002c-environment-variable'><span><code class="code">GROFF_FONT_PATH</code><a class="copiable-link" href='#index-GROFF_005fFONT_005fPATH_002c-environment-variable'> &para;</a></span></dt>
+<dd><p>A list of directories in which to seek the selected output device&rsquo;s
+directory of device and font description files.  GNU <code class="code">troff</code>
+will search directories given as arguments to any specified <samp class="option">-F</samp>
+options before these, and a built-in list of directories after them.
+See <a class="xref" href="Font-Directories.html">Font Directories</a> and the <cite class="cite">troff<span class="r">(1)</span></cite> or
+<cite class="cite">gtroff<span class="r">(1)</span></cite> man pages.
+</p>
+</dd>
+<dt id='index-GROFF_005fTMAC_005fPATH_002c-environment-variable'><span><code class="code">GROFF_TMAC_PATH</code><a class="copiable-link" href='#index-GROFF_005fTMAC_005fPATH_002c-environment-variable'> &para;</a></span></dt>
+<dd><p>A list of directories in which to seek macro files.  GNU <code class="code">troff</code>
+will search directories given as arguments to any specified <samp class="option">-M</samp>
+options before these, and a built-in list of directories after them.
+See <a class="xref" href="Macro-Directories.html">Macro Directories</a> and the <cite class="cite">troff<span class="r">(1)</span></cite> or
+<cite class="cite">gtroff<span class="r">(1)</span></cite> man pages.
+</p>
+</dd>
+<dt id='index-GROFF_005fTMPDIR_002c-environment-variable'><span><code class="code">GROFF_TMPDIR</code><a class="copiable-link" href='#index-GROFF_005fTMPDIR_002c-environment-variable'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-TMPDIR_002c-environment-variable"></a>
+<p>The directory in which <code class="code">groff</code> creates temporary files.  If this is
+not set and <code class="env">TMPDIR</code> is set, temporary files are created in that
+directory.  Otherwise temporary files are created in a system-dependent
+default directory (on Unix and GNU/Linux systems, this is usually
+<samp class="file">/tmp</samp>).  <code class="code">grops</code>, <code class="code">grefer</code>, <code class="code">pre-grohtml</code>, and
+<code class="code">post-grohtml</code> can create temporary files in this directory.
+</p>
+</dd>
+<dt id='index-GROFF_005fTYPESETTER_002c-environment-variable'><span><code class="code">GROFF_TYPESETTER</code><a class="copiable-link" href='#index-GROFF_005fTYPESETTER_002c-environment-variable'> &para;</a></span></dt>
+<dd><p>Sets the default output device.  If empty or not set, a build-time
+default (often <code class="code">ps</code>) is used.  The <samp class="option">-T<var class="var">dev</var></samp> option
+overrides <code class="env">GROFF_TYPESETTER</code>.
+</p>
+</dd>
+<dt id='index-SOURCE_005fDATE_005fEPOCH_002c-environment-variable'><span><code class="code">SOURCE_DATE_EPOCH</code><a class="copiable-link" href='#index-SOURCE_005fDATE_005fEPOCH_002c-environment-variable'> &para;</a></span></dt>
+<dd><p>A timestamp (expressed as seconds since the Unix epoch) to use as the
+output creation timestamp in place of the current time.  The time is
+converted to human-readable form using <cite class="cite">localtime<span class="r">(3)</span></cite> when the
+formatter starts up and stored in registers usable by documents and
+macro packages (see <a class="pxref" href="Built_002din-Registers.html">Built-in Registers</a>).
+</p>
+</dd>
+<dt id='index-TZ_002c-environment-variable'><span><code class="code">TZ</code><a class="copiable-link" href='#index-TZ_002c-environment-variable'> &para;</a></span></dt>
+<dd><p>The time zone to use when converting the current time (or value of
+<code class="env">SOURCE_DATE_EPOCH</code>) to human-readable form; see
+<cite class="cite">tzset<span class="r">(3)</span></cite>.
+</p></dd>
+</dl>
+
+<p>MS-DOS and MS-Windows ports of <code class="code">groff</code> use semicolons, rather than
+colons, to separate the directories in the lists described above.
+</p>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Macro-Directories.html">Macro Directories</a>, Previous: <a href="Groff-Options.html">Options</a>, Up: <a href="Invoking-groff.html">Invoking <code class="code">groff</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

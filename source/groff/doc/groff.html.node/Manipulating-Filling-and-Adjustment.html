@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Manipulating Filling and Adjustment (The GNU Troff Manual)</title>
+
+<meta name="description" content="Manipulating Filling and Adjustment (The GNU Troff Manual)">
+<meta name="keywords" content="Manipulating Filling and Adjustment (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Manipulating-Hyphenation.html" rel="next" title="Manipulating Hyphenation">
+<link href="Registers.html" rel="prev" title="Registers">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Manipulating-Filling-and-Adjustment">
+<div class="nav-panel">
+<p>
+Next: <a href="Manipulating-Hyphenation.html" accesskey="n" rel="next">Manipulating Hyphenation</a>, Previous: <a href="Registers.html" accesskey="p" rel="prev">Registers</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Manipulating-Filling-and-Adjustment-1">5.9 Manipulating Filling and Adjustment</h3>
+<a class="index-entry-id" id="index-manipulating-filling-and-adjustment"></a>
+<a class="index-entry-id" id="index-filling-and-adjustment_002c-manipulating"></a>
+<a class="index-entry-id" id="index-adjustment-and-filling_002c-manipulating"></a>
+<a class="index-entry-id" id="index-justifying-text"></a>
+<a class="index-entry-id" id="index-text_002c-justifying"></a>
+
+<a class="index-entry-id" id="index-break-1"></a>
+<a class="index-entry-id" id="index-line-break"></a>
+<a class="index-entry-id" id="index-bp-request_002c-causing-implicit-break"></a>
+<a class="index-entry-id" id="index-ce-request_002c-causing-implicit-break"></a>
+<a class="index-entry-id" id="index-cf-request_002c-causing-implicit-break"></a>
+<a class="index-entry-id" id="index-fi-request_002c-causing-implicit-break"></a>
+<a class="index-entry-id" id="index-fl-request_002c-causing-implicit-break"></a>
+<a class="index-entry-id" id="index-in-request_002c-causing-implicit-break"></a>
+<a class="index-entry-id" id="index-nf-request_002c-causing-implicit-break"></a>
+<a class="index-entry-id" id="index-rj-request_002c-causing-implicit-break"></a>
+<a class="index-entry-id" id="index-sp-request_002c-causing-implicit-break"></a>
+<a class="index-entry-id" id="index-ti-request_002c-causing-implicit-break"></a>
+<a class="index-entry-id" id="index-trf-request_002c-causing-implicit-break"></a>
+<p>When an output line is pending (see below), a break moves the drawing
+position to the beginning of the next text baseline, interrupting
+filling.  Various ways of causing breaks were shown in <a class="ref" href="Breaking.html">Breaking</a>.
+The <code class="code">br</code> request likewise causes a break.  Several other requests
+imply breaks: <code class="code">bp</code>, <code class="code">ce</code>, <code class="code">cf</code>, <code class="code">fi</code>, <code class="code">fl</code>,
+<code class="code">in</code>, <code class="code">nf</code>, <code class="code">rj</code>, <code class="code">sp</code>, <code class="code">ti</code>, and <code class="code">trf</code>.
+If the no-break control character is used with any of these requests,
+GNU <code class="code">troff</code> suppresses the break; instead the requested operation
+takes effect at the next break.  &lsquo;<samp class="samp">'br</samp>&rsquo; does nothing.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ll 55n
+This line is normally filled and adjusted.
+.br
+A line's alignment is decided
+'ce \&quot; Center the next input line (no break).
+when it is output.
+This line returns to normal filling and adjustment.
+    &rArr; This line is normally filled and adjusted.
+    &rArr;    A line's alignment is decided when it is output.
+    &rArr; This line returns to normal filling and adjustment.
+</pre></div></div>
+
+<a class="index-entry-id" id="index-pending-output-line"></a>
+<a class="index-entry-id" id="index-partially-collected-line"></a>
+<a class="index-entry-id" id="index-output-line-properties"></a>
+<a class="index-entry-id" id="index-properties-of-output-lines"></a>
+<p>Output line properties like page offset, indentation, adjustment, and
+even the location of its text baseline, are not determined until the
+line has been broken.  An output line is said to be <em class="dfn">pending</em> if
+some input has been collected but an output line corresponding to it has
+not yet been written; such an output line is also termed <em class="dfn">partially
+collected</em>.  If no output line is pending, it is as if a break has
+already happened; additional breaks, whether explicit or implicit, have
+no effect.  If the vertical drawing position is negative&mdash;as it is when
+the formatter starts up&mdash;a break starts a new page (even if no output
+line is pending) unless an end-of-input macro is being interpreted.
+See <a class="xref" href="End_002dof_002dinput-Traps.html">End-of-input Traps</a>.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ebr"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.br</code></strong><a class="copiable-link" href='#index-_002ebr'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-br"></a>
+<p>Break the line: emit any pending output line without adjustment.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">foo bar
+.br
+baz
+'br
+qux
+    &rArr; foo bar
+    &rArr; baz qux
+</pre></div></div>
+</dd></dl>
+
+<p>Sometimes you want to prevent a break within a phrase or between a
+quantity and its units.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005c_007e-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\~</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005c_007e-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005c_007e"></a>
+<a class="index-entry-id" id="index-unbreakable-space-_0028_005c_007e_0029"></a>
+<a class="index-entry-id" id="index-space_002c-unbreakable-_0028_005c_007e_0029"></a>
+<p>Insert an unbreakable space that is adjustable like an ordinary space.
+It is discarded from the end of an output line if a break is forced.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">Set the output speed to\~1.
+There are 1,024\~bytes in 1\~KiB.
+J.\~F.\~Ossanna wrote the original CSTR\~#54.
+</pre></div></div>
+</dd></dl>
+
+<p>By default, GNU <code class="code">troff</code> fills text and adjusts it to reach the
+output line length.  The <code class="code">nf</code> request disables filling; the
+<code class="code">fi</code> request reënables it.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002efi"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.fi</code></strong><a class="copiable-link" href='#index-_002efi'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-fi"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002eu_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.u]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002eu_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002eu"></a>
+<a class="index-entry-id" id="index-filling-of-output_002c-enabling-_0028fi_0029"></a>
+<a class="index-entry-id" id="index-output_002c-filling_002c-enablement-of-_0028fi_0029"></a>
+<a class="index-entry-id" id="index-fill-mode-_0028fi_0029_002c-enabling"></a>
+<a class="index-entry-id" id="index-mode_002c-fill-_0028fi_0029_002c-enabling"></a>
+<p>Enable filling of output lines; a pending output line is broken.  The
+read-only register <code class="code">.u</code> is set to&nbsp;1.  The filling enablement
+status, sometimes called <em class="dfn">fill mode</em>, is associated with the
+environment (see <a class="pxref" href="Environments.html">Environments</a>).  See <a class="xref" href="Line-Continuation.html">Line Continuation</a>, for
+interaction with the <code class="code">\c</code> escape sequence.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002enf"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.nf</code></strong><a class="copiable-link" href='#index-_002enf'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-nf"></a>
+<a class="index-entry-id" id="index-filling-of-output_002c-disabling-_0028nf_0029"></a>
+<a class="index-entry-id" id="index-output_002c-filling_002c-disablement-of-_0028nf_0029"></a>
+<a class="index-entry-id" id="index-no_002dfill-mode"></a>
+<a class="index-entry-id" id="index-mode_002c-no_002dfill"></a>
+<a class="index-entry-id" id="index-fill-mode_002c-disabling"></a>
+<a class="index-entry-id" id="index-mode_002c-fill_002c-disabling"></a>
+<p>Disable filling of output lines: the output line length (see <a class="pxref" href="Line-Layout.html">Line Layout</a>) is ignored and output lines are broken where the input lines
+are.  A pending output line is broken and adjustment is suppressed.  The
+read-only register <code class="code">.u</code> is set to&nbsp;0.  The filling enablement
+status is associated with the environment (see <a class="pxref" href="Environments.html">Environments</a>).  See
+<a class="ref" href="Line-Continuation.html">Line Continuation</a>, for interaction with the <code class="code">\c</code> escape
+sequence.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ead"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ad</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">mode</i></span>]</var><a class="copiable-link" href='#index-_002ead'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ad"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ej_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.j]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ej_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ej"></a>
+<p>Enable output line adjustment in <var class="var">mode</var>, taking effect when the
+pending (or next) output line is broken.  Adjustment is suppressed when
+filling is.  <var class="var">mode</var> can have one of the following values.
+</p>
+<dl class="table">
+<dt><code class="code">b</code></dt>
+<dt><code class="code">n</code></dt>
+<dd><p>Adjust &ldquo;normally&rdquo;: if the output line does not consume the distance
+between the indentation and the configured output line length, GNU
+<code class="code">troff</code> stretches adjustable spaces within the line until that
+length is reached.  When the indentation is zero, this mode spreads the
+line to both the left and right margins.  This is the GNU <code class="code">troff</code>
+default.
+</p>
+</dd>
+<dt id='index-centered-text-_0028filled_0029'><span><code class="code">c</code><a class="copiable-link" href='#index-centered-text-_0028filled_0029'> &para;</a></span></dt>
+<dd><p>Center filled text.  Contrast with the <code class="code">ce</code> request, which centers
+text <em class="emph">without</em> filling it.
+</p>
+</dd>
+<dt id='index-ragged_002dright-text'><span><code class="code">l</code><a class="copiable-link" href='#index-ragged_002dright-text'> &para;</a></span></dt>
+<dd><p>Align text to the left without adjusting it.
+</p>
+</dd>
+<dt id='index-ragged_002dleft-text'><span><code class="code">r</code><a class="copiable-link" href='#index-ragged_002dleft-text'> &para;</a></span></dt>
+<dd><p>Align text to the right without adjusting it.
+</p></dd>
+</dl>
+
+<p><var class="var">mode</var> can also be a value previously stored in the <code class="code">.j</code>
+register.  Using <code class="code">ad</code> without an argument is the same as &lsquo;<samp class="samp">.ad
+\n[.j]</samp>&rsquo;; unless filling is disabled, GNU <code class="code">troff</code> resumes adjusting
+lines in the same way it did before adjustment was disabled by
+invocation of the <code class="code">na</code> request.
+</p>
+<a class="index-entry-id" id="index-adjustment-mode-register-_0028_002ej_0029"></a>
+<p>The adjustment mode and enablement status are encoded in the read-only
+register <code class="code">.j</code>.  These parameters are associated with the
+environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p>
+<p>The value of <code class="code">.j</code> for any adjustment mode is an implementation
+detail and should not be relied upon as a programmer&rsquo;s interface.  Do
+not write logic to interpret or perform arithmetic on it.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ll 48n
+.de AD
+.  br
+.  ad \\$1
+..
+.de NA
+.  br
+.  na
+..
+left
+.AD r
+.nr ad \n(.j
+right
+.AD c
+center
+.NA
+left
+.AD
+center
+.AD \n(ad
+right
+</pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted">    &rArr; left
+    &rArr;                                            right
+    &rArr;                      center
+    &rArr; left
+    &rArr;                      center
+    &rArr;                                            right
+</pre></div></div>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ena"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.na</code></strong><a class="copiable-link" href='#index-_002ena'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-na"></a>
+<p>Disable output line adjustment.  This produces the same output as
+left-alignment, but the value of the adjustment mode register <code class="code">.j</code>
+is altered differently.  The adjustment mode and enablement status are
+associated with the environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ebrp"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.brp</code></strong><a class="copiable-link" href='#index-_002ebrp'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-brp"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cp-1"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\p</code><span class="r"><i class="slanted"></i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cp-1'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cp"></a>
+<p>Break, adjusting the line per the current adjustment mode.  <code class="code">\p</code>
+schedules a break with adjustment at the next word boundary.  The escape
+sequence is itself neither a break nor a space of any kind; it can thus
+be placed in the middle of a word to cause a break at the end of that
+word.
+</p>
+<p>Breaking with immediate adjustment can produce ugly results since GNU
+<code class="code">troff</code> doesn&rsquo;t have a sophisticated paragraph-building algorithm,
+as TeX has, for example.  Instead, GNU <code class="code">troff</code> fills and adjusts
+a paragraph line by line.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ll 4.5i
+This is an uninteresting sentence.
+This is an uninteresting sentence.\p
+This is an uninteresting sentence.
+</pre></div></div>
+
+<p>is formatted as follows.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">This  is  an uninteresting sentence.  This is
+an          uninteresting           sentence.
+This is an uninteresting sentence.
+</pre></div></div>
+</dd></dl>
+
+<a class="index-entry-id" id="index-productive-input-line"></a>
+<a class="index-entry-id" id="index-input-line_002c-productive"></a>
+<a class="index-entry-id" id="index-line_002c-productive-input"></a>
+<p>To clearly present the next couple of requests, we must introduce the
+concept of &ldquo;productive&rdquo; input lines.  A <em class="dfn">productive input line</em> is
+one that directly produces formatted output.  Text lines produce
+output,<a class="footnote" id="DOCF53" href="groff.html_fot.html#FOOT53"><sup>53</sup></a> as do control
+lines containing requests like <code class="code">tl</code> or escape sequences like
+<code class="code">\D</code>.  Macro calls are not <em class="emph">directly</em> productive, and thus not
+counted, but their interpolated contents can be.  Empty requests, and
+requests and escape sequences that define registers or strings or alter
+the formatting environment (as with changes to the size, face, height,
+slant, or color of the type) are not productive.  We will also preview
+the output line continuation escape sequence, <code class="code">\c</code>, which
+&ldquo;connects&rdquo; two input lines that would otherwise be counted separately.
+<a class="footnote" id="DOCF54" href="groff.html_fot.html#FOOT54"><sup>54</sup></a>
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de hello
+Hello, world!
+..
+.ce \&quot; center output of next productive input line
+.
+.nr junk-reg 1
+.ft I
+Chorus: \c
+.ft
+.hello
+Went the day well?
+  &rArr;                  <i class="slanted">Chorus:</i> Hello, world!
+  &rArr; Went the day well?
+</pre></div></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ece"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ce</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">n</i></span>]</var><a class="copiable-link" href='#index-_002ece'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ce"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ece_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.ce]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ece_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ece-1"></a>
+<a class="index-entry-id" id="index-centered-text-_0028unfilled_0029"></a>
+<a class="index-entry-id" id="index-centering-lines-_0028ce_0029"></a>
+<a class="index-entry-id" id="index-lines_002c-centering-_0028ce_0029"></a>
+<p>Break (unless the no-break control character is used), center the output
+of the next <var class="var">n</var> productive input lines with respect to the line
+length and indentation without filling, then break again regardless of
+the invoking control character.
+If the argument is not positive, centering is disabled.  Omitting the
+argument implies an <var class="var">n</var> of &lsquo;<samp class="samp">1</samp>&rsquo;.  The count of lines remaining
+to be centered is stored in the read-only register <code class="code">.ce</code> and is
+associated with the environment (see <a class="pxref" href="Environments.html">Environments</a>).
+</p>
+<a class="index-entry-id" id="index-ce-request_002c-difference-from-_002ead-c"></a>
+<p>While the &lsquo;<samp class="samp">.ad&nbsp;c</samp>&rsquo;<!-- /@w --> request also centers text, it fills the text
+as well.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.de FR
+This is a small text fragment that shows the differences
+between the `.ce' and the `.ad c' requests.
+..
+.ll 4i
+.ce 1000
+.FR
+.ce 0
+
+.ad c
+.FR
+    &rArr; This is a small text fragment that shows
+    &rArr;              the differences
+    &rArr; between the &lsquo;.ce&rsquo; and the &lsquo;.ad c&rsquo; requests.
+    &rArr;
+    &rArr; This is a small text fragment that shows
+    &rArr;  the differences between the &lsquo;.ce&rsquo; and
+    &rArr;         the &lsquo;.ad c&rsquo; requests.
+</pre></div></div>
+
+<p>The previous example illustrates a common idiom of turning centering on
+for a quantity of lines far in excess of what is required, and off again
+after the text to be centered.  This technique relieves humans of
+counting lines for requests that take a count of input lines as an
+argument.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002erj"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.rj</code></strong> <var class="def-var-arguments">[<span class="r"><i class="slanted">n</i></span>]</var><a class="copiable-link" href='#index-_002erj'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-rj"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002erj_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.rj]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002erj_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002erj-1"></a>
+<a class="index-entry-id" id="index-justifying-text-_0028rj_0029"></a>
+<a class="index-entry-id" id="index-text_002c-justifying-_0028rj_0029"></a>
+<a class="index-entry-id" id="index-right_002djustifying-_0028rj_0029"></a>
+<p>Break (unless the no-break control character is used), align the output
+of the next <var class="var">n</var> productive input lines to the right margin without
+filling, then break again regardless of the control character.
+If the argument is not positive, right-alignment is disabled.  Omitting
+the argument implies an <var class="var">n</var> of &lsquo;<samp class="samp">1</samp>&rsquo;.  The count of lines
+remaining to be right-aligned is stored in the read-only register
+<code class="code">.rj</code> and is associated with the environment
+(see <a class="pxref" href="Environments.html">Environments</a>).
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ll 49n
+.rj 3
+At first I hoped that such a technically unsound
+project would collapse but I soon realized it was
+doomed to success. \[em] C. A. R. Hoare
+    &rArr;  At first I hoped that such a technically unsound
+    &rArr; project would collapse but I soon realized it was
+    &rArr;              doomed to success. -- C. A. R. Hoare
+</pre></div></div>
+</dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002ess"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.ss</code></strong> <var class="def-var-arguments">word-space-size [<span class="r"><i class="slanted">additional-sentence-space-size</i></span>]</var><a class="copiable-link" href='#index-_002ess'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-ss"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002ess_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.ss]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002ess_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002ess-1"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cn_005b_002esss_005d"><span class="category-def">Register: </span><span><strong class="def-name"><code class="t">\n[.sss]</code></strong><a class="copiable-link" href='#index-_005cn_005b_002esss_005d'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_002esss"></a>
+<a class="index-entry-id" id="index-word-space-size-register-_0028_002ess_0029"></a>
+<a class="index-entry-id" id="index-size-of-word-space-register-_0028_002ess_0029"></a>
+<a class="index-entry-id" id="index-space-between-words-register-_0028_002ess_0029"></a>
+<a class="index-entry-id" id="index-inter_002dsentence-space-size-register-_0028_002esss_0029"></a>
+<a class="index-entry-id" id="index-sentence-space-size-register-_0028_002esss_0029"></a>
+<a class="index-entry-id" id="index-size-of-sentence-space-register-_0028_002esss_0029"></a>
+<a class="index-entry-id" id="index-space-between-sentences-register-_0028_002esss_0029"></a>
+<p>Set the sizes of spaces between words and
+sentences<a class="footnote" id="DOCF55" href="groff.html_fot.html#FOOT55"><sup>55</sup></a> in twelfths
+of font&rsquo;s space width (typically one-fourth to one-third em for Western
+scripts).  The default for both parameters is&nbsp;12.  Negative values
+are erroneous.
+<a class="index-entry-id" id="index-inter_002dword-spacing_002c-minimal"></a>
+<a class="index-entry-id" id="index-minimal-inter_002dword-spacing"></a>
+<a class="index-entry-id" id="index-space_002c-between-words"></a>
+The first argument is a minimum; if an output line undergoes adjustment,
+such spaces may increase in width.
+<a class="index-entry-id" id="index-inter_002dsentence-space_002c-additional"></a>
+<a class="index-entry-id" id="index-additional-inter_002dsentence-space"></a>
+<a class="index-entry-id" id="index-space_002c-between-sentences"></a>
+The optional second argument sets the amount of additional space
+separating sentences on the same output line.  If omitted, this amount
+is set to <var class="var">word-space-size</var>.  The request is ignored if there are no
+parameters.
+</p>
+<a class="index-entry-id" id="index-filling_002c-and-inter_002dsentence-space"></a>
+<a class="index-entry-id" id="index-mode_002c-fill_002c-and-inter_002dsentence-space"></a>
+<p>Additional inter-sentence space is used only if the output line is not
+full when the end of a sentence occurs in the input.  If a sentence ends
+at the end of an input line, then both an inter-word space and an
+inter-sentence space are added to the output; if two spaces follow the
+end of a sentence in the middle of an input line, then the second space
+becomes an inter-sentence space in the output.  Additional
+inter-sentence space is not adjusted, but the inter-word space that
+always precedes it may be.  Further input spaces after the second, if
+present, are adjusted as normal.
+</p>
+<p>The read-only registers <code class="code">.ss</code> and <code class="code">.sss</code> hold the minimal
+inter-word space and additional inter-sentence space amounts,
+respectively.  These parameters are part of the environment
+(see <a class="pxref" href="Environments.html">Environments</a>), and rounded down to the nearest multiple
+of&nbsp;12 on terminals.
+</p>
+<a class="index-entry-id" id="index-discardable-horizontal-space"></a>
+<a class="index-entry-id" id="index-space_002c-discardable_002c-horizontal"></a>
+<a class="index-entry-id" id="index-horizontal-discardable-space"></a>
+<p>The <code class="code">ss</code> request can insert discardable horizontal space; that is,
+space that is discarded at a break.  For example, some footnote styles
+collect the notes into a single paragraph with large gaps between
+each note.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ll 48n
+1.\~J. Fict. Ch. Soc. 6 (2020), 3\[en]14.
+.ss 12 48 \&quot; applies to next sentence ending
+Reprints no longer available through FCS.
+.ss 12 \&quot; go back to normal
+2.\~Better known for other work.
+    &rArr; 1.  J.  Fict. Ch. Soc. 6 (2020), 3-14.  Reprints
+    &rArr; no longer available through FCS.      2.  Better
+    &rArr; known for other work.
+</pre></div></div>
+
+<p>If <em class="emph">undiscardable</em> space is required, use the <code class="code">\h</code> escape
+sequence.
+</p></dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Manipulating-Hyphenation.html">Manipulating Hyphenation</a>, Previous: <a href="Registers.html">Registers</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

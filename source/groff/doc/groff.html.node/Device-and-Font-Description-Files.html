@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Device and Font Description Files (The GNU Troff Manual)</title>
+
+<meta name="description" content="Device and Font Description Files (The GNU Troff Manual)">
+<meta name="keywords" content="Device and Font Description Files (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="File-Formats.html" rel="up" title="File Formats">
+<link href="gtroff-Output.html" rel="prev" title="gtroff Output">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Device-and-Font-Description-Files">
+<div class="nav-panel">
+<p>
+Previous: <a href="gtroff-Output.html" accesskey="p" rel="prev"><code class="code">gtroff</code> Output</a>, Up: <a href="File-Formats.html" accesskey="u" rel="up">File Formats</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Device-and-Font-Description-Files-1">6.2 Device and Font Description Files</h3>
+<a class="index-entry-id" id="index-font-files"></a>
+<a class="index-entry-id" id="index-files_002c-font"></a>
+
+<p>The <code class="code">groff</code> font and output device description formats are slight
+extensions of those used by <abbr class="acronym">AT&amp;T</abbr> device-independent
+<code class="code">troff</code>.  In distinction to the <abbr class="acronym">AT&amp;T</abbr> implementation,
+<code class="code">groff</code> lacks a binary format; all files are text
+files.<a class="footnote" id="DOCF125" href="groff.html_fot.html#FOOT125"><sup>125</sup></a>  The device and font description files for a device <var class="var">name</var>
+are stored in a <samp class="file">dev<var class="var">name</var></samp> directory.  The device description
+file is called <samp class="file">DESC</samp>, and, for each font supported by the device,
+a font description file is called&nbsp;<samp class="file"><var class="var">f</var></samp>, where
+<var class="var">f</var>&nbsp;is usually an abbreviation of a font&rsquo;s name and/or style.
+For example, the <code class="code">ps</code> (PostScript) device has <code class="code">groff</code> font
+description files for Times roman (<samp class="file">TR</samp>) and Zapf Chancery Medium
+italic (<samp class="file">ZCMI</samp>), among many others, while the <code class="code">utf8</code> device
+(for terminal emulators) has only font descriptions for the roman,
+italic, bold, and bold-italic styles (<samp class="file">R</samp>, <samp class="file">I</samp>, <samp class="file">B</samp>, and
+<samp class="file">BI</samp>, respectively).
+</p>
+<p>Device and font description files are read both by the formatter, GNU
+<code class="code">troff</code>, and by output drivers.  The programs delegate these files&rsquo;
+processing to an internal library, <samp class="file">libgroff</samp>, ensuring their
+consistent interpretation.
+</p>
+
+
+<ul class="mini-toc">
+<li><a href="DESC-File-Format.html" accesskey="1"><samp class="file">DESC</samp> File Format</a></li>
+<li><a href="Font-Description-File-Format.html" accesskey="2">Font Description File Format</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

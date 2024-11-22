@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Conventions Used in This Manual (The GNU Troff Manual)</title>
+
+<meta name="description" content="Conventions Used in This Manual (The GNU Troff Manual)">
+<meta name="keywords" content="Conventions Used in This Manual (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Introduction.html" rel="up" title="Introduction">
+<link href="Credits.html" rel="next" title="Credits">
+<link href="Installation.html" rel="prev" title="Installation">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Conventions-Used-in-This-Manual">
+<div class="nav-panel">
+<p>
+Next: <a href="Credits.html" accesskey="n" rel="next">Credits</a>, Previous: <a href="Installation.html" accesskey="p" rel="prev">Installation</a>, Up: <a href="Introduction.html" accesskey="u" rel="up">Introduction</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Conventions-Used-in-This-Manual-1">1.8 Conventions Used in This Manual</h3>
+
+<p>We apply the term &ldquo;groff&rdquo; to the language documented here, the GNU
+implementation of the overall system, the project that develops that
+system, and the command of that name.  In the first sense, <code class="code">groff</code>
+is an extended dialect of the <code class="code">roff</code> language, for which many
+similar implementations exist.
+</p>
+<p>The <code class="code">roff</code> language features several major categories for which
+many items are predefined.  Presentations of these items feature the
+form in which the item is most commonly used on the left, and, aligned
+to the right margin, the name of the category in brackets.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_005cn_005bexample_005d"><span class="category-def">Register: </span><span><strong class="def-name">\n[example]</strong><a class="copiable-link" href='#index-_005cn_005bexample_005d'> &para;</a></span></dt>
+<dd><p>The register &lsquo;<samp class="samp">example</samp>&rsquo; is one that that <code class="code">groff</code> <em class="emph">doesn&rsquo;t</em>
+predefine.  You can create it yourself, though; see <a class="ref" href="Setting-Registers.html">Setting Registers</a>.
+</p></dd></dl>
+
+<p>To make this document useful as a reference and not merely amiable
+bedtime reading, we tend to present these syntax items in exhaustive
+detail when they arise.  References to topics discussed later in the
+text are frequent; skip material you don&rsquo;t understand yet.
+</p>
+<p>We use Texinfo&rsquo;s &ldquo;result&rdquo; (&rArr;) and error&rarr; notations to
+present output written to the standard output and standard error
+streams, respectively.  Diagnostic messages from the GNU <code class="code">troff</code>
+formatter and other programs are examples of the latter, but the
+formatter can also be directed to write user-specified messages to the
+standard error stream.  The notation then serves to identify the
+output stream and does not necessarily mean that an error has
+occurred.<a class="footnote" id="DOCF2" href="groff.html_fot.html#FOOT2"><sup>2</sup></a>
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">$ echo &quot;Twelve o'clock and&quot; | groff -Tascii | sed '/^$/d'
+    &rArr; Twelve o'clock and
+$ echo '.tm all is well.' | groff &gt; /dev/null
+    error&rarr; all is well.
+</pre></div></div>
+
+<p>Sometimes we use &rArr; somewhat abstractly to represent formatted
+text that you will need to use a PostScript or PDF viewer program (or a
+printer) to observe.  While arguably an abuse of notation, we think this
+preferable to requiring the reader to understand the syntax of these
+page description languages.
+</p>
+<p>We also present diagnostic messages in an abbreviated form, often
+omitting the name of the program issuing them, the input file name, and
+line number or other positional information when such data do not serve
+to illuminate the topic under discussion.
+</p>
+<p>Most examples are of <code class="code">roff</code> language input that would be placed in
+a text file.  Occasionally, we start an example with a &lsquo;<samp class="samp">$</samp>&rsquo;
+character to indicate a shell prompt, as seen above.
+</p>
+<p>You are encouraged to try the examples yourself, and to alter them to
+better learn <code class="code">groff</code>&rsquo;s behavior.  Our examples frequently need to
+direct the formatter to set a line length (with &lsquo;<samp class="samp">.ll</samp>&rsquo;) that will
+fit within the page margins of this manual.  We mention this so that you
+know why it is there before we discuss the <code class="code">ll</code> request
+formally.<a class="footnote" id="DOCF3" href="groff.html_fot.html#FOOT3"><sup>3</sup></a>
+</p>
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Credits.html">Credits</a>, Previous: <a href="Installation.html">Installation</a>, Up: <a href="Introduction.html">Introduction</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Postprocessor Access (The GNU Troff Manual)</title>
+
+<meta name="description" content="Postprocessor Access (The GNU Troff Manual)">
+<meta name="keywords" content="Postprocessor Access (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="GNU-troff-Reference.html" rel="up" title="GNU troff Reference">
+<link href="Miscellaneous.html" rel="next" title="Miscellaneous">
+<link href="I_002fO.html" rel="prev" title="I/O">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+kbd.key {font-style: normal}
+span.r {font-family: initial; font-weight: normal; font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Postprocessor-Access">
+<div class="nav-panel">
+<p>
+Next: <a href="Miscellaneous.html" accesskey="n" rel="next">Miscellaneous</a>, Previous: <a href="I_002fO.html" accesskey="p" rel="prev">I/O</a>, Up: <a href="GNU-troff-Reference.html" accesskey="u" rel="up">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Postprocessor-Access-1">5.34 Postprocessor Access</h3>
+<a class="index-entry-id" id="index-postprocessor-access"></a>
+<a class="index-entry-id" id="index-access-to-postprocessor"></a>
+
+<p>Two escape sequences and two requests enable documents to pass
+information directly to a postprocessor.  These are useful for
+exercising device-specific capabilities that the <code class="code">groff</code> language
+does not abstract or generalize; examples include the embedding of
+hyperlinks and image files.  Device-specific functions are documented in
+each output driver&rsquo;s man page, such as <cite class="cite">gropdf<span class="r">(1)</span></cite>,
+<cite class="cite">grops<span class="r">(1)</span></cite>, or <cite class="cite">grotty<span class="r">(1)</span></cite>.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002edevice"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.device</code></strong> <var class="def-var-arguments">xxx <span class="r">&hellip;</span></var><a class="copiable-link" href='#index-_002edevice'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-device"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cX_0027xxx-_2026_0027"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\X<code class="code">'</code></code><span class="r"><i class="slanted">xxx <span class="r">&hellip;</span></i></span><code class="t"><code class="code">'</code></code></strong><a class="copiable-link" href='#index-_005cX_0027xxx-_2026_0027'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cX"></a>
+<p>Embed all <var class="var">xxx</var> arguments into GNU <code class="code">troff</code> output as parameters
+to a device control command &lsquo;<samp class="samp">x&nbsp;X</samp>&rsquo;<!-- /@w -->.  The meaning and
+interpretation of such parameters is determined by the output driver or
+other postprocessor.
+</p>
+<a class="index-entry-id" id="index-device-request_002c-and-copy-mode"></a>
+<a class="index-entry-id" id="index-copy-mode_002c-and-device-request"></a>
+<a class="index-entry-id" id="index-mode_002c-copy_002c-and-device-request"></a>
+<p>The <code class="code">device</code> request processes its arguments in copy mode
+(see <a class="pxref" href="Copy-Mode.html">Copy Mode</a>).  An initial neutral double quote in <var class="var">contents</var>
+is stripped to allow embedding of leading spaces.
+<a class="index-entry-id" id="index-_005c_0026_002c-in-_005cX"></a>
+<a class="index-entry-id" id="index-_005c_0029_002c-in-_005cX"></a>
+<a class="index-entry-id" id="index-_005c_0025_002c-in-_005cX"></a>
+<a class="index-entry-id" id="index-_005c_003a_002c-in-_005cX"></a>
+By contrast, within <code class="code">\X</code> arguments, the escape sequences <code class="code">\&amp;</code>,
+<code class="code">\)</code>, <code class="code">\%</code>, and <code class="code">\:</code> are ignored; <code class="code">\<kbd class="key">SP</kbd></code> and
+<code class="code">\~</code> are converted to single space characters; and <code class="code">\\</code> has
+its escape character stripped.  So that the basic Latin subset of the
+Unicode character set<a class="footnote" id="DOCF115" href="groff.html_fot.html#FOOT115"><sup>115</sup></a> can be reliably encoded in device control
+commands, seven special character escape sequences (&lsquo;<samp class="samp">\-</samp>&rsquo;,
+&lsquo;<samp class="samp">\[aq]</samp>&rsquo;, &lsquo;<samp class="samp">\[dq]</samp>&rsquo;, &lsquo;<samp class="samp">\[ga]</samp>&rsquo;, &lsquo;<samp class="samp">\[ha]</samp>&rsquo;, &lsquo;<samp class="samp">\[rs]</samp>&rsquo;,
+and &lsquo;<samp class="samp">\[ti]</samp>&rsquo;,) are mapped to basic Latin characters; see the
+<cite class="cite">groff_char<span class="r">(7)</span></cite> man page.  For this transformation, character
+translations and special character definitions are
+ignored.<a class="footnote" id="DOCF116" href="groff.html_fot.html#FOOT116"><sup>116</sup></a> The use of any
+other escape sequence in <code class="code">\X</code> parameters is normally an error.
+</p>
+<a class="index-entry-id" id="index-use_005fcharnames_005fin_005fspecial"></a>
+<a class="index-entry-id" id="index-DESC-file_002c-and-use_005fcharnames_005fin_005fspecial-keyword"></a>
+<a class="index-entry-id" id="index-_005cX_002c-and-special-characters"></a>
+<p>If the <code class="code">use_charnames_in_special</code> directive appears in the output
+device&rsquo;s <samp class="file">DESC</samp> file, the use of special character escape sequences
+is <em class="emph">not</em> an error; they are simply output verbatim (with the
+exception of the seven mapped to Unicode basic Latin characters,
+discussed above).  <code class="code">use_charnames_in_special</code> is currently employed
+only by <code class="code">grohtml</code>.
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002edevicem"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.devicem</code></strong> <var class="def-var-arguments">name</var><a class="copiable-link" href='#index-_002edevicem'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-devicem"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cYn"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\Y</code><span class="r"><i class="slanted">n</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cYn'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-_005cY"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_005cY_0028nm"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\Y(</code><span class="r"><i class="slanted">nm</i></span><code class="t"></code></strong><a class="copiable-link" href='#index-_005cY_0028nm'> &para;</a></span></dt>
+<dt class="deffnx def-cmd-deffn" id="index-_005cY_005bname_005d"><span class="category-def">Escape&nbsp;sequence: </span><span><strong class="def-name"><code class="t">\Y[</code><span class="r"><i class="slanted">name</i></span><code class="t">]</code></strong><a class="copiable-link" href='#index-_005cY_005bname_005d'> &para;</a></span></dt>
+<dd><p>This is approximately equivalent to &lsquo;<samp class="samp">\X'\*[<var class="var">name</var>]'</samp>&rsquo;
+(one-character name&nbsp;<var class="var">n</var>, two-character name <var class="var">nm</var>).
+However, the contents of the string or macro <var class="var">name</var> are not
+interpreted; also it is permitted for <var class="var">name</var> to have been defined as
+a macro and thus contain newlines (it is not permitted for the argument
+to <code class="code">\X</code> to contain newlines).  The inclusion of newlines requires
+an extension to the <abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> output format, and
+confuses drivers that do not know about this extension (see <a class="pxref" href="Device-Control-Commands.html">Device Control Commands</a>).
+</p></dd></dl>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_002etag"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.tag</code></strong> <var class="def-var-arguments">name</var><a class="copiable-link" href='#index-_002etag'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-tag"></a>
+</dd><dt class="deffnx def-cmd-deffn" id="index-_002etaga"><span class="category-def">Request: </span><span><strong class="def-name"><code class="t">.taga</code></strong> <var class="def-var-arguments">name</var><a class="copiable-link" href='#index-_002etaga'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-taga"></a>
+<p>Reserved for internal use.
+</p></dd></dl>
+
+
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Miscellaneous.html">Miscellaneous</a>, Previous: <a href="I_002fO.html">I/O</a>, Up: <a href="GNU-troff-Reference.html">GNU <code class="code">troff</code> Reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Separation (The GNU Troff Manual)</title>
+
+<meta name="description" content="Separation (The GNU Troff Manual)">
+<meta name="keywords" content="Separation (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Language-Concepts.html" rel="up" title="Language Concepts">
+<link href="Argument-Units.html" rel="next" title="Argument Units">
+<link href="Language-Concepts.html" rel="prev" title="Language Concepts">
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="Separation">
+<div class="nav-panel">
+<p>
+Next: <a href="Argument-Units.html" accesskey="n" rel="next">Argument Units</a>, Previous: <a href="Language-Concepts.html" accesskey="p" rel="prev">Language Concepts</a>, Up: <a href="Language-Concepts.html" accesskey="u" rel="up">Language Concepts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Separation-1">6.1.1.1 Separation</h4>
+
+<p><abbr class="acronym">AT&amp;T</abbr> <code class="code">troff</code> output has strange requirements regarding
+whitespace.  The <code class="code">gtroff</code> output parser, however, is more tolerant,
+making whitespace maximally optional.  Such characters, i.e., the tab,
+space, and newline, always have a syntactical meaning.  They are never
+printable because spacing within the output is always done by
+positioning commands.
+</p>
+<p>Any sequence of space or tab characters is treated as a single
+<em class="dfn">syntactical space</em>.  It separates commands and arguments, but is
+only required when there would occur a clashing between the command code
+and the arguments without the space.  Most often, this happens when
+variable-length command names, arguments, argument lists, or command
+clusters meet.  Commands and arguments with a known, fixed length need
+not be separated by syntactical space.
+</p>
+<p>A line break is a syntactical element, too.  Every command argument can
+be followed by whitespace, a comment, or a newline character.  Thus a
+<em class="dfn">syntactical line break</em> is defined to consist of optional
+syntactical space that is optionally followed by a comment, and a
+newline character.
+</p>
+<p>The normal commands, those for positioning and text, consist of a single
+letter taking a fixed number of arguments.  For historical reasons, the
+parser allows stacking of such commands on the same line, but
+fortunately, in <code class="code">gtroff</code>&rsquo;s intermediate output, every command with
+at least one argument is followed by a line break, thus providing
+excellent readability.
+</p>
+<p>The other commands&mdash;those for drawing and device controlling&mdash;have a
+more complicated structure; some recognize long command names, and some
+take a variable number of arguments.  So all &lsquo;<samp class="samp">D</samp>&rsquo; and &lsquo;<samp class="samp">x</samp>&rsquo;
+commands were designed to request a syntactical line break after their
+last argument.  Only one command, &lsquo;<samp class="samp">x&nbsp;X</samp>&rsquo;<!-- /@w -->, has an argument that
+can span several input lines; all other commands must have all of
+their arguments on the same line as the command, i.e., the arguments may
+not be split by a line break.
+</p>
+<p>Empty lines (these are lines containing only space and/or a comment),
+can occur everywhere.  They are just ignored.
+</p>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Argument-Units.html">Argument Units</a>, Previous: <a href="Language-Concepts.html">Language Concepts</a>, Up: <a href="Language-Concepts.html">Language Concepts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

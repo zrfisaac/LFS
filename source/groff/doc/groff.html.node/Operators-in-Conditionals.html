@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.0.3, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual documents GNU troff version 1.23.0.
+
+Copyright © 1994-2023 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Operators in Conditionals (The GNU Troff Manual)</title>
+
+<meta name="description" content="Operators in Conditionals (The GNU Troff Manual)">
+<meta name="keywords" content="Operators in Conditionals (The GNU Troff Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Request-Index.html" rel="index" title="Request Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Conditionals-and-Loops.html" rel="up" title="Conditionals and Loops">
+<link href="if_002dthen.html" rel="next" title="if-then">
+<link href="Conditionals-and-Loops.html" rel="prev" title="Conditionals and Loops">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Operators-in-Conditionals">
+<div class="nav-panel">
+<p>
+Next: <a href="if_002dthen.html" accesskey="n" rel="next">if-then</a>, Previous: <a href="Conditionals-and-Loops.html" accesskey="p" rel="prev">Conditionals and Loops</a>, Up: <a href="Conditionals-and-Loops.html" accesskey="u" rel="up">Conditionals and Loops</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Operators-in-Conditionals-1">5.23.1 Operators in Conditionals</h4>
+
+<a class="index-entry-id" id="index-if-request_002c-operators-to-use-with"></a>
+<a class="index-entry-id" id="index-ie-request_002c-operators-to-use-with"></a>
+<a class="index-entry-id" id="index-while-request_002c-operators-to-use-with"></a>
+<a class="index-entry-id" id="index-conditional-expressions"></a>
+<a class="index-entry-id" id="index-expressions_002c-conditional"></a>
+<p>In <code class="code">if</code>, <code class="code">ie</code>, and <code class="code">while</code> requests, in addition to the
+numeric expressions described in <a class="ref" href="Numeric-Expressions.html">Numeric Expressions</a>, several
+Boolean operators are available; the members of this expanded class are
+termed <em class="dfn">conditional expressions</em>.
+</p>
+<dl class="table">
+<dt><code class="code">c <var class="var">glyph</var></code></dt>
+<dd><p>True if <var class="var">glyph</var> is available, where <var class="var">glyph</var> is an ordinary
+character, a special character &lsquo;<samp class="samp">\(<var class="var">xx</var></samp>&rsquo; or &lsquo;<samp class="samp">\[<var class="var">xxx</var>]</samp>&rsquo;,
+&lsquo;<samp class="samp">\N'<var class="var">xxx</var>'</samp>&rsquo;, or has been defined by any of the <code class="code">char</code>,
+<code class="code">fchar</code>, <code class="code">fschar</code>, or <code class="code">schar</code> requests.
+</p>
+</dd>
+<dt><code class="code">d <var class="var">name</var></code></dt>
+<dd><p>True if a string, macro, diversion, or request called <var class="var">name</var> exists.
+</p>
+</dd>
+<dt><code class="code">e</code></dt>
+<dd><p>True if the current page is even-numbered.
+</p>
+</dd>
+<dt><code class="code">F <var class="var">font</var></code></dt>
+<dd><p>True if <var class="var">font</var> exists.  <var class="var">font</var> is handled as if it were opened
+with the <code class="code">ft</code> request (that is, font translation and styles are
+applied), without actually mounting it.
+</p>
+</dd>
+<dt><code class="code">m <var class="var">color</var></code></dt>
+<dd><p>True if <var class="var">color</var> is defined.
+</p>
+</dd>
+<dt id='index-conditional-output-for-terminal-_0028TTY_0029'><span><code class="code">n</code><a class="copiable-link" href='#index-conditional-output-for-terminal-_0028TTY_0029'> &para;</a></span></dt>
+<dd><a class="index-entry-id" id="index-TTY_002c-conditional-output-for"></a>
+<a class="index-entry-id" id="index-terminal_002c-conditional-output-for"></a>
+<p>True if the document is being processed in <code class="code">nroff</code> mode.
+See <a class="xref" href="troff-and-nroff-Modes.html"><code class="code">troff</code> and <code class="code">nroff</code> Modes</a>.
+</p>
+</dd>
+<dt><code class="code">o</code></dt>
+<dd><p>True if the current page is odd-numbered.
+</p>
+</dd>
+<dt><code class="code">r <var class="var">register</var></code></dt>
+<dd><p>True if <var class="var">register</var> exists.
+</p>
+</dd>
+<dt><code class="code">S <var class="var">style</var></code></dt>
+<dd><p>True if <var class="var">style</var> is available for the current font family.  Font
+translation is applied.
+</p>
+</dd>
+<dt><code class="code">t</code></dt>
+<dd><p>True if the document is being processed in <code class="code">troff</code> mode.
+See <a class="xref" href="troff-and-nroff-Modes.html"><code class="code">troff</code> and <code class="code">nroff</code> Modes</a>.
+</p>
+<a class="index-entry-id" id="index-vtroff"></a>
+</dd>
+<dt><code class="code">v</code></dt>
+<dd><p>Always false.  This condition is recognized only for compatibility with
+certain other <code class="code">troff</code> implementations.<a class="footnote" id="DOCF88" href="groff.html_fot.html#FOOT88"><sup>88</sup></a>
+</p></dd>
+</dl>
+
+<p>If the first argument to an <code class="code">if</code>, <code class="code">ie</code>, or <code class="code">while</code>
+request begins with a non-alphanumeric character apart from <code class="code">!</code>
+(see below); it performs an <i class="slanted">output comparison test</i>.
+<a class="footnote" id="DOCF89" href="groff.html_fot.html#FOOT89"><sup>89</sup></a>
+</p>
+<a class="index-entry-id" id="index-output-comparison-operator"></a>
+<dl class="table">
+<dt><code class="code"><code class="code">'</code><var class="var">xxx</var><code class="code">'</code><var class="var">yyy</var><code class="code">'</code></code></dt>
+<dd><p>True if formatting the comparands <var class="var">xxx</var> and <var class="var">yyy</var> produces the
+same output commands.  The delimiter need not be a neutral apostrophe:
+the output comparison operator accepts the same delimiters as most
+escape sequences; see <a class="ref" href="Delimiters.html">Delimiters</a>.  This <em class="dfn">output comparison
+operator</em> formats <var class="var">xxx</var> and <var class="var">yyy</var> in separate environments;
+after the comparison, the resulting data are discarded.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ie &quot;|&quot;\fR|\fP&quot; true
+.el false
+    &rArr; true
+</pre></div></div>
+
+<p>The resulting glyph properties, including font family, style, size, and
+slant, must match, but not necessarily the requests and/or escape
+sequences used to obtain them.  In the previous example, &lsquo;<samp class="samp">|</samp>&rsquo; and
+&lsquo;<samp class="samp">\fR|\fP</samp>&rsquo; result in &lsquo;<samp class="samp">|</samp>&rsquo; glyphs in the same typefaces at the
+same positions, so the comparands are equal.  If &lsquo;<samp class="samp">.ft&nbsp;I</samp>&rsquo; had
+been added before the &lsquo;<samp class="samp">.ie</samp>&rsquo;, they would differ: the first &lsquo;<samp class="samp">|</samp>&rsquo;
+would produce an italic &lsquo;<samp class="samp">|</samp>&rsquo;, not a roman one.  Motions must match
+in orientation and magnitude to within the applicable horizontal and
+vertical motion quanta of the device, after rounding.  &lsquo;<samp class="samp">.if
+&quot;\u\d&quot;\v'0'&quot;</samp>&rsquo; is false even though both comparands result in zero net
+motion, because motions are not interpreted or optimized but sent as-is
+to the output.<a class="footnote" id="DOCF90" href="groff.html_fot.html#FOOT90"><sup>90</sup></a>  On the other hand, &lsquo;<samp class="samp">.if &quot;\d&quot;\v'0.5m'&quot;</samp>&rsquo; is true, because
+<code class="code">\d</code> is defined as a downward motion of one-half em.<a class="footnote" id="DOCF91" href="groff.html_fot.html#FOOT91"><sup>91</sup></a>
+</p>
+<a class="index-entry-id" id="index-string-comparison"></a>
+<a class="index-entry-id" id="index-comparison-of-strings"></a>
+<p>Surround the comparands with <code class="code">\?</code> to avoid formatting them; this
+causes them to be compared character by character, as with string
+comparisons in other programming languages.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ie &quot;\?|\?&quot;\?\fR|\fP\?&quot; true
+.el false
+    &rArr; false
+</pre></div></div>
+
+<a class="index-entry-id" id="index-_005c_003f_002c-and-copy-mode"></a>
+<a class="index-entry-id" id="index-copy-mode_002c-and-_005c_003f"></a>
+<a class="index-entry-id" id="index-mode_002c-copy_002c-and-_005c_003f"></a>
+<p>Since comparands protected with <code class="code">\?</code> are read in copy mode
+(see <a class="pxref" href="Copy-Mode.html">Copy Mode</a>), they need not even be valid <code class="code">groff</code> syntax.
+The escape character is still lexically recognized, however, and
+consumes the next character.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.ds a \[
+.ds b \[
+.if '\?\*a\?'\?\*b\?' a and b equivalent
+.if '\?\\?'\?\\?' backslashes equivalent
+    &rArr; a and b equivalent
+</pre></div></div>
+</dd>
+</dl>
+
+<p>The above operators can&rsquo;t be combined with most others, but a leading
+&lsquo;<samp class="samp">!</samp>&rsquo;, not followed immediately by spaces or tabs, complements an
+expression.
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr x 1
+.ie !r x register x is not defined
+.el      register x is defined
+    &rArr; register x is defined
+</pre></div></div>
+
+<p>Spaces and tabs are optional immediately after the &lsquo;<samp class="samp">c</samp>&rsquo;, &lsquo;<samp class="samp">d</samp>&rsquo;,
+&lsquo;<samp class="samp">F</samp>&rsquo;, &lsquo;<samp class="samp">m</samp>&rsquo;, &lsquo;<samp class="samp">r</samp>&rsquo;, and &lsquo;<samp class="samp">S</samp>&rsquo; operators, but right after
+&lsquo;<samp class="samp">!</samp>&rsquo;, they end the predicate and the conditional evaluates
+true.<a class="footnote" id="DOCF92" href="groff.html_fot.html#FOOT92"><sup>92</sup></a>
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted">.nr x 1
+.ie ! r x register x is not defined
+.el       register x is defined
+    &rArr; r x register x is not defined
+</pre></div></div>
+
+<p>The unexpected &lsquo;<samp class="samp">r x</samp>&rsquo; in the output is a clue that our conditional
+was not interpreted as we planned, but matters may not always be so
+obvious.
+</p>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="if_002dthen.html">if-then</a>, Previous: <a href="Conditionals-and-Loops.html">Conditionals and Loops</a>, Up: <a href="Conditionals-and-Loops.html">Conditionals and Loops</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Request-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>
