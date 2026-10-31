@@ -1,0 +1,179 @@
+'\" t
+.TH "SD_ELF_NOTE_DLOPEN" "3" "" "systemd 261.2" "SD_ELF_NOTE_DLOPEN"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+SD_ELF_NOTE_DLOPEN, SD_ELF_NOTE_DLOPEN_VENDOR, SD_ELF_NOTE_DLOPEN_TYPE, SD_ELF_NOTE_DLOPEN_PRIORITY_REQUIRED, SD_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED, SD_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED \- Embed ELF \&.note\&.dlopen metadata for shared library dependencies
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-dlopen\&.h>
+.fi
+.ft
+.sp
+.ft B
+.nf
+SD_ELF_NOTE_DLOPEN(\fIfeature\fR, \fIdescription\fR, \fIpriority\fR, \fIsoname\&.\&.\&.\fR)
+.fi
+.ft
+.sp
+.ft B
+.nf
+#define SD_ELF_NOTE_DLOPEN_VENDOR "FDO"
+.fi
+.ft
+.sp
+.ft B
+.nf
+#define SD_ELF_NOTE_DLOPEN_TYPE UINT32_C(0x407c0c0a)
+.fi
+.ft
+.sp
+.ft B
+.nf
+#define SD_ELF_NOTE_DLOPEN_PRIORITY_REQUIRED    "required"
+.fi
+.ft
+.sp
+.ft B
+.nf
+#define SD_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED "recommended"
+.fi
+.ft
+.sp
+.ft B
+.nf
+#define SD_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED   "suggested"
+.fi
+.ft
+.SH "DESCRIPTION"
+.PP
+\fBSD_ELF_NOTE_DLOPEN()\fR
+is a macro that embeds a
+\&.note\&.dlopen
+ELF note section in the compiled binary, declaring a weak dependency on a shared library loaded via
+\fBdlopen()\fR\&. This implements the
+\m[blue]\fBELF dlopen metadata\fR\m[]\&\s-2\u[1]\d\s+2
+specification, allowing package managers and build systems to discover runtime dependencies that are not visible through regular ELF
+\fBDT_NEEDED\fR
+entries\&.
+.PP
+The macro takes the following parameters:
+.PP
+\fIfeature\fR
+.RS 4
+A short string identifying the feature this library provides (e\&.g\&.
+"XKB",
+"PCRE2")\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fIdescription\fR
+.RS 4
+A human\-readable description of what the library is used for\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fIpriority\fR
+.RS 4
+One of
+\fBSD_ELF_NOTE_DLOPEN_PRIORITY_REQUIRED\fR,
+\fBSD_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED\fR, or
+\fBSD_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED\fR, indicating how important the dependency is\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fIsoname\&.\&.\&.\fR
+.RS 4
+One or more shared object names (sonames) for the library, e\&.g\&.
+"libfoo\&.so\&.1"\&. Multiple sonames may be specified as separate arguments (up to 5) for libraries that have changed soname across versions\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+The embedded metadata can be read from a compiled ELF binary using:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+systemd\-analyze dlopen\-metadata \fIbinary\fR
+.fi
+.if n \{\
+.RE
+.\}
+.SH "EXAMPLES"
+.PP
+\fBExample\ \&1.\ \&Single soname\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+#include <systemd/sd\-dlopen\&.h>
+
+SD_ELF_NOTE_DLOPEN("XKB", "Keyboard layout support",
+                    SD_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
+                    "libxkbcommon\&.so\&.0");
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fBExample\ \&2.\ \&Multiple sonames for different library versions\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+SD_ELF_NOTE_DLOPEN("crypt", "Support for hashing passwords",
+                    SD_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
+                    "libcrypt\&.so\&.2", "libcrypt\&.so\&.1", "libcrypt\&.so\&.1\&.1");
+.fi
+.if n \{\
+.RE
+.\}
+.SH "NOTES"
+.PP
+The macros described here are header\-only and do not require runtime linkage against
+\fBlibsystemd\fR(3)\&. Only the installed header and include path (as provided by
+\fBpkg\-config \-\-cflags libsystemd\fR) are needed\&.
+.SH "HISTORY"
+.PP
+\fBSD_ELF_NOTE_DLOPEN()\fR,
+\fBSD_ELF_NOTE_DLOPEN_VENDOR\fR,
+\fBSD_ELF_NOTE_DLOPEN_TYPE\fR,
+\fBSD_ELF_NOTE_DLOPEN_PRIORITY_REQUIRED\fR,
+\fBSD_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED\fR, and
+\fBSD_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED\fR
+were added in version 261\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsd-dlopen\fR(3), \fBdlopen\fR(3)
+.SH "NOTES"
+.IP " 1." 4
+ELF dlopen metadata
+.RS 4
+\%https://uapi-group.org/specifications/specs/elf_dlopen_metadata/
+.RE

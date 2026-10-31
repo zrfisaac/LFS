@@ -1,0 +1,91 @@
+'\" t
+.TH "SD_VARLINK_SET_DESCRIPTION" "3" "" "systemd 261.2" "sd_varlink_set_description"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd_varlink_set_description, sd_varlink_get_description \- Set or query description of a Varlink connection object
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-varlink\&.h>
+.fi
+.ft
+.HP \w'int\ sd_varlink_set_description('u
+.BI "int sd_varlink_set_description(sd_varlink\ *" "link" ", const\ char\ *" "description" ");"
+.HP \w'const\ char*\ sd_varlink_get_description('u
+.BI "const char* sd_varlink_get_description(sd_varlink\ *" "link" ");"
+.SH "DESCRIPTION"
+.PP
+\fBsd_varlink_set_description()\fR
+sets the description string that is used in logging to the specified string\&. The string is copied internally and freed when the Varlink connection object is deallocated\&. The
+\fIdescription\fR
+argument may be
+\fBNULL\fR, in which case the description is unset\&.
+.PP
+\fBsd_varlink_get_description()\fR
+returns a description string for the specified Varlink connection\&. This string may have been previously set with
+\fBsd_varlink_set_description()\fR\&. If not set this way, a default string or
+\fBNULL\fR
+may be returned, depending how the connection was allocated and set up\&.
+.SH "RETURN VALUE"
+.PP
+On success,
+\fBsd_varlink_set_description()\fR
+returns a non\-negative integer\&. On failure, it returns a negative errno\-style error code\&.
+\fBsd_varlink_get_description()\fR
+returns either
+\fBNULL\fR
+or a pointer to the description string\&.
+.SS "Errors"
+.PP
+Returned errors may indicate the following problems:
+.PP
+\fB\-EINVAL\fR
+.RS 4
+An argument is invalid\&.
+.RE
+.PP
+\fB\-ENOMEM\fR
+.RS 4
+Memory allocation failed\&.
+.RE
+.SH "NOTES"
+.PP
+Functions described here are available as a shared library, which can be compiled against and linked to with the
+\fBlibsystemd\fR\ \&\fBpkg-config\fR(1)
+file\&.
+.PP
+The code described here uses
+\fBgetenv\fR(3), which is declared to be not multi\-thread\-safe\&. This means that the code calling the functions described here must not call
+\fBsetenv\fR(3)
+from a parallel thread\&. It is recommended to only do calls to
+\fBsetenv()\fR
+from an early phase of the program when no other threads have been started\&.
+.SH "HISTORY"
+.PP
+\fBsd_varlink_set_description()\fR
+was added in version 257\&.
+.PP
+\fBsd_varlink_get_description()\fR
+was added in version 258\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsd-varlink\fR(3)

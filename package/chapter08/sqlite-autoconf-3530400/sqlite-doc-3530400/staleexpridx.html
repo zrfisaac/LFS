@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
+<title>Stale Expression Indexes</title>
+<!-- path= -->
+</head>
+<body>
+<div class=nosearch>
+<a href="index.html">
+<img class="logo" src="images/sqlite370_banner.svg" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
+<script>
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
+</script>
+<div class=fancy>
+<div class=nosearch>
+<div class="fancy_title">
+Stale Expression Indexes
+</div>
+<details class="fancy_toc">
+<summary>Table Of Contents</summary>
+<div id="toc_sub"><div class="fancy-toc1"><a href="#overview">1. Overview</a></div>
+<div class="fancy-toc1"><a href="#deterministic_functions_that_are_not_always_100_deterministic">2. Deterministic Functions That Are Not Always 100% Deterministic</a></div>
+<div class="fancy-toc1"><a href="#are_stale_expression_indexes_really_a_problem_">3. Are Stale Expression Indexes Really A Problem?</a></div>
+<div class="fancy-toc1"><a href="#self_healing_expression_indexes">4. Self-Healing Expression Indexes</a></div>
+<div class="fancy-toc1"><a href="#how_to_avoid_and_or_fix_stale_expression_indexes">5. How To Avoid And/Or Fix Stale Expression Indexes</a></div>
+</div>
+</details>
+</div>
+
+
+
+
+
+<h1 id="overview"><span>1. </span>Overview</h1>
+
+<p>
+An <a href="expridx.html">expression index</a> is an <a href="lang_createindex.html">index</a> on either a
+<a href="gencol.html#vgc*">VIRTUAL generated column</a> or on an expression of table columns.
+Expression indexes are different in that one or more of their
+key values is the result of computing an expression rather than
+just making a copy of a column from the table being indexed.
+
+</p><p>
+In order for the index to work correctly, the value of the expression
+must not change as long as the corresponding table row is unchanged.
+Hence, indexed expressions must use <a href="deterministic.html">deterministic functions</a> - functions
+that always return the same output given the same inputs.  Deterministic
+functions are things like "abs(X)" and "concat(X,Y)".  Non-deterministic
+functions are things like "datetime('now')" and "random()".
+
+</p><p>
+Sometimes functions that are identified as "deterministic" are not
+completely deterministic across different CPU architectures, operating
+systems, and/or SQLite versions.  When that happens, an expression index
+created on one CPU/OS/SQLite-version might be incorrect on a different
+CPU/OS/SQLite-version.  We call this a "<b>stale expression index</b>".
+
+</p><p>
+Stale expression indexes rarely occur. All known occurrences involve
+indexes on floating-point values plus one of the following
+circumstances:
+
+</p><ul>
+<li> The SQLite database is moved from one CPU architecture to another
+     (example: x86_64 to ARM),
+</li><li> The SQLite database is moved from one operating system to another
+     (example: Windows to Mac)
+</li><li> There is a version change in the SQLite library and/or an
+     external library that SQLite uses to implement SQL functions.
+</li></ul>
+
+<h1 id="deterministic_functions_that_are_not_always_100_deterministic"><span>2. </span>Deterministic Functions That Are Not Always 100% Deterministic</h1>
+
+<p>
+A deterministic function is supposed to give the same result always,
+even when run on different platforms and in different versions of
+SQLite.  But sometimes, rarely, moving from one operating system to
+another, or when changing from one version of SQLite to another,
+the output from a supposedly deterministic function can change
+slightly.  Some examples of when this might happen:
+
+</p><ol>
+<li><p>
+The transcendental SQL math functions work by calling the corresponding
+system C-library functions.  So for example, 
+the "sin(X)" SQL function just invokes
+the sin() function in the standard C math library.  The various C math
+libraries in use today are remarkably consistent.  Nevertheless there
+is nothing in the C-language standards that requires sin(X) to return
+exactly the same value from one system to another.  The sin(X) only needs
+to return a number that is "close" (within one or two
+<a href="https://en.wikipedia.org/wiki/Unit_in_the_last_place">ULPs</a> of the
+correct value) in order to be considered "correct".
+
+</p></li><li><p>
+Suppose you are using the <a href="https://github.com/unicode-org/icu">ICU</a>
+extension function "lower()" and linking
+against your systems libicu.so.  Then an upgrade happens that converts
+your system libicu.so to a newer version, possibly on a different version
+of Unicode.  The outputs from the lower() function might change, slightly,
+in extreme corner cases.
+
+</p></li><li><p>
+Sometimes built-in functions in SQLite get bug fixes or upgrades that
+can change their behavior ever so slightly in extreme corner cases - sometimes
+without the developers even being aware of the change.
+
+</p></li><li><p>
+If the database is using an <a href="appfunc.html">application-defined SQL function</a> (ADF),
+and there is a bug fix or enhancement to that ADF, the values returned
+might be different.
+</p></li></ol>
+
+<p>
+A notable instance of case 3 is when the internal text&rarr;float conversion
+routines in SQLite get upgraded for improved accuracy and/or performance,
+such as happened when moving from version 3.42 to 3.43 and again going
+from 3.51 to 3.52.  There need not be an explicit 
+"<tt>CAST(...&nbsp;AS&nbsp;REAL)</tt>" to force a
+text&rarr;float conversion.  The conversion might happen due to
+automatic type coercion.  Another common "hidden"
+text&rarr;float conversion happens when using
+<a href="json1.html#jptr">the ->> operator</a> to extract a floating-point value out of a JSON document.
+Suppose you want the ability to search a large corpus of JSON documents
+according to a range of the "mtime" values, which is a floating point
+number of seconds since the Unix epoch.  You might write:
+
+</p><div class="codeblock"><pre>CREATE INDEX doc_mtime ON docstore(doc-&gt;&gt;'mtime');
+</pre></div>
+
+<p>
+Then if you switch from one version of SQLite to another that implements
+text&rarr;float conversion differently, you might sometimes get a value from
+the "<tt>doc-&gt;&gt;'mtime'</tt>" expression that is one ULP different
+from the value stored in the index.
+
+</p><p>
+When the value computed for the expression of an 
+expression index differs from the value actually stored in the
+index and used as an index key, we call
+that a "<b>stale expression index</b>".
+
+</p><h1 id="are_stale_expression_indexes_really_a_problem_"><span>3. </span>Are Stale Expression Indexes Really A Problem?</h1>
+
+<p>
+Stale expression indexes rarely occur.  You are unlikely to ever
+encounter one in practice.
+
+</p><p>
+Back in 2023, almost three years before the SQLite developers realized
+that stale expression indexes might exist and might cause concerns, there
+was an update to text&rarr;float conversion logic inside of SQLite that
+caused some floating-point value computations to shift by one ULP.  This
+change will cause stale expression indexes.  (We know, because we have
+gone back and tried it.)  And yet, even though that change
+went into billions and billions of phones and personal computers, the
+SQLite developers never received a single report of index corruption
+because of it.
+
+</p><p>
+Stale expression indexes usually do not cause problems for the application
+even when they do occur.
+If the stale value is a floating-point number that is off by one ULP
+(the only case ever actually observed in the wild), then the error
+does not normally cause problems for search.  You can get differing
+results when the anomolous entry is right at the boundary of the search
+range, but  <a href="floatingpoint.html#fpapprox">floating point values are approximations</a> - close
+approximations to be sure, but approximations all the same - so missing
+an entry that occurs
+right at the boundary of a search is usually not considered a problem.
+
+</p><p>
+Trying to DELETE or UPDATE a row that has a stale expression index entry
+will cause an error in older versions of SQLite (but not with
+SQLite 3.53.0 (2026-04-09) or later - see below) and errors will
+appear when running <a href="pragma.html#pragma_integrity_check">PRAGMA integrity_check</a>.  But such problems can be
+easily cleared by running <a href="lang_reindex.html">REINDEX</a>.  If users in the field ever
+encountered such problems, they never told the SQLite developers about
+them.
+
+</p><p>
+In summary then, stale expression indexes rarely occur, and when they
+do occur, they are not fatal to the application.  Those who aspire to
+be SQLite experts should be aware of stale expression indexes, but
+for the average developer, stale expression indexes should never 
+be an issue.
+
+<a name="selfheal"></a>
+
+</p><h1 id="self_healing_expression_indexes"><span>4. </span>Self-Healing Expression Indexes</h1>
+
+<p>
+Beginning with SQLite version 3.53.0 (2026-04-09), SQLite attempts
+to fix stale expression indexes automatically in some circumstances.
+When attempting to DELETE or UPDATE a table row that is associated with
+a stale expression index entry, instead of raising an error, SQLite
+now fixes the index. No errors are raised.  The application never knows
+that something was ever amiss.
+
+</p><p>
+The <a href="pragma.html#pragma_integrity_check">PRAGMA integrity_check</a> command still reports stale index entries
+in its output.  But in the common case that the stale entry is a
+floating-point number that is only off by one or two ULPs, then instead
+of saying that the index is corrupt, the message emitted by
+PRAGMA integrity_check says something like:
+
+</p><blockquote><pre>
+index NAME stores an imprecise floating-point value for row N
+</pre></blockquote>
+
+<h1 id="how_to_avoid_and_or_fix_stale_expression_indexes"><span>5. </span>How To Avoid And/Or Fix Stale Expression Indexes</h1>
+
+<p>
+If you never want there to be any possibility of encountering a stale
+expression index, then don't use expression indexes.  A good alternative
+is to create <a href="gencol.html#vgc*">STORED generated columns</a> for expressions that you
+want to compute automatically, and then create indexes on those
+STORED generated columns.
+
+</p><p>
+The doc_mtime index example shown above would change to be
+something like the following:
+
+</p><div class="codeblock"><pre>CREATE TABLE doc(
+  doc JSON,
+  mtime AS (doc-&gt;&gt;'mtime') STORED
+);
+CREATE INDEX doc_mtime ON doc(mtime);
+</pre></div>
+
+<p>
+If you have a database that you did not design and just want to know
+which indexes are expression indexes, you can bring the database up
+in the <a href="cli.html">CLI</a> (version 3.53.0 or later) and type the command:
+
+</p><div class="codeblock"><pre>.indexes --expr
+</pre></div>
+
+<p>
+If you think you have stale expression indexes (maybe you know that
+you changed an <a href="appfunc.html">ADF</a> that is used in an index expression) then you can
+refresh all your indexes by running the <a href="lang_reindex.html">REINDEX</a> command.  Since
+SQLite version 3.53.0 (2026-04-09) you can save time and I/O by running:
+
+</p><div class="codeblock"><pre>REINDEX EXPRESSIONS;
+</pre></div>
+
+<p>
+The REINDEX EXPRESSIONS command rebuilds only expression indexes and
+leaves other indexes unchanged.  If the database has no expression 
+indexes (the usual case), then REINDEX EXPRESSIONS is a no-op.
+</p><p align="center"><small><i>This page was last updated on 2026-06-13 15:05:34Z </small></i></p>
+

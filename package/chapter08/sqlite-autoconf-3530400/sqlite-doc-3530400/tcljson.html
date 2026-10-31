@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
+<title>Bridging Tcl and JSON with the SQLite Extension</title>
+<!-- path= -->
+</head>
+<body>
+<div class=nosearch>
+<a href="index.html">
+<img class="logo" src="images/sqlite370_banner.svg" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
+<script>
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
+</script>
+<div class=fancy>
+<div class=nosearch>
+<div class="fancy_title">
+Bridging Tcl and JSON with the SQLite Extension
+</div>
+<details class="fancy_toc">
+<summary>Table Of Contents</summary>
+<div id="toc_sub"><div class="fancy-toc1"><a href="#using_sqlite_to_bridge_tcl_and_json">1. Using SQLite to Bridge Tcl and JSON</a></div>
+<div class="fancy-toc2"><a href="#consuming_json">1.1. Consuming JSON</a></div>
+<div class="fancy-toc2"><a href="#emitting_json_db_table_as_a_json_object">1.2. Emitting JSON: Db Table as a JSON Object</a></div>
+<div class="fancy-toc2"><a href="#emitting_json_incremental_build_up">1.3. Emitting JSON: Incremental Build-up</a></div>
+</div>
+</details>
+</div>
+
+
+
+
+
+<h1 id="using_sqlite_to_bridge_tcl_and_json"><span>1. </span>Using SQLite to Bridge Tcl and JSON</h1>
+
+<p><a href="./tclsqlite.html">The Tcl SQLite extension</a> can act as
+   a bridge to smooth over Tcl's impedance mismatch with JSON,
+   shifting all of the parsing and escaping from Tcl to SQLite with
+   very little effort. The sections below demonstrate techniques
+   for consuming and emitting JSON via SQLite.
+</p>
+
+<h2 id="consuming_json"><span>1.1. </span>Consuming JSON</h2>
+
+<p>One of the simplest way to consume and break down a JSON payload is
+to feed it to SQLite and extract the results using Tcl's
+<code>lassign</code> function:
+
+</p><blockquote><pre>
+set json theJSON...
+lassign &lbrack;db eval {
+  with payload(j) as (select jsonb($json)) select
+  -- A simple value:
+  j->>'foo',
+  -- A sub-object or array:
+  CASE WHEN json_valid(j->>'bar') THEN j->>'bar' ELSE NULL END
+  -- Any other fields...
+  from payload
+}] foo bar
+</pre></blockquote>
+
+<p>Arrays can be injested using <code>json_each()</code>:</p>
+
+<blockquote><pre>
+set json {&lbrack;1, "two", 3.0, {"nested": true}, null]}
+set myList &lbrack;db eval {
+  select value from json_each($json)
+}]
+
+# Emits: 1 two 3.0 {{"nested":true}} {}
+</pre></blockquote>
+
+<p>Arrays of objects can be decomposed into a list of dict objects:</p>
+
+<blockquote><pre>
+set json {&lbrack;{"id":1, "v":"A"}, {"id":2, "v":"B"}]}
+set myDictList &lbrack;db eval {
+  select json_object('id', value->>'id', 'v', value->>'v')
+  from json_each($json)
+}]
+
+# Emits: {{"id":1,"v":"A"}} {{"id":2,"v":"B"}}
+</pre></blockquote>
+
+<p>Object entries in array objects can be decomposed using an approach
+   like the first example shown above.</p>
+
+<h2 id="emitting_json_db_table_as_a_json_object"><span>1.2. </span>Emitting JSON: Db Table as a JSON Object</h2>
+
+<p>The approach described here uses an in-memory db to
+incrementally build up a JSON object, automatically smoothing
+over the edges between data types such as numbers and strings.
+</p>
+
+<blockquote><pre>
+#
+# Initialize, if needed, the sqlite3 connection for the JR temp db and
+# return its command name.
+#
+# JR = JSON Response (to an HTTP request)
+#
+proc jr-db {} {
+  if {"" eq &lbrack;info command ::__jrdb]} {
+    sqlite3 ::__jrdb ":memory:"
+    ::__jrdb eval {
+      -- Holds a list of key/value pairs for a JSON response object
+      create table jr(k TEXT UNIQUE ON CONFLICT REPLACE,v ANY);
+    }
+  }
+  return ::__jrdb
+}
+
+#
+# Remove all entries from the JR buffer.
+#
+proc jr-reset {args} {
+  &lbrack;jr-db] eval {delete from jr}
+}
+
+#
+# Set one or more key/value pairs in the JR object.
+#
+proc jr-set {args} {
+  set db &lbrack;jr-db]
+  foreach {k v} $args {
+    $db eval {insert into jr(k,v) values($k,$v)}
+  }
+}
+
+#
+# Returns a JSON-format object representing the current JR state.
+#
+proc jr-get {} {
+  &lbrack;jr-db] onecolumn {
+    select json_group_object(k,CASE WHEN json_valid(v,1)
+                             THEN json(v) ELSE v END) from jr
+  }
+}
+</pre></blockquote>
+
+<p>Example usage:</p>
+
+<blockquote><pre>
+jr-set message "This is a message."
+jr-set aBool true isNull null anInt 37 aFloat 42.42
+puts &lbrack;jr-get]
+</pre></blockquote>
+
+<p>Results in:</p>
+
+
+<blockquote><pre>
+{"message":"This is a message.","aBool":true,"isNull":null,"anInt":37,"aFloat":42.42}
+</pre></blockquote>
+
+
+<h2 id="emitting_json_incremental_build_up"><span>1.3. </span>Emitting JSON: Incremental Build-up</h2>
+
+<p>The approach shown here uses a couple of routines to incrementally
+build up a nested object or array, faithfully navigating the type
+handling, such that integers, null, and boolean-looking values can be
+emitted as such instead of strings.</p>
+
+<blockquote><pre>
+#
+# Returns the command name of the shared SQLite3 instance used by the
+# X-to-JSON APIs, initializing it on demand.
+#
+proc json-db {} {
+  if {"" eq &lbrack;info command ::__jsonDb]} {
+    sqlite3 ::__jsonDb ":memory:"
+  }
+  return ::__jsonDb
+}
+
+#
+# Given a dict-style object, this creates a JSON object representation.
+# It does not handle nested objects but each value may itself be the result
+# of its own call to this method, which has a similar effect.
+#
+proc json-obj {kvps} {
+  set q "select json_object("
+  set n 0
+  set nn 1
+  foreach {k v} $kvps {
+    set $n $k
+    set $nn $v
+    if {$n} {append q ","}
+    append q "\$$n, CASE WHEN json_valid(\$$nn) THEN json(\$$nn) ELSE \$$nn END"
+    # This may look like an SQL injection opportunity, but it's
+    # injecting prepared statement placeholders, not values.
+    incr n 2
+    incr nn 2
+  }
+  append q ")"
+  &lbrack;json-db] onecolumn $q
+}
+
+#
+# Returns a JSON-format array of the given arguments. See json-object
+# for notes about nesting.
+#
+proc json-array {args} {
+  set n 0
+  set q "select json_array("
+  foreach a $args {
+    set $n $a
+    if {$n} {append q ","}
+    append q "CASE WHEN json_valid(\$$n) THEN json(\$$n) ELSE \$$n END"
+    incr n
+  }
+  append q ")"
+  &lbrack;json-db] onecolumn $q
+}
+</pre></blockquote>
+
+<p>Example usage:</p>
+
+<blockquote><pre>
+proc json-pretty {arg {space "  "}} {
+  &lbrack;json-db] onecolumn {select json_pretty($arg,$space)}
+}
+set o {
+  hi world
+  number 17.3
+  truth true
+  lies false
+  nil null
+  nada "null"
+  notNull "Null"
+}
+lappend o list &lbrack;json-array hello there &lbrack;json-obj {nested true}]]
+lappend o obj &lbrack;json-obj {name "Nested object"}]
+puts &lbrack;json-pretty &lbrack;json-obj $o]]
+</pre></blockquote>
+
+<p>Results in:</p>
+
+<blockquote><pre>{
+  "hi": "world",
+  "number": 17.3,
+  "truth": true,
+  "lies": false,
+  "nil": null,
+  "nada": null,
+  "notNull": "Null",
+  "list": &lbrack;
+    "hello",
+    "there",
+    {
+      "nested": true
+    }
+  ],
+  "obj": {
+    "name": "Nested object"
+  }
+}
+</pre></blockquote>
+
+

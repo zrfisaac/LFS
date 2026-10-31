@@ -1,0 +1,49 @@
+'\" t
+.TH "SYSTEMD\-FACTORY\-RESET\-GENERATOR" "8" "" "systemd 261.2" "systemd-factory-reset-generator"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-factory-reset-generator \- Pull factory\-reset\-now\&.target into the initial boot transaction when factory reset has been requested
+.SH "SYNOPSIS"
+.PP
+/usr/lib/systemd/system\-generators/systemd\-factory\-reset\-generator
+.SH "DESCRIPTION"
+.PP
+systemd\-factory\-reset\-generator
+is a generator that pulls
+factory\-reset\-now\&.target
+into the initial boot transaction when the factory reset operation has been requested, either via the
+\fIsystemd\&.factory_reset=\fR
+kernel command line option or via the
+\fIFactoryResetRequest\fR
+EFI variable\&.
+.PP
+systemd\-factory\-reset\-generator
+implements
+\fBsystemd.generator\fR(7)\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-factory-reset\fR(8), \m[blue]\fBFactory Reset\fR\m[]\&\s-2\u[1]\d\s+2
+.SH "NOTES"
+.IP " 1." 4
+Factory Reset
+.RS 4
+\%https://systemd.io/FACTORY_RESET
+.RE

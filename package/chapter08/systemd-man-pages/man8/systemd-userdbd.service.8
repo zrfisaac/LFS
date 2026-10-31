@@ -1,0 +1,96 @@
+'\" t
+.TH "SYSTEMD\-USERDBD\&.SERVICE" "8" "" "systemd 261.2" "systemd-userdbd.service"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-userdbd.service, systemd-userdbd \- JSON User/Group Record Query Multiplexer/NSS Compatibility
+.SH "SYNOPSIS"
+.PP
+systemd\-userdbd\&.service
+.PP
+/usr/lib/systemd/systemd\-userdbd
+.SH "DESCRIPTION"
+.PP
+\fBsystemd\-userdbd\fR
+is a system service that multiplexes user/group lookups to all local services that provide JSON user/group record definitions to the system\&. In addition it synthesizes JSON user/group records from classic UNIX/glibc NSS user/group records in order to provide full backwards compatibility\&. It may also pick up statically defined JSON user/group records from files in
+/etc/userdb/,
+/run/userdb/,
+/run/host/userdb/
+and
+/usr/lib/userdb/
+with the
+"\&.user"
+or
+"\&.group"
+extension\&. For more details about the extensions read the
+\fBnss-systemd\fR(8)
+manpage\&.
+.PP
+Most of
+\fBsystemd\-userdbd\fR\*(Aqs functionality is accessible through the
+\fBuserdbctl\fR(1)
+command\&.
+.PP
+The user and group records this service provides access to follow the
+\m[blue]\fBJSON User Records\fR\m[]\&\s-2\u[1]\d\s+2
+and
+\m[blue]\fBJSON Group Record\fR\m[]\&\s-2\u[2]\d\s+2
+definitions\&. This service implements the
+\m[blue]\fBUser/Group Record Lookup API via Varlink\fR\m[]\&\s-2\u[3]\d\s+2, and multiplexes access other services implementing this API, too\&. It is thus both server and client of this API\&.
+.PP
+This service provides three distinct
+\m[blue]\fBVarlink\fR\m[]\&\s-2\u[4]\d\s+2
+services:
+\fBio\&.systemd\&.Multiplexer\fR
+provides a single, unified API for querying JSON user and group records\&. Internally it talks to all other user/group record services running on the system in parallel and forwards any information discovered\&. This simplifies clients substantially since they need to talk to a single service only instead of all of them in parallel\&.
+\fBio\&.systemd\&.NameServiceSwitch\fR
+provides compatibility with classic UNIX/glibc NSS user records, i\&.e\&. converts
+\fBstruct passwd\fR
+and
+\fBstruct group\fR
+records as acquired with APIs such as
+\fBgetpwnam\fR(1)
+to JSON user/group records, thus hiding the differences between the services as much as possible\&.
+\fBio\&.systemd\&.DropIn\fR
+makes JSON user/group records from the aforementioned drop\-in directories available\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBnss-systemd\fR(8), \fBuserdbctl\fR(1), \fBsystemd-homed.service\fR(8)
+.SH "NOTES"
+.IP " 1." 4
+JSON User Records
+.RS 4
+\%https://systemd.io/USER_RECORD
+.RE
+.IP " 2." 4
+JSON Group Record
+.RS 4
+\%https://systemd.io/GROUP_RECORD
+.RE
+.IP " 3." 4
+User/Group Record Lookup API via Varlink
+.RS 4
+\%https://systemd.io/USER_GROUP_API
+.RE
+.IP " 4." 4
+Varlink
+.RS 4
+\%https://varlink.org/
+.RE

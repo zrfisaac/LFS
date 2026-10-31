@@ -1,0 +1,268 @@
+'\" t
+.TH "SD_JSON_PARSE" "3" "" "systemd 261.2" "sd_json_parse"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd_json_parse, sd_json_parse_continue, sd_json_parse_with_source, sd_json_parse_with_source_continue, sd_json_parse_file, sd_json_parse_file_at, sd_json_parse_fd, SD_JSON_PARSE_SENSITIVE, SD_JSON_PARSE_MUST_BE_OBJECT, SD_JSON_PARSE_MUST_BE_ARRAY, SD_JSON_PARSE_SEEK0, SD_JSON_PARSE_DONATE_FD, SD_JSON_PARSE_REOPEN_FD \- Parse JSON strings and files into JSON variant objects
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-json\&.h>
+.fi
+.ft
+.HP \w'int\ sd_json_parse('u
+.BI "int sd_json_parse(const\ char\ *" "string" ", sd_json_parse_flags_t\ " "flags" ", sd_json_variant\ **" "ret" ", unsigned\ *" "reterr_line" ", unsigned\ *" "reterr_column" ");"
+.HP \w'int\ sd_json_parse_continue('u
+.BI "int sd_json_parse_continue(const\ char\ **" "p" ", sd_json_parse_flags_t\ " "flags" ", sd_json_variant\ **" "ret" ", unsigned\ *" "reterr_line" ", unsigned\ *" "reterr_column" ");"
+.HP \w'int\ sd_json_parse_with_source('u
+.BI "int sd_json_parse_with_source(const\ char\ *" "string" ", const\ char\ *" "source" ", sd_json_parse_flags_t\ " "flags" ", sd_json_variant\ **" "ret" ", unsigned\ *" "reterr_line" ", unsigned\ *" "reterr_column" ");"
+.HP \w'int\ sd_json_parse_with_source_continue('u
+.BI "int sd_json_parse_with_source_continue(const\ char\ **" "p" ", const\ char\ *" "source" ", sd_json_parse_flags_t\ " "flags" ", sd_json_variant\ **" "ret" ", unsigned\ *" "reterr_line" ", unsigned\ *" "reterr_column" ");"
+.HP \w'int\ sd_json_parse_file('u
+.BI "int sd_json_parse_file(FILE\ *" "f" ", const\ char\ *" "path" ", sd_json_parse_flags_t\ " "flags" ", sd_json_variant\ **" "ret" ", unsigned\ *" "reterr_line" ", unsigned\ *" "reterr_column" ");"
+.HP \w'int\ sd_json_parse_file_at('u
+.BI "int sd_json_parse_file_at(FILE\ *" "f" ", int\ " "dir_fd" ", const\ char\ *" "path" ", sd_json_parse_flags_t\ " "flags" ", sd_json_variant\ **" "ret" ", unsigned\ *" "reterr_line" ", unsigned\ *" "reterr_column" ");"
+.HP \w'int\ sd_json_parse_fd('u
+.BI "int sd_json_parse_fd(const\ char\ *" "path" ", int\ " "fd" ", sd_json_parse_flags_t\ " "flags" ", sd_json_variant\ **" "ret" ", unsigned\ *" "reterr_line" ", unsigned\ *" "reterr_column" ");"
+.SH "DESCRIPTION"
+.PP
+\fBsd_json_parse()\fR
+parses the JSON string in
+\fIstring\fR
+and returns the resulting JSON variant object in
+\fIret\fR\&. The input must contain exactly one JSON value (object, array, string, number, boolean, or null); any trailing non\-whitespace content after the first parsed value is considered an error\&.
+.PP
+If parsing fails, the
+\fIreterr_line\fR
+and
+\fIreterr_column\fR
+arguments are set to the line and column (both one\-based) where the parse error occurred\&. One or both may be passed as
+\fBNULL\fR
+if the caller is not interested in error location information\&. On success, the return value is non\-negative and
+\fIret\fR
+is set to a newly allocated JSON variant object (which must be freed with
+\fBsd_json_variant_unref\fR(3)
+when no longer needed)\&.
+\fIret\fR
+may be passed as
+\fBNULL\fR, in which case the input is validated but no object is returned\&.
+.PP
+\fBsd_json_parse_continue()\fR
+is similar, but is intended for parsing a sequence of concatenated JSON values from a single input string\&. Instead of taking a
+\fBconst char *\fR
+string directly, it takes a pointer to a
+\fBconst char *\fR
+pointer\&. After each successful parse, the pointer is advanced past the consumed input, so that subsequent calls will parse the next JSON value\&. This is useful for parsing newline\-delimited JSON (NDJSON) streams or similar concatenated JSON formats\&. Unlike
+\fBsd_json_parse()\fR, trailing content after the first JSON value is not considered an error \(em it is expected to be the beginning of the next value\&.
+.PP
+\fBsd_json_parse_with_source()\fR
+and
+\fBsd_json_parse_with_source_continue()\fR
+are similar to
+\fBsd_json_parse()\fR
+and
+\fBsd_json_parse_continue()\fR, respectively, but take an additional
+\fIsource\fR
+argument\&. This is a human\-readable string (typically a file name or other origin identifier) that is attached to the parsed JSON variant object and can later be retrieved via
+\fBsd_json_variant_get_source\fR(3)\&. If
+\fIsource\fR
+is
+\fBNULL\fR, no source information is attached\&.
+\fBsd_json_parse()\fR
+and
+\fBsd_json_parse_continue()\fR
+are equivalent to calling their
+\fB_with_source\fR
+counterparts with
+\fIsource\fR
+set to
+\fBNULL\fR\&.
+.PP
+\fBsd_json_parse_file()\fR
+reads and parses a JSON value from a file\&. If the
+\fIf\fR
+argument is non\-\fBNULL\fR, the JSON text is read from the specified
+\fBFILE\fR
+stream\&. If
+\fIf\fR
+is
+\fBNULL\fR, the file indicated by
+\fIpath\fR
+is opened and read instead\&. The
+\fIpath\fR
+argument serves a dual purpose: it is both used for opening the file (if
+\fIf\fR
+is
+\fBNULL\fR) and recorded as source information in the resulting JSON variant (see above)\&.
+.PP
+\fBsd_json_parse_file_at()\fR
+is similar to
+\fBsd_json_parse_file()\fR, but takes an additional
+\fIdir_fd\fR
+argument which specifies a file descriptor referring to the directory to resolve relative paths specified in
+\fIpath\fR
+against\&. If set to
+\fBAT_FDCWD\fR, relative paths are resolved against the current working directory, which is the default behaviour of
+\fBsd_json_parse_file()\fR\&.
+.PP
+\fBsd_json_parse_fd()\fR
+reads and parses a JSON value from the file referenced by the file descriptor
+\fIfd\fR\&. By default the file descriptor is internally duplicated and the caller\*(Aqs descriptor is left untouched (the current file offset will be shared with the original file descriptor however); the JSON text is read starting at the descriptor\*(Aqs current file offset\&. This behaviour may be modified via the
+\fBSD_JSON_PARSE_SEEK0\fR,
+\fBSD_JSON_PARSE_DONATE_FD\fR
+and
+\fBSD_JSON_PARSE_REOPEN_FD\fR
+flags, see below\&. The
+\fIpath\fR
+argument is not used to open anything in this case; it is only recorded as source information in the resulting JSON variant (see above) and may be passed as
+\fBNULL\fR\&.
+.PP
+The
+\fIflags\fR
+argument is a bitmask of zero or more of the following flags:
+.PP
+\fBSD_JSON_PARSE_SENSITIVE\fR
+.RS 4
+Marks the resulting JSON variant as "sensitive", indicating that it contains secret key material or similar confidential data\&. Sensitive variants are erased from memory when freed and are excluded from certain debug logging and introspection operations\&. See
+\fBsd_json_variant_sensitive\fR(3)
+for details\&.
+.RE
+.PP
+\fBSD_JSON_PARSE_MUST_BE_OBJECT\fR
+.RS 4
+Requires that the top\-level JSON value be a JSON object (i\&.e\&.
+"{\&...}")\&. If the top\-level value is an array, string, number, boolean, or null, parsing fails with
+\fB\-EINVAL\fR\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fBSD_JSON_PARSE_MUST_BE_ARRAY\fR
+.RS 4
+Requires that the top\-level JSON value be a JSON array (i\&.e\&.
+"[\&...]")\&. If the top\-level value is an object, string, number, boolean, or null, parsing fails with
+\fB\-EINVAL\fR\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fBSD_JSON_PARSE_SEEK0\fR
+.RS 4
+Before reading, seek the input to its beginning (i\&.e\&. file offset 0)\&. This flag has no effect when parsing from a string\&. When used together with
+\fBSD_JSON_PARSE_REOPEN_FD\fR
+in
+\fBsd_json_parse_fd()\fR
+it is redundant, since a freshly reopened file descriptor starts at offset 0 anyway\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fBSD_JSON_PARSE_DONATE_FD\fR
+.RS 4
+Only has an effect on
+\fBsd_json_parse_fd()\fR\&. If set, ownership of the file descriptor passed in
+\fIfd\fR
+is transferred into the call: the descriptor is consumed and closed before the function returns, including in the error path\&. If not set (the default), the caller retains ownership of
+\fIfd\fR
+and the function operates on an internally duplicated descriptor instead\&. This flag may not be combined with
+\fBSD_JSON_PARSE_REOPEN_FD\fR\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fBSD_JSON_PARSE_REOPEN_FD\fR
+.RS 4
+Only has an effect on
+\fBsd_json_parse_fd()\fR\&. If set, the file descriptor passed in
+\fIfd\fR
+is reopened (read\-only) before reading, instead of being duplicated\&. This is primarily useful to obtain an independent file offset (positioned at the beginning of the file) and a clean, read\-only access mode, even if the original descriptor was opened differently (for example with
+\fBO_PATH\fR)\&. The caller retains ownership of the original descriptor, which is left untouched\&. This flag may not be combined with
+\fBSD_JSON_PARSE_DONATE_FD\fR\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+If both
+\fBSD_JSON_PARSE_MUST_BE_OBJECT\fR
+and
+\fBSD_JSON_PARSE_MUST_BE_ARRAY\fR
+are set, both objects and arrays are accepted, but non\-container values (strings, numbers, booleans, null) are still refused\&.
+.SH "RETURN VALUE"
+.PP
+On success, these functions return 0\&. On failure, they return a negative errno\-style error code\&.
+.SS "Errors"
+.PP
+Returned errors may indicate the following problems:
+.PP
+\fB\-EINVAL\fR
+.RS 4
+The input is not valid JSON, the input contains trailing content after the parsed value (only for non\-\fB_continue\fR
+variants), or a top\-level type constraint specified via
+\fBSD_JSON_PARSE_MUST_BE_OBJECT\fR
+or
+\fBSD_JSON_PARSE_MUST_BE_ARRAY\fR
+was violated\&.
+.RE
+.PP
+\fB\-ENODATA\fR
+.RS 4
+The input string is empty or
+\fBNULL\fR\&.
+.RE
+.PP
+\fB\-ENOMEM\fR
+.RS 4
+Memory allocation failed\&.
+.RE
+.SH "NOTES"
+.PP
+Functions described here are available as a shared library, which can be compiled against and linked to with the
+\fBlibsystemd\fR\ \&\fBpkg-config\fR(1)
+file\&.
+.PP
+The code described here uses
+\fBgetenv\fR(3), which is declared to be not multi\-thread\-safe\&. This means that the code calling the functions described here must not call
+\fBsetenv\fR(3)
+from a parallel thread\&. It is recommended to only do calls to
+\fBsetenv()\fR
+from an early phase of the program when no other threads have been started\&.
+.SH "HISTORY"
+.PP
+\fBsd_json_parse()\fR,
+\fBsd_json_parse_continue()\fR,
+\fBsd_json_parse_with_source()\fR,
+\fBsd_json_parse_with_source_continue()\fR,
+\fBsd_json_parse_file()\fR, and
+\fBsd_json_parse_file_at()\fR
+were added in version 257\&.
+.PP
+\fBsd_json_parse_fd()\fR
+and the
+\fBSD_JSON_PARSE_MUST_BE_OBJECT\fR,
+\fBSD_JSON_PARSE_MUST_BE_ARRAY\fR,
+\fBSD_JSON_PARSE_SEEK0\fR,
+\fBSD_JSON_PARSE_DONATE_FD\fR
+and
+\fBSD_JSON_PARSE_REOPEN_FD\fR
+flags were added in version 261\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsd-json\fR(3), \fBsd_json_variant_unref\fR(3), \fBsd_json_variant_get_source\fR(3), \fBsd_json_dispatch\fR(3)

@@ -1,0 +1,146 @@
+'\" t
+.TH "SD\-JSON" "3" "" "systemd 261.2" "sd-json"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd-json \- APIs for Dealing with JSON Objects
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-json\&.h>
+.fi
+.ft
+.HP \w'\fBpkg\-config\ \-\-cflags\ \-\-libs\ libsystemd\fR\ 'u
+\fBpkg\-config \-\-cflags \-\-libs libsystemd\fR
+.SH "DESCRIPTION"
+.PP
+sd\-json\&.h
+is part of
+\fBlibsystemd\fR(3)
+and provides APIs to parse, generate, format and otherwise operate with JSON objects\&.
+.PP
+The API\*(Aqs central data structure is
+\fBJsonVariant\fR
+which encapsulates a JSON object, array, string, boolean, number or null value\&. These data structures are mostly considered immutable after construction (i\&.e\&. their contents will not change, but some meta\-data might, such as reference counters)\&.
+.PP
+The APIs broadly fall into five categories:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+APIs to directly operate with
+\fBJsonVariant\fR
+objects, in the
+\fBsd_json_variant*\fR
+namespace\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+APIs to construct complex JSON objects, in the
+\fBsd_json_build*\fR
+namespace\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+APIs to map
+\fBJsonVariant\fR
+objects and their fields to matching fields in C structures, in the
+\fBsd_json_dispatch*\fR
+namespace\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+APIs to convert a string representation of a JSON object into a
+\fBJsonVariant\fR
+object, in the
+\fBsd_json_parse*\fR
+namespace\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+APIs to convert an
+\fBJsonVariant\fR
+object into its string representation, in the
+\fBsd_json_format*\fR
+namespace\&.
+.RE
+.PP
+This JSON library will internally encode JSON integer numbers in the range
+\fBINT64_MIN\fR\&...\fBUINT64_MAX\fR
+into native 64bit signed or unsigned integers, and will reproduce them without loss of precision\&. Non\-integer numbers are stored in 64bit IEEE floating point numbers\&.
+.PP
+If the functions return string arrays, these are generally
+\fBNULL\fR
+terminated and need to be freed by the caller with the libc
+\fBfree\fR(3)
+call after use, including the strings referenced therein\&. Similarly, individual strings returned need to be freed, as well\&.
+.PP
+As a special exception, instead of an empty string array
+\fBNULL\fR
+may be returned, which should be treated equivalent to an empty string array\&.
+.SH "NOTES"
+.PP
+Functions described here are available as a shared library, which can be compiled against and linked to with the
+\fBlibsystemd\fR\ \&\fBpkg-config\fR(1)
+file\&.
+.PP
+The code described here uses
+\fBgetenv\fR(3), which is declared to be not multi\-thread\-safe\&. This means that the code calling the functions described here must not call
+\fBsetenv\fR(3)
+from a parallel thread\&. It is recommended to only do calls to
+\fBsetenv()\fR
+from an early phase of the program when no other threads have been started\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsd-varlink\fR(3), \fBpkg-config\fR(1)

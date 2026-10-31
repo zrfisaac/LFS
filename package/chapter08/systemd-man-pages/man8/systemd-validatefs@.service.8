@@ -1,0 +1,119 @@
+'\" t
+.TH "SYSTEMD\-VALIDATEFS@\&.SERVICE" "8" "" "systemd 261.2" "systemd-validatefs@.service"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-validatefs@.service \- Validate File System Mount Constraint Data
+.SH "SYNOPSIS"
+.PP
+systemd\-validatefs@\&.service
+.PP
+/usr/lib/systemd/systemd\-validatefs
+[\fIDEVICE\fR]
+.SH "DESCRIPTION"
+.PP
+systemd\-validatefs@\&.service
+is a system service template that can be instantiated for newly established mount points\&. It reads file system mount constraint data from the file system, and ensures the mount runtime setup matches it\&. If it doesn\*(Aqt the service fails, which effects an immediate reboot\&.
+.PP
+This functionality is supposed to ensure that trusted file systems cannot be used in a different context then what they were intended for\&. More specifically: in an
+\fBsystemd-gpt-auto-generator\fR(8)
+based environment the file systems to mount are largely auto\-discovered based on (unprotected) GPT partition table data\&. The mount constraint information can be used to validate the GPT partition data, based on the (protected) file system contents\&.
+.PP
+Specifically, the mount constraints are encoded in the following extended attributes on the root inode of the file systems:
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 1.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  1." 4.2
+.\}
+\fIuser\&.validatefs\&.mount_point\fR: this extended attribute shall contain one or more absolute, normalized paths, separated by NUL bytes\&. If set and the specified file system is mounted to a location not matching any of the listed paths the validation check will fail\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 2.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  2." 4.2
+.\}
+\fIuser\&.validatefs\&.gpt_label\fR: this extended attribute may contain one or more free\-form strings, separated by NUL bytes\&. If set, all backing partitions of the file system are checked against this list, and if any backing partition\*(Aqs label is not listed, the validation will fail\&. Note that there may be multiple backing partition in case of Verity setups, which combines a data and a hash partition\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 3.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  3." 4.2
+.\}
+\fIuser\&.validatefs\&.gpt_type_uuid\fR: this extended attribute may contain one or more GPT partition type UUIDs, formatted as string, separated by NUL bytes\&. As above, all backing partitions of the file system are checked against this list, and if none is matching the validation will fail\&.
+.RE
+.PP
+The
+systemd\-validatefs@\&.service
+unit is automatically pulled into the initial transaction by
+\fBsystemd-gpt-auto-generator\fR(8)
+for all file systems it discovers and generates mounts for\&.
+\fBsystemd-fstab-generator\fR(8)
+will do this for all mounts with the
+\fBx\-systemd\&.validatefs\fR
+mount option in
+/etc/fstab\&.
+.PP
+The
+\fBsystemd-repart\fR(8)
+tool generates these extended attributes automatically for the file systems it puts together, which may be controlled with the
+\fIAddValidateFS=\fR
+configuration option\&.
+.SH "OPTIONS"
+.PP
+The
+/usr/lib/systemd/systemd\-validatefs
+executable may also be invoked from the command line, where it expects a path to a mount and the following options:
+.PP
+\fB\-\-root=\fR
+.RS 4
+Takes an absolute path or the special string
+"auto"\&. The specified path is removed as prefix from the specified mount point argument before the validation\&. If set to
+"auto"
+defaults to unspecified on the host and
+/sysroot/
+when run in initrd context, in order to validate the mount constraint data relative to the future file system root\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Print a short help text and exit\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Print a short version string and exit\&.
+.RE
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-gpt-auto-generator\fR(8), \fBsystemd-fstab-generator\fR(8), \fBsystemd-repart\fR(8)

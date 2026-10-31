@@ -1,0 +1,178 @@
+'\" t
+.TH "SD_DEVICE_ENUMERATOR_NEW" "3" "" "systemd 261.2" "sd_device_enumerator_new"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd_device_enumerator_new, sd_device_enumerator_ref, sd_device_enumerator_unref, sd_device_enumerator_unrefp \- Create, reference, and release a device enumerator object
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-device\&.h>
+.fi
+.ft
+.HP \w'int\ sd_device_enumerator_new('u
+.BI "int sd_device_enumerator_new(sd_device_enumerator\ **" "ret" ");"
+.HP \w'sd_device_enumerator*\ sd_device_enumerator_ref('u
+.BI "sd_device_enumerator* sd_device_enumerator_ref(sd_device_enumerator\ *" "enumerator" ");"
+.HP \w'sd_device_enumerator*\ sd_device_enumerator_unref('u
+.BI "sd_device_enumerator* sd_device_enumerator_unref(sd_device_enumerator\ *" "enumerator" ");"
+.HP \w'void\ sd_device_enumerator_unrefp('u
+.BI "void sd_device_enumerator_unrefp(sd_device_enumerator\ **" "enumerator" ");"
+.SH "DESCRIPTION"
+.PP
+The
+\fBsd_device_enumerator\fR
+family of functions provides a way to iterate over devices recognized by
+\fBsystemd-udevd\fR(8)\&. The enumerator allows filtering and matching devices by subsystem, properties and other attributes\&.
+.PP
+\fBsd_device_enumerator_new()\fR
+creates a new device enumerator object and stores the result in the pointer referenced by
+\fIret\fR\&. Returns 0 on success, or a negative errno\-style error code on failure\&.
+.PP
+\fBsd_device_enumerator_ref()\fR
+increases the reference count of the specified
+\fIenumerator\fR
+by one\&.
+.PP
+\fBsd_device_enumerator_unref()\fR
+decreases the reference count of the
+\fIenumerator\fR
+by one\&. When the reference count reaches zero, the enumerator object is destroyed and cannot be used anymore, so further calls to
+\fBsd_device_enumerator_unref() \fR
+or
+\fBsd_device_enumerator_unrefp()\fR
+are illegal\&.
+.PP
+\fBsd_device_enumerator_unrefp()\fR
+is similar to
+\fBsd_device_enumerator_unref()\fR
+but takes a pointer to a pointer to an
+\fBsd_device_enumerator\fR
+object\&. This call is useful in conjunction with GCC\*(Aqs and LLVM\*(Aqs
+\m[blue]\fBClean\-up Variable Attribute\fR\m[]\&\s-2\u[1]\d\s+2\&. Note that this function is defined as an inline function\&. Use a declaration like the following, in order to allocate a
+\fBsd_device_enumerator\fR
+object that is freed automatically as the code block is left:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+{
+  __attribute__((cleanup(sd_device_enumerator_unrefp))) sd_device_enumerator *enumerator = NULL;
+  int r;
+  \&...
+  r = sd_device_enumerator_new(&enumerator);
+  if (r < 0)
+    fprintf(stderr, "Failed to allocate sd_device_enumerator: %s\en", strerror(\-r));
+  \&...
+}
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fBsd_device_enumerator_ref()\fR
+and
+\fBsd_device_enumerator_unref()\fR
+execute no operation if the
+\fIenumerator\fR
+is
+\fBNULL\fR\&.
+\fBsd_device_enumerator_unrefp()\fR
+will first dereference its argument, which must not be
+\fBNULL\fR, and will execute no operation if
+\fIthat\fR
+is
+\fBNULL\fR\&.
+.SH "RETURN VALUE"
+.PP
+\fBsd_device_enumerator_new()\fR
+returns 0 on success or a negative errno\-style error code on failure\&.
+.PP
+\fBsd_device_enumerator_ref()\fR
+always returns the enumerator pointer\&.
+.PP
+\fBsd_device_enumerator_unref()\fR
+always returns
+\fBNULL\fR\&.
+.SS "Errors"
+.PP
+Returned errors may indicate the following problems:
+.PP
+\fB\-ENOMEM\fR
+.RS 4
+Memory allocation failed\&.
+.RE
+.PP
+\fB\-EINVAL\fR
+.RS 4
+The argument is invalid\&.
+.RE
+.SH "EXAMPLE"
+.PP
+\fBExample\ \&1.\ \&Using sd_device_enumerator_new()\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+/* SPDX\-License\-Identifier: MIT\-0 */
+
+#include <stdio\&.h>
+#include <systemd/sd\-device\&.h>
+
+int main(void) {
+    sd_device_enumerator *enumerator;
+    int r;
+
+    r = sd_device_enumerator_new(&enumerator);
+    if (r < 0) {
+        fprintf(stderr, "Failed to create enumerator: %s\en", strerror(\-r));
+        return 1;
+    }
+
+    sd_device_enumerator_ref(enumerator);
+    sd_device_enumerator_unref(enumerator);
+
+    sd_device_enumerator_unref(enumerator);
+
+    return 0;
+}
+.fi
+.if n \{\
+.RE
+.\}
+.SH "HISTORY"
+.PP
+\fBsd_device_enumerator_new()\fR,
+\fBsd_device_enumerator_ref()\fR,
+\fBsd_device_enumerator_unref()\fR, and
+\fBsd_device_enumerator_unrefp()\fR
+were added in version 240\&.
+.SH "SEE ALSO"
+.PP
+\fBsd_device_ref\fR(3), \fBsd_device_enumerator_add_match_parent\fR(3)
+.SH "NOTES"
+.IP " 1." 4
+Clean-up Variable Attribute
+.RS 4
+\%https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html
+.RE

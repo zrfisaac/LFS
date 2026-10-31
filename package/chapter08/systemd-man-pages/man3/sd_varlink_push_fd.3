@@ -1,0 +1,111 @@
+'\" t
+.TH "SD_VARLINK_PUSH_FD" "3" "" "systemd 261.2" "sd_varlink_push_fd"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd_varlink_push_fd, sd_varlink_push_dup_fd \- Submit a file descriptor to send along with the next outgoing Varlink message
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-varlink\&.h>
+.fi
+.ft
+.HP \w'int\ sd_varlink_push_fd('u
+.BI "int sd_varlink_push_fd(sd_varlink\ *" "link" ", int\ " "fd" ");"
+.HP \w'int\ sd_varlink_push_dup_fd('u
+.BI "int sd_varlink_push_dup_fd(sd_varlink\ *" "link" ", int\ " "fd" ");"
+.SH "DESCRIPTION"
+.PP
+\fBsd_varlink_push_fd()\fR
+submits a file descriptor to send along with the next outgoing Varlink message\&. Takes a Varlink connection object and a file descriptor as parameter\&. The file descriptor is not duplicated, and hence ownership of the file descriptor is passed to the Varlink connection object (only on success; on failure the caller retains ownership)\&. Once the file descriptor has been written to the underlying transport socket it is automatically closed\&. The calling application code should not touch the file descriptor or close it on its own, otherwise it will interfere with the Varlink protocol implementation\&. This call is only supported if the backing transport supports file descriptor passing (effectively this means the functionality is supported on local
+\fBAF_UNIX\fR
+only), and the concept is not part of the Varlink protocol, but simply a feature of the underlying transport\&.
+.PP
+\fBsd_varlink_push_dup_fd()\fR
+is identical to
+\fBsd_varlink_push_fd()\fR, except that the file descriptor is duplicated automatically, and the calling application code hence retains ownership of the provided file descriptor, and must close it on its own\&.
+.PP
+Note that file descriptor passing is only permitted after a call to
+\fBsd_varlink_set_allow_fd_passing_output()\fR
+that enables it, otherwise these calls will fail with
+\fB\-EPERM\fR\&.
+.PP
+Note that on Linux a maximum of 253 file descriptors may be enqueued on
+\fBAF_UNIX\fR
+sockets at once\&. Attempting to enqueue more on a single Varlink message will fail with
+\fB\-ENOBUFS\fR\&.
+.SH "RETURN VALUE"
+.PP
+On success,
+\fBsd_varlink_push_fd()\fR
+and
+\fBsd_varlink_push_dup_fd()\fR
+return a non\-negative integer\&. On failure, they return a negative errno\-style error code\&.
+.SS "Errors"
+.PP
+Returned errors may indicate the following problems:
+.PP
+\fB\-EINVAL\fR
+.RS 4
+An argument is invalid\&.
+.RE
+.PP
+\fB\-EBADF\fR
+.RS 4
+The provided file descriptor is not valid\&.
+.RE
+.PP
+\fB\-EPERM\fR
+.RS 4
+File descriptor passing has not been enabled via
+\fBsd_varlink_set_allow_fd_passing_output()\fR\&.
+.RE
+.PP
+\fB\-ENOBUFS\fR
+.RS 4
+The maximum of 253 file descriptors have already been submitted for the next outgoing Varlink message, no further descriptors may be enqueued for this message\&.
+.RE
+.PP
+\fB\-ENOMEM\fR
+.RS 4
+Memory allocation failed\&.
+.RE
+.SH "NOTES"
+.PP
+Functions described here are available as a shared library, which can be compiled against and linked to with the
+\fBlibsystemd\fR\ \&\fBpkg-config\fR(1)
+file\&.
+.PP
+The code described here uses
+\fBgetenv\fR(3), which is declared to be not multi\-thread\-safe\&. This means that the code calling the functions described here must not call
+\fBsetenv\fR(3)
+from a parallel thread\&. It is recommended to only do calls to
+\fBsetenv()\fR
+from an early phase of the program when no other threads have been started\&.
+.SH "HISTORY"
+.PP
+\fBsd_varlink_push_fd()\fR
+and
+\fBsd_varlink_push_dup_fd()\fR
+were added in version 257\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsd-varlink\fR(3)

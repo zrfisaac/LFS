@@ -1,0 +1,79 @@
+'\" t
+.TH "SD_PIDFD_GET_INODE_ID" "3" "" "systemd 261.2" "sd_pidfd_get_inode_id"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd_pidfd_get_inode_id \- Acquire the 64\-bit inode ID of a PID file descriptor (PIDFD)
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-daemon\&.h>
+.fi
+.ft
+.HP \w'int\ sd_pidfd_get_inode_id('u
+.BI "int sd_pidfd_get_inode_id(int\ " "pidfd" ", uint64_t\ *" "ret" ");"
+.SH "DESCRIPTION"
+.PP
+\fBsd_pidfd_get_inode_id()\fR
+may be invoked to acquire the 64\-bit inode ID of a PID file descriptor (PIDFD), which can be used to reliably identify a process for the current boot\&.
+.PP
+As a typical example, the service manager sets
+\fI$MAINPIDFDID\fR
+and
+\fI$MANAGERPIDFDID\fR
+environment variables to the inode IDs of the service main process and the service manager itself, respectively, if such functionality is supported by the kernel\&.
+.PP
+On 64\-bit architectures, the inode ID can be directly obtained via a call to
+\fBfstat\fR(2)
+on a given pidfd\&. However, on 32\-bit architectures
+struct stat\*(Aqs \&.st_ino field is also 32\-bit, which similar to PIDs is subject to reuse\&. Therefore, a second mechanism leveraging
+\fBname_to_handle_at\fR(2)
+has been added to kernel in v6\&.14\&. This helper is added to simplify downstream handling of pidfd/pidfs internals\&.
+.SH "RETURN VALUE"
+.PP
+On success, the function returns 0 or a positive integer\&. On failure, a negative errno\-style error code is returned\&.
+.SS "Errors"
+.PP
+Returned errors may indicate the following problems:
+.PP
+\fB\-EOPNOTSUPP\fR
+.RS 4
+The stable PIDFD inode ID is not supported by the running kernel, or the system is 32\-bit and
+\fBname_to_handle_at()\fR
+is unavailable\&.
+.RE
+.PP
+\fB\-EBADF\fR
+.RS 4
+The specified file descriptor is invalid, or is not a PIDFD\&.
+.RE
+.SH "NOTES"
+.PP
+Functions described here are available as a shared library, which can be compiled against and linked to with the
+\fBlibsystemd\fR\ \&\fBpkg-config\fR(1)
+file\&.
+.SH "HISTORY"
+.PP
+\fBsd_pidfd_get_inode_id()\fR
+was added in version 258\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsd-daemon\fR(3), \fBsd_notify\fR(3), \fBsystemd.exec\fR(5)

@@ -1,0 +1,125 @@
+'\" t
+.TH "SYSTEMD\-IMDS\-GENERATOR" "8" "" "systemd 261.2" "systemd-imds-generator"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-imds-generator \- Generator to automatically enable IMDS on supporting environments
+.SH "SYNOPSIS"
+.PP
+/usr/lib/systemd/system\-generators/systemd\-imds\-generator
+.SH "DESCRIPTION"
+.PP
+\fBsystemd\-imds\-generator\fR
+is a generator that enables IMDS (Instance Metadata Service) functionality at boot on systems that support it\&. Specifically it does three things:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+It pulls the
+systemd\-imdsd\&.socket
+unit (which activates
+\fBsystemd-imdsd@.service\fR(8)) into the initial transaction, which provides IMDS access to local applications via Varlink IPC\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+It pulls the
+systemd\-imds\-early\-network\&.service
+unit into the initial transaction, which generates a suitable
+\fBsystemd.network\fR(5)
+network configuration file that allows early\-boot network access to the IMDS functionality\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+It pulls the
+systemd\-imds\-import\&.service
+unit into the initial transaction, which automatically imports various credentials from IMDS into the local system, storing them in
+/run/credstore/\&.
+.RE
+.PP
+By default, whether to pull in these services or not is decided based on
+\fBhwdb\fR(7)
+information, that detects various IMDS environments automatically\&. However, this logic may be overridden via
+\fIsystemd\&.imds=\fR, see below\&.
+.PP
+\fBsystemd\-imds\-generator\fR
+implements
+\fBsystemd.generator\fR(7)\&.
+.SH "KERNEL COMMAND LINE"
+.PP
+\fBsystemd\-imds\-generator\fR
+understands the following kernel command line parameters:
+.PP
+\fIsystemd\&.imds=\fR
+.RS 4
+Takes a boolean argument or the special value
+"auto", and may be used to enable or disable the IMDS logic\&. Note that this controls only whether the relevant services (as listed above) are automatically pulled into the initial transaction, it has no effect if some other unit or the user explicitly activates the relevant units\&. If this option is not used (or set to
+"auto") automatic detection of IMDS is used, see above\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fIsystemd\&.imds\&.network=\fR
+.RS 4
+Takes one of
+"off",
+"locked",
+"unlocked"\&. Controls whether and how to set up networking for IMDS endpoint access\&. Unless set to
+"off"
+early boot networking is enabled, ensuring that the IMDS endpoint can be reached\&. If set to
+"locked"
+direct access to the IMDS endpoint by regular unprivileged processes is disabled via a "prohibit" route, so that any access must be done through
+systemd\-imdsd@\&.service
+or its associated tools\&. If set to
+"unlocked"
+(the default) this "prohibit" route is not created, and regular unprivileged processes can directly contact IMDS\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fIsystemd\&.imds\&.import=\fR
+.RS 4
+Takes a boolean argument\&. If false the
+systemd\-imds\-import\&.service
+(see above) is not pulled into the initial transaction, i\&.e\&. no credentials are imported from IMDS\&. Defaults to true in the initrd, and false otherwise\&.
+.sp
+Added in version 261\&.
+.RE
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-imds\fR(1), \fBsystemd-imdsd@.service\fR(8), \fBsystemd.system-credentials\fR(7)

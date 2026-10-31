@@ -1,0 +1,232 @@
+'\" t
+.TH "SD_JSON_DISPATCH_STRING" "3" "" "systemd 261.2" "sd_json_dispatch_string"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd_json_dispatch_string, sd_json_dispatch_const_string, sd_json_dispatch_strv, sd_json_dispatch_stdbool, sd_json_dispatch_intbool, sd_json_dispatch_tristate, sd_json_dispatch_variant, sd_json_dispatch_variant_noref, sd_json_dispatch_int64, sd_json_dispatch_int32, sd_json_dispatch_int16, sd_json_dispatch_int8, sd_json_dispatch_uint64, sd_json_dispatch_uint32, sd_json_dispatch_uint16, sd_json_dispatch_uint8, sd_json_dispatch_double, sd_json_dispatch_uid_gid, sd_json_dispatch_id128, sd_json_dispatch_signal, sd_json_dispatch_unsupported \- Decode JSON variant values and write them to the specified memory
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-varlink\&.h>
+.fi
+.ft
+.HP \w'int\ sd_json_dispatch_string('u
+.BI "int sd_json_dispatch_string(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_const_string('u
+.BI "int sd_json_dispatch_const_string(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_strv('u
+.BI "int sd_json_dispatch_strv(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_stdbool('u
+.BI "int sd_json_dispatch_stdbool(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_intbool('u
+.BI "int sd_json_dispatch_intbool(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_tristate('u
+.BI "int sd_json_dispatch_tristate(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_variant('u
+.BI "int sd_json_dispatch_variant(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_variant_noref('u
+.BI "int sd_json_dispatch_variant_noref(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_int64('u
+.BI "int sd_json_dispatch_int64(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_int32('u
+.BI "int sd_json_dispatch_int32(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_int16('u
+.BI "int sd_json_dispatch_int16(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_int8('u
+.BI "int sd_json_dispatch_int8(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_uint64('u
+.BI "int sd_json_dispatch_uint64(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_uint32('u
+.BI "int sd_json_dispatch_uint32(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_uint16('u
+.BI "int sd_json_dispatch_uint16(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_uint8('u
+.BI "int sd_json_dispatch_uint8(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_double('u
+.BI "int sd_json_dispatch_double(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_uid_gid('u
+.BI "int sd_json_dispatch_uid_gid(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_id128('u
+.BI "int sd_json_dispatch_id128(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_signal('u
+.BI "int sd_json_dispatch_signal(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.HP \w'int\ sd_json_dispatch_unsupported('u
+.BI "int sd_json_dispatch_unsupported(const\ char\ *" "name" ", sd_json_variant\ *" "variant" ", sd_dispatch_flags\ " "flags" ", void\ *" "userdata" ");"
+.SH "DESCRIPTION"
+.PP
+The various functions described here are intended for use in the
+\fBsd_json_dispatch_field\fR
+structure arrays the
+\fBsd_json_dispatch\fR(3)
+and
+\fBsd_varlink_dispatch\fR(3)
+functions accept; they decode the provided JSON variant object\*(Aqs value, and write it to the memory indicated by the
+\fIuserdata\fR
+pointer\&. The
+\fIname\fR
+parameter contains the field name (in the JSON object it is contained in) of the value being decoded\&. For details on the
+\fIflags\fR
+parameter see the
+\fBsd_json_dispatch()\fR
+documentation\&.
+.PP
+Note that all these functions not only accept the native JSON type they are intended for, but also accept null JSON values, in which case they assign an appropriate invalid/unset/null value, as appropriate for the type (for details see below)\&.
+.PP
+\fBsd_json_dispatch_string()\fR
+decodes a JSON string value, and allocates a
+\fBNUL\fR
+terminated copy in dynamic memory\&. The
+\fIuserdata\fR
+pointer must point to a pointer to a string, which is freed if non\-\fBNULL\fR, and then replaced by the newly allocated one\&. If a JSON null value is passed, the existing string is freed and
+\fBNULL\fR
+is assigned\&.
+.PP
+\fBsd_json_dispatch_const_string()\fR
+is very similar to
+\fBsd_json_dispatch_string()\fR, but does not allocate a string in dynamic memory\&. Instead, it just writes a pointer into the JSON object into the indicated memory (or
+\fBNULL\fR
+in case a JSON null object is passed)\&. The memory remains valid only as long as the indicated variant object is kept allocated (which can happen via direct reference, or via an indirect one via an object that references the specified variant)\&. The memory
+\fIuserdata\fR
+points to on input is
+\fInot\fR
+freed before the new value is assigned\&.
+.PP
+\fBsd_json_dispatch_stdbool()\fR
+and
+\fBsd_json_dispatch_intbool()\fR
+decode JSON boolean values and write them to the indicated memory\&. The former expects a variable of the C99
+\fBbool\fR
+type in the indicated memory, the latter an
+\fBint\fR
+(which will only receive the values 0 and 1)\&. The JSON null value is treated equivalent to a JSON false\&.
+.PP
+\fBsd_json_dispatch_tristate()\fR
+is very similar to\fBsd_json_dispatch_intbool()\fR, but will assign \-1 if a JSON null value is passed\&. Or in other words, the integer will have a value > 0, == 0 or < 0, for the cases true, false or invalid/unset/null\&.
+.PP
+\fBsd_json_dispatch_variant()\fR
+takes an additional reference to the passed JSON object (via
+\fBsd_json_variant_ref()\fR) and writes the pointer to the indicated memory\&. No decoding is done\&. If the indicated pointer is non\-\fBNULL\fR
+on input it is freed (via
+\fBsd_json_variant_unref()\fR) before the new pointer is written\&.
+.PP
+\fBsd_json_dispatch_variant_noref()\fR
+is similar, but does
+\fInot\fR
+take a new reference to the JSON variant object\&. The pointer hence only remains valid as long as the original object stays referenced\&. If the indicated pointer is non\-\fBNULL\fR
+on input it is
+\fInot\fR
+freed before the new pointer is written\&.
+.PP
+The
+\fBsd_json_dispatch_int64()\fR,
+\fBsd_json_dispatch_int32()\fR,
+\fBsd_json_dispatch_int16()\fR,
+\fBsd_json_dispatch_int8()\fR,
+\fBsd_json_dispatch_uint64()\fR,
+\fBsd_json_dispatch_uint32()\fR,
+\fBsd_json_dispatch_uint16()\fR
+and
+\fBsd_json_dispatch_uint8()\fR
+functions decode a JSON integer value, and write the value to the indicated memory\&. The function names indicate the word width and signedness of the integers being parsed\&. If the JSON null value is passed the functions for the unsigned integer types will assign the maximum value the type takes (i\&.e\&.
+\fBUINT64_MAX\fR,
+\fBUINT32_MAX\fR
+\&...), and the signed versions assign \-1\&. Instead of a JSON integer value these functions also accept JSON strings that contain formatted decimal numbers, in order to improve compatibility for encoding integer values that cannot be represented in 64bit double precision floating point numbers in other programming languages that encode JSON numerals this way\&.
+.PP
+The
+\fBsd_json_dispatch_double()\fR
+function decodes a 64bit double precision floating point number\&. If a JSON null value is passed, assigns NaN\&.
+.PP
+The
+\fBsd_json_dispatch_uid_gid()\fR
+function is similar to
+\fBsd_json_dispatch_uint32()\fR, and is intended to decode 32bit UNIX UID/GID numbers, as used on Linux\&. It will decode a JSON null value as 4294967295 (i\&.e\&.
+"(uid_t) \-1"), and will refuse the values 65535 and 4294967295 when passed as JSON numerals (i\&.e\&. both the 16bit and 32bit "invalid" UID/GID, as these values have special meaning for various UNIX syscalls, on different OSes and file systems)\&.
+.PP
+\fBsd_json_dispatch_id128()\fR
+decodes a 128bit ID formatted as a JSON string\&. It supports both RFC9562 UUID formatting, as well as 64 hexadecimal characters without separators, the same way as
+\fBsd_id128_from_string\fR(3)\&. If the JSON null value is passed, the all\-zero ID is assigned\&.
+.PP
+\fBsd_json_dispatch_signal()\fR
+decodes a UNIX process signal specification\&. It expects either an JSON string containing a signal name such as
+"SIGINT"
+or
+"SIGTERM", or an unsigned JSON integer value with the signal number (in the Linux definition)\&. The indicated memory must point to an
+\fBint\fR
+variable to write the signal number to\&. If the JSON null value is passed a negative value will be written to the memory\&.
+.PP
+\fBsd_json_dispatch_unsupported()\fR
+will always fail with the \-\fBEINVAL\fR
+error\&.
+.SH "RETURN VALUE"
+.PP
+On success, these functions return a non\-negative integer\&. On failure, they return a negative errno\-style error code\&.
+.SS "Errors"
+.PP
+Returned errors may indicate the following problems:
+.PP
+\fB\-EINVAL\fR
+.RS 4
+An argument is invalid\&.
+.RE
+.PP
+\fB\-ENOMEM\fR
+.RS 4
+Memory allocation failed\&.
+.RE
+.SH "NOTES"
+.PP
+Functions described here are available as a shared library, which can be compiled against and linked to with the
+\fBlibsystemd\fR\ \&\fBpkg-config\fR(1)
+file\&.
+.PP
+The code described here uses
+\fBgetenv\fR(3), which is declared to be not multi\-thread\-safe\&. This means that the code calling the functions described here must not call
+\fBsetenv\fR(3)
+from a parallel thread\&. It is recommended to only do calls to
+\fBsetenv()\fR
+from an early phase of the program when no other threads have been started\&.
+.SH "HISTORY"
+.PP
+\fBsd_json_dispatch_string()\fR,
+\fBsd_json_dispatch_const_string()\fR,
+\fBsd_json_dispatch_strv()\fR,
+\fBsd_json_dispatch_stdbool()\fR,
+\fBsd_json_dispatch_intbool()\fR,
+\fBsd_json_dispatch_tristate()\fR,
+\fBsd_json_dispatch_variant()\fR,
+\fBsd_json_dispatch_variant_noref()\fR,
+\fBsd_json_dispatch_int64()\fR,
+\fBsd_json_dispatch_int32()\fR,
+\fBsd_json_dispatch_int16()\fR,
+\fBsd_json_dispatch_int8()\fR,
+\fBsd_json_dispatch_uint64()\fR,
+\fBsd_json_dispatch_uint32()\fR,
+\fBsd_json_dispatch_uint16()\fR,
+\fBsd_json_dispatch_uint8()\fR,
+\fBsd_json_dispatch_double()\fR,
+\fBsd_json_dispatch_uid_gid()\fR,
+\fBsd_json_dispatch_id128()\fR,
+\fBsd_json_dispatch_signal()\fR,
+\fBsd_json_dispatch_unsupported()\fR
+were added in version 257\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsd-json\fR(3), \fBsd-varlink\fR(3), \fBsd_json_dispatch\fR(3), \fBsd_variant_dispatch\fR(3)

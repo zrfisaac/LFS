@@ -1,0 +1,76 @@
+'\" t
+.TH "FILE\-HIERARCHY" "7" "" "systemd 261.2" "file-hierarchy"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+file-hierarchy \- systemd file system hierarchy requirements
+.SH "DESCRIPTION"
+.PP
+Operating systems using the
+\fBsystemd\fR(1)
+system and service manager are organized based on a file system hierarchy inspired by UNIX, as described in
+\m[blue]\fBUAPI\&.9 Linux File System Hierarchy\fR\m[]\&\s-2\u[1]\d\s+2\&. Additional requirements on
+\fIwhen\fR
+given parts of the hierarchy must be available during boot are listed in
+\m[blue]\fBMount Requirements\fR\m[]\&\s-2\u[2]\d\s+2\&.
+.PP
+Many of the paths described here can be queried with the
+\fBsystemd-path\fR(1)
+tool\&.
+.SH "SEE ALSO"
+.PP
+.RS 4
+\fBhier\fR(7)
+.RE
+.RS 4
+\m[blue]\fBFile System Hierarchy\fR\m[]\&\s-2\u[3]\d\s+2
+.RE
+.RS 4
+\m[blue]\fBXDG Base Directory Specification\fR\m[]\&\s-2\u[4]\d\s+2
+.RE
+.RS 4
+\m[blue]\fBXDG User Directories\fR\m[]\&\s-2\u[5]\d\s+2
+.RE
+.SH "NOTES"
+.IP " 1." 4
+UAPI.9 Linux File System Hierarchy
+.RS 4
+\%https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/
+.RE
+.IP " 2." 4
+Mount Requirements
+.RS 4
+\%https://systemd.io/MOUNT_REQUIREMENTS/
+.RE
+.IP " 3." 4
+File System Hierarchy
+.RS 4
+\%http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html
+.RE
+.IP " 4." 4
+XDG Base Directory Specification
+.RS 4
+\%https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
+.RE
+.IP " 5." 4
+XDG User Directories
+.RS 4
+\%https://www.freedesktop.org/wiki/Software/xdg-user-dirs
+.RE

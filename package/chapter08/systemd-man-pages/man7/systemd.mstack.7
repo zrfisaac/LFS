@@ -1,0 +1,281 @@
+'\" t
+.TH "SYSTEMD\&.MSTACK" "7" "" "systemd 261.2" "systemd.mstack"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd.mstack \- Mount stacks in self descriptive directories
+.SH "DESCRIPTION"
+.PP
+Directories with the
+"\&.mstack/"
+suffix may encode \*(Aqmount stacks\*(Aq for assembling OS mount hierarchies based on bind and overlay mounts, for use in
+\fBsystemd-nspawn\fR(1)\*(Aqs
+\fB\-\-mstack=\fR
+switch or the service manager\*(Aqs
+\fBRootMStack=\fR
+setting for services\&.
+"\&.mstack/"
+directories may contain various files and subdirectories, where each will effect one layer of an
+"overlayfs"
+mount, or a bind mount\&. The name of the file or subdirectory indicates how it shall be used in the mount hierarchy\&. Specifically, the following names are defined:
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 1.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  1." 4.2
+.\}
+A
+layer@\fIid\fR/
+directory will be turned into a layer of an overlayfs mount\&. The
+"id"
+identifier is used to define the order of the layers: a version sort is executed, with the first entry being the bottom layer in the
+"overlayfs"
+stack, and the last entry becoming the highest layer (precisely: highest "lowerdir") in the
+"overlayfs"
+stack\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 2.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  2." 4.2
+.\}
+Similar, a
+layer@\fIid\fR\&.raw
+regular file will be mounted as a DDI, and the resulting mount will be turned into an overlayfs layer, following the same sorting rules\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 3.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  3." 4.2
+.\}
+An
+rw
+directory will be turned into a writable layer at the very top of the
+"overlayfs"
+stack\&. A subdirectory
+data
+of it will become the "upperdir", a subdirectory
+work
+will become the "workdir"\&. Note that these two subdirectories do not need to be created explicitly, they are created automatically on first use should they be missing\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 4.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  4." 4.2
+.\}
+A
+bind@\fIlocation\fR/
+directory will be bind mounted to the mount point indicated by the
+\fIlocation\fR
+identifier, in read\-write fashion\&. The location is encoded via the same escaping logic used for naming
+"\&.mount"
+units, i\&.e\&. slashes become dashes\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 5.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  5." 4.2
+.\}
+Similar, a
+bind@\fIlocation\fR\&.raw
+file will be mounted as a DDI, and the resulting mount bind mounted to the specified location\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 6.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  6." 4.2
+.\}
+A
+robind@\fIlocation\fR/
+is treated very similar to
+bind@\fIlocation\fR/, but the resulting bind mount is read\-only\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 7.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  7." 4.2
+.\}
+Similar,
+robind@\fIlocation\fR\&.raw
+creates a read\-only bind mount from a DDI\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 8.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  8." 4.2
+.\}
+If a
+root/
+subdirectory exists, it is used as root of the resulting mount hierarchy, and only the
+usr/
+subtree of the overlayfs mount will be bound to
+usr/
+in the hierarchy\&.
+.RE
+.PP
+Note that each of the entry types above may be a symbolic link pointing to a directory or image file, instead a directory or image file itself\&.
+.PP
+On each listed file or subdirectory type the
+\fBsystemd.v\fR(7)
+functionality may be used, for automatic selection of versioned resources\&.
+.PP
+Use the
+\fBsystemd-mstack\fR(1)
+tool to process or mount
+\&.mstack/
+directories from the command line\&.
+.SH "EXAMPLES"
+.PP
+The following
+\&.mstack/
+consists of two read\-only overlayfs layers as DDI, plus one writable directory on top\&. The read\-only layers are symlinked:
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 1.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  1." 4.2
+.\}
+foobar\&.mstack/layer@0\&.raw
+→
+\&.\&./base\&.raw
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 2.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  2." 4.2
+.\}
+foobar\&.mstack/layer@1\&.raw
+→
+\&.\&./app\&.raw
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 3.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  3." 4.2
+.\}
+foobar\&.mstack/rw/
+.RE
+.PP
+The following
+\&.mstack/
+consists of a read\-only DDI mounted to
+"/usr/"
+and writable root:
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 1.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  1." 4.2
+.\}
+waldo\&.mstack/layer@0\&.raw
+→
+\&.\&./vendor\&.raw
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 2.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  2." 4.2
+.\}
+waldo\&.mstack/root/
+.RE
+.PP
+The following
+\&.mstack/
+consists of a read\-only DDI mounted as root, but a writable
+/var/
+mounted on top:
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 1.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  1." 4.2
+.\}
+quux\&.mstack/layer@0\&.raw
+→
+\&.\&./myapp1\&.raw
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 2.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  2." 4.2
+.\}
+quux\&.mstack/bind:var
+→
+\&.\&./myapp1\-var/
+.RE
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-mstack\fR(1), \fBsystemd-nspawn\fR(1), \fBsystemd.exec\fR(5), \fBsystemd.v\fR(7), \fBsystemd-vpick\fR(1)

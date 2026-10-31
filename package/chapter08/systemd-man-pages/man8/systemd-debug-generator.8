@@ -1,0 +1,189 @@
+'\" t
+.TH "SYSTEMD\-DEBUG\-GENERATOR" "8" "" "systemd 261.2" "systemd-debug-generator"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-debug-generator \- Generator for enabling a runtime debug shell and masking specific units at boot
+.SH "SYNOPSIS"
+.PP
+/usr/lib/systemd/system\-generators/systemd\-debug\-generator
+.SH "DESCRIPTION"
+.PP
+\fBsystemd\-debug\-generator\fR
+is a generator that provides some debugging functionality\&.
+.PP
+\fBsystemd\-debug\-generator\fR
+implements
+\fBsystemd.generator\fR(7)\&.
+.SH "KERNEL COMMAND LINE"
+.PP
+\fBsystemd\-debug\-generator\fR
+understands the following kernel command line parameters:
+.PP
+\fIsystemd\&.mask=\fR, \fIrd\&.systemd\&.mask=\fR
+.RS 4
+These options take a unit name as argument\&. The unit specified is masked for the runtime (i\&.e\&. for this session \(em from boot to shutdown), similarly to the effect of
+\fBsystemctl\fR(1)\*(Aqs
+\fBmask\fR
+command\&. This is useful to boot with certain units removed from the initial boot transaction for debugging system startup\&. May be specified more than once\&. The option prefixed with
+"rd\&."
+is honored only in the initrd, while the one without prefix is only honored on the host\&.
+.sp
+Added in version 215\&.
+.RE
+.PP
+\fIsystemd\&.wants=\fR, \fIrd\&.systemd\&.wants=\fR
+.RS 4
+These options take a unit name as argument\&. A start job for this unit is added to the initial transaction\&. This is useful to start one or more additional units at boot\&. May be specified more than once\&. The option prefixed with
+"rd\&."
+is honored only in the initrd, while the one that is not prefixed only on the host\&.
+.sp
+Added in version 215\&.
+.RE
+.PP
+\fIsystemd\&.debug_shell\fR, \fIrd\&.systemd\&.debug_shell\fR, \fIsystemd\&.default_debug_tty=\fR, \fIrd\&.systemd\&.default_debug_tty=\fR
+.RS 4
+If the
+\fBsystemd\&.debug_shell\fR
+or
+\fBrd\&.systemd\&.debug_shell\fR
+option is specified, the debug shell service
+"debug\-shell\&.service"
+is pulled into the boot transaction and a debug shell will be spawned during early boot\&. By default,
+/dev/tty9
+is used, but a specific tty can also be specified, either with or without the
+/dev/
+prefix\&. To set the tty to use without enabling the debug shell, the
+\fBsystemd\&.default_debug_tty=\fR
+option can be used which also takes a tty with or without the
+/dev/
+prefix\&. Note that the shell may also be turned on persistently by enabling it with
+\fBsystemctl\fR(1)\*(Aqs
+\fBenable\fR
+command\&. The options prefixed with
+"rd\&."
+are honored only in the initrd, while the ones without prefix are only honored on the host\&.
+.sp
+Added in version 215\&.
+.RE
+.PP
+\fIsystemd\&.break=\fR, \fIrd\&.systemd\&.break=\fR
+.RS 4
+Takes one of
+\fBpre\-udev\fR,
+\fBpre\-basic\fR,
+\fBpre\-mount\fR, or
+\fBpre\-switch\-root\fR
+(the default for the
+"rd\&."
+option)\&. It also accepts multiple values separated by comma (",")\&. These options allow one to pause the boot process at a certain point and spawn a debug shell\&. After exiting this shell, the system will resume booting\&. The option prefixed with
+"rd\&."
+is honored only in the initrd, while the one without prefix is only honored on the host\&.
+.sp
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.B Table\ \&1.\ \&Available breakpoints
+.TS
+allbox tab(:);
+lB lB lB lB.
+T{
+Breakpoints
+T}:T{
+Description
+T}:T{
+Can be used in the initrd
+T}:T{
+Can be used on the host
+T}
+.T&
+l l l l
+l l l l
+l l l l
+l l l l.
+T{
+\fBpre\-udev\fR
+T}:T{
+Before starting to process kernel uevents, i\&.e\&., before systemd\-udevd\&.service starts\&.
+T}:T{
+✓
+T}:T{
+✓
+T}
+T{
+\fBpre\-basic\fR
+T}:T{
+Before leaving early boot and regular services start, i\&.e\&., before basic\&.target is reached\&.
+T}:T{
+✓
+T}:T{
+✓
+T}
+T{
+\fBpre\-mount\fR
+T}:T{
+Before the root filesystem is mounted, i\&.e\&., before sysroot\&.mount starts\&.
+T}:T{
+✓
+T}:T{
+✗
+T}
+T{
+\fBpre\-switch\-root\fR
+T}:T{
+Before switching from the initrd to the real root\&.
+T}:T{
+✓
+T}:T{
+✗
+T}
+.TE
+.sp 1
+Added in version 258\&.
+.RE
+.SH "SYSTEM CREDENTIALS"
+.PP
+\fIsystemd\&.extra\-unit\&.*\fR
+.RS 4
+Credentials prefixed with
+"systemd\&.extra\-unit\&."
+specify additional units to add to the final system\&. Note that these additional units are added to both the initrd and the final system\&.
+\fIConditionPathExists=!/etc/initrd\-release\fR
+can be used to make sure the unit is conditioned out in the initrd\&. Note that this can also be used to mask units, by simply specifying an empty value\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fIsystemd\&.unit\-dropin\&.*\fR
+.RS 4
+Credentials prefixed with
+"systemd\&.unit\-dropin\&."
+add drop\-ins for the corresponding units in the final system\&. Each credential must be suffixed with the full unit name including the unit extension\&. Its contents must be a valid unit drop\-in file\&. Optionally, the unit name may be followed with
+"~", followed by the drop\-in name without the
+"\&.conf"
+suffix\&. If not specified, the name of the generated drop\-in will be
+"50\-credential\&.conf"\&. Note that these additional drop\-ins are added to both the initrd and the final system\&.
+.sp
+Added in version 256\&.
+.RE
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemctl\fR(1), \fBkernel-command-line\fR(7), \fBsystemd.system-credentials\fR(7), \fBbootup\fR(7)

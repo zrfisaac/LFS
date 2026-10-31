@@ -1,0 +1,279 @@
+'\" t
+.TH "OOMD\&.CONF" "5" "" "systemd 261.2" "oomd.conf"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+oomd.conf, oomd.conf.d \- Global \fBsystemd\-oomd\fR configuration files
+.SH "SYNOPSIS"
+.PP
+.RS 4
+/etc/systemd/oomd\&.conf
+.RE
+.RS 4
+/run/systemd/oomd\&.conf
+.RE
+.RS 4
+/usr/local/lib/systemd/oomd\&.conf
+.RE
+.RS 4
+/usr/lib/systemd/oomd\&.conf
+.RE
+.RS 4
+/etc/systemd/oomd\&.conf\&.d/*\&.conf
+.RE
+.RS 4
+/run/systemd/oomd\&.conf\&.d/*\&.conf
+.RE
+.RS 4
+/usr/local/lib/systemd/oomd\&.conf\&.d/*\&.conf
+.RE
+.RS 4
+/usr/lib/systemd/oomd\&.conf\&.d/*\&.conf
+.RE
+.SH "DESCRIPTION"
+.PP
+These files configure the various parameters of the
+\fBsystemd\fR(1)
+userspace out\-of\-memory (OOM) killer,
+\fBsystemd-oomd.service\fR(8)\&. See
+\fBsystemd.syntax\fR(7)
+for a general description of the syntax\&.
+.SH "CONFIGURATION DIRECTORIES AND PRECEDENCE"
+.PP
+The default configuration is set during compilation, so configuration is only needed when it is necessary to deviate from those defaults\&. The main configuration file is loaded from one of the listed directories in order of priority, only the first file found is used:
+/etc/systemd/,
+/run/systemd/,
+/usr/local/lib/systemd/
+\&\s-2\u[1]\d\s+2,
+/usr/lib/systemd/\&. The vendor version of the file contains commented out entries showing the defaults as a guide to the administrator\&. Local overrides can also be created by creating drop\-ins, as described below\&. The main configuration file can also be edited for this purpose (or a copy in
+/etc/
+if it is shipped under
+/usr/), however using drop\-ins for local configuration is recommended over modifications to the main configuration file\&.
+.PP
+In addition to the main configuration file, drop\-in configuration snippets are read from
+/usr/lib/systemd/*\&.conf\&.d/,
+/usr/local/lib/systemd/*\&.conf\&.d/, and
+/etc/systemd/*\&.conf\&.d/\&. Those drop\-ins have higher precedence and override the main configuration file\&. Files in the
+*\&.conf\&.d/
+configuration subdirectories are sorted by their filename in lexicographic order, regardless of in which of the subdirectories they reside\&. When multiple files specify the same option, for options which accept just a single value, the entry in the file sorted last takes precedence, and for options which accept a list of values, entries are collected as they occur in the sorted files\&.
+.PP
+When packages need to customize the configuration, they can install drop\-ins under
+/usr/\&. Files in
+/etc/
+are reserved for the local administrator, who may use this logic to override the configuration files installed by vendor packages\&. Drop\-ins have to be used to override package drop\-ins, since the main configuration file has lower precedence\&. It is recommended to prefix all filenames in those subdirectories with a two\-digit number and a dash, to simplify the ordering\&. This also defines a concept of drop\-in priorities to allow OS vendors to ship drop\-ins within a specific range lower than the range used by users\&. This should lower the risk of package drop\-ins overriding accidentally drop\-ins defined by users\&. It is recommended to use the range 10\-40 for drop\-ins in
+/usr/
+and the range 60\-90 for drop\-ins in
+/etc/
+and
+/run/, to make sure that local and transient drop\-ins take priority over drop\-ins shipped by the OS vendor\&.
+.PP
+To disable a configuration file supplied by the vendor, the recommended way is to place a symlink to
+/dev/null
+in the configuration directory in
+/etc/, with the same filename as the vendor configuration file\&.
+.SH "PREKILL EVENT"
+.PP
+\fBsystemd\-oomd\fR
+supports notifying external components before killing a control group\&. This is done by sending a notification over varlink to all sockets found in
+/run/systemd/oomd\&.prekill\&.hook/
+folder\&. Each socket should implement the
+\fBio\&.systemd\&.oom\&.Prekill\fR
+interface\&. The notification contains the control group path to allow the hook to identify which control group is being killed\&. This allows external components to perform any necessary cleanup or logging before the control group is terminated\&. The hook is not intended as a way to avoid the kill, but rather as a notification mechanism\&. Note that this is a privileged option as, even if it has a timeout, is synchronous and delays the kill, so use with care\&. The typically preferable mechanism to process memory pressure is to do what
+\m[blue]\fBResource Pressure Handling\fR\m[]\&\s-2\u[2]\d\s+2
+describes which is unprivileged, asynchronous and does not delay the kill\&.
+.SH "OOM RULESETS"
+.PP
+\fBsystemd\-oomd\fR
+supports custom rulesets that define conditions and actions for OOM handling on a per\-unit basis\&. Ruleset files use the
+\&.oomrule
+extension and are loaded from
+/etc/systemd/oomd/rules\&.d/,
+/run/systemd/oomd/rules\&.d/,
+/usr/local/lib/systemd/oomd/rules\&.d/, and
+/usr/lib/systemd/oomd/rules\&.d/\&. Units opt into rulesets via the
+\fIOOMRules=\fR
+setting in
+\fBsystemd.resource-control\fR(5), which takes a space\-separated list of ruleset names (the file name without the
+\&.oomrule
+extension)\&.
+.PP
+Each ruleset file contains a
+"[Rule]"
+section with the following options\&. At least one of
+\fIMemoryPressureAbove=\fR
+or
+\fISwapUsageMax=\fR
+must be configured; rulesets with no conditions are ignored\&. If both are set, the conditions are combined with AND, i\&.e\&. the action is only triggered when both thresholds are exceeded simultaneously\&.
+.PP
+\fIMemoryPressureAbove=\fR
+.RS 4
+Sets the memory pressure threshold above which the rule\*(Aqs action will be triggered\&. The memory pressure represents the fraction of time in a 10 second window in which all tasks in the control group were delayed (PSI
+"full avg10")\&. Takes a value specified in percent (when suffixed with
+"%"), permille ("‰") or permyriad ("‱"), between 0% and 100%, inclusive\&. If unset, this condition is not evaluated\&. A value of
+"100%"
+can never be exceeded and is therefore rejected with a warning; a value of
+"0%"
+makes the condition true on any observed pressure, which is usually not useful\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fISwapUsageMax=\fR
+.RS 4
+Sets the system\-wide swap usage threshold above which the rule\*(Aqs action will be triggered\&. Takes a value specified in percent (when suffixed with
+"%"), permille ("‰") or permyriad ("‱"), between 0% and 100%, inclusive\&. If unset, this condition is not evaluated\&. A value of
+"100%"
+can never be exceeded and is therefore rejected with a warning; a value of
+"0%"
+fires as soon as any swap is in use, which is usually not useful\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fIAction=\fR
+.RS 4
+Specifies the action to take when the rule\*(Aqs conditions are met\&. Takes one of
+"kill\-all",
+"kill\-by\-pgscan", or
+"kill\-by\-swap"\&. This setting is mandatory; rulesets without
+\fIAction=\fR
+are ignored\&.
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+"kill\-all"
+sends
+\fBSIGKILL\fR
+to every process in the unit\*(Aqs cgroup hierarchy, including any descendant cgroups\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+"kill\-by\-pgscan"
+selects and kills the descendant cgroup with the highest recent page scan (reclaim) rate\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+"kill\-by\-swap"
+selects and kills the descendant cgroup with the highest swap usage\&.
+.RE
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fILastingSec=\fR
+.RS 4
+Sets the duration the conditions must be continuously met before the action is taken\&. Takes a time span value, see
+\fBsystemd.time\fR(7)
+for details on the permitted syntax\&. Defaults to 0, i\&.e\&. the action is taken immediately when the conditions are met\&.
+.sp
+Added in version 261\&.
+.RE
+.SH "[OOM] SECTION OPTIONS"
+.PP
+The following options are available in the [OOM] section:
+.PP
+\fISwapUsedLimit=\fR
+.RS 4
+Sets the limit for memory and swap usage on the system before
+\fBsystemd\-oomd\fR
+will take action\&. If the fraction of memory used and the fraction of swap used on the system are both more than what is defined here,
+\fBsystemd\-oomd\fR
+will act on eligible descendant control groups with swap usage greater than 5% of total swap, starting from the ones with the highest swap usage\&. Which control groups are monitored and what action gets taken depends on what the unit has configured for
+\fIManagedOOMSwap=\fR\&. Takes a value specified in percent (when suffixed with "%"), permille ("‰") or permyriad ("‱"), between 0% and 100%, inclusive\&. Defaults to 90%\&.
+.sp
+Added in version 247\&.
+.RE
+.PP
+\fIDefaultMemoryPressureLimit=\fR
+.RS 4
+Sets the limit for memory pressure on the unit\*(Aqs control group before
+\fBsystemd\-oomd\fR
+will take action\&. A unit can override this value with
+\fIManagedOOMMemoryPressureLimit=\fR\&. The memory pressure for this property represents the fraction of time in a 10 second window in which all tasks in the control group were delayed\&. For each monitored control group, if the memory pressure on that control group exceeds the limit set for longer than the duration set by
+\fIDefaultMemoryPressureDurationSec=\fR,
+\fBsystemd\-oomd\fR
+will act on eligible descendant control groups, starting from the ones with the most reclaim activity to the least reclaim activity\&. Which control groups are monitored and what action gets taken depends on what the unit has configured for
+\fIManagedOOMMemoryPressure=\fR\&. Takes a fraction specified in the same way as
+\fISwapUsedLimit=\fR
+above\&. Defaults to 60%\&.
+.sp
+Added in version 247\&.
+.RE
+.PP
+\fIDefaultMemoryPressureDurationSec=\fR
+.RS 4
+Sets the amount of time a unit\*(Aqs control group needs to have exceeded memory pressure limits before
+\fBsystemd\-oomd\fR
+will take action\&. A unit can override this value with
+\fIManagedOOMMemoryPressureDurationSec=\fR\&. Memory pressure limits are defined by
+\fIDefaultMemoryPressureLimit=\fR
+and
+\fIManagedOOMMemoryPressureLimit=\fR\&. Must be set to 0, or at least 1 second\&. Defaults to 30 seconds when unset or 0\&.
+.sp
+Added in version 248\&.
+.RE
+.PP
+\fIPrekillHookTimeoutSec=\fR
+.RS 4
+Sets the amount of time
+\fBsystemd\-oomd\fR
+will wait for pre\-kill hooks to complete, before proceeding with the control group termination\&. Pre\-kill hooks work by placing varlink socket to
+/run/systemd/oomd\&.prekill\&.hook/
+folder\&. Each socket should implement interface for notification to work\&.
+\fBsystemd\-oomd\fR
+sends a notification before killing a control group for each discovered socket\&. The timeout is intended to be global and not per hook\&. If all hooks return earlier, the kill is performed as soon as possible\&. The timeout must be at least 1s\&. Defaults to 0, which means
+\fBsystemd\-oomd\fR
+will not wait and no notifications will be sent\&.
+.sp
+Added in version 260\&.
+.RE
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd.resource-control\fR(5), \fBsystemd-oomd.service\fR(8), \fBoomctl\fR(1)
+.SH "NOTES"
+.IP " 1." 4
+💣💥🧨💥💥💣 Please note that those configuration files must be available at all times. If
+/usr/local/
+is a separate partition, it may not be available during early boot, and must not be used for configuration.
+.IP " 2." 4
+Resource Pressure Handling
+.RS 4
+\%https://systemd.io/PRESSURE
+.RE

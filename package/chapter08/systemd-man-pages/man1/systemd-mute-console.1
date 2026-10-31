@@ -1,0 +1,67 @@
+'\" t
+.TH "SYSTEMD\-MUTE\-CONSOLE" "1" "" "systemd 261.2" "systemd-mute-console"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-mute-console, systemd-mute-console@.service, systemd-mute-console.socket \- Temporarily mute kernel log output and service manager status output to the system console
+.SH "SYNOPSIS"
+.HP \w'\fBsystemd\-mute\-console\fR\ 'u
+\fBsystemd\-mute\-console\fR [OPTIONS...]
+.PP
+systemd\-mute\-console@\&.service
+.PP
+systemd\-mute\-console\&.socket
+.SH "DESCRIPTION"
+.PP
+The
+\fBsystemd\-mute\-console\fR
+tool and service may be used to temporarily mute the log output of the kernel as well as the status output of the service manager to the system console\&. It may be used by tools running on the console to ensure their terminal output is not interrupted by unrelated messages\&.
+.PP
+The tool can be invoked directly in which case it will mute the two outputs and then issue an
+\fBsd_notify\fR(3)
+"READY=1"
+notification once that is completed\&. On
+\fBSIGINT\fR
+or
+\fBSIGTERM\fR
+output is unmuted again\&. Alternatively it can be invoked via Varlink IPC\&.
+.SH "OPTIONS"
+.PP
+The following options are understood:
+.PP
+\fB\-\-kernel=\fR\fB\fIbool\fR\fR, \fB\-\-pid1=\fR\fB\fIbool\fR\fR
+.RS 4
+Individually controls which output to mute\&. If true is specified the respective output is muted, if false the output is left as is\&. Defaults to true\&.
+.sp
+Added in version 259\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Print a short help text and exit\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Print a short version string and exit\&.
+.RE
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-firstboot\fR(1)

@@ -1,0 +1,122 @@
+'\" t
+.TH "SD_VARLINK_SEND" "3" "" "systemd 261.2" "sd_varlink_send"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd_varlink_send, sd_varlink_sendb, sd_varlink_sendbo \- Enqueues a Varlink method call, not expecting a reply
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-varlink\&.h>
+.fi
+.ft
+.HP \w'int\ sd_varlink_send('u
+.BI "int sd_varlink_send(sd_varlink\ *" "link" ", const\ char\ *" "method" ", sd_json_variant\ *" "parameters" ");"
+.HP \w'int\ sd_varlink_sendb('u
+.BI "int sd_varlink_sendb(sd_varlink\ *" "link" ", const\ char\ *" "method" ", \&...);"
+.HP \w'int\ sd_varlink_sendbo('u
+.BI "int sd_varlink_sendbo(sd_varlink\ *" "link" ", const\ char\ *" "method" ", \&...);"
+.SH "DESCRIPTION"
+.PP
+\fBsd_varlink_send()\fR
+submits a method call via a Varlink connection\&. It takes the Varlink connection object, a method name as string parameter, and a JSON object containing the parameters to pass as function parameters\&. This call is asynchronous: the message will not be delivered immediately but only once
+\fBsd_varlink_process\fR(3)
+is invoked (which will happen automatically in one of the following event loop iterations if the Varlink connection is attached to an even loop)\&.
+.PP
+\fBsd_varlink_sendb()\fR
+is similar to
+\fBsd_varlink_send()\fR, but instead of expecting a fully constructed
+\fBsd_json_variant\fR
+object carrying the parameters, this object is constructed on\-the\-fly directly from the parameter list, in a style identical to
+\fBsd_json_build\fR(3)\&.
+.PP
+\fBsd_varlink_sendbo()\fR
+is identical to
+\fBsd_varlink_sendb()\fR, but an enclosing object is implicitly added, so that the parameter list is expected to consist of field pairs only\&. For details about the expected argument list, see
+\fBsd_json_buildo\fR(3)\&.
+.PP
+Use
+\fBsd_varlink_send()\fR,
+\fBsd_varlink_sendb()\fR
+and
+\fBsd_varlink_sendbo()\fR
+only if no method call results are required, as they neither provide return parameters nor success/failure information\&. Use
+\fBsd_varlink_call\fR(3)
+(and related calls) to submit a method call synchronously, returning the server\*(Aqs response\&.
+.SH "RETURN VALUE"
+.PP
+On success,
+\fBsd_varlink_send()\fR,
+\fBsd_varlink_sendb()\fR
+and
+\fBsd_varlink_sendbo()\fR
+return a non\-negative integer\&. On failure, they return a negative errno\-style error code\&.
+.SS "Errors"
+.PP
+Returned errors may indicate the following problems:
+.PP
+\fB\-EINVAL\fR
+.RS 4
+An argument is invalid\&.
+.RE
+.PP
+\fB\-ENOMEM\fR
+.RS 4
+Memory allocation failed\&.
+.RE
+.PP
+\fB\-ENOTCONN\fR
+.RS 4
+The Varlink connection object is not connected\&.
+.RE
+.PP
+\fB\-EBUSY\fR
+.RS 4
+The Varlink connection object is already used for other purposes, i\&.e\&. executing a method call or similar\&.
+.RE
+.PP
+\fB\-ENOBUFS\fR
+.RS 4
+The internal limit of queued messages for the Varlink connection has been reached\&. This limit is set very high, and hitting it typically indicates that the Varlink connection object is stalled \(em possibly because
+\fBsd_varlink_process()\fR
+has not been called regularly enough, or because the peer is not processing any queued messages\&. This limit is a safety precaution to ensure a stalled peer will not result in unbounded memory allocations on the client side\&.
+.RE
+.SH "NOTES"
+.PP
+Functions described here are available as a shared library, which can be compiled against and linked to with the
+\fBlibsystemd\fR\ \&\fBpkg-config\fR(1)
+file\&.
+.PP
+The code described here uses
+\fBgetenv\fR(3), which is declared to be not multi\-thread\-safe\&. This means that the code calling the functions described here must not call
+\fBsetenv\fR(3)
+from a parallel thread\&. It is recommended to only do calls to
+\fBsetenv()\fR
+from an early phase of the program when no other threads have been started\&.
+.SH "HISTORY"
+.PP
+\fBsd_varlink_send()\fR,
+\fBsd_varlink_sendb()\fR,
+\fBsd_varlink_sendbo()\fR
+were added in version 257\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsd-varlink\fR(3), \fBsd_varlink_call\fR(3), \fBsd_varlink_build\fR(3)

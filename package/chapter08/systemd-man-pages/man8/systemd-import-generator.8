@@ -1,0 +1,264 @@
+'\" t
+.TH "SYSTEMD\-IMPORT\-GENERATOR" "8" "" "systemd 261.2" "systemd-import-generator"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-import-generator \- Generator for automatically downloading disk images at boot
+.SH "SYNOPSIS"
+.PP
+/usr/lib/systemd/system\-generators/systemd\-import\-generator
+.SH "DESCRIPTION"
+.PP
+\fBsystemd\-import\-generator\fR
+may be used to automatically download disk images (tarballs or DDIs) via
+\fBsystemd-importd.service\fR(8)
+at boot, based on parameters on the kernel command line or via system credentials\&. This is useful for automatically deploying an
+\fBsystemd-confext\fR(8),
+\fBsystemd-sysext\fR(8),
+\fBsystemd-nspawn\fR(1)/
+\fBsystemd-vmspawn\fR(1)
+or
+\fBsystemd-portabled.service\fR(8)
+image at boot\&. This provides functionality equivalent to
+\fBimportctl\fR(1), but accessible via the kernel command line and system credentials\&.
+.PP
+systemd\-import\-generator
+implements
+\fBsystemd.generator\fR(7)\&.
+.SH "KERNEL COMMAND LINE"
+.PP
+systemd\-import\-generator
+understands the following
+\fBkernel-command-line\fR(7)
+parameters:
+.PP
+\fIsystemd\&.pull=\fR
+.RS 4
+This option takes a colon separate triplet of option string, local target image name and remote URL\&. The local target image name can be specified as an empty string, in which case the name is derived from the specified remote URL\&. The remote URL must using the
+"http://",
+"https://",
+"file://"
+schemes\&. The option string itself is a comma separated list of options:
+.PP
+rw, ro
+.RS 4
+Controls whether to mark the local image as read\-only\&. If not specified read\-only defaults to off\&.
+.sp
+Added in version 257\&.
+.RE
+.PP
+verify=
+.RS 4
+Controls whether to cryptographically validate the download before installing it in place\&. Takes one of
+"no",
+"checksum", or
+"signature"
+(the default if not specified)\&. For details see the
+\fB\-\-verify=\fR
+of
+\fBimportctl\fR(1)\&.
+.sp
+Added in version 257\&.
+.RE
+.PP
+sysext, confext, machine, portable
+.RS 4
+Controls the image class to download, and thus ultimately the target directory for the image, depending on this choice the target directory
+/var/lib/extensions/,
+/var/lib/confexts/,
+/var/lib/machines/
+or
+/var/lib/portables/
+is selected\&.
+.sp
+Specification of exactly one of these options is mandatory\&.
+.sp
+Added in version 257\&.
+.RE
+.PP
+tar, raw
+.RS 4
+Controls the type of resource to download, i\&.e\&. a (possibly compressed) tarball that needs to be unpacked into a file system tree, or (possibly compressed) raw disk image (DDI)\&.
+.sp
+Specification of exactly one of these options is mandatory\&.
+.sp
+Added in version 257\&.
+.RE
+.PP
+blockdev
+.RS 4
+If this option is specified the downloaded image is attached to a loopback block device (via
+systemd\-loop@\&.service) after completion\&. This permits booting from downloaded disk images\&. This is only supported for
+"raw"
+disk images\&.
+.sp
+Note when this option is used with the purpose of mounting a disk image conforming to the
+\m[blue]\fBUAPI\&.3 Discoverable Disk Image Specification\fR\m[]\&\s-2\u[1]\d\s+2
+as root file system, and the automatic GPT partition discovery logic as implemented by
+\fBsystemd-gpt-auto-generator\fR(8)
+shall process it, it\*(Aqs essential to specify
+"rootdisk"
+as the local name for the import\&. Moreover,
+"root=gpt\-auto"
+must be specified on the kernel command line explicitly\&. Also, prefix the
+"systemd\&.pull="
+command line option with
+"rd\&."
+to ensure it is executed in the initial RAM disk (initrd) already, also see below\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+bootorigin
+.RS 4
+If this option is specified, in place of the URL a simple filename may be specified\&. If the system is booted via UEFI HTTP network booting the last component of the network boot origin URL is replaced by this filename and used as download source\&. This hence allows one to automatically derive the URLs for disk images from the original boot URL used to invoke the kernel or boot loader\&.
+.sp
+If this option is used and the system is not actually booted via UEFI HTTP network booting, the download is gracefully skipped\&. Or in other words without other modifications it is possible to put together an initrd image that will boot from a local disk if available, or from downloaded disk image if used via network booting\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+runtime=
+.RS 4
+Takes a boolean argument\&. If set to true, the image is downloaded below the
+/run/
+hierarchy, if set to false below the
+/var/lib/
+hierarchy\&. If not specified defaults to true in the initial RAM disk (initrd) and to false on the host system\&.
+.sp
+Added in version 258\&.
+.RE
+.sp
+Added in version 257\&.
+.RE
+.PP
+\fIsystemd\&.pull\&.success_action=\fR, \fIsystemd\&.pull\&.failure_action=\fR
+.RS 4
+Controls whether to execute an action such as reboot, power\-off and similar after completing the download successfully, or unsuccessfully\&. See
+\fISuccessAction=\fR/\fIFailureAction=\fR
+on
+\fBsystemd.unit\fR(5)
+for details about the available actions\&. If not specified, no action is taken, and the system will continue to boot normally\&.
+.sp
+Added in version 257\&.
+.RE
+.PP
+These kernel command line options are interpreted by the host system only\&. If these options are prefixed with
+"rd\&."
+they are interpreted by the initial RAM disk (initrd) instead\&.
+.SH "CREDENTIALS"
+.PP
+\fBsystemd\-import\-generator\fR
+supports the system credentials logic\&. The following credentials are used when passed in:
+.PP
+\fIimport\&.pull\fR
+.RS 4
+This credential should be a text file, with each line referencing one download operation\&. Each line should follow the same format as the value of the
+\fIsystemd\&.pull=\fR
+kernel command line option described above\&.
+.sp
+Added in version 257\&.
+.RE
+.SH "EXAMPLES"
+.PP
+\fBExample\ \&1.\ \&Download Configuration Extension\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+systemd\&.pull=raw,confext::https://example\&.com/myconfext\&.raw\&.gz
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+With a kernel command line option like the above a configuration extension DDI is downloaded automatically at boot from the specified URL, validated cryptographically, uncompressed and installed\&.
+.PP
+\fBExample\ \&2.\ \&Download System Extension (Without Validation)\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+systemd\&.pull=tar,sysext,verify=no::https://example\&.com/mysysext\&.tar\&.gz
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+With a kernel command line option like the above a system extension tarball is downloaded automatically at boot from the specified URL, uncompressed and installed \(en without any cryptographic validation\&. This is useful for development purposes in virtual machines and containers\&. Warning: do not deploy a system with validation disabled like this!
+.PP
+\fBExample\ \&3.\ \&Download root disk image (raw) into memory, for booting into it\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+rd\&.systemd\&.pull=raw,machine,verify=no,blockdev:image:https://example\&.com/image\&.raw\&.xz root=/dev/disk/by\-loop\-ref/image\&.raw\-part2
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+This downloads the specified disk image, saving it locally under the name
+"image", and attaches it to a loopback block device on completion\&. It then boots from the 2nd partition in the image\&.
+.PP
+\fBExample\ \&4.\ \&Boot into disk image (raw), with URL derived from UEFI HTTP network booting\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+rd\&.systemd\&.pull=raw,machine,verify=no,blockdev,bootorigin:rootdisk:image\&.raw\&.xz root=gpt\-auto
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+This is similar to the previous example, but this time the source URL is automatically derived from the UEFI HTTP network boot URL\&. For example, if an UKI is booted from an URL
+"http://example\&.com/image\&.efi"
+this would result in a root disk being downloaded from
+"http://example\&.com/image\&.raw\&.xz"\&. Moreover this uses the
+\fBsystemd-gpt-auto-generator\fR(8)
+logic to mount the root file system from the disk image\&.
+.PP
+\fBExample\ \&5.\ \&Boot into disk image (tar), with URL derived from UEFI HTTP network booting\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+rd\&.systemd\&.pull=tar,machine,verify=no,bootorigin:root:image\&.tar\&.xz root=bind:/run/machines/root
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+This is similar to the previous example, but instead of a raw (i\&.e\&. block device based) disk image the system boots into a tarball that is downloaded from the originating UEFI network server\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-importd.service\fR(8), \fBkernel-command-line\fR(7), \fBsystemd.system-credentials\fR(7), \fBimportctl\fR(1), \fBsystemd-loop@.service\fR(8), \fBsystemd-gpt-auto-generator\fR(8)
+.SH "NOTES"
+.IP " 1." 4
+UAPI.3 Discoverable Disk Image Specification
+.RS 4
+\%https://uapi-group.org/specifications/specs/discoverable_disk_image/
+.RE

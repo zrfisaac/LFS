@@ -1,0 +1,316 @@
+'\" t
+.TH "SYSTEMD\-SYSINSTALL" "8" "" "systemd 261.2" "systemd-sysinstall"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-sysinstall, systemd-sysinstall.service \- Simple OS installer
+.SH "SYNOPSIS"
+.HP \w'\fBsystemd\-sysinstall\fR\ 'u
+\fBsystemd\-sysinstall\fR [OPTIONS...] [BLOCKDEVICE]
+.PP
+systemd\-sysinstall\&.service
+.SH "DESCRIPTION"
+.PP
+\fBsystemd\-sysinstall\fR
+is a simple terminal and command line based operating system installer tool\&. Its primary use\-case is to act as an automatically started interactive interface when booting from an installer medium (e\&.g\&. a USB stick), in order to install an OS onto a target disk\&. However, it may also be invoked directly from a shell\&. It executes the following steps:
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 1.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  1." 4.2
+.\}
+It prompts the user for the target disk to install the OS on\&. (Unless the block device is already specified on the command line\&.)
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 2.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  2." 4.2
+.\}
+It validates whether the disk is suitable (i\&.e\&. large enough, and with enough free/unpartitioned space) for an OS installation\&. If it is generally suitable the user is prompted if they want to erase the disk before installation, or if the OS shall be added to the existing partitions on the disk (the latter only if enough free/unpartitioned disk space is available)\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 3.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  3." 4.2
+.\}
+It prompts the user whether to register the newly installed OS with the firmware boot option menu\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 4.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  4." 4.2
+.\}
+It requests confirmation from the user, after showing a summary of the planned OS installation\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 5.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  5." 4.2
+.\}
+It invokes
+\fBsystemd-creds\fR(1)\*(Aqs
+\fBencrypt\fR
+command in order to generate encrypted (TPM locked, if available) system credential files for a few, very basic system settings of the currently booted system (locale, keymap, timezone), which it will install on the target disk, parameterizing the invoked kernel\&. (Or in other words, it prepares that some settings already in effect on the installer system are propagated securely onto the new installation\&.)
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 6.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  6." 4.2
+.\}
+It invokes
+\fBsystemd-repart\fR(8)
+with a definitions directory of
+/usr/lib/repart\&.sysinstall\&.d/
+(only if populated \(en if not will use the default of
+/usr/lib/repart\&.d/)\&. This is supposed to set up the basic OS partition structure on the target disk and copies in basic OS partitions (most importantly the
+/usr/
+hierarchy)\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 7.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  7." 4.2
+.\}
+It invokes
+\fBbootctl\fR(1)\*(Aqs
+\fBlink\fR
+command to install an OS kernel image onto the target disk\*(Aqs ESP/XBOOTLDR, together with the credential files prepared earlier\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 8.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  8." 4.2
+.\}
+It invokes
+\fBbootctl\fR(1)\*(Aqs
+\fBinstall\fR
+command to install the
+\fBsystemd-boot\fR(7)
+boot loader onto the target disk\*(Aqs ESP\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 9.\h'+01'\c
+.\}
+.el \{\
+.sp -1
+.IP "  9." 4.2
+.\}
+After confirmation, it reboots the system\&.
+.RE
+.PP
+Note that the prompts/confirmation may be disabled via the command line, enabling fully automatic, non\-interactive installation\&. See below\&.
+.PP
+Note this tool does not interactively query the user for a user to create or a root password to be set on the target system, under the assumption these questions are better prompted from within the newly installed system\*(Aqs first boot process, for example via the
+\fBsystemd-firstboot\fR(1)
+or
+systemd\-homed\-firstboot\&.service
+components\&. Note that if required such settings may be propagated explicitly via the
+\fB\-\-load\-credential=\fR
+switch below\&.
+.SH "OPTIONS"
+.PP
+The following options are understood:
+.PP
+\fB\-\-definitions=\fR
+.RS 4
+Overrides the directory where
+\fBsystemd\-repart\fR
+shall read its partition definitions from, in place of the default of
+/usr/lib/repart\&.sysinstall\&.d/\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-welcome=\fR
+.RS 4
+Takes a boolean argument\&. Controls whether to show the brief welcome text normally displayed at the beginning of the installation\&. Defaults to true\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-chrome=\fR
+.RS 4
+Takes a boolean argument\&. Controls whether to show the colored bars at the top and bottom of the terminal interface\&. Defaults to true\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-erase=\fR
+.RS 4
+Takes a boolean argument\&. Controls whether to erase the current contents of the target disk\&. If this switch is not used the user is prompted\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-confirm=\fR
+.RS 4
+Takes a boolean argument\&. Controls whether to interactively query the user for confirmation before initiating the OS installation\&. Defaults to true\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-reboot=\fR
+.RS 4
+Takes a boolean argument\&. Controls whether to reboot the system after completing the installation\&. Defaults to false\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-variables=\fR
+.RS 4
+Takes a boolean argument\&. Controls whether to register the installed boot loader in the firmware\*(Aqs boot options database\&. If not specified the user will be prompted\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-summary=\fR
+.RS 4
+Takes a boolean argument\&. Controls whether to show a summary of the choices made before asking for confirmation to proceed with the OS installation\&. Defaults to true\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-kernel=\fR
+.RS 4
+Takes a path to a unified kernel image (UKI)\&. Explicitly selects the kernel image to install on the target disk\&. If unspecified the currently booted kernel image is installed on the target disk\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-set\-credential=\fR\fB\fIid\fR\fR\fB:\fR\fB\fIvalue\fR\fR
+.RS 4
+Accepts an additional system credential to encrypt (with a key generated on the local TPM, if available, and the null key otherwise) and place next to the installed kernel image in the ESP\&. This may be used to parameterize the installed kernel with arbitrary system credentials\&. Do not use this switch for sensitive data (such as passwords), use
+\fB\-\-load\-credential=\fR
+instead, see below\&. May be used multiple times to configure multiple credentials\&.
+.sp
+Note that three system credentials are propagated in similar fashion to the target system: the locale, keymap and timezone\&. This may be controlled by the relevant
+\fB\-\-copy\-locale=\fR,
+\fB\-\-copy\-keymap=\fR
+and
+\fB\-\-copy\-timezone=\fR
+options below\&.
+.sp
+See
+\fBsystemd.system-credentials\fR(7)
+for a list of well\-known system credentials that may be propagated this way\&. (Note that you may pass arbitrary additional credentials this way, that can be consumed by any service of your choice, via the usual system credentials logic\&.)
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-load\-credential=\fR\fB\fIid\fR\fR\fB:\fR\fB\fIpath\fR\fR
+.RS 4
+Similar to
+\fB\-\-set\-credential=\fR
+but reads the credential value from a file on disk or an
+\fBAF_UNIX\fR
+socket in the file system\&. This is generally preferable for sensitive data, such as passwords\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-copy\-locale=\fR, \fB\-\-copy\-keymap=\fR, \fB\-\-copy\-timezone=\fR
+.RS 4
+These options take boolean parameters\&. They control whether the indicated system settings shall be propagated from the currently running system into the new target OS installation\&. These options default to true\&.
+.sp
+Typically, these three settings are the minimal settings that need to be configured during early boot of an installer medium in order to make the installer tool accessible to the user\&. The
+\fBsystemd-firstboot\fR(1)
+tool may be used to query the user interactively when the OS install medium is booted for these properties\&. By propagating these settings to the target installation via system credentials they do not need to be queried again on first boot of the new installation\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-mute\-console=\fR
+.RS 4
+Takes a boolean argument\&. Controls whether to disable kernel and service manager log output to the console the installer is invoked on temporarily while running, in order to avoid interleaved output\&. Defaults to false\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Print a short help text and exit\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Print a short version string and exit\&.
+.RE
+.SH "EXIT STATUS"
+.PP
+On success, 0 is returned, and a non\-zero failure code otherwise\&.
+.SH "EXAMPLE"
+.PP
+\fBExample\ \&1.\ \&Invoke the tool for a fully automatic non\-interactive OS installation\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+systemd\-sysinstall \e
+        /dev/disk/by\-id/nvme\-Micron_MTFDKBA1T0TFH_214532D0CDA5 \e
+        \-\-erase=yes \e
+        \-\-confirm=no \e
+        \-\-variables=yes \e
+        \-\-load\-credential=ssh\&.authorized_keys\&.root:my\-ssh\-key
+      
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+This installs the OS on the selected disk, erasing any previous contents, without confirmation, registers it in the firmware, and drops in the SSH key for the root user, read from the
+my\-ssh\-key
+file in the current directory\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-creds\fR(1), \fBsystemd-repart\fR(8), \fBbootctl\fR(1), \fBsystemd-firstboot\fR(1), \fBsystemd-boot\fR(7), \fBsystemd.system-credentials\fR(7)

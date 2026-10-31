@@ -1,0 +1,218 @@
+'\" t
+.TH "SYSTEMD\-REPORT" "1" "" "systemd 261.2" "systemd-report"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-report \- Generate report of system metrics
+.SH "SYNOPSIS"
+.HP \w'\fBsystemd\-report\fR\ 'u
+\fBsystemd\-report\fR [OPTIONS...]
+.SH "DESCRIPTION"
+.PP
+\fINote: this command is experimental for now\&. While it is likely to become a regular component of systemd, it might still change in behaviour and interface\&.\fR
+.PP
+\fBsystemd\-report\fR
+requests metrics from the system and writes them to standard output\&.
+.SH "COMMANDS"
+.PP
+The following commands are understood:
+.PP
+\fBmetrics\fR [MATCH...]
+.RS 4
+Acquire a list of metrics values from all local services providing them, and write them to standard output\&. Optionally takes one or more match expressions for filtering the metrics to show\&. The expression either may be a literal metric family name to search for, or a prefix of one (which will be matched only at dot boundaries)\&. If multiple matches are specified as multiple parameters, any metric matching
+\fIany\fR
+of the specified matches are shown\&.
+.sp
+Added in version 260\&.
+.RE
+.PP
+\fBdescribe\fR [MATCH...]
+.RS 4
+Acquire a list of metric families from all local services providing them, and write them to standard output\&. This returns primarily static information about metrics, their data types and human readable description, without values\&.
+.sp
+Match expressions supported by
+\fBmetrics\fR
+are supported by
+\fBdescribe\fR
+too\&.
+.sp
+Added in version 260\&.
+.RE
+.PP
+\fBgenerate\fR [MATCH...]
+.RS 4
+Acquire a list of metrics and build a JSON report\&.
+.sp
+Match expressions supported by
+\fBmetrics\fR
+are supported here too\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fBupload\fR [MATCH...]
+.RS 4
+This command can be used to send the report built by
+\fBgenerate\fR
+to an external server\&. Two upload mechanisms are supported\&. If an
+"http://"
+or
+"https://"
+URL is specified with
+\fB\-\-url=\fR, an HTTP upload will be performed to the specified location\&. Otherwise, any sockets under
+/run/systemd/report\&.upload/
+will be used to call
+\fBio\&.systemd\&.Report\&.Uploader\&.Upload()\fR\&.
+.sp
+Match expressions supported by
+\fBmetrics\fR
+are supported here too\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fBlist\-sources\fR
+.RS 4
+Show list of known metrics sources\&.
+.sp
+Added in version 260\&.
+.RE
+.SH "OPTIONS"
+.PP
+The following options are understood:
+.PP
+\fB\-\-system\fR, \fB\-\-user\fR
+.RS 4
+Query per\-system metrics sources (the default), or the per\-user metrics sources\&.
+.sp
+Added in version 260\&.
+.RE
+.PP
+\fB\-\-no\-pager\fR
+.RS 4
+Do not pipe output into a pager\&.
+.RE
+.PP
+\fB\-\-json=\fR\fB\fIMODE\fR\fR
+.RS 4
+Shows output formatted as JSON\&. Expects one of
+"short"
+(for the shortest possible output without any redundant whitespace or line breaks),
+"pretty"
+(for a pretty version of the same, with indentation and line breaks) or
+"off"
+(to turn off JSON output, the default)\&.
+.RE
+.PP
+\fB\-j\fR
+.RS 4
+Equivalent to
+\fB\-\-json=pretty\fR
+if running on a terminal, and
+\fB\-\-json=short\fR
+otherwise\&.
+.RE
+.PP
+\fB\-\-no\-legend\fR
+.RS 4
+Do not print the legend, i\&.e\&. column headers and the footer with hints\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Print a short help text and exit\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Print a short version string and exit\&.
+.RE
+.PP
+\fB\-\-url=\fR\fB\fIURL\fR\fR
+.RS 4
+Upload the collected report to the specified address instead of writing it to standard output\&.
+\fIURL\fR
+must point to a server accepting POST requests with a JSON\-formatted report body\&.
+.sp
+Note: both
+"http://"
+and
+"https://"
+URLs are supported, but
+\fIconnections over plain HTTP are made without encryption\fR\&. Thus, this mode should only be used in specific situations where integrity and confidentiality of the report is not required or is ensured through some other means\&. Using
+"https://"
+is recommended\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-key=\fR\fB\fIFILENAME\fR\fR
+.RS 4
+Takes a path to a SSL key file in PEM format, used for client certificate authentication when uploading\&. Can also be set to
+"\-", to disable client certificate authentication\&. Defaults to
+/etc/ssl/private/systemd\-report\&.pem\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-cert=\fR\fB\fIFILENAME\fR\fR
+.RS 4
+Takes a path to a SSL certificate file in PEM format, used for client certificate authentication when uploading\&. Defaults to
+/etc/ssl/certs/systemd\-report\&.pem\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-trust=\fR\fB\fIFILENAME\fR\fR\fB|\fR\fB\fBall\fR\fR
+.RS 4
+Takes a path to a SSL CA certificate file in PEM format used to verify the server certificate, or the literal string
+\fBall\fR
+to disable certificate checking entirely\&. Defaults to
+/etc/ssl/ca/trusted\&.pem\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-network\-timeout=\fR\fB\fISEC\fR\fR
+.RS 4
+Timeout for the network upload operation\&. Takes a value in seconds (or in other time units if suffixed with
+"ms",
+"min",
+"h", etc\&.); see
+\fBsystemd.time\fR(7)
+for details\&. Defaults to 30 seconds\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-extra\-header=\fR\fB\fINAME\fR\fR\fB: \fR\fB\fIVALUE\fR\fR
+.RS 4
+Inject an additional HTTP header into the upload request\&. May be specified multiple times to add several headers\&. Passing an empty string clears any headers added by previous
+\fB\-\-extra\-header=\fR
+uses\&.
+.sp
+Added in version 261\&.
+.RE
+.SH "EXIT STATUS"
+.PP
+On success, 0 is returned, a non\-zero failure code otherwise\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1)

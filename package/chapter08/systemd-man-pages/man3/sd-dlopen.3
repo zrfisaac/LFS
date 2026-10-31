@@ -1,0 +1,71 @@
+'\" t
+.TH "SD\-DLOPEN" "3" "" "systemd 261.2" "sd-dlopen"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd-dlopen \- ELF dlopen metadata annotation macros
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-dlopen\&.h>
+.fi
+.ft
+.HP \w'\fBpkg\-config\ \-\-cflags\ libsystemd\fR\ 'u
+\fBpkg\-config \-\-cflags libsystemd\fR
+.SH "DESCRIPTION"
+.PP
+sd\-dlopen\&.h
+provides macros for embedding
+\&.note\&.dlopen
+metadata in ELF binaries, implementing the
+\m[blue]\fBELF dlopen metadata\fR\m[]\&\s-2\u[1]\d\s+2
+specification for declaring optional shared library dependencies that are loaded via
+\fBdlopen\fR(3)
+at runtime\&.
+.PP
+The header is self\-contained and does not require runtime linkage against
+\fBlibsystemd\fR(3)\&. Projects only need the installed header to use the macros\&.
+.PP
+Package managers and build systems can read the embedded ELF notes to discover runtime dependencies that are not visible in ELF
+\fBDT_NEEDED\fR
+entries\&.
+.PP
+See
+\fBSD_ELF_NOTE_DLOPEN\fR(3)
+for details on the available macros and constants\&.
+.SH "NOTES"
+.PP
+The macros described here are header\-only and do not require runtime linkage against
+\fBlibsystemd\fR(3)\&. Only the installed header and include path (as provided by
+\fBpkg\-config \-\-cflags libsystemd\fR) are needed\&.
+.SH "HISTORY"
+.PP
+\fBSD_ELF_NOTE_DLOPEN()\fR
+and associated macros and constants were added in version 261\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBSD_ELF_NOTE_DLOPEN\fR(3), \fBdlopen\fR(3)
+.SH "NOTES"
+.IP " 1." 4
+ELF dlopen metadata
+.RS 4
+\%https://uapi-group.org/specifications/specs/elf_dlopen_metadata/
+.RE

@@ -1,0 +1,84 @@
+'\" t
+.TH "SYSTEMD\&.IMAGE\-FILTER" "7" "" "systemd 261.2" "systemd.image-filter"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd.image-filter \- Disk Image Dissection Filter
+.SH "DESCRIPTION"
+.PP
+In systemd, whenever a disk image (DDI) implementing the
+\m[blue]\fBUAPI\&.2 Discoverable Partitions Specification\fR\m[]\&\s-2\u[1]\d\s+2
+is activated, a filter may be specified controlling which partitions to consider for mounting\&. Such a disk image dissection filter is a string that contains per\-partition\-type patterns, separated by colons (":")\&. The individual rules consist of a partition identifier, an equal sign ("="), and a shell globbing pattern applied to the GPT label string of the partition\&. See
+\fBglob\fR(7)
+for details on shell globbing\&.
+.PP
+The partition identifiers currently defined are:
+\fBroot\fR,
+\fBusr\fR,
+\fBhome\fR,
+\fBsrv\fR,
+\fBesp\fR,
+\fBxbootldr\fR,
+\fBswap\fR,
+\fBroot\-verity\fR,
+\fBroot\-verity\-sig\fR,
+\fBusr\-verity\fR,
+\fBusr\-verity\-sig\fR,
+\fBtmp\fR,
+\fBvar\fR\&. These identifiers match the relevant partition types in the Discoverable Partitions Specification, but are agnostic to CPU architectures\&.
+.SH "USE"
+.PP
+Various systemd components that support operating with disk images support a
+\fB\-\-image\-filter=\fR
+command line option to specify the image filter to use\&. If no filter is specified all partitions in partition table are considered and no per\-label filtering is applied (except that partitions with the
+"_empty"
+label are always ignored)\&.
+.PP
+For the host root file system image itself
+\fBsystemd-gpt-auto-generator\fR(8)
+is responsible for processing the GPT partition table and making use of the included discoverable partitions\&. It accepts an image filter via the kernel command line option
+\fBsystemd\&.image_filter=\fR\&.
+.SH "EXAMPLES"
+.PP
+The following image filter string dictates that for the root file system partition only partitions shall be considered whose label begins with
+"ParticleOS\-"\&. For the
+/usr/
+partition the precise label
+"ParticleOS_47110815"
+is required\&.
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+root=ParticleOS\-*:usr=ParticleOS_47110815
+.fi
+.if n \{\
+.RE
+.\}
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-dissect\fR(1), \fBsystemd-gpt-auto-generator\fR(8), \fBsystemd.image-policy\fR(7)
+.SH "NOTES"
+.IP " 1." 4
+UAPI.2 Discoverable Partitions Specification
+.RS 4
+\%https://uapi-group.org/specifications/specs/discoverable_partitions_specification
+.RE

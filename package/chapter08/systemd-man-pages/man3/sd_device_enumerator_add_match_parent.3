@@ -1,0 +1,256 @@
+'\" t
+.TH "SD_DEVICE_ENUMERATOR_ADD_MATCH_PARENT" "3" "" "systemd 261.2" "sd_device_enumerator_add_match_parent"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd_device_enumerator_add_match_parent, sd_device_enumerator_add_match_property, sd_device_enumerator_add_match_property_required, sd_device_enumerator_add_match_subsystem, sd_device_enumerator_add_match_sysattr, sd_device_enumerator_add_match_sysname, sd_device_enumerator_add_nomatch_sysname, sd_device_enumerator_add_match_tag, sd_device_enumerator_allow_uninitialized, sd_device_enumerator_add_all_parents \- Add a filter to the device enumerator
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-device\&.h>
+.fi
+.ft
+.HP \w'int\ sd_device_enumerator_add_match_parent('u
+.BI "int sd_device_enumerator_add_match_parent(sd_device_enumerator\ *" "enumerator" ", sd_device\ *" "parent" ");"
+.HP \w'int\ sd_device_enumerator_add_match_property('u
+.BI "int sd_device_enumerator_add_match_property(sd_device_enumerator\ *" "enumerator" ", const\ char\ *" "property" ", const\ char\ *" "value" ");"
+.HP \w'int\ sd_device_enumerator_add_match_property_required('u
+.BI "int sd_device_enumerator_add_match_property_required(sd_device_enumerator\ *" "enumerator" ", const\ char\ *" "property" ", const\ char\ *" "value" ");"
+.HP \w'int\ sd_device_enumerator_add_match_subsystem('u
+.BI "int sd_device_enumerator_add_match_subsystem(sd_device_enumerator\ *" "enumerator" ", const\ char\ *" "subsystem" ", int\ " "match" ");"
+.HP \w'int\ sd_device_enumerator_add_match_sysattr('u
+.BI "int sd_device_enumerator_add_match_sysattr(sd_device_enumerator\ *" "enumerator" ", const\ char\ *" "sysattr" ", const\ char\ *" "value" ", int\ " "match" ");"
+.HP \w'int\ sd_device_enumerator_add_match_sysname('u
+.BI "int sd_device_enumerator_add_match_sysname(sd_device_enumerator\ *" "enumerator" ", const\ char\ *" "sysname" ");"
+.HP \w'int\ sd_device_enumerator_add_nomatch_sysname('u
+.BI "int sd_device_enumerator_add_nomatch_sysname(sd_device_enumerator\ *" "enumerator" ", const\ char\ *" "sysname" ");"
+.HP \w'int\ sd_device_enumerator_add_match_tag('u
+.BI "int sd_device_enumerator_add_match_tag(sd_device_enumerator\ *" "enumerator" ", const\ char\ *" "tag" ");"
+.HP \w'int\ sd_device_enumerator_allow_uninitialized('u
+.BI "int sd_device_enumerator_allow_uninitialized(sd_device_enumerator\ *" "enumerator" ");"
+.HP \w'int\ sd_device_enumerator_add_all_parents('u
+.BI "int sd_device_enumerator_add_all_parents(sd_device_enumerator\ *" "enumerator" ");"
+.SH "DESCRIPTION"
+.PP
+The
+\fBsd_device_enumerator_add_match_parent()\fR
+function adds a filter to the
+\fIenumerator\fR
+so that only devices under the tree of the specified
+\fIparent\fR
+device are enumerated\&. If this is called multiple times the previously set
+\fIparent\fR
+device is cleared and only the last call takes an effect\&.
+.PP
+The
+\fBsd_device_enumerator_add_match_property()\fR
+function adds a filter to the
+\fIenumerator\fR
+so that only devices with the specified
+\fIproperty\fR
+equals to the
+\fIvalue\fR
+are enumerated\&. Both
+\fIproperty\fR
+and
+\fIvalue\fR
+can be a glob pattern\&. When this is called multiple times, devices that have at least one of the specified properties with matching values are enumerated\&. That is, filters are ORed\&.
+.PP
+The
+\fBsd_device_enumerator_add_match_property_required()\fR
+function adds a filter to the
+\fIenumerator\fR
+so that only devices with the specified
+\fIproperty\fR
+equals to the
+\fIvalue\fR
+are enumerated\&. This function is similar to
+\fBsd_device_enumerator_add_match_property()\fR, but when this is called multiple times, devices that have
+\fIall\fR
+specified properties with matching values are enumerated\&. That is, filters are ANDed\&.
+.PP
+The
+\fBsd_device_enumerator_add_match_subsystem()\fR
+function adds a filter to the
+\fIenumerator\fR
+so that all devices in the specified
+\fIsubsystem\fR
+are enumerated when
+\fImatch\fR
+is
+\fBtrue\fR\&. When
+\fImatch\fR
+is
+\fBfalse\fR, then all devices except those in the specified
+\fIsubsystem\fR
+are enumerated\&. When called multiple times, positive filters are ORed, and negative ones are ANDed\&.
+.PP
+The
+\fBsd_device_enumerator_add_match_sysattr()\fR
+function adds a filter on the sysfs attribute
+\fIsysattr\fR
+matching
+\fIvalue\fR\&.
+\fIvalue\fR
+can be a glob pattern\&. If
+\fIvalue\fR
+is
+\fBNULL\fR, devices that either have (if
+\fImatch\fR
+is
+\fBtrue\fR) or do not have (if
+\fImatch\fR
+is
+\fBfalse\fR) the specified
+\fIsysattr\fR
+are included, regardless of its value\&. That is,
+\fBNULL\fR
+is mostly equivalent to
+"*"\&. When this function is called multiple times, only devices that match all specified
+\fIsysattr\fR
+filters are enumerated\&. That is, these filters are ANDed\&.
+.PP
+The
+\fBsd_device_enumerator_add_match_sysname()\fR
+function adds a filter so that only devices whose sysname equals to
+\fIsysname\fR
+are enumerated\&.
+\fIsysname\fR
+can be a glob pattern\&. When called multiple times, filters are ORed\&.
+.PP
+The
+\fBsd_device_enumerator_add_nomatch_sysname()\fR
+function adds a filter so that devices whose sysname equals to
+\fIsysname\fR
+are excluded from the enumeration\&. This is useful for excluding specific devices from the enumeration process\&. When called multiple times, features are ANDed\&.
+.PP
+The
+\fBsd_device_enumerator_add_match_tag()\fR
+function adds a filter so that only devices tagged with
+\fItag\fR
+are enumerated\&. When called multiple times, filters are ORed\&.
+.PP
+The
+\fBsd_device_enumerator_allow_uninitialized()\fR
+function allows devices that have not yet been initialized by udev to be included in the enumeration\&.
+.PP
+The
+\fBsd_device_enumerator_add_all_parents()\fR
+function enumerates all parent devices of the matching devices\&. This is useful for cases where you want to include all parent devices in the enumeration, such as when you are interested in the entire device tree leading up to a specific device\&.
+.SH "RETURN VALUE"
+.PP
+All functions return
+\fB0\fR
+or a positive integer on success, or a negative errno\-style error code on failure\&.
+.SS "Errors"
+.PP
+Returned errors may indicate the following problems:
+.PP
+\fB\-ENOMEM\fR
+.RS 4
+Memory allocation failed\&.
+.RE
+.PP
+\fB\-EINVAL\fR
+.RS 4
+One of the arguments is invalid\&.
+.RE
+.SH "EXAMPLES"
+.PP
+\fBExample\ \&1.\ \&Detect Removable USB Devices (Using Match and Exclude)\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+/* SPDX\-License\-Identifier: MIT\-0 */
+
+#include <stdbool\&.h>
+#include <stdio\&.h>
+#include <systemd/sd\-device\&.h>
+
+int main(void) {
+    __attribute__((cleanup(sd_device_enumerator_unrefp))) sd_device_enumerator *enumerator = NULL;
+    sd_device *device;
+    int r;
+
+    /* Create a new device enumerator */
+    r = sd_device_enumerator_new(&enumerator);
+    if (r < 0) {
+        fprintf(stderr, "Failed to create device enumerator: %s\en", strerror(\-r));
+        return 1;
+    }
+
+    /* Include only devices from the "usb" subsystem */
+    r = sd_device_enumerator_add_match_subsystem(enumerator, "usb", true);
+    if (r < 0) {
+        fprintf(stderr, "Failed to add subsystem match: %s\en", strerror(\-r));
+        return 1;
+    }
+
+    /*
+     * Exclude devices where the "removable" sysattr is "0"
+     * These are typically non\-removable devices like built\-in USB interfaces
+     */
+    r = sd_device_enumerator_add_match_sysattr(enumerator, "removable", "0", false);
+    if (r < 0) {
+        fprintf(stderr, "Failed to add sysattr match: %s\en", strerror(\-r));
+        return 1;
+    }
+
+    /* Begin enumerating matching devices */
+    for (device = sd_device_enumerator_get_device_first(enumerator);
+         device;
+         device = sd_device_enumerator_get_device_next(enumerator)) {
+        const char *syspath;
+
+        /* Get syspath for the device */
+        if (sd_device_get_syspath(device, &syspath) >= 0)
+            printf("Removable USB device found: %s\en", syspath);
+    }
+    return 0;
+}
+.fi
+.if n \{\
+.RE
+.\}
+.SH "HISTORY"
+.PP
+\fBsd_device_enumerator_add_match_parent()\fR,
+\fBsd_device_enumerator_add_match_property()\fR,
+\fBsd_device_enumerator_add_match_subsystem()\fR,
+\fBsd_device_enumerator_add_match_sysattr()\fR,
+\fBsd_device_enumerator_add_match_sysname()\fR,
+\fBsd_device_enumerator_add_match_tag()\fR, and
+\fBsd_device_enumerator_allow_uninitialized()\fR
+were added in version 240\&.
+.PP
+\fBsd_device_enumerator_add_nomatch_sysname()\fR
+was added in version 251\&.
+.PP
+\fBsd_device_enumerator_add_match_property_required()\fR
+was added in version 255\&.
+.PP
+\fBsd_device_enumerator_add_all_parents()\fR
+was added in version 258\&.
+.SH "SEE ALSO"
+.PP
+\fBsd_device_ref\fR(3), \fBsd_device_enumerator_new\fR(3), \fBsd_device_enumerator_get_device_first\fR(3)

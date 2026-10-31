@@ -1,0 +1,89 @@
+'\" t
+.TH "SYSTEMD\-STORAGE\-BLOCK@\&.SERVICE" "8" "" "systemd 261.2" "systemd-storage-block@.service"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-storage-block@.service, systemd-storage-block.socket, systemd-storage-block \- Storage provider exposing local block devices as storage volumes
+.SH "SYNOPSIS"
+.PP
+systemd\-storage\-block@\&.service
+.PP
+systemd\-storage\-block\&.socket
+.SH "DESCRIPTION"
+.PP
+systemd\-storage\-block@\&.service
+is a system service that implements the
+\fBio\&.systemd\&.StorageProvider\fR
+\m[blue]\fBVarlink\fR\m[]\&\s-2\u[1]\d\s+2
+interface, exposing the system\*(Aqs block devices (such as disks, partitions, and device\-mapper nodes) as storage volumes that may be acquired by other programs as file descriptors\&.
+.PP
+The service is socket\-activated via
+systemd\-storage\-block\&.socket, which listens on the AF_UNIX socket
+/run/systemd/io\&.systemd\&.StorageProvider/block\&. The socket directory
+/run/systemd/io\&.systemd\&.StorageProvider/
+is the well\-known location where storage providers register, see
+\fBstoragectl\fR(1)
+for an enumeration tool\&.
+.PP
+See also
+\fBsystemd-storage-fs@.service\fR(8)
+for a complementary implementation that exposes regular files and directories from a backing file system\&.
+.SH "VOLUMES"
+.PP
+The volumes exposed via the provider are identified by an absolute path (which must begin with
+/dev/), i\&.e\&. as a kernel block device node such as
+/dev/sda
+or
+/dev/disk/by\-id/\&...\&. Volume names that are not normalized or that do not begin with
+/dev/
+are not accepted\&.
+.SH "OPTIONS"
+.PP
+The following options are understood:
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Print a short help text and exit\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Print a short version string and exit\&.
+.RE
+.SH "FILES"
+.PP
+/run/systemd/io\&.systemd\&.StorageProvider/block
+.RS 4
+AF_UNIX socket the service listens on\&. This is the canonical location for the
+"block"
+storage provider, and is enumerated by
+\fBstoragectl providers\fR\&.
+.sp
+Added in version 261\&.
+.RE
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBstoragectl\fR(1), \fBsystemd-storage-fs@.service\fR(8)
+.SH "NOTES"
+.IP " 1." 4
+Varlink
+.RS 4
+\%https://varlink.org/
+.RE

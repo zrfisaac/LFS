@@ -1,0 +1,213 @@
+'\" t
+.TH "SD_VARLINK_SERVER_NEW" "3" "" "systemd 261.2" "sd_varlink_server_new"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd_varlink_server_new \- Allocate Varlink server object
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-varlink\&.h>
+.fi
+.ft
+.HP \w'int\ sd_varlink_server_new('u
+.BI "int sd_varlink_server_new(sd_varlink_server**\ " "ret" ", sd_varlink_server_flags_t\ " "flags" ");"
+.SH "DESCRIPTION"
+.PP
+\fBsd_varlink_server_new()\fR
+allocates a new Varlink server object\&. Initially the server does not listen on any socket or file descriptor\&. The newly allocated server object is returned in the
+\fIret\fR
+parameter\&. Use
+\fBsd_varlink_server_unref()\fR
+to release the server object again after use\&.
+.PP
+The following flags may be passed in the
+\fIflags\fR
+parameter:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBSD_VARLINK_SERVER_ROOT_ONLY\fR: only allow connections from UID 0 (i\&.e\&. the root user)\&. This has two effects: any incoming connections is authenticated via
+\fBSO_PEERCRED\fR
+ensuring the UID reported by the kernel is zero\&. If this check fails the connection is immediately terminated\&. Moreover, when binding a socket inode in the file system, the access mode is set to 0600 (rather than 0666)\&. If this option is used connections on non\-\fBAF_UNIX\fR
+sockets or via pipes are never permitted\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBSD_VARLINK_SERVER_MYSELF_ONLY\fR: this is very similar to
+\fBSD_VARLINK_SERVER_ROOT_ONLY\fR
+but enforces that the connecting client\*(Aqs UID must match the server\*(Aqs UID (i\&.e\&. the UID this function is invoked as)\&. For servers that run as UID 0 the flags are equivalent\&. If both flags are specified in combination, connections are allowed by both UID 0 and the server\*(Aqs own UID\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBSD_VARLINK_SERVER_ACCOUNT_UID\fR: if set connection accounting per client UID is enabled, and a limit on concurrent connections from the same UID is enforced\&. The limit can be set via
+\fBsd_varlink_server_set_connections_per_uid_max()\fR, and defaults to 3/4th of the total concurrent connection limit, as settable via
+\fBsd_varlink_server_set_connections_max()\fR\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBSD_VARLINK_SERVER_INHERIT_USERDATA\fR: if set the user data field for incoming connection (i\&.e\&.
+\fBsd_varlink\fR) objects (as settable via
+\fBsd_varlink_set_userdata()\fR) is automatically set to the userdata field of the server (i\&.e\&.
+\fBsd_varlink_server\fR) object (as settable via
+\fBsd_varlink_server_set_userdata()\fR)\&. If this flag is not specified the connection\*(Aqs user data field will default to
+\fBNULL\fR\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBSD_VARLINK_SERVER_INPUT_SENSITIVE\fR: mark all incoming method call parameters as security sensitive (equivalent to calling
+\fBsd_json_variant_sensitive()\fR)\&. This is useful for services that deal with secrets and similar, as it ensures that the parameters are kept out of debug logging, and memory used by the parameters is erased after use\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBSD_VARLINK_SERVER_ALLOW_FD_PASSING_INPUT\fR: if set, allow receiving UNIX file descriptors via the connections, equivalent to calling
+\fBsd_varlink_set_allow_fd_passing_input()\fR
+immediately for each incoming connection\&. Note that this only has an effect if
+\fBAF_UNIX\fR
+sockets are used for communication\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBSD_VARLINK_SERVER_ALLOW_FD_PASSING_OUTPUT\fR: similar, but controls sending of UNIX file descriptors\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBSD_VARLINK_SERVER_FD_PASSING_INPUT_STRICT\fR: this flag can be used in conjunction with
+\fBSD_VARLINK_SERVER_ALLOW_FD_PASSING_INPUT\fR\&. If so, file descriptor passing is turned off on the listening sockets already, ensuring that the connection sockets derived from it at no time have file descriptor passing enabled\&. If
+\fBSD_VARLINK_SERVER_ALLOW_FD_PASSING_INPUT\fR
+is used without
+\fBSD_VARLINK_SERVER_FD_PASSING_INPUT_STRICT\fR
+then a choice when to prohibit or allow file descriptor passing can still be made after the connection came in, however permitting a time window where file descriptors might already be enqueued, that then need to be dropped again\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBSD_VARLINK_SERVER_HANDLE_SIGINT\fR: if set, and
+\fBsd_varlink_server_loop_auto()\fR
+is used, incoming
+\fBSIGINT\fR
+process signals will be caught gracefully and cause the event loop to exit cleanly\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBSD_VARLINK_SERVER_HANDLE_SIGTERM\fR: similar, but does the same for
+\fBSIGTERM\fR\&.
+.RE
+.SH "RETURN VALUE"
+.PP
+On success,
+\fBsd_varlink_server_new()\fR
+returns a non\-negative integer\&. On failure, it returns a negative errno\-style error code\&.
+.SS "Errors"
+.PP
+Returned errors may indicate the following problems:
+.PP
+\fB\-EINVAL\fR
+.RS 4
+An argument is invalid\&.
+.RE
+.SH "NOTES"
+.PP
+Functions described here are available as a shared library, which can be compiled against and linked to with the
+\fBlibsystemd\fR\ \&\fBpkg-config\fR(1)
+file\&.
+.PP
+The code described here uses
+\fBgetenv\fR(3), which is declared to be not multi\-thread\-safe\&. This means that the code calling the functions described here must not call
+\fBsetenv\fR(3)
+from a parallel thread\&. It is recommended to only do calls to
+\fBsetenv()\fR
+from an early phase of the program when no other threads have been started\&.
+.SH "HISTORY"
+.PP
+\fBsd_varlink_server_new()\fR
+was added in version 257\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsd-varlink\fR(3)

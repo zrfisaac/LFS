@@ -1,0 +1,113 @@
+'\" t
+.TH "SYSTEMD\&.RR" "5" "" "systemd 261.2" "systemd.rr"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd.rr \- Local static DNS resource record definitions
+.SH "SYNOPSIS"
+.PP
+.RS 4
+/etc/systemd/resolve/static\&.d/*\&.rr
+.RE
+.RS 4
+/run/systemd/resolve/static\&.d/*\&.rr
+.RE
+.RS 4
+/usr/local/lib/systemd/resolve/static\&.d/*\&.rr
+.RE
+.RS 4
+/usr/lib/systemd/resolve/static\&.d/*\&.rr
+.RE
+.SH "DESCRIPTION"
+.PP
+*\&.rr
+files may be used to define resource record sets ("RRsets") that shall be resolvable locally, similar in style to address records defined by
+/etc/hosts
+(see
+\fBhosts\fR(5)
+for details)\&. These files are read by
+\fBsystemd-resolved.service\fR(8), and are used to synthesize local responses to local queries matching the defined resource record set\&.
+.PP
+These drop\-in files are in JSON format\&. Each file may either contain a single top\-level DNS RR object, or an array of one or more DNS RR objects\&. Each RR object has at least a
+"key"
+subobject consisting of a
+"name"
+string field and a
+"type"
+integer field (which contains the RR type in numeric form)\&. Depending on the chosen type the RR object also has the following fields:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+For A/AAAA RRs, the RR object should have an
+"address"
+field set to either an IP address formatted as string, or an array consisting of 4 or 16 8\-bit unsigned integers for the IP address\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+For PTR/NS/CNAME/DNAME RRs, the RR object should have a
+"name"
+field set to the name the record shall point to\&.
+.RE
+.PP
+This JSON serialization of DNS RRs matches the one returned by
+\fBresolvectl\fR\&.
+.PP
+Currently no other RR types are supported\&.
+.SH "EXAMPLES"
+.PP
+\fBExample\ \&1.\ \&Simple A Record\fR
+.PP
+To make local address lookups for
+"foobar\&.example\&.com"
+resolve to the 192\&.168\&.100\&.1 IPv4 address, create
+/run/systemd/resolve/static\&.d/foobar_example_com\&.rr:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+{
+        "key" : {
+                "type" : 1,
+                "name" : "foobar\&.example\&.com"
+        },
+        "address" : [ 192, 168, 100, 1 ]
+}
+.fi
+.if n \{\
+.RE
+.\}
+
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-resolved.service\fR(8), \fBresolved.conf\fR(5), \fBhosts\fR(5), \fBresolvectl\fR(1)

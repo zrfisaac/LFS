@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="../sqlite.css" rel="stylesheet">
+<title>Add a 64-bit integer to a changegroup</title>
+<!-- path=../ -->
+</head>
+<body>
+<div class=nosearch>
+<a href="../index.html">
+<img class="logo" src="../images/sqlite370_banner.svg" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="../index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='../about.html'>About</a>
+<li class='desktoponly'><a href="../docs.html">Documentation</a>
+<li class='desktoponly'><a href="../download.html">Download</a>
+<li class='wideonly'><a href='../copyright.html'>License</a>
+<li class='desktoponly'><a href="../support.html">Support</a>
+<li class='desktoponly'><a href="../prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='../about.html'>About</a>
+<li><a href='../docs.html'>Documentation</a>
+<li><a href='../download.html'>Download</a>
+<li><a href='../support.html'>Support</a>
+<li><a href='../prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="../search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
+<script>
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
+</script>
+<a href="../session/intro.html"><h2>Session Module C Interface</h2></a><h2>Add a 64-bit integer to a changegroup</h2><blockquote><pre>int sqlite3changegroup_change_int64(
+  sqlite3_changegroup*, 
+  int bNew,
+  int iCol,
+  sqlite3_int64 iVal
+);
+</pre></blockquote><p>
+This function may only be called between a successful call to 
+sqlite3changegroup_change_begin() and its matching
+sqlite3changegroup_change_finish() call. If it is called at any
+other time, it is an SQLITE_MISUSE error. Calling this function 
+specifies a 64-bit integer value to be used in the change currently being
+added to the changegroup object passed as the first argument.</p>
+
+<p>The second parameter, bNew, specifies whether the value is to be part of
+the new.* (if bNew is non-zero) or old.* (if bNew is zero) record of
+the change under construction. If this does not match the type of change
+specified by the preceding call to sqlite3changegroup_change_begin() (i.e.
+an old.* value for an SQLITE_INSERT change, or a new.* value for an
+SQLITE_DELETE), then SQLITE_ERROR is returned.</p>
+
+<p>The third parameter specifies the column of the old.* or new.* record that
+the value will be a part of. If the specified table has an explicit primary
+key, then this is the index of the table column, numbered from 0 in the order
+specified within the CREATE TABLE statement. Or, if the table uses an 
+implicit rowid key, then the column 0 is the rowid and the explicit columns
+are numbered starting from 1. If the iCol parameter is less than 0 or greater
+than the index of the last column in the table, SQLITE_RANGE is returned.</p>
+
+<p>The fourth parameter is the integer value to use as part of the old.* or
+new.* record.</p>
+
+<p>If this call is successful, SQLITE_OK is returned. Otherwise, if an
+error occurs, an SQLite error code is returned.
+</p><p>See also lists of
+  <a href="../session/objlist.html">Objects</a>,
+  <a href="../session/constlist.html">Constants</a>, and
+  <a href="../session/funclist.html">Functions</a>.</p>
+

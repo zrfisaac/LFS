@@ -1,0 +1,126 @@
+'\" t
+.TH "SD_BUS_MESSAGE_DUMP" "3" "" "systemd 261.2" "sd_bus_message_dump"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sd_bus_message_dump, sd_bus_message_dump_json \- Produce a string representation of a message for debugging purposes
+.SH "SYNOPSIS"
+.sp
+.ft B
+.nf
+#include <systemd/sd\-bus\&.h>
+.fi
+.ft
+.HP \w'int\ sd_bus_message_dump('u
+.BI "int sd_bus_message_dump(sd_bus_message\ *" "m" ", FILE\ *" "f" ", uint64_t\ " "flags" ");"
+.HP \w'int\ sd_bus_message_dump_json('u
+.BI "int sd_bus_message_dump_json(sd_bus_message\ *" "m" ", uint64_t\ " "flags" ", sd_json_variant\ **" "ret" ");"
+.SH "DESCRIPTION"
+.PP
+The
+\fBsd_bus_message_dump()\fR
+function writes a textual representation of the message
+\fIm\fR
+to the stream
+\fIf\fR\&. If
+\fIf\fR
+is
+\fBNULL\fR, standard output (\fBstdio\fR) will be used\&. This function is intended to be used for debugging purposes, and the output is neither stable nor designed to be machine readable\&.
+.PP
+The
+\fBsd_bus_message_dump_json()\fR
+function converts the DBus message
+\fIm\fR
+to a JSON variant and stores it in
+\fIret\fR\&. The caller should call
+\fBsd_json_variant_unref()\fR
+for the acquired JSON variant after use\&. Unlike
+\fBsd_bus_message_dump()\fR, the function itself does not print anything\&. To print the DBus message in the JSON format, please pass the returned JSON variant to
+\fBsd_json_variant_dump()\fR\&.
+.PP
+The
+\fIflags\fR
+parameter may be used to modify the output, and is a combination of zero or more of the following flags:
+.PP
+\fBSD_BUS_MESSAGE_DUMP_WITH_HEADER\fR
+.RS 4
+The header of the message that specifies the message type, flags, and several more additional metadata will be printed or included in the resulting JSON object\&.
+.RE
+.PP
+\fBSD_BUS_MESSAGE_DUMP_SUBTREE_ONLY\fR
+.RS 4
+Only the current container will be printed or converted\&. When the flag is
+\fInot\fR
+specified, the contents of the whole message will be printed or converted\&.
+.RE
+.PP
+Note that these functions move the read pointer of the message\&. It may be necessary to reset the position afterwards, for example with
+\fBsd_bus_message_rewind\fR(3)\&.
+.SH "EXAMPLES"
+.PP
+Output for a signal message (with
+\fBSD_BUS_MESSAGE_DUMP_WITH_HEADER\fR):
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+>\& Type=signal  Endian=l  Flags=1  Version=1  Cookie=22
+  Path=/value/a  Interface=org\&.freedesktop\&.DBus\&.Properties  Member=PropertiesChanged
+  MESSAGE "sa{sv}as" {
+          STRING "org\&.freedesktop\&.systemd\&.ValueTest";
+          ARRAY "{sv}" {
+                  DICT_ENTRY "sv" {
+                          STRING "Value";
+                          VARIANT "s" {
+                                  STRING "object 0x1e, path /value/a";
+                          };
+                  };
+          };
+          ARRAY "s" {
+                  STRING "Value2";
+                  STRING "AnExplicitProperty";
+          };
+  };
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+.SH "RETURN VALUE"
+.PP
+On success, this function returns 0 or a positive integer\&. On failure, it returns a negative errno\-style error code\&. No error codes are currently defined\&.
+.SH "NOTES"
+.PP
+Functions described here are available as a shared library, which can be compiled against and linked to with the
+\fBlibsystemd\fR\ \&\fBpkg-config\fR(1)
+file\&.
+.PP
+All functions listed here are thread\-agnostic and only a single thread may operate on a given object at any given time\&. Different threads may access the same object at different times\&. Multiple independent objects may be used from different threads in parallel\&.
+.PP
+The code described here uses
+\fBgetenv\fR(3), which is declared to be not multi\-thread\-safe\&. This means that the code calling the functions described here must not call
+\fBsetenv\fR(3)
+from a parallel thread\&. It is recommended to only do calls to
+\fBsetenv()\fR
+from an early phase of the program when no other threads have been started\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsd-bus\fR(3), \fBsd-json\fR(3)

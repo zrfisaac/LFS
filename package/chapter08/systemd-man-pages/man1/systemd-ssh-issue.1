@@ -1,0 +1,77 @@
+'\" t
+.TH "SYSTEMD\-SSH\-ISSUE" "1" "" "systemd 261.2" "systemd-ssh-issue"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-ssh-issue \- Generator for SSH login prompt drop\-ins
+.SH "SYNOPSIS"
+.HP \w'\fB/usr/lib/systemd/systemd\-ssh\-issue\fR\ 'u
+\fB/usr/lib/systemd/systemd\-ssh\-issue\fR [OPTIONS...] make\-vsock
+.HP \w'\fB/usr/lib/systemd/systemd\-ssh\-issue\fR\ 'u
+\fB/usr/lib/systemd/systemd\-ssh\-issue\fR [OPTIONS...] rm\-vsock
+.SH "DESCRIPTION"
+.PP
+\fBsystemd\-ssh\-issue\fR
+is a small tool that generates (when called with
+\fBmake\-vsock\fR) and removes (when called with
+\fBrm\-vsock\fR) a
+/run/issue\&.d/50\-ssh\-vsock\&.issue
+drop\-in file in case
+\fBAF_VSOCK\fR
+support is available in the kernel and the VM environment\&. The file contains brief information about how to contact the local system via SSH\-over\-\fBAF_VSOCK\fR, in particular it reports the system\*(Aqs
+\fBAF_VSOCK\fR
+CID\&. The file is typically read and displayed by
+\fBagetty\fR(8)
+on console or serial login prompts\&.
+.PP
+This tool is automatically used by
+\fBsystemd-ssh-generator\fR(8)
+in the
+\fBAF_VSOCK\fR
+socket units it generates\&.
+.SH "OPTIONS"
+.PP
+The following options are understood:
+.PP
+\fB\-\-issue\-path=\fR
+.RS 4
+Changes the path to the issue file to write to/remove\&. If not specified, defaults to
+/run/issue\&.d/50\-ssh\-vsock\&.issue\&. If specified as empty string or
+"\-"
+writes the issue file contents to standard output\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Print a short help text and exit\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Print a short version string and exit\&.
+.RE
+.SH "EXIT STATUS"
+.PP
+On success, 0 is returned, a non\-zero failure code otherwise\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-ssh-generator\fR(8), \fBvsock\fR(7), \fBssh\fR(1), \fBsshd\fR(8), \fBagetty\fR(8)

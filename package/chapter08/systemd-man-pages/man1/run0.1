@@ -1,0 +1,463 @@
+'\" t
+.TH "RUN0" "1" "" "systemd 261.2" "run0"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+run0 \- Elevate privileges
+.SH "SYNOPSIS"
+.HP \w'\fBrun0\fR\ 'u
+\fBrun0\fR [OPTIONS...] [COMMAND...]
+.SH "DESCRIPTION"
+.PP
+\fBrun0\fR
+may be used to temporarily and interactively acquire elevated or different privileges\&. It serves a similar purpose as
+\fBsudo\fR(8), but operates differently in a couple of key areas:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+No execution or security context credentials are inherited from the caller into the invoked commands, as they are invoked from a fresh, isolated service forked off by the service manager\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Authentication takes place via
+\m[blue]\fBpolkit\fR\m[]\&\s-2\u[1]\d\s+2, thus isolating the authentication prompt from the terminal (if possible)\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+An independent pseudo\-tty is allocated for the invoked command, detaching its lifecycle and isolating it for security\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+No SetUID/SetGID file access bit functionality is used for the implementation\&.
+.RE
+.PP
+Altogether this should provide a safer and more robust alternative to the
+\fBsudo\fR
+mechanism, in particular in OS environments where SetUID/SetGID support is not available (for example by setting the
+\fINoNewPrivileges=\fR
+variable in
+\fBsystemd-system.conf\fR(5))\&.
+.PP
+Any session invoked via
+\fBrun0\fR
+will run through the
+"systemd\-run0"
+PAM stack\&.
+.PP
+Note that
+\fBrun0\fR
+is implemented as an alternative multi\-call invocation of
+\fBsystemd-run\fR(1)\&. That is,
+\fBrun0\fR
+is a symbolic link to
+\fBsystemd\-run\fR
+executable file, and it behaves as
+\fBrun0\fR
+if it is invoked through the symbolic link, otherwise behaves as
+\fBsystemd\-run\fR\&.
+.SH "OPTIONS"
+.PP
+The following options are understood:
+.PP
+\fB\-\-unit=\fR
+.RS 4
+Use this unit name instead of an automatically generated one\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fB\-\-property=\fR
+.RS 4
+Sets a property of the service unit that is created\&. This option takes an assignment in the same format as
+\fBsystemctl\fR(1)\*(Aqs
+\fBset\-property\fR
+command\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fB\-\-description=\fR
+.RS 4
+Provide a description for the service unit that is invoked\&. If not specified, the command itself will be used as a description\&. See
+\fIDescription=\fR
+in
+\fBsystemd.unit\fR(5)\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fB\-\-slice=\fR
+.RS 4
+Make the new
+\&.service
+unit part of the specified slice, instead of
+user\&.slice\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fB\-\-slice\-inherit\fR
+.RS 4
+Make the new
+\&.service
+unit part of the slice the
+\fBrun0\fR
+itself has been invoked in\&. This option may be combined with
+\fB\-\-slice=\fR, in which case the slice specified via
+\fB\-\-slice=\fR
+is placed within the slice the
+\fBrun0\fR
+command is invoked in\&.
+.sp
+Example: consider
+\fBrun0\fR
+being invoked in the slice
+foo\&.slice, and the
+\fB\-\-slice=\fR
+argument is
+bar\&. The unit will then be placed under
+foo\-bar\&.slice\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fB\-\-user=\fR, \fB\-u\fR, \fB\-\-group=\fR, \fB\-g\fR
+.RS 4
+Switches to the specified user/group\&. If not specified defaults to
+"root", unless
+\fB\-\-area=\fR
+or
+\fB\-\-empower\fR
+are used (see below), in which case this defaults to the invoking user\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fB\-\-nice=\fR
+.RS 4
+Runs the invoked session with the specified nice level\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fB\-\-chdir=\fR, \fB\-D\fR
+.RS 4
+Runs the invoked session with the specified working directory\&. If not specified defaults to the client\*(Aqs current working directory if switching to the root user, or the target user\*(Aqs home directory otherwise\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fB\-\-via\-shell\fR
+.RS 4
+Invokes the target user\*(Aqs login shell and runs the specified command (if any) via it\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+\fB\-i\fR
+.RS 4
+Shortcut for
+\fB\-\-via\-shell \-\-chdir=\*(Aq~\*(Aq\fR\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+\fB\-\-setenv=\fR\fB\fINAME\fR\fR\fB[=\fR\fB\fIVALUE\fR\fR\fB]\fR
+.RS 4
+Runs the invoked session with the specified environment variable set\&. This parameter may be used more than once to set multiple variables\&. When
+"="
+and
+\fIVALUE\fR
+are omitted, the value of the variable with the same name in the invoking environment will be used\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fB\-\-background=\fR\fB\fICOLOR\fR\fR
+.RS 4
+Change the terminal background color to the specified ANSI color as long as the session lasts\&. If not specified, the background will be tinted in a reddish tone when operating as root, and in a yellowish tone when operating under another UID, as reminder of the changed privileges\&. The color specified should be an ANSI X3\&.64 SGR background color, i\&.e\&. strings such as
+"40",
+"41", \&...,
+"47",
+"48;2;\&...",
+"48;5;\&..."\&. See
+\m[blue]\fBANSI Escape Code (Wikipedia)\fR\m[]\&\s-2\u[2]\d\s+2
+for details\&. Set to an empty string to disable\&.
+.sp
+Example:
+"\-\-background=44"
+for a blue background\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fB\-\-pty\fR, \fB\-\-pty\-late\fR, \fB\-\-pipe\fR
+.RS 4
+Request allocation of a pseudo TTY for the
+\fBrun0\fR
+session (in case of
+\fB\-\-pty\fR
+or
+\fB\-\-pty\-late\fR), or request passing the caller\*(Aqs STDIO file descriptors directly through (in case of
+\fB\-\-pipe\fR)\&.
+\fB\-\-pty\-late\fR
+is very similar to
+\fB\-\-pty\fR
+but begins the TTY processing only once unit startup is complete, leaving input to any passwords/polkit agents until that time\&. If neither switch is specified, or if both
+\fB\-\-pipe\fR
+and one of
+\fB\-\-pty\fR/\fB\-\-pty\-late\fR
+are specified, the mode will be picked automatically: if standard input, standard output, and standard error output are all connected to a TTY then a pseudo TTY is allocated (in
+\fB\-\-pty\-late\fR
+mode unless
+\fB\-\-no\-ask\-password\fR
+is specified in which case
+\fB\-\-pty\fR
+is selected), otherwise the relevant file descriptors are passed through directly\&.
+.sp
+\fB\-\-pty\fR
+and
+\fB\-\-pipe\fR
+were added in v257\&.
+.sp
+\fB\-\-pty\-late\fR
+was added in v258\&.
+.RE
+.PP
+\fB\-\-shell\-prompt\-prefix=\fR\fB\fISTRING\fR\fR
+.RS 4
+Set a shell prompt prefix string\&. This ultimately controls the
+\fI$SHELL_PROMPT_PREFIX\fR
+environment variable for the invoked program, which is typically imported into the shell prompt\&. By default \(en if emojis are supported \(en, a superhero emoji is shown (🦸)\&. This default may also be changed (or turned off) by passing the
+\fI$SYSTEMD_RUN_SHELL_PROMPT_PREFIX\fR
+environment variable to
+\fIrun0\fR, see below\&. Set to an empty string to disable shell prompt prefixing\&.
+.sp
+Added in version 257\&.
+.RE
+.PP
+\fB\-\-lightweight=\fR\fB\fIBOOLEAN\fR\fR
+.RS 4
+Controls whether to activate the per\-user service manager for the target user\&. By default (unset or set to
+\fBauto\fR), if the target user is
+"root"
+or a system user the per\-user service manager is not activated as effect of the
+\fBrun0\fR
+invocation, otherwise it is\&.
+.sp
+This ultimately controls the
+\fI$XDG_SESSION_CLASS\fR
+environment variable
+\fBpam_systemd\fR(8)
+respects\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+\fB\-\-area=\fR\fB\fIAREA\fR\fR
+.RS 4
+Controls the "area" of the target account to log into\&. Areas are secondary home directories within the primary home directory of the target user, i\&.e\&. logging into area
+"foobar"
+of an account translates to
+\fI$HOME\fR
+being set to
+~/Areas/foobar
+on login\&.
+.sp
+If this option is used, the default user to transition to changes from root to the calling user\*(Aqs (but
+\fB\-\-user=\fR
+takes precedence, see above)\&. Or in other words, just specifying an area without a user is a mechanism to create a new session of the calling user, just with a different area\&.
+.sp
+This ultimately controls the
+\fI$XDG_AREA\fR
+environment variable
+\fBpam_systemd\fR(8)
+respects\&.
+.sp
+For details on the area concept see
+\fBpam_systemd_home\fR(8)\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+\fB\-\-empower\fR
+.RS 4
+If specified, run0 will elevate the privileges of the selected user (using
+\fB\-\-user=\fR) or the current user if no user is explicitly selected\&. Currently this means we give the invoked process all available capabilities and add the
+"empower"
+group as a supplemental group (for which all polkit actions are allowed by default), but other privileges may be granted in the future as well when using this option\&.
+.sp
+Note that other (unprivileged) processes of the selected user will have privileges over the invoked process\&. Consider not using this option in an environment where there might be malicious processes running as the selected user\&.
+.sp
+Added in version 259\&.
+.RE
+.PP
+\fB\-\-same\-root\-dir\fR
+.RS 4
+Execute the
+\fBrun0\fR
+session in the same root directory that the
+\fBrun0\fR
+command is executed in\&.
+.sp
+Added in version 259\&.
+.RE
+.PP
+\fB\-\-machine=\fR
+.RS 4
+Execute operation in a local container\&. Specify a container name to connect to\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fB\-\-no\-ask\-password\fR
+.RS 4
+Do not query the user for authentication for privileged operations\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Print a short help text and exit\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Print a short version string and exit\&.
+.RE
+.PP
+All command line arguments after the first non\-option argument become part of the command line of the launched process\&. If no command line is specified an interactive shell is invoked\&. The shell to invoke may be controlled through
+\fB\-\-via\-shell\fR
+\- when specified the target user\*(Aqs shell is used \- or
+\fB\-\-setenv=SHELL=\&...\fR\&. By default, the
+\fIoriginating user\*(Aqs\fR
+shell is executed if operating locally, or
+/bin/sh
+when operating with
+\fB\-\-machine=\fR\&.
+.PP
+Note that unlike
+\fBsudo\fR,
+\fBrun0\fR
+always spawns shells with login shell semantics, regardless of
+\fB\-i\fR\&.
+.SH "EXIT STATUS"
+.PP
+On success, 0 is returned\&. If
+\fBrun0\fR
+failed to start the session or the specified command fails, a non\-zero return value will be returned\&.
+.SH "ENVIRONMENT VARIABLES"
+.PP
+As with
+\fBsystemd\-run\fR, the session will inherit the system environment from the service manager\&. In addition, the following environment variables will be set:
+.PP
+\fI$TERM\fR
+.RS 4
+Copied from the
+\fI$TERM\fR
+of the caller\&. Can be overridden with
+\fB\-\-setenv=\fR
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fI$SUDO_USER\fR
+.RS 4
+Set to the username of the originating user\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fI$SUDO_UID\fR
+.RS 4
+Set to the numeric UNIX user id of the originating user\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fI$SUDO_GID\fR
+.RS 4
+Set to the primary numeric UNIX group id of the originating session\&.
+.sp
+Added in version 256\&.
+.RE
+.PP
+\fI$SHELL_PROMPT_PREFIX\fR
+.RS 4
+By default, set to the superhero emoji (if supported), but may be overridden with the
+\fI$SYSTEMD_RUN_SHELL_PROMPT_PREFIX\fR
+environment variable (see below), or the
+\fB\-\-shell\-prompt\-prefix=\fR
+switch (see above)\&.
+.sp
+Added in version 257\&.
+.RE
+.PP
+The following variables may be passed to
+\fBrun0\fR:
+.PP
+\fI$SYSTEMD_RUN_SHELL_PROMPT_PREFIX\fR
+.RS 4
+If set, overrides the default shell prompt prefix that
+\fBrun0\fR
+sets for the invoked shell (the superhero emoji)\&. Set to an empty string to disable shell prompt prefixing\&.
+.sp
+Added in version 257\&.
+.RE
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-run\fR(1), \fBsudo\fR(8), \fBmachinectl\fR(1), \fBpam_systemd\fR(8)
+.SH "NOTES"
+.IP " 1." 4
+polkit
+.RS 4
+\%https://www.freedesktop.org/wiki/Software/polkit
+.RE
+.IP " 2." 4
+ANSI Escape Code (Wikipedia)
+.RS 4
+\%https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters
+.RE

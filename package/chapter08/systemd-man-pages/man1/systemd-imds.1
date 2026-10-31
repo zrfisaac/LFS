@@ -1,0 +1,235 @@
+'\" t
+.TH "SYSTEMD\-IMDS" "1" "" "systemd 261.2" "systemd-imds"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-imds, systemd-imds-import.service \- Cloud IMDS (Instance Metadata Service) tool
+.SH "SYNOPSIS"
+.PP
+systemd\-imds\-import\&.service
+.HP \w'\fBsystemd\-imds\fR\ 'u
+\fBsystemd\-imds\fR [OPTIONS...] [KEY]
+.SH "DESCRIPTION"
+.PP
+\fBsystemd\-imds\fR
+is a tool for acquiring data from IMDS (Instance Metadata Service), as provided in many cloud environments\&. It is a client to
+\fBsystemd-imdsd@.service\fR(8), and provides access to IMDS data from shell environments\&.
+.PP
+The tool can operate in one of five modes:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Without positional arguments (and without the
+\fB\-\-well\-known=\fR
+switch) general IMDS service data and a few well known fields are displayed in human friendly form\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+With a positional argument (and without
+\fB\-\-well\-known=\fR) the IMDS data referenced by the specified key is acquired and written to standard output, in unprocessed form\&. IMDS keys are the part of the IMDS acquisition URL that are suffixed to the base URL\&. IMDS keys must begin with a slash ("/")\&. Note that IMDS keys are typically implementation\-specific\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+With the
+\fB\-\-well\-known=\fR
+option specified (see below), the indicated well\-known field is written to standard output, in unprocessed form\&. The concept of well\-known fields abstracts IMDS implementation differences to some level, exposing a unified interface for IMDS fields that typically exist on many different implementations, but under implementation\-specific keys\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+With the
+\fB\-\-userdata\fR
+option specified (see below) the "userdata" provided via IMDS is written to standard output\&. Under the hood this is similar to
+\fB\-\-well\-known=userdata\-base\fR,
+\fB\-\-well\-known=userdata\fR
+or
+\fB\-\-well\-known=userdata\-base64\fR\&. Each of the three is tried in turn (in this order), and the first available is returned\&. For
+\fB\-\-well\-known=userdata\-base\fR
+the
+"systemd\-userdata"
+userdata item is requested\&. For
+\fB\-\-well\-known=userdata\-base64\fR
+the returned data is automatically Base64\-decoded\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+With the
+\fB\-\-import\fR
+option specified, various well known and userdata fields are imported into the local credential store, where they are used to configure and parameterize the system\&. For details see below\&.
+.RE
+.SH "OPTIONS AND COMMANDS"
+.PP
+\fB\-\-well\-known=\fR, \fB\-K\fR
+.RS 4
+Takes one of
+"hostname",
+"region",
+"zone",
+"ipv4\-public",
+"ipv6\-public",
+"ssh\-key",
+"userdata",
+"userdata\-base",
+"userdata\-base64"\&. Acquires a specific "well\-known" field from IMDS\&. Many of these fields are commonly supported by various IMDS implementations, but typically some fields are not\&. Note that if
+\fB\-\-well\-known=userdata\-base\fR
+is used an additional subkey should be specified as positional argument, which encodes the specific userdata item to acquire\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-refresh=\fR
+.RS 4
+Takes a time in seconds as argument, and indicates the required "freshness" of the data, in case cached data is used\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-cache=\fR
+.RS 4
+Takes a boolean\&. If set to false local caching of IMDS is disabled, and the data is always acquired fresh from the IMDS endpoint\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-userdata\fR, \fB\-u\fR
+.RS 4
+Acquire this instance\*(Aqs IMDS user data, if available\&. See above for details\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-\-import\fR
+.RS 4
+Acquires IMDS data and writes relevant fields as credentials to
+/run/credstore/\&. This currently covers:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+If the IMDS user data is a valid JSON object containing a field
+\fIsystemd\&.credentials\fR
+(with a JSON array as value) it is processed, importing arbitrary credentials listed in the array\&. Each array item must have a
+\fIname\fR
+field indicating the credential name\&. It may have one
+\fItext\fR,
+\fIdata\fR
+or
+\fIencrypted\fR
+field, containing the credential data\&. If
+\fItext\fR
+is used the value shall be a literal string of the credential value\&. If
+\fIdata\fR
+is used the value may be arbitrary binary data encoded in a Base64 string\&. If
+\fIencrypted\fR
+is used the value shall be a Base64 encoded encrypted credential\&. See
+\fBsystemd.system-credentials\fR(7)
+for information about credentials that may be imported this way\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+If the well\-known
+\fIssh\-key\fR
+field is available, its value will be imported into the
+\fIssh\&.authorized_keys\&.root\fR
+credential\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+If the well\-known
+\fIhostname\fR
+field is available, its value will be imported into the
+\fIfirstboot\&.hostname\fR
+credential\&.
+.RE
+.sp
+This command is invoked by the
+systemd\-imds\-import\&.service
+run at boot\&.
+.sp
+Added in version 261\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Print a short help text and exit\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Print a short version string and exit\&.
+.RE
+.SH "EXIT STATUS"
+.PP
+On success, 0 is returned, a non\-zero failure code otherwise\&.
+.SH "SEE ALSO"
+.PP
+\fBsystemd\fR(1), \fBsystemd-imdsd@.service\fR(8), \fBsystemd-imds-generator\fR(8), \fBsystemd.system-credentials\fR(7)

@@ -1,0 +1,162 @@
+'\" t
+.TH "SYSTEMD\-KEYUTIL" "1" "" "systemd 261.2" "systemd-keyutil"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+systemd-keyutil \- Perform various operations on private keys and X\&.509 certificates
+.SH "SYNOPSIS"
+.HP \w'\fBsystemd\-keyutil\fR\ 'u
+\fBsystemd\-keyutil\fR [OPTIONS...] {COMMAND}
+.SH "DESCRIPTION"
+.PP
+\fBsystemd\-keyutil\fR
+can be used to perform various operations on private keys and X\&.509 certificates\&.
+.SH "COMMANDS"
+.PP
+\fBvalidate\fR
+.RS 4
+Checks that we can load the private key and certificate specified with
+\fB\-\-private\-key=\fR
+and
+\fB\-\-certificate=\fR
+respectively\&.
+.sp
+As a side effect, if the private key is loaded from a PIN\-protected hardware token, this command can be used to cache the PIN in the kernel keyring\&. The
+\fI$SYSTEMD_ASK_PASSWORD_KEYRING_TIMEOUT_SEC\fR
+and
+\fI$SYSTEMD_ASK_PASSWORD_KEYRING_TYPE\fR
+environment variables can be used to control how long and in which kernel keyring the PIN is cached\&.
+.sp
+Added in version 257\&.
+.RE
+.PP
+\fBextract\-public\fR
+.RS 4
+This commands prints the public key in PEM format extracted from either the certificate given with
+\fB\-\-certificate=\fR
+or the private key given with
+\fB\-\-private\-key=\fR\&.
+.sp
+Added in version 257\&.
+.RE
+.PP
+\fBextract\-certificate\fR
+.RS 4
+This command prints the X\&.509 certificate in PEM format extracted from the certificate given with
+\fB\-\-certificate=\fR\&. This is useful when loading a certificate from an OpenSSL provider (e\&.g\&. a hardware token) and wanting to output a standalone PEM certificate that can be used without the provider\&.
+.sp
+Added in version 260\&.
+.RE
+.PP
+\fBpkcs7\fR
+.RS 4
+This command embeds the PKCS#1 signature (RSA) provided with
+\fB\-\-signature=\fR
+in a PKCS#7 signature using the certificate given with
+\fB\-\-certificate=\fR
+and writes it to the file specified with
+\fB\-\-output=\fR
+in PKCS#7 format (p7s)\&. If
+\fB\-\-content=\fR
+is provided it is included in the p7s, otherwise a "detached" signature is created\&. The
+\fB\-\-hash\-algorithm=\fR
+option, which defaults to
+"SHA256", specifies what hash algorithm was used to generate the signature\&.
+.sp
+Added in version 258\&.
+.RE
+.SH "OPTIONS"
+.PP
+The following options are understood:
+.PP
+\fB\-\-private\-key=\fR\fB\fIPATH/URI\fR\fR, \fB\-\-private\-key\-source=\fR\fB\fITYPE\fR\fR\fB[:\fR\fB\fINAME\fR\fR\fB]\fR, \fB\-\-certificate=\fR\fB\fIPATH\fR\fR, \fB\-\-certificate\-source=\fR\fB\fITYPE\fR\fR\fB[:\fR\fB\fINAME\fR\fR\fB]\fR
+.RS 4
+Set the private key and certificate to use\&. The
+\fB\-\-certificate=\fR
+option takes a path to a PEM encoded X\&.509 certificate or a URI that\*(Aqs passed to the OpenSSL provider configured with
+\fB\-\-certificate\-source\fR\&. The
+\fB\-\-certificate\-source\fR
+takes one of
+"file"
+or
+"provider", with the latter being followed by a specific provider identifier, separated with a colon, e\&.g\&.
+"provider:pkcs11"\&. The
+\fB\-\-private\-key=\fR
+option can take a path or a URI that will be passed to the OpenSSL engine or provider, as specified by
+\fB\-\-private\-key\-source=\fR
+as a
+"type:name"
+tuple, such as
+"engine:pkcs11"\&.
+.sp
+Added in version 257\&.
+.RE
+.PP
+\fB\-\-signature=\fR\fB\fIPATH\fR\fR
+.RS 4
+Input PKCS#1 signature for the
+\fBpkcs7\fR
+command\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+\fB\-\-content=\fR\fB\fIPATH\fR\fR
+.RS 4
+Input data that corresponds to the PKCS#1 signature for the
+\fBpkcs7\fR
+command, used for generating inline (i\&.e\&. non\-"detached") PKCS#7 signatures\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+\fB\-\-hash\-algorithm=\fR\fB\fIALGORITHM\fR\fR
+.RS 4
+Hash algorithm used to generate the PKCS#1 signature for the
+\fBpkcs7\fR
+command\&. This should be a valid openssl digest algorithm; use
+"openssl list \-digest\-algorithms"
+to see a list of valid algorithms on your system\&. Defaults to
+"SHA256"\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+\fB\-\-output=\fR\fB\fIPATH\fR\fR
+.RS 4
+Output PKCS#7 signature for the
+\fBpkcs7\fR
+command\&.
+.sp
+Added in version 258\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Print a short help text and exit\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Print a short version string and exit\&.
+.RE
+.SH "SEE ALSO"
+.PP
+\fBsystemd-sbsign\fR(1), \fBsystemd-measure\fR(1)
