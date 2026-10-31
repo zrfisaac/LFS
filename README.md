@@ -43,10 +43,27 @@ The [sum.sh](./sum.sh) script checks the downloaded packages in the same directo
 
 The [down-check.sh](./down-check.sh) script checks whether every package listed in `wget-list` and `wget-list-systemd` exists in the local `download` directory. It lists the complete URL of each missing package and reports the total at the end.
 
+The [untar.sh](./untar.sh) script extracts the available archives into `package`, prepares the repeated source trees used in different LFS build stages, extracts GCC's GMP/MPFR/MPC dependencies inside each GCC tree, and applies the patches used by the book. It also prepares the auxiliary documentation archives. SysV-specific files are kept separately under `package/optional-sysvinit`.
+
+The prepared source tree follows the relevant build stages in the book:
+
+```text
+package/
+├── chapter05/          # Cross-toolchain sources and Linux API headers
+├── chapter06/          # Temporary-tools Binutils and GCC sources
+├── chapter08/          # Final system packages and auxiliary documentation
+├── chapter10/          # Linux kernel source
+├── optional-sysvinit/  # SysV-only sources from wget-list
+└── patches/            # Copies of downloaded patch files
+```
+
+The script can be run again; completed extractions and patches are tracked in `package/.state` and will be skipped.
+
 ```bash
 ./down.sh
 ./down-check.sh
 ./sum.sh
+./untar.sh
 ```
 
 ## Disclaimer
