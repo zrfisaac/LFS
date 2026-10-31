@@ -1,0 +1,534 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      10.4.&nbsp;Using GRUB to Set Up the Boot Process
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-13.1-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 13.1-systemd
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Making the LFS System Bootable
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernel.html" title="Linux-7.1.8">Prev</a>
+          <p>
+            Linux-7.1.8
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter11/chapter11.html" title=
+          "The End">Next</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter10.html" title=
+          "Chapter&nbsp;10.&nbsp;Making the LFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 13.1-systemd">Home</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-bootable-grub" name="ch-bootable-grub"></a>10.4 Using GRUB to
+      Set Up the Boot Process
+    </h1>
+    <div class="wrap" lang="en" xml:lang="en">
+      <div class="sect2" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.4.1 Introduction
+        </h2>
+        <div class="admon warning">
+          <img alt="[Warning]" src="../images/warning.png" />
+          <h3>
+            Warning
+          </h3>
+          <p>
+            Configuring GRUB incorrectly can render your system inoperable
+            without an alternate boot device such as a CD-ROM or bootable USB
+            drive. This section is not required to boot your LFS system. You
+            may just want to modify your current boot loader, e.g.
+            Grub-Legacy or GRUB2.
+          </p>
+        </div>
+        <p>
+          Ensure that an emergency boot disk is ready to <span class=
+          "quote">“<span class="quote">rescue</span>”</span> the computer if
+          the computer becomes unusable (un-bootable). If you do not already
+          have a boot device, you can create one. In order for the procedure
+          below to work, you need to jump ahead to BLFS and install
+          <strong class="userinput"><code>xorriso</code></strong> from the
+          <a class="ulink" href=
+          "https://www.linuxfromscratch.org/blfs/view/13.1-systemd/multimedia/libisoburn.html">
+          libisoburn</a> package.
+        </p>
+        <pre class="userinput"><kbd class="command">cd /tmp
+grub-mkrescue --output=grub-img.iso
+xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso</kbd></pre>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.4.2 Turn off Secure Boot
+        </h2>
+        <p>
+          LFS does not have the essential packages to support Secure Boot. To
+          set up the boot process following the instructions in this section,
+          Secure Boot must be turned off from the configuration interface of
+          the firmware. Read the documentation provided by the manufacturer
+          of your system to find out how to turn off Secure Boot support.
+        </p>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.4.3 GRUB Naming Conventions
+        </h2>
+        <p>
+          GRUB uses its own naming structure for drives and partitions in the
+          form of <span class="emphasis"><em>(hdn,m)</em></span>, where
+          <span class="emphasis"><em>n</em></span> is the hard drive number
+          and <span class="emphasis"><em>m</em></span> is the partition
+          number. The hard drive numbers start from zero, but the partition
+          numbers start from one for normal partitions (from five for
+          extended partitions). Note that this is different from earlier
+          versions where both numbers started from zero. For example,
+          partition <code class="filename">sda1</code> is <span class=
+          "emphasis"><em>(hd0,1)</em></span> to GRUB and <code class=
+          "filename">sdb3</code> is <span class=
+          "emphasis"><em>(hd1,3)</em></span>. In contrast to Linux, GRUB does
+          not consider CD-ROM drives to be hard drives. For example, if using
+          a CD on <code class="filename">hdb</code> and a second hard drive
+          on <code class="filename">hdc</code>, that second hard drive would
+          still be <span class="emphasis"><em>(hd1)</em></span>.
+        </p>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.4.4 Setting Up the Configuration
+        </h2>
+        <p>
+          If booting the system via BIOS, GRUB works by writing a stub to the
+          first sector (named the Master Boot Record, or MBR) of the hard
+          disk. This area is not part of any file system. The BIOS loads and
+          executes the content of MBR, then the stub loads the main GRUB
+          image from the BIOS Boot Partition. The GRUB image is stored as raw
+          data instead of a file (there must be no file system on the BIOS
+          Boot Partition), so the stub doesn't need to support any file
+          system and it can be made small enough to fit in the MBR.
+        </p>
+        <p>
+          If booting the system via UEFI, GRUB works by storing the main GRUB
+          image as a PE-COFF executable file at a standard location in the
+          EFI System Partition: <code class=
+          "filename">EFI/BOOT/BOOTX64.EFI</code> (or <code class=
+          "filename">EFI/BOOT/BOOTIA32.EFI</code> for <code class=
+          "literal">i386-efi</code>). The UEFI firmware loads it from the
+          standard location and executes it, launching GRUB.
+        </p>
+        <p>
+          Many GRUB functions (including booting the Linux kernel) are not
+          included in the main GRUB image. Instead, they are stored in a file
+          system as GRUB modules. That file system is usually mounted in a
+          way that the GRUB modules can be accessed in <code class=
+          "filename">/boot/grub</code> on most Linux distributions. To avoid
+          the chicken-and-egg problem, <span class=
+          "command"><strong>grub-install</strong></span> embeds the modules
+          necessary to access this file system into the main GRUB image, so
+          it can find and load other modules.
+        </p>
+        <p>
+          The location of the boot partition is a choice of the user that
+          affects the configuration. One recommendation is to have a separate
+          small (suggested size is 200 MB) partition just for boot
+          information. In doing so, not just LFS, but any Linux distribution,
+          can access the same boot files, and in turn any booted system. If
+          you choose to do this, you will need to mount the separate
+          partition, move all files in the current <code class=
+          "filename">/boot</code> directory (e.g. the Linux kernel you just
+          built in the previous section) to the new partition. You will then
+          need to unmount the partition and remount it as <code class=
+          "filename">/boot</code>. If you do this, be sure to update
+          <code class="filename">/etc/fstab</code>.
+        </p>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            If the host distro utilizes a separate partition for <code class=
+            "filename">/boot</code> and you want the LFS system to use that
+            partition for <code class="filename">/boot</code> as well, just
+            mount the partition at <code class="filename">$LFS/boot</code> in
+            the host distro. The Linux kernel supports mounting one partition
+            at multiple mount points.
+          </p>
+        </div>
+        <p>
+          Leaving <code class="filename">/boot</code> on the current LFS
+          partition will also work, but configuration for multiple systems is
+          more difficult.
+        </p>
+        <p>
+          For examples and more information on boot partition layouts,
+          looking at <a class="xref" href=
+          "../chapter02/creatingpartition.html" title=
+          "2.4.&nbsp;Creating a New Partition">Section&nbsp;2.4, “Creating a
+          New Partition”</a> may be informative.
+        </p>
+        <p>
+          Using the above information, determine the appropriate designator
+          for the root partition (or boot partition, if a separate one is
+          used). For the following example, it is assumed that the root (or
+          separate boot) partition is <code class="filename">sda2</code>.
+        </p>
+        <p>
+          The following sections go over how to boot with BIOS and UEFI. The
+          GRUB installations for BIOS, 64-bit UEFI, and 32-bit UEFI can
+          coexist and share the same configuration. The images and data live
+          at different locations, so you can create both the BIOS Boot
+          Partition and the EFI System Partition, and install GRUB for all
+          the supported firmware types (i.e. running three <span class=
+          "command"><strong>grub-install</strong></span> commands). If you
+          are unsure about your firmware type, or you plan to move the hard
+          drive to a different computer, this is something you can do as a
+          blanket strategy.
+        </p>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            If you're doing UEFI boot but have created the Grub BIOS
+            partition, it may be a good idea to run the command for BIOS in
+            case UEFI booting does not work as expected.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            If you only need to install GRUB for one boot method, you don't
+            have to run commands for both methods. You can just run the
+            command for the boot method you need.
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            10.4.4.1 Booting With BIOS
+          </h3>
+          <p>
+            For booting with BIOS, make sure the boot partition is mounted
+            (if using a separate one) and the BIOS Boot partition exists.
+            After that, install the GRUB files into <code class=
+            "filename">/boot/grub</code> and set up the boot track:
+          </p>
+          <div class="admon warning">
+            <img alt="[Warning]" src="../images/warning.png" />
+            <h3>
+              Warning
+            </h3>
+            <p>
+              The following command will overwrite the current boot loader.
+              Do not run the command if this is not desired, for example, if
+              using a third party boot manager to manage the MBR.
+            </p>
+          </div>
+          <pre class="userinput"><kbd class=
+          "command">grub-install /dev/sda --target=i386-pc</kbd></pre>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            10.4.4.2 Booting With UEFI
+          </h3>
+          <p>
+            For booting with UEFI, make sure the boot partition is mounted
+            (if using a separate one) and the EFI System Partition is mounted
+            at <code class="filename">/boot/efi</code>. After that, install
+            the GRUB files into <code class="filename">/boot/grub</code> and
+            the main GRUB image at <code class=
+            "filename">/boot/efi/EFI/BOOT/BOOTX64.EFI</code>:
+          </p>
+          <div class="admon warning">
+            <img alt="[Warning]" src="../images/warning.png" />
+            <h3>
+              Warning
+            </h3>
+            <p>
+              The following command will overwrite the <code class=
+              "filename">/boot/efi/EFI/BOOT/BOOTX64.EFI</code> file. If it
+              already exists, it's likely that it's the entry of another boot
+              loader (for example the GRUB installation from the host distro,
+              or the Windows Boot Manager). Backup the file so it can be
+              restored later or loaded as a secondary boot loader by the new
+              GRUB installation from LFS.
+            </p>
+          </div>
+          <pre class="userinput"><kbd class=
+          "command">grub-install --target=x86_64-efi --removable</kbd></pre>
+          <p>
+            The command above assumes that you have 64-bit UEFI firmware. If
+            you want to make the system bootable on 32-bit UEFI firmware, run
+            the command with <code class="literal">x86_64-efi</code> replaced
+            by <code class="literal">i386-efi</code>.
+          </p>
+          <p>
+            The <em class="parameter"><code>--removable</code></em> option
+            makes <span class="command"><strong>grub-install</strong></span>
+            use the standard location, <code class=
+            "filename">EFI/BOOT/BOOTX64.EFI</code> (or <code class=
+            "filename">EFI/BOOT/BOOTIA32.EFI</code> for <code class=
+            "literal">i386-efi</code>), instead of the location GRUB prefers
+            (<code class="filename">EFI/GRUB/GRUBX64.EFI</code> or
+            <code class="filename">EFI/GRUB/GRUBIA32.EFI</code>). Using a
+            non-standard location would result in the location in a EFI
+            variable be recorded, but LFS lacks the BLFS package <a class=
+            "ulink" href=
+            "https://www.linuxfromscratch.org/blfs/view/13.1-systemd/postlfs/efibootmgr.html">
+            efibootmgr</a>, which is needed by GRUB to record the location
+            into the EFI variable.
+          </p>
+          <div class="admon note">
+            <img alt="[Note]" src="../images/note.png" />
+            <h3>
+              Note
+            </h3>
+            <p>
+              Some UEFI firmware implementations, while rare, skip the
+              standard EFI path. Such systems most of the time are old, like
+              Lenovo ThinkPads or HP desktops/laptops. When the boot entry is
+              missing in the firmware setup, you will need to install the
+              BLFS package <a class="ulink" href=
+              "https://www.linuxfromscratch.org/blfs/view/13.1-systemd/postlfs/efibootmgr.html">
+              efibootmgr</a> to create a boot entry for UEFI. If it's easier,
+              the package can be installed via the distribution's package
+              manager, if applicable, and used on the host instead of on the
+              LFS system. This can prevent the need for downloading more
+              tarballs onto the LFS system for now.
+            </p>
+            <p>
+              First install the package, then mount the EFI variable file
+              system if it isn't already mounted:
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">mountpoint /sys/firmware/efi/efivars ||
+  mount -v -t efivarfs efivarfs /sys/firmware/efi/efivars</kbd></pre>
+            <p>
+              Now create a boot entry for the EFI:
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">efibootmgr -c -d /dev/sd<em class=
+            "replaceable"><code>&lt;x&gt;</code></em> \
+  -p <em class=
+"replaceable"><code>&lt;y&gt;</code></em> -L "LFS" -l '\EFI\BOOT\BOOT<em class="replaceable"><code>&lt;X64&gt;</code></em>.EFI'</kbd></pre>
+            <p>
+              The <code class="literal">/dev/sd<em class=
+              "replaceable"><code>&lt;x&gt;</code></em></code> drive should
+              be the device node for the disk where the ESP exists. The
+              <em class="replaceable"><code>&lt;y&gt;</code></em> partition
+              number should match the number of the ESP. If the ESP is on
+              <code class="literal">/dev/sda2</code>, then the partition
+              number would be <code class="literal">2</code>. If you are
+              using 32-bit UEFI, replace <em class=
+              "replaceable"><code>&lt;X64&gt;</code></em> with <code class=
+              "literal">IA32</code>.
+            </p>
+            <p>
+              Some (broken) firmware may require additional parameters for
+              <span class="command"><strong>efibootmgr</strong></span>, like
+              <em class="parameter"><code>--full-dev-path</code></em> or
+              <em class="parameter"><code>-e 1 -E</code></em>. Read the man
+              page <a class="ulink" href=
+              "https://man.archlinux.org/man/efibootmgr.8">efibootmgr(8)</a>
+              for details.
+            </p>
+            <p>
+              Now unmount the EFI variable file system:
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">umount -v /sys/firmware/efi/efivars</kbd></pre>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="grub-cfg" name="grub-cfg"></a>10.4.5 Creating the GRUB
+          Configuration File
+        </h2>
+        <p>
+          Generate <code class="filename">/boot/grub/grub.cfg</code>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /boot/grub/grub.cfg &lt;&lt; "EOF"
+<code class="literal"># Begin /boot/grub/grub.cfg
+set default=0
+set timeout=5
+
+insmod part_gpt
+insmod ext2
+
+set root=(hd0,2)
+set gfxpayload=1024x768x32
+
+menuentry "GNU/Linux, Linux 7.1.8-lfs-13.1-systemd" {
+        linux   /boot/vmlinuz-7.1.8-lfs-13.1-systemd root=/dev/sda2 ro
+}</code>
+EOF</kbd></pre>
+        <p>
+          The <span class="command"><strong>insmod</strong></span> commands
+          load the <span class="application">GRUB</span> modules named
+          <code class="filename">part_gpt</code> and <code class=
+          "filename">ext2</code>. Despite the naming, <code class=
+          "filename">ext2</code> actually supports <code class=
+          "systemitem">ext2</code>, <code class="systemitem">ext3</code>, and
+          <code class="systemitem">ext4</code> filesystems. In a typical
+          configuration, the <code class="filename">part_gpt</code> and
+          <code class="filename">ext2</code> modules are already embedded in
+          the main GRUB image by <span class=
+          "command"><strong>grub-install</strong></span>, and the
+          <span class="command"><strong>insmod</strong></span> commands for
+          them will do nothing. However, they do no harm anyway, and they may
+          be needed with some rare configurations.
+        </p>
+        <p>
+          The <span class="command"><strong>set
+          gfxpayload=1024x768x32</strong></span> command sets the resolution
+          and color depth of the VESA framebuffer to be passed to the kernel.
+          It's necessary for the kernel SimpleDRM driver to use the VESA
+          framebuffer. You can use a different resolution or color depth
+          value which better suits for your monitor. This line does nothing
+          when the system is booted via UEFI, but it does no harm anyway.
+        </p>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            From <span class="application">GRUB</span>'s perspective, the
+            kernel files are relative to the partition used. If you used a
+            separate /boot partition, remove /boot from the above
+            <span class="emphasis"><em>linux</em></span> line. You will also
+            need to change the <span class="emphasis"><em>set
+            root</em></span> line to point to the boot partition.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            The GRUB designator for a partition may change if you added or
+            removed some disks (including removable disks like USB thumb
+            devices). The change may cause boot failure because <code class=
+            "filename">grub.cfg</code> refers to some <span class=
+            "quote">“<span class="quote">old</span>”</span> designators. If
+            you wish to avoid such a problem, you may use the UUID of a
+            partition and the UUID of a filesystem instead of a GRUB
+            designator to specify a device. Run <span class=
+            "command"><strong>lsblk -o
+            UUID,PARTUUID,PATH,MOUNTPOINT</strong></span> to show the UUIDs
+            of your filesystems (in the <code class="literal">UUID</code>
+            column) and partitions (in the <code class=
+            "literal">PARTUUID</code> column). Then replace <code class=
+            "literal">set root=(hdx,y)</code> with <code class=
+            "literal">search --set=root --fs-uuid <em class=
+            "replaceable"><code>&lt;UUID of the filesystem where the kernel
+            is installed&gt;</code></em></code>, and replace <code class=
+            "literal">root=/dev/sda2</code> with <code class=
+            "literal">root=PARTUUID=<em class="replaceable"><code>&lt;UUID of
+            the partition where LFS is built&gt;</code></em></code>.
+          </p>
+          <p>
+            Note that the UUID of a partition is completely different from
+            the UUID of the filesystem in this partition. Some online
+            resources may instruct you to use <code class=
+            "literal">root=UUID=<em class="replaceable"><code>&lt;filesystem
+            UUID&gt;</code></em></code> instead of <code class=
+            "literal">root=PARTUUID=<em class=
+            "replaceable"><code>&lt;partition UUID&gt;</code></em></code>,
+            but doing so will require an initramfs, which is beyond the scope
+            of LFS.
+          </p>
+          <p>
+            The name of the device node for a partition in <code class=
+            "filename">/dev</code> may also change (very frequently on some
+            systems with multiple NVME disks). You can also replace paths to
+            device nodes like <code class="literal">/dev/sda1</code> with
+            <code class="literal">PARTUUID=<em class=
+            "replaceable"><code>&lt;partition UUID&gt;</code></em></code>, in
+            <code class="filename">/etc/fstab</code>, to avoid a potential
+            boot failure in case the device node name has changed.
+          </p>
+        </div>
+        <p>
+          GRUB is an extremely powerful program and it provides a tremendous
+          number of options for booting from a wide variety of devices,
+          operating systems, and partition types. There are also many options
+          for customization such as graphical splash screens, playing sounds,
+          mouse input, etc. The details of these options are beyond the scope
+          of this introduction.
+        </p>
+        <div class="admon caution">
+          <img alt="[Caution]" src="../images/caution.png" />
+          <h3>
+            Caution
+          </h3>
+          <p>
+            There is a command, <span class=
+            "application">grub-mkconfig</span>, that can write a
+            configuration file automatically. It uses a set of scripts in
+            /etc/grub.d/ and will destroy any customizations that you make.
+            These scripts are designed primarily for non-source distributions
+            and are not recommended for LFS. If you install a commercial
+            Linux distribution, there is a good chance that this program will
+            be run. Be sure to back up your grub.cfg file.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernel.html" title="Linux-7.1.8">Prev</a>
+          <p>
+            Linux-7.1.8
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter11/chapter11.html" title=
+          "The End">Next</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter10.html" title=
+          "Chapter&nbsp;10.&nbsp;Making the LFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 13.1-systemd">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
