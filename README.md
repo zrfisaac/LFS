@@ -35,6 +35,20 @@ This numbering is intended only for internal control and may change in the futur
 
 Repository releases will use the correct official LFS version instead of the internal personal version. This keeps the LFS version clear and avoids confusing the project's internal change tracking with the version of LFS being studied.
 
+## Download and checksum scripts
+
+The [down.sh](./down.sh) script downloads only the packages that do not already exist in the local `download` directory, using the lists `wget-list` and `wget-list-systemd`.
+
+The [sum.sh](./sum.sh) script checks the downloaded packages in the same directory against `md5sums`.
+
+The [down-check.sh](./down-check.sh) script checks whether every package listed in `wget-list` and `wget-list-systemd` exists in the local `download` directory. It lists the complete URL of each missing package and reports the total at the end.
+
+```bash
+./down.sh
+./down-check.sh
+./sum.sh
+```
+
 ## Disclaimer
 
 This is an independent personal study project. It is not an official LFS release or a replacement for the official LFS documentation.

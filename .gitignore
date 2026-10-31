@@ -6,6 +6,10 @@
 # . - site : zrfisaac.github.io
 
 # [ gitignore ]
+*.patch
+*.tar.bz2
+*.tar.gz
+*.tar.xz
 
 # : - base
 $*

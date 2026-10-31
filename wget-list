@@ -1,4 +1,4 @@
-https://download.savannah.gnu.org/releases/acl/acl-2.4.0.tar.xz
+https://mirror.ossplanet.net/mirror/nongnu/acl/acl-2.4.0.tar.xz
 https://download.savannah.gnu.org/releases/attr/attr-2.6.0.tar.gz
 https://ftpmirror.gnu.org/autoconf/autoconf-2.73.tar.xz
 https://ftpmirror.gnu.org/automake/automake-1.18.1.tar.xz
@@ -37,7 +37,7 @@ https://pypi.org/packages/source/J/Jinja2/jinja2-3.1.6.tar.gz
 https://www.kernel.org/pub/linux/utils/kbd/kbd-2.10.0.tar.xz
 https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-34.2.tar.xz
 https://www.greenwoodsoftware.com/less/less-704.tar.gz
-https://www.linuxfromscratch.org/lfs/downloads/13.1/lfs-bootscripts-20250827.tar.xz
+https://www.linuxfromscratch.org/lfs/downloads/development/lfs-bootscripts-20250827.tar.xz
 https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.78.tar.xz
 https://github.com/libffi/libffi/releases/download/v3.8.0/libffi-3.8.0.tar.gz
 https://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.8.tar.gz
